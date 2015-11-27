@@ -3,27 +3,32 @@ require 'test_helper'
 class ClaimTest < ActiveSupport::TestCase
 
   def user
-    @user ||= users :one
+    @user ||= users :normal
   end
   alias_method :claimant, :user
 
-  def project
-    @project ||= projects :one
+  def development
+    @development ||= developments :one
   end
 
-  # TODO: Clearly not just a unit test.
+  # TODO: Clearly this is not just a unit test.
   def moderator
     @moderator ||= users :moderator
   end
 
-  def admin
-    @admin ||= users :admin
-  end
-
   def claim
-    @claim ||= Claim.new(project:  project, claimant: claimant)
+    @claim ||= Claim.new(development: development, claimant: claimant)
   end
   alias_method :c, :claim
+
+  def moderated_claim
+    @moderated_claim ||= Claim.new(
+      development: development,
+      claimant:    claimant,
+      moderator:   moderator
+    )
+  end
+  alias_method :mc, :moderated_claim
 
   test "valid" do
     assert claim.valid?
@@ -34,58 +39,50 @@ class ClaimTest < ActiveSupport::TestCase
     assert_not claim.valid?
   end
 
-  test "requires a project" do
-    claim.project = nil
+  test "requires a development" do
+    claim.development = nil
     assert_not claim.valid?
   end
 
   test "approval" do
-    claim.approve!
-    assert_equal :approved, claim.state
-  end
-
-  test "approval can take a reason string" do
-    claim.approve! "Message"
-    assert_equal :approved, claim.state
-    assert_equal claim.reason, "Message"
+    moderated_claim.approve!
+    assert_equal 'approved', moderated_claim.state
+    assert_equal nil, moderated_claim.reason
   end
 
   test "approval can take a reason hash" do
-    claim.approve! reason: "Message"
-    assert_equal :approved, claim.state
-    assert_equal claim.reason, "Message"
-  end
-
-  test "denial with a string message" do
-    message = "Reason for deny."
-    claim.deny! message
-    assert_equal :denied, claim.state
-    assert_equal message, claim.reason
+    mc.approve! reason: "Message"
+    assert_equal 'approved', mc.state
+    assert_equal mc.reason, "Message"
   end
 
   test "denial with a hash message" do
     message = "Reason for deny."
-    claim.deny! reason: message
-    assert_equal :denied, claim.state
-    assert_equal message, claim.reason
+    mc.deny! reason: message
+    assert_equal 'denied', mc.state
+    assert_equal message, mc.reason
   end
 
   test "denial requires a reason" do
-    assert_raises StandardError, { claim.deny! }
+    assert_raises(StandardError) { mc.deny! }
   end
 
   test "requires a moderator" do
-    assert_raises StandardError, { claim.approve! moderator: nil }
+    assert_raises(StandardError) { claim.approve!(moderator: nil) }
   end
 
   # Needing so many collaboratiors suggests the need for
   # service objects like Claim::Approval and Claim::Denial
   test "user cannot moderate their own claim unless admin" do
-    assert_raises StandardError {
+    skip """
+      Expecting this to fail because we have not yet implemented
+      roles like :admin that would help this pass.
+    """
+    assert_raises(StandardError) {
       claim.approve! moderator: claimant
     }
     claimant.update_attribute(:moderator, true)
-    assert_raises StandardError {
+    assert_raises(StandardError) {
       claim.approve! moderator: claimant
     }
     assert_nothing_raised {

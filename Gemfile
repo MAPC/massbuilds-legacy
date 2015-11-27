@@ -10,6 +10,7 @@ gem 'rails-api'
 # Database
 gem 'pg'
 gem 'devise'
+# gem 'bcrypt'
 
 # Views
 gem 'haml-rails'
