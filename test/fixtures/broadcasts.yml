@@ -1,0 +1,6 @@
+new_feature:
+  subject: Great news! New feature!
+  body: >
+    This is an alert to let everyone know about
+    the great new feature we just released.
+  scope: id IS NOT NULL
