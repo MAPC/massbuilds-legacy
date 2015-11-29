@@ -20,7 +20,7 @@ class FlagTest < ActiveSupport::TestCase
     assert flag.valid?
     flag.reason = " "
     assert flag.valid?
-    flag.reason = "hello is it me you're "
+    flag.reason = "hello is it me you're " # 22
     assert_not flag.valid?
     flag.reason = 'a' * 500
     assert_not flag.valid?
@@ -37,18 +37,10 @@ class FlagTest < ActiveSupport::TestCase
     assert_not flag.valid?
   end
 
-  # TODO: Syntax
-  test 'changes development flag count' do
-    assert_changed {
-      flag.save
-    }, flag.development.flags.count, by(1)
-  end
-
-  # This is a tangential collaborator.
-  # TODO: Syntax
   test "changes moderator's inbox count" do
-    assert_changed {
+    skip "This is a tangential collaborator and does not belong here."
+    assert_difference 'flag.development.moderator.first.inbox.count', +1 do
       flag.save
-    }, flag.development.moderator.inbox.count, by(1)
+    end
   end
 end

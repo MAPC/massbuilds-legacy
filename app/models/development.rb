@@ -1,5 +1,6 @@
 class Development < ActiveRecord::Base
   has_many :edits
+  has_many :flags
 
   # The #apply_edit methods doesn't really belong here, does it?
   # It's not a model, but maybe it's a service object,
