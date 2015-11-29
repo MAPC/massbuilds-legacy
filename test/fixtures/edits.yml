@@ -1,0 +1,18 @@
+one:
+  fields:
+    -
+      name: housing_units
+      from: 12
+      to:   1000
+  development: one
+  editor: normal
+  state:  pending
+
+conflict:
+  fields:
+    -
+      name: housing_units
+      from: 11
+      to:   100
+  development: one
+  editor: normal

@@ -3,28 +3,48 @@ class Edit < ActiveRecord::Base
   belongs_to :moderator, class_name: :User
   belongs_to :development
 
+  after_initialize :default_state
+
+  validates :development, presence: true
+  validates :editor, presence: true
+  validates :state,  presence: true, inclusion: { in: %W( pending applied ) }
+
   # Alter self.development with contents, and optionally save.
-  def apply(options={})
+  def apply!(options={})
     should_ignore_conflict = options.fetch(:ignore_conflict, false)
     should_save = options.fetch(:save, true)
     if !should_ignore_conflict
       return false unless applyable?
     end
-    # TODO Align with Process Object best practice
-    if development.assign_attributes(assignable_attributes)
-      edit.state = :applied
-    end
+    apply(options)
     if should_save
-      development.save if self.save # Maybe too much?
+      # Maybe too much responsibility?
+      # Or, this should be a transaction. Feels bloated.
+      development.save if self.save
     end
   end
 
+  def apply(options={})
+    if development.fields.merge assignable_fields
+      applied
+    else
+      false
+    end
+  end
+
+  def applied
+    self.state = :applied
+  end
+
   def applyable?
-    # Check that it's not already applied
-    # and that there's no merge conflict
-    return false if applied? || conflict?
+    # Applyable if it's not applied and there's no conflict.
+    if applied? || conflict?
+      false
+    else
+      true
+    end
   rescue StandardError => e
-    log(e.level, e.message)
+    puts e.inspect
     false
   end
 
@@ -42,23 +62,32 @@ class Edit < ActiveRecord::Base
   # the entire edit, but needs to be taken into
   # account.
   def conflict?
-    self.from_values.select{ |d,e| d != e }.any?
+    from_values.select{ |d,e| d != e }.any?
   end
 
   private
+
+    def default_state
+      self.state ||= :pending
+    end
+
     # Returns pairs of "from" values, from development and edit,
     # in that order. All values are strings.
+    # TODO: May want to make each edited field its own model,
+    # to better enforce the schema.
     def from_values
-      d_attrs = development.reload.attributes
-      self.fields.map{|f|
-        # TODO: Make this clearer
-        [ d_attrs.send(f).to_s, f.fetch('from').to_s ]
+      d_attrs = development.reload.fields
+      self.fields.map{ |field|
+        name = field.fetch('name').to_s
+        edit_from  = field.fetch('from').to_s
+        devel_from = d_attrs.fetch( name )
+        [ devel_from, edit_from ]
       }
     end
 
     # Returns a hash that can be used in assign_attributes
     # or update_attributes.
-    def assignable_attributes
+    def assignable_fields
       names     = fields.map{|f| f.fetch "name" }
       to_values = fields.map{|f| f.fetch "to" }
       Hash[names.zip(to_values)]
