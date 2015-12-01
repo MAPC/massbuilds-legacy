@@ -1,0 +1,7 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: normal
+  verifier: moderator
+  reason: This is a longer reason stating why verification is ok.
+  state:
