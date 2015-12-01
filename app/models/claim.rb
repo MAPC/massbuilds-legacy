@@ -1,4 +1,6 @@
 class Claim < ActiveRecord::Base
+  extend Enumerize
+
   belongs_to :claimant,  class_name: :User
   belongs_to :development
   belongs_to :moderator, class_name: :User
@@ -7,6 +9,9 @@ class Claim < ActiveRecord::Base
 
   validates :development, presence: true
   validates :claimant,    presence: true
+
+  enumerize :state, in: [:pending, :approved, :denied],
+    default: :pending, predicates: true
 
   def approve!(options={})
     if approve(options)

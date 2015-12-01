@@ -1,4 +1,5 @@
 class Broadcast < ActiveRecord::Base
+  extend Enumerize
   # Everyone gets the same notification,
   # or same general notification with custom variables.
   belongs_to :creator, class_name: :User
@@ -6,17 +7,17 @@ class Broadcast < ActiveRecord::Base
   validates :subject, presence: true
   validates :body, presence: true
 
-  # Need: Interface for administrators to send messages.
-  after_initialize :assign_default_state, if: 'new_record?'
+  enumerize :state, in: [:draft, :scheduled, :delivered],
+    default: :draft, predicates: true
 
-  # This is telling.
+  # This is 'telling'.
   def schedule!
     raise StandardError, "Not schedulable." unless schedulable?
     # TODO: Scheduling work
     scheduled
   end
 
-  # This is notifying.
+  # This is 'notifying'.
   def scheduled
     state = :scheduled
   end
@@ -44,12 +45,8 @@ class Broadcast < ActiveRecord::Base
   end
 
   private
-
     def scope_returns_at_least_one_record
       User.where(scope).any?
     end
 
-    def assign_default_state
-      self.state = :draft
-    end
 end

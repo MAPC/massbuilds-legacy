@@ -34,6 +34,12 @@ class VerificationTest < ActiveSupport::TestCase
     end
   end
 
+  test "state predicates" do
+    [:pending?, :requested?].each {|method|
+      assert_respond_to v, method
+    }
+  end
+
   test "#new" do
     assert_equal 'pending', Verification.new.state
   end
@@ -46,5 +52,10 @@ class VerificationTest < ActiveSupport::TestCase
   test "#verified" do
     v.verified
     assert_equal 'verified', v.state
+  end
+
+  test "#rejected" do
+    v.rejected
+    assert_equal 'rejected', v.state
   end
 end

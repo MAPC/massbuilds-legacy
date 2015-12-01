@@ -35,7 +35,7 @@ class BroadcastTest < ActiveSupport::TestCase
     assert cast.valid?
   end
 
-  test "original state is :draft" do
+  test "original state is draft" do
     assert_equal 'draft', Broadcast.new.state
   end
 
@@ -55,6 +55,12 @@ class BroadcastTest < ActiveSupport::TestCase
     cast.scope = "id IS NULL"
     assert_not cast.deliverable?
     assert_not cast.schedulable?
+  end
+
+  test "state predicates" do
+    [:draft?, :scheduled?, :delivered?].each {|method|
+      assert_respond_to cast, method
+    }
   end
 
   test "requires a scope that does not unscope" do

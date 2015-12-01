@@ -44,6 +44,16 @@ class ClaimTest < ActiveSupport::TestCase
     assert_not claim.valid?
   end
 
+  test "default state is pending" do
+    assert_equal 'pending', Claim.new.state
+  end
+
+  test "state predicates" do
+    [:pending?, :approved?, :denied?].each {|method|
+      assert_respond_to claim, method
+    }
+  end
+
   test "approval" do
     moderated_claim.approve!
     assert_equal 'approved', moderated_claim.state

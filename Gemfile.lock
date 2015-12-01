@@ -64,6 +64,8 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     docile (1.1.5)
+    enumerize (1.1.0)
+      activesupport (>= 3.2)
     erubis (2.7.0)
     execjs (2.6.0)
     ffi (1.9.10)
@@ -227,6 +229,7 @@ DEPENDENCIES
   byebug
   codeclimate-test-reporter
   devise
+  enumerize
   foreman
   guard (>= 2.2.2)
   guard-minitest

@@ -1,12 +1,15 @@
 class Verification < ActiveRecord::Base
+  extend Enumerize
+
   belongs_to :user
   belongs_to :verifier, class_name: :User
-
-  after_initialize :default_state
 
   validates :user, presence: true
   validates :reason, allow_blank: true, length: { minimum: 30, maximum: 1000 }
   validates :reason, presence: true, length: { minimum: 30, maximum: 1000 }, :if => :valid_verifier?
+
+  enumerize :state, in: [:pending, :requested, :verified, :rejected],
+    default: :pending, predicates: true
 
   def verifiable?
     # TODO [Code Smell] Multiple calls to valid_verifier?
@@ -23,12 +26,20 @@ class Verification < ActiveRecord::Base
     self.state = :verified
   end
 
+  def rejected
+    assert_verifiable
+    self.state = :rejected
+  end
+
+  def closed?
+    verified? || rejected?
+  end
+
+  def open?
+    !closed?
+  end
+
   private
-
-    def default_state
-      self.state ||= :pending
-    end
-
     def assert_verifiable
       if verifiable?
         true

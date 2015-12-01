@@ -1,4 +1,8 @@
 class InboxNotice < ActiveRecord::Base
+  # extend Enumerize
+
+  # enumerize :status
+  # enumerize :level
 
   def initialize
     @state = :pending

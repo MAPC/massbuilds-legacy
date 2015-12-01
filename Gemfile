@@ -10,6 +10,8 @@ gem 'rails-api'
 # Database
 gem 'pg'
 gem 'devise'
+
+gem 'enumerize'
 # gem 'bcrypt'
 
 # Views
