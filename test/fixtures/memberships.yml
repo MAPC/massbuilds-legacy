@@ -1,0 +1,13 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: normal
+  organization: mapc
+
+two:
+  user: normal
+  organization: massit
+
+three:
+  user: moderator
+  organization: mapc

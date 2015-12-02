@@ -1,6 +1,13 @@
 mapc:
-  name: 'Metropolitan Area Planning Council'
-  abbv: 'MAPC'
-  short_name: 'Metro Area Planning Council'
+  name: Metropolitan Area Planning Council
+  abbv: MAPC
+  short_name: MAPC
   creator: normal
   website: http://mapc.org
+
+massit:
+  name: Commonwealth of Massachusetts Division of Information Technology
+  abbv:
+  short_name: MassIT
+  creator: moderator
+  website: http://www.mass.gov/anf/research-and-tech/oversight-agencies/itd/
