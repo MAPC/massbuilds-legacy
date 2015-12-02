@@ -14,6 +14,8 @@ gem 'devise'
 gem 'enumerize'
 # gem 'bcrypt'
 
+gem 'geometry'
+
 # Views
 gem 'haml-rails'
 gem 'sass-rails'
