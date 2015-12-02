@@ -10,7 +10,11 @@ gem 'rails-api'
 # Database
 gem 'pg'
 gem 'devise'
+
+gem 'enumerize'
 # gem 'bcrypt'
+
+gem 'geometry'
 
 # Views
 gem 'haml-rails'

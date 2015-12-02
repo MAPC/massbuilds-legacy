@@ -1,13 +1,16 @@
 class Edit < ActiveRecord::Base
+  extend Enumerize
+
   belongs_to :editor,    class_name: :User
   belongs_to :moderator, class_name: :User
   belongs_to :development
 
-  after_initialize :default_state
-
   validates :development, presence: true
   validates :editor, presence: true
   validates :state,  presence: true, inclusion: { in: %W( pending applied ) }
+
+  enumerize :state, in: [:pending, :applied],
+    default: :pending, predicates: true
 
   # Alter self.development with contents, and optionally save.
   def apply!(options={})
@@ -66,11 +69,6 @@ class Edit < ActiveRecord::Base
   end
 
   private
-
-    def default_state
-      self.state ||= :pending
-    end
-
     # Returns pairs of "from" values, from development and edit,
     # in that order. All values are strings.
     # TODO: May want to make each edited field its own model,

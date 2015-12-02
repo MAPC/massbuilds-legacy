@@ -35,6 +35,12 @@ class EditTest < ActiveSupport::TestCase
     assert_not edit.valid?
   end
 
+  test "state predicates" do
+    [:pending?, :applied?].each {|method|
+      assert_respond_to edit, method
+    }
+  end
+
   test "cannot apply without a moderator/user" do
     skip "No roles implemented yet."
     edit.moderator = nil

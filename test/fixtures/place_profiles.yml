@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  latitude: 9.99
+  longitude: 9.99
+  radius: 9.99
+  polygon:
+  response:
+  expires_at: 2015-12-02 14:40:28
