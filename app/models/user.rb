@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  belongs_to :membership
+  has_many :memberships
   has_many :organizations, through: :memberships
 
   # TODO Replace using Naught

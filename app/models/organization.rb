@@ -10,5 +10,9 @@ class Organization < ActiveRecord::Base
 
   validates :creator, presence: true
 
+  def active_members
+    memberships.where(state: 'active').map(&:user)
+  end
+
   # validates :existence_of_url
 end

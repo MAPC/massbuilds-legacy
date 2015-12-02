@@ -64,22 +64,9 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test "members can belong to many organizations" do
-    skip "Not the current database setup."
-  end
-
-  test "only administrators can promote members" do
-    skip "Roles not yet implemented"
-  end
-
-  test "member can leave an organization" do
-    skip
-  end
-
-  test "administrators are notified when someone leaves the org" do
-    skip "Roles and notifications not yet implemented"
-  end
-
-  test "administrators are notified when someone wants in" do
-    skip "email, notification / inbox"
+    user = users(:normal)
+    massit = organizations :massit
+    assert org.members << user
+    assert massit.members << user
   end
 end

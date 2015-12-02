@@ -42,4 +42,29 @@ class MembershipTest < ActiveSupport::TestCase
   test "#deactivated" do
     assert_equal 'inactive', m.deactivated.state
   end
+
+  # I think this belongs in a controller test
+  test "member can leave an organization" do
+    skip "For now"
+    user = m.user
+    org  = m.organization
+
+    user.memberships.each(&:activated)
+    assert_not_empty org.active_members
+
+    user.memberships.each(&:deactivated)
+    assert_empty org.active_members
+  end
+
+  # test "only administrators can promote members" do
+  #   skip "Roles not yet implemented"
+  # end
+
+  # test "administrators are notified when someone leaves the org" do
+  #   skip "Roles and notifications not yet implemented"
+  # end
+
+  # test "administrators are notified when someone wants in" do
+  #   skip "email, notification / inbox"
+  # end
 end
