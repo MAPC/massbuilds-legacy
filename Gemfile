@@ -9,11 +9,12 @@ gem 'rails-api'
 
 # Database
 gem 'pg'
+
+# Users
+gem 'bcrypt'
 gem 'devise'
 
 gem 'enumerize'
-# gem 'bcrypt'
-
 gem 'geometry'
 
 # Views

@@ -1,0 +1,6 @@
+#container
+  %h4 People
+  #grid
+    = render partial: 'users/thumbnail', collection: @members.first(12)
+  #footer
+    %button#invite + Invite Someone

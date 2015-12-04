@@ -1,0 +1,22 @@
+-# Organization logo
+-#  alt: "#{@org.name} Logo"
+
+%h1 @org
+
+#organization
+  #stats
+    #location @org.location
+    #website  @org.website
+    #email    @org.email
+  #tabs
+    .tab.developments
+      #filter
+        -# Filter dropdown & input
+        -# "+ New Development" button
+      #developments
+        -# List developments (AJAX)
+    .tab.people
+      = render partial: 'members', collection: @org.members, as: :members
+      -# List people
+    .tab.settings
+      -# Show settings
