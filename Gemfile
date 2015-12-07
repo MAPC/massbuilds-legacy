@@ -18,6 +18,9 @@ gem 'geometry'
 # Views
 gem 'haml-rails'
 gem 'sass-rails'
+gem 'coffee-rails'
+gem 'jquery-rails'
+gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0' # Compress JavaScript
 gem 'kaminari'  # Pagination
 
@@ -36,7 +39,7 @@ group :development do
   gem 'better_errors'     # Clearer error messages
   gem 'binding_of_caller' # REPL & more in error page
   gem 'byebug'            # Debugger
-
+  gem 'web-console', '~> 2.0'
   gem 'guard', '>= 2.2.2',       require: false # Autorun tests
   gem 'guard-minitest',          require: false # MiniTest adapter
   # Watch Mac filesystem events
@@ -48,6 +51,7 @@ group :test do
   gem 'minitest-rails-capybara' # Integration tests
   gem 'minitest-reporters' # For progress bar, etc.
   gem 'codeclimate-test-reporter', require: nil
+  gem 'launchy'
   gem 'rake' # Specified for Travis CI
 end
 

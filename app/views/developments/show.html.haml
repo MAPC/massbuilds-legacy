@@ -1,2 +1,11 @@
-#title
+%h1#title= @development.fields['name']
+%h4#address= @development.fields['address']
+
+#controls
+  %ul
+    %li= link_to 'Edit',  '#'
+    %li= link_to 'Flag',  new_development_flag_path(@development)
+    %li= link_to 'Claim', '#'
+
+#images
 #map

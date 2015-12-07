@@ -1,0 +1,12 @@
+#header
+  %ul
+    %li= link_to 'Developments',  developments_path
+    %li= link_to 'Organizations'#, organizations_path
+    - unless signed_in?
+      %li Pricing
+    - if signed_in?
+      %li= render 'users/header'
+      %ul
+        %li= link_to 'Sign out', '#'# signout_path, method: :delete
+    - else
+      %li= link_to 'Sign in', '#' #, signin_path

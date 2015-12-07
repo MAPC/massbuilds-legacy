@@ -1,4 +1,6 @@
 one:
   fields:
-    housing_units: 12
-    employment: 100
+    name: Godfrey Hotel
+    address: '505 Washington St Boston, MA 02111'
+    housing_units: 1
+    employment: 75

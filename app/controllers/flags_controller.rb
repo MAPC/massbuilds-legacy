@@ -1,0 +1,52 @@
+class FlagsController < ApplicationController
+  before_action :authenticate_user!, only: [:new, :create]
+  before_action :load_parent, only: [:new, :create]
+
+  def new
+    @flag = Flag.new( development: @development,
+                      reason: DEFAULT_REASON )
+  end
+
+  def create
+    @flag = Flag.new new_flag_params
+    @flag.assign_attributes(development: @development, flagger: current_user)
+    if @flag.save
+      flash[:success] = FLAG_CREATED
+      redirect_to @development
+    else
+      render :new
+    end
+  end
+
+  def index
+    @flag = Flags.all
+  end
+
+  def show
+  end
+
+  def edit
+  end
+
+  def update
+  end
+
+  private
+
+    def load_parent
+      @development = Development.find params[:development_id]
+    end
+
+    def new_flag_params
+      params.require(:flag).permit(:reason)
+    end
+
+    FLAG_CREATED = """
+      We received your flag and will address it shortly.
+    """
+
+    DEFAULT_REASON = "Why are you flagging this development?
+      A quick explanation (23-450 characters) will
+      help us address it much more quickly.".gsub(/\s{2,}/, ' ')
+
+end

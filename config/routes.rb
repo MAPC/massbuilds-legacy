@@ -1,10 +1,15 @@
 Rails.application.routes.draw do
+
+  resources :developments, only: [:index, :show] do
+    resources :flags, only: [:new, :create]
+  end
+
   devise_for :users
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'welcome#index'
+  root 'developments#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
