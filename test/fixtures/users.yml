@@ -1,13 +1,11 @@
-# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
-
-# This model initially had no columns defined.  If you add columns to the
-# model remove the '{}' from the fixture names and add the columns immediately
-# below each fixture, per the syntax in the comments below
-#
 normal:
-  email: "normal@user.org"
-  encrypted_password: 'lololowat'
+  email: mcloyd@mapc.org
+  encrypted_password: <%= BCrypt::Password.create("password", cost: 1) %>
 
 moderator:
-  email: "mod@erat.or"
-  encrypted_password: 'lololowat'
+  email: planner@boston.ma
+  encrypted_password: <%= BCrypt::Password.create("secretplans", cost: 1) %>
+
+tim:
+  email: tim@mapc.ma
+  encrypted_password: <%= BCrypt::Password.create("administrator", cost: 1) %>

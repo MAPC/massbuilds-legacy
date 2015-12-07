@@ -5,6 +5,7 @@
 %p Why are you flagging this development?
 
 = form_for @flag, url: development_flags_path do |f|
+  = f.label :reason, "Reason"
   = f.text_area :reason, size: "55x5"
   = link_to "Cancel", @flag.development
   = f.submit "Flag"
