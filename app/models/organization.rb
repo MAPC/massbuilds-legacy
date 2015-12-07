@@ -9,10 +9,19 @@ class Organization < ActiveRecord::Base
   validates :short_name, presence: true
 
   validates :creator, presence: true
+  validate  :valid_email, if: 'email.present?'
 
   def active_members
     memberships.where(state: 'active').map(&:user)
   end
 
   # validates :existence_of_url
+  private
+
+    def valid_email
+      addr = Mail::Address.new(email)
+      throw StandardError if [addr.local, addr.domain].include?(nil)
+    rescue
+      errors.add(:email, "must be a valid email address")
+    end
 end

@@ -4,6 +4,8 @@ class CreateOrganizations < ActiveRecord::Migration
       t.integer :creator_id, index: true, foreign_key: true
       t.string :name
       t.string :website
+      t.string :location
+      t.string :email
 
       t.timestamps null: false
     end

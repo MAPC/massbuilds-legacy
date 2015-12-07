@@ -25,6 +25,26 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not org.valid?
   end
 
+  test 'if email, requires it to be valid' do
+    org.email = nil
+    assert org.valid?
+    org.email = 'mapc.org'
+    assert_not org.valid?
+    org.email = 'info@mapc.org'
+    assert org.valid?
+  end
+
+  test 'location' do
+    org.location = nil
+    assert org.valid?
+    org.location = 'BOS MA'
+    assert org.valid?
+    org.location = 'Boston, MA'
+    assert org.valid?
+    org.location = 'Lake Char­gogg­a­gogg­man­chaugg­a­gogg­chau­bun­a­gung­a­maugg / Webster Lake, Webster, Massachusetts, United States of America'
+    assert org.valid?
+  end
+
   test 'can accept an abbreviation' do
     org.abbv = nil
     assert org.valid?
