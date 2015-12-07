@@ -7,25 +7,26 @@ end
 require File.expand_path("../../config/environment", __FILE__)
 require "rails/test_help"
 require "minitest/rails"
-# require "minitest/osx" # Uses terminal-reporter, which hangs.
+require "minitest/rails/capybara"
 require "minitest/hell" # Random ordering
 require "minitest/benchmark" if ENV["BENCH"]
+require "minitest/reporters"
 
 # Require entire support tree
 Dir[File.expand_path("test/support/**/*")].each { |file| require file }
 
-# Improved Minitest output (color and progress bar)
-require "minitest/reporters"
 Minitest::Reporters.use!(
-  Minitest::Reporters::ProgressReporter.new,
-  ENV,
-  Minitest.backtrace_filter)
+  # Progress bar
+  Minitest::Reporters::ProgressReporter.new, ENV, Minitest.backtrace_filter
+)
 
-# Awesome colorful output
-require "minitest/pride"
-
+class ActionController::TestCase
+  include Devise::TestHelpers
+end
+class Capybara::Rails::TestCase
+  include SessionHelpers
+end
 class ActiveSupport::TestCase
-  # Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.
-  fixtures :all
+  fixtures :all # Set up all fixtures for all tests in alpha order.
   # Add more helper methods to be used by all tests here...
 end

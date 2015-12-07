@@ -1,11 +1,8 @@
 source 'https://rubygems.org'
 
-source 'https://rubygems.org'
-
 ruby '2.1.5'
 
 gem 'rails', '4.2.1'
-gem 'rails-api'
 
 # Database
 gem 'pg'
@@ -14,6 +11,7 @@ gem 'pg'
 gem 'bcrypt'
 gem 'devise'
 
+# Utilities
 gem 'enumerize'
 gem 'geometry'
 
@@ -47,6 +45,7 @@ end
 
 group :test do
   gem 'minitest-rails'     # Test library
+  gem 'minitest-rails-capybara' # Integration tests
   gem 'minitest-reporters' # For progress bar, etc.
   gem 'codeclimate-test-reporter', require: nil
   gem 'rake' # Specified for Travis CI
