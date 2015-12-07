@@ -1,7 +1,8 @@
 Rails.application.routes.draw do
 
   resources :developments, only: [:index, :show] do
-    resources :flags, only: [:new, :create]
+    resources :flags,  only: [:new, :create]
+    resources :claims, only: [:new, :create]
   end
 
   devise_for :users

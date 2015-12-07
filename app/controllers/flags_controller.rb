@@ -14,21 +14,13 @@ class FlagsController < ApplicationController
       flash[:success] = FLAG_CREATED
       redirect_to @development
     else
+      flash[:danger] = FLAG_NOT_CREATED
       render :new
     end
   end
 
   def index
-    @flag = Flags.all
-  end
-
-  def show
-  end
-
-  def edit
-  end
-
-  def update
+    @flag = Flag.all
   end
 
   private
@@ -43,6 +35,10 @@ class FlagsController < ApplicationController
 
     FLAG_CREATED = """
       We received your flag and will address it shortly.
+    """
+
+    FLAG_NOT_CREATED = """
+      Sorry, we were unable to accept your flag.
     """
 
     DEFAULT_REASON = "Why are you flagging this development?
