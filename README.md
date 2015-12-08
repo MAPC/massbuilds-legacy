@@ -1,6 +1,10 @@
 # Development Database
 _(Name may change)_
 
+[![Code Climate](https://codeclimate.com/github/MAPC/developmentdatabase/badges/gpa.svg)](https://codeclimate.com/github/MAPC/developmentdatabase)
+[![Test Coverage](https://codeclimate.com/github/MAPC/developmentdatabase/badges/coverage.svg)](https://codeclimate.com/github/MAPC/developmentdatabase/coverage)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MAPC/developmentdatabase?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+
 The Development Database is a crowdsourced collection of recent ongoing and completed commercial and residential developments in Massachusetts.
 
 We're hard at work developing a new release that gives planners, developers, and enthusiasts advanced tools to find and understand developments, as well as the context in which they are built.
@@ -28,4 +32,13 @@ The Development Database is very important to the work we do at MAPC. High-quali
 
 ### Contact
 
+If you have a GitHub account, [get in touch with us via Gitter chat][gitter].
+
 Are you interested in learning more about the Development Database? Contact Matt Cloyd, Web Developer at mcloyd@mapc.org.
+
+
+### Contributing
+
+Is there a feature you'd like to see? Would you like to get involved in a fairly complex Rails application? First, [get in touch on Gitter][gitter], and we'll go from there!
+
+[gitter]: https://gitter.im/MAPC/developmentdatabase
