@@ -1,4 +1,6 @@
 # Development Database
+
+[![Join the chat at https://gitter.im/MAPC/developmentdatabase](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MAPC/developmentdatabase?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 _(Name may change)_
 
 The Development Database is a crowdsourced collection of recent ongoing and completed commercial and residential developments in Massachusetts.
