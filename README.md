@@ -1,4 +1,6 @@
 # Development Database
+
+[![Join the chat at https://gitter.im/MAPC/developmentdatabase](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MAPC/developmentdatabase?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 _(Name may change)_
 
 [![Code Climate](https://codeclimate.com/github/MAPC/developmentdatabase/badges/gpa.svg)](https://codeclimate.com/github/MAPC/developmentdatabase)
