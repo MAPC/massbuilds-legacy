@@ -11,29 +11,38 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert d.valid?
   end
 
-  test "can assign attributes in JSON" do
-    skip """
-      Original thought was to set up safe chaining. Now, I think
-      it would be better to set up a hash with indifferent access,
-      that creates objects `mkdir -p`-style.
-    """
-    assert_not_equal 10, d.fields.housing.ov_hupipe
-    d.housing.ov_hupipe = 10
-    d.save ; d.reload
-    assert_equal 10, d.fields.housing.ov_hupipe
+  test "can read attributes from fields, as methods" do
+    assert_nothing_raised { d.name }
+    assert_equal 'Godfrey Hotel', d.name
+  end
+
+  test "raises NoMethodError when attribute not present" do
+    assert_raises(NoMethodError) { d.blerg }
+  end
+
+  test "attribute read is from an indifferent hash" do
+    assert_equal d.fields['name'], d.name
+    assert_equal d.fields[:name], d.name
+  end
+
+  test "can assign attributes to fields, as methods" do
+    assert_not_equal 10, d.housing_units
+    d.housing_units = 10
+    assert_equal 10, d.housing_units
+    # Next step: try another field. Would require store accessors
+    # for all the fields.
   end
 
   test "can assign attributes in JSON safely chained" do
-    skip "See above"
-    assert_not_equal 10, d.housing.ov_hupipe
-    d.ov_hupipe = 10
+    skip "Not sure this is important"
+    assert_not_equal 10, d.housing.units
+    d.units = 10
     d.save ; d.reload
-    assert_equal 10, d.housing.ov_hupipe
+    assert_equal 10, d.housing.units
   end
 
   test "raises when attribute absent" do
-    skip "What am I doing."
-    assert_raises(StandardError) {
+    assert_raises(NoMethodError) {
       d.assign_attributes ov_hupipe_not: 10
     }
   end

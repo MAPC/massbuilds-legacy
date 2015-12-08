@@ -2,21 +2,31 @@ class Development < ActiveRecord::Base
   has_many :edits
   has_many :flags
 
-  # The #apply_edit methods doesn't really belong here, does it?
-  # It's not a model, but maybe it's a service object,
-  # like Approval / Rejection.
+  serialize :fields, HashSerializer
+  store_accessor :fields, :name, :address, :housing_units
 
-  # def apply_edit(edit)
-  #   if edit.not_applyable?
-  #     raise StandardError, "Edit is not applyable."
-  #   else
-  #     edit.apply
-  #   end
+  # TODO as we add more fields, potentially
+  # def method_missing(method_name, *arguments, &block)
+  #   fields.send(:fetch, method_name, &block)
+  # rescue
+  #   super
   # end
+  # From https://robots.thoughtbot.com/always-define-respond-to-missing-when-overriding
+  # def respond_to_missing?(method_name, include_private = false)
+  #   method_name.to_s.start_with?('user_') || super
+  # end
+
+  # TODO Add definitions, metadata. Might be YML, could be in
+  # config/locales.
 
   def history
     # Should be paginatable.
     # Oh, it's belongs as a separate resource, paginateable.
     self.edits.where(state: 'applied').order(:date)
+  end
+
+  def pending
+    # See note in #history
+    self.edits.where(state: 'pending').order(:date)
   end
 end

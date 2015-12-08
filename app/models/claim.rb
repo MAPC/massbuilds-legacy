@@ -4,14 +4,15 @@ class Claim < ActiveRecord::Base
   belongs_to :claimant,  class_name: :User
   belongs_to :development
   belongs_to :moderator, class_name: :User
-  # belongs_to :role
-  # => I am the [owner, developer]:role of this project.
 
   validates :development, presence: true
   validates :claimant,    presence: true
 
   enumerize :state, in: [:pending, :approved, :denied],
     default: :pending, predicates: true
+
+  # TODO: enumerize the role they're claiming, on the development team.
+  # For now: :developer, :architect, :engineer, :contractor, :designer
 
   def approve!(options={})
     if approve(options)
