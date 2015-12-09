@@ -1,2 +1,13 @@
-%li.development
-  = link_to development.name, development
+= link_to development do
+  %li.development
+    .photo
+    .content
+      .title= development.name
+      / .formerly= development.former_name
+      .address= development.address
+      .tagline= development.tagline
+      .stats
+        .housing #{development.housing_units} housing units
+        .retail #{development.retail_sq_ft} retail sq ft
+    .crosswalks
+      = render partial: 'crosswalks', collection: development.crosswalks

@@ -1,11 +1,98 @@
-%h1#title= @development.name
-%h4#address= @development.address
+#main
+  #title-area
+    %h1#title=   @development.name
+    %h4#address= @development.address
+    %p.tagline=  @development.tagline
 
-#controls
-  %ul
-    %li= link_to 'Edit',  '#'
-    %li= link_to 'Flag',  new_development_flag_path(@development)
-    %li= link_to 'Claim', new_development_claim_path(@development)
+  #status-area
+    #status= @development.status_with_year
+    #tags
+      .tag.redevelopment
+        Redevelopment
+      .tag.cluster-development
+        Cluster Development
+      .tag.age-restricted
+        Age-Restricted
+      .tag.mixed-use
+        Mixed Use
+      .tag.stalled
+        Stalled
+      .tag.phased
+        Phased
+      .tag.as-of-right
+        As of Right
+      .tag.draft
+        Draft
+      .tag.removed
+        Removed
 
-#images
-#map
+  #controls
+    %ul
+      %li= link_to 'Edit',  '#'
+      %li= link_to 'Flag',  new_development_flag_path(@development)
+      %li= link_to 'Claim', new_development_claim_path(@development)
+
+  #images
+    .image.primary{src: '#'}
+
+  #data
+    %h4 More Information
+  #context
+    %h4 Neighborhood Context
+
+#sidebar
+  #team
+    %h5 Development Team
+    %table
+      %tr
+        %td
+          %strong Developers
+        %td
+          %ul
+            %li=link_to 'Boston Properties', '#'
+      %tr
+        %td
+          %strong Architects
+        %td
+          %ul
+            %li=link_to 'Moskow Linn Architects', '#'
+            %li=link_to 'Cesar Pelli', '#'
+      %tr
+        %td
+          %strong Engineers
+        %td
+          %ul
+            %li=link_to 'Vanasse Hangen Brustlin', '#'
+            %li=link_to 'AECOM', '#'
+      %tr
+        %td
+          %strong Contractors
+        %td
+          %ul
+            %li=link_to 'Suffolk Construction', '#'
+  #map
+    map
+  #additional
+    #left
+      #subscribe
+        %li
+          %strong=link_to 'Unwatch', '#'
+        %ul
+          %li
+            = link_to '#' do
+              %strong Not watching
+              Not receiving notifications about updates
+          %li
+            = link_to '#' do
+              %strong Watching
+              Receiving notifications
+      #history
+        %h5 Recent Edits
+        %ul
+          %li Matt C (MAPC) changed Housing Units from 100 to 200.
+          %li Tim R (MAPC) changed Status from In Construction to Completed.
+          %li Matt C (MAPC) changed Floor Area (Retail) from 100 to 1000.
+          %li= link_to 'View entire history', '#'
+    #right
+      #similar-projects
+        %h5 Similar Projects
