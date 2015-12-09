@@ -24,6 +24,11 @@ gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0' # Compress JavaScript
 gem 'kaminari'  # Pagination
 
+# Semantic UI
+gem 'therubyracer'
+gem 'less-rails-semantic_ui', '~> 2.0.7.0'
+gem 'autoprefixer-rails', '~> 5.2.1.2'
+
 gem 'paperclip' # File attachments
 
 # API

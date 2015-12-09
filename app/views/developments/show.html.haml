@@ -1,98 +1,229 @@
-#main
+#main.ui.main.container
+  / Replace with top margin
+  %br
+  %br
+  %br
   #title-area
-    %h1#title=   @development.name
-    %h4#address= @development.address
+    %h1.ui.header#title
+      = @development.name
+      .sub.header#address
+        = @development.address
     %p.tagline=  @development.tagline
 
   #status-area
-    #status= @development.status_with_year
+    .ui.horizontal.divider
+    #status
+      .ui.label.large.basic
+        %i.icon.configure
+        In Construction (est. 2016)
+      .ui.label.large.basic
+        %i.icon.find
+        Projected (for 2027)
+      .ui.label.large.basic
+        %i.icon.calendar
+        Planning (est. 2016)
+      .ui.label.large.basic
+        %i.icon.checkmark
+        Completed (2016)
+    .ui.horizontal.divider
     #tags
-      .tag.redevelopment
-        Redevelopment
-      .tag.cluster-development
-        Cluster Development
-      .tag.age-restricted
-        Age-Restricted
-      .tag.mixed-use
-        Mixed Use
-      .tag.stalled
-        Stalled
-      .tag.phased
-        Phased
-      .tag.as-of-right
-        As of Right
-      .tag.draft
-        Draft
-      .tag.removed
-        Removed
+      .ui.teal.basic.label   Draft
+      .ui.grey.basic.label   Private
+      .ui.red.basic.label    Redevelopment
+      .ui.orange.basic.label Mixed Use
+      .ui.green.basic.label  As of Right
+      .ui.blue.basic.label   Age-Restricted
+      .ui.purple.basic.label Cluster Development
+      .ui.pink.basic.label   Phased
+      .ui.black.basic.label  Stalled
 
-  #controls
-    %ul
-      %li= link_to 'Edit',  '#'
-      %li= link_to 'Flag',  new_development_flag_path(@development)
-      %li= link_to 'Claim', new_development_claim_path(@development)
+  .ui.horizontal.divider
+
+  #actions
+    =link_to '#' do
+      .ui.vertical.animated.button{:tabindex => "0"}
+        .visible.content
+          %i.pencil.icon
+        .hidden.content
+          Edit
+    =link_to new_development_flag_path(@development) do
+      .ui.vertical.animated.button{:tabindex => "0"}
+        .visible.content
+          %i.flag.icon
+        .hidden.content
+          Flag
+    =link_to new_development_claim_path(@development) do
+      .ui.vertical.animated.button{:tabindex => "0"}
+        .visible.content
+          %i.university.icon
+        .hidden.content
+          Claim
+    #subscribe
+      -# TODO add label to count watchers once the relation is set
+      .ui.dropdown.icon.button
+        %i.unhide.icon
+        %span.text Watch
+        .menu
+          .item
+            .ui.unhide.icon
+            Watching
+            %span.description
+              Receiving notifications
+          .item
+            .ui.hide.icon
+              Not Watching
+              %span.description
+                Not receiving notifications about updates
+
+    .ui.horizontal.divider
 
   #images
-    .image.primary{src: '#'}
+    %img.ui.large.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
+      Alt Text
 
   #data
-    %h4 More Information
+    .ui.horizontal.divider More Information
   #context
-    %h4 Neighborhood Context
+    .ui.horizontal.divider Neighborhood Context
 
-#sidebar
-  #team
-    %h5 Development Team
-    %table
-      %tr
-        %td
-          %strong Developers
-        %td
-          %ul
-            %li=link_to 'Boston Properties', '#'
-      %tr
-        %td
-          %strong Architects
-        %td
-          %ul
-            %li=link_to 'Moskow Linn Architects', '#'
-            %li=link_to 'Cesar Pelli', '#'
-      %tr
-        %td
-          %strong Engineers
-        %td
-          %ul
-            %li=link_to 'Vanasse Hangen Brustlin', '#'
-            %li=link_to 'AECOM', '#'
-      %tr
-        %td
-          %strong Contractors
-        %td
-          %ul
-            %li=link_to 'Suffolk Construction', '#'
+  #sidebar
+    #team
+      %h3 Development Team
+      %table.ui.very.basic.collapsing.celled.table
+        %tbody
+          %tr
+            %td
+              Developer
+            %td
+              %h4.ui.image.header
+                %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/lena.png"}
+                  .content
+                    Boston Properties
+                    .sub.header
+                      Boston, MA
+          %tr
+            %td
+              Architects
+            %td
+              %h4.ui.image.header
+                %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/mark.png"}
+                  .content
+                    Moskow Linn Architects
+                    .sub.header
+                      Boston, MA
+              %br
+              %h4.ui.image.header
+                %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/lena.png"}
+                  .content
+                    Cesar Pelli
+                    .sub.header
+                      Cambridge, MA
+          %tr
+            %td
+              Engineers
+            %td
+              %h4.ui.image.header
+                %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/lindsay.png"}
+                  .content
+                    Vanasse Hangen Brustlin
+                    .sub.header
+                      Watertown, MA
+              %br
+              %h4.ui.image.header
+                %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/molly.png"}
+                  .content
+                    AECOM
+                    .sub.header
+                      San Francisco, CA
+          %tr
+          %tr
+            %td
+              Contractor
+            %td
+              %h4.ui.image.header
+                %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/eve.png"}
+                  .content
+                    Suffolk Construction
+                    .sub.header
+                      Boston, MA
+
+  .ui.horizontal.divider
+
   #map
     map
+
+  .ui.horizontal.divider
+
   #additional
     #left
-      #subscribe
-        %li
-          %strong=link_to 'Unwatch', '#'
-        %ul
-          %li
-            = link_to '#' do
-              %strong Not watching
-              Not receiving notifications about updates
-          %li
-            = link_to '#' do
-              %strong Watching
-              Receiving notifications
-      #history
-        %h5 Recent Edits
-        %ul
-          %li Matt C (MAPC) changed Housing Units from 100 to 200.
-          %li Tim R (MAPC) changed Status from In Construction to Completed.
-          %li Matt C (MAPC) changed Floor Area (Retail) from 100 to 1000.
-          %li= link_to 'View entire history', '#'
+      .ui.horizontal.divider
+      #history.ui.small.feed
+        %h4.ui.header Recent Changes
+        .event
+          .label
+            %img{:src => "http://semantic-ui.com/images/avatar2/small/mark.png"}
+          .content
+            .date 10 minutes ago
+            %a You
+            changed
+            %strong Housing Units
+            from 100 to 200.
+        .event
+          .label
+            %img{:src => "http://semantic-ui.com/images/avatar/small/elliot.jpg"}
+          .content
+            .summary
+              %a Tim R.
+              %a (MAPC)
+              made several edits.
+              .date 2 hours ago
+            %ul
+              %li
+                Changed
+                %strong Housing Units
+                from 10 to 100.
+              %li
+                Set
+                %strong Stalled
+                to true.
+        .event
+          .label
+            %img{:src => "http://semantic-ui.com/images/avatar/small/elliot.jpg"}
+          .content
+            .summary
+              %a Tim R.
+              %a (MAPC)
+              created
+              %strong Godfrey Hotel.
+              .date Today
+      .ui.horizontal.divider
+
+
     #right
       #similar-projects
-        %h5 Similar Projects
+        %h4.ui.header Similar Projects
+        .ui.divided.items
+          .item
+            .ui.tiny.image
+              %img{:src => "http://semantic-ui.com/images/wireframe/image.png"}
+            .middle.aligned.content
+              .header 60 Temple Place
+              .meta
+                %span.address 60 Temple Place, Boston MA 02111
+              6-floor office development.
+          .item
+            .ui.tiny.image
+              %img{:src => "http://semantic-ui.com/images/wireframe/image.png"}
+            .middle.aligned.content
+              .header 100 Washington
+              .meta
+                %span.address 100 Washington St, Boston MA 02111
+              Mixed-use affordable housing with street-level retail.
+          .item
+            .ui.tiny.image
+              %img{:src => "http://semantic-ui.com/images/wireframe/image.png"}
+            .middle.aligned.content
+              .header George Howell Coffee
+              .meta
+                %span.address 22 Temple Place, Boston MA 02111
+              First-floor retail with apartments above.

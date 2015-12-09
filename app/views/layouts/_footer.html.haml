@@ -1,1 +1,4 @@
 #footer
+  - if Rails.env == 'development'
+    = debug(params)
+    -# = console

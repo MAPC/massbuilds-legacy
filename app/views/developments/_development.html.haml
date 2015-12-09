@@ -1,13 +1,28 @@
-= link_to development do
-  %li.development
-    .photo
+.ui.link.items
+  =link_to development, :class => 'item' do
+    .image.small
+      %img{:src => "http://semantic-ui.com/images/wireframe/image.png"}
     .content
-      .title= development.name
-      / .formerly= development.former_name
-      .address= development.address
-      .tagline= development.tagline
-      .stats
-        .housing #{development.housing_units} housing units
-        .retail #{development.retail_sq_ft} retail sq ft
-    .crosswalks
-      = render partial: 'crosswalks', collection: development.crosswalks
+      .header= development.name
+      .meta
+        %span.address= development.address
+      .description
+        %p= development.tagline
+        .ui.basic.label.housing
+          %i.home.icon
+          = development.housing_units
+          housing units
+        .ui.basic.label.retail
+          %i.building.icon
+          = development.retail_sq_ft
+          retail sq. ft.
+      .extra
+        .ui.label
+          %i.random.icon
+          Mixed-use
+        .ui.label
+          %i.users.icon
+          Affordable
+        .ui.label
+          %i.configure.icon
+          In Construction

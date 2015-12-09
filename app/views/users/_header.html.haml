@@ -1,3 +1,17 @@
--# Small gravatar, pulled right, with
--# alt: name will go here
-= current_user.email
+/Small Gravatar with alt user name will go here
+.ui.right.floated.dropdown.item
+  / TODO Move to presentation helper
+  = current_user.email.split('@').first
+  %i.dropdown.icon
+  .menu
+    %a.item{:href => "#"} Link Item
+    %a.item{:href => "#"} Link Item
+    .divider
+    .header Header Item
+    .item
+      %i.dropdown.icon
+      Sub Menu
+      .menu
+        %a.item{:href => "#"} Link Item
+        %a.item{:href => "#"} Link Item
+    %a.item{:href => "#"} Link Item
