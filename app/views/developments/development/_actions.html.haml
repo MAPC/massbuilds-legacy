@@ -1,0 +1,33 @@
+=link_to '#' do
+  .ui.vertical.animated.button{:tabindex => "0"}
+    .visible.content
+      %i.pencil.icon
+    .hidden.content
+      Edit
+=link_to new_development_flag_path(@development) do
+  .ui.vertical.animated.button{:tabindex => "0"}
+    .visible.content
+      %i.flag.icon
+    .hidden.content
+      Flag
+=link_to new_development_claim_path(@development) do
+  .ui.vertical.animated.button{:tabindex => "0"}
+    .visible.content
+      %i.university.icon
+    .hidden.content
+      Claim
+.ui.dropdown.icon.button#subscribe
+  %i.unhide.icon
+  -# TODO Add label for # of watchers
+  %span.text Watch
+  .menu
+    .item
+      .ui.unhide.icon
+      Watching
+      %span.description
+        Receiving notifications
+    .item
+      .ui.hide.icon
+        Not Watching
+        %span.description
+          Not receiving notifications about updates
