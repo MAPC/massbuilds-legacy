@@ -1,51 +1,33 @@
-#main.ui.main.container
-  / Replace with top margin
-  %br
-  %br
-  %br
-  #title-area
-    = render partial: 'developments/development/title'
+#main.ui.main.grid.container
+  .row
+    .ten.wide.column#title-area
+      = render partial: 'developments/development/title'
+      #status
+        = render partial: 'developments/development/status'
 
-  #status-area
-    .ui.horizontal.divider
-    #status
-      = render partial: 'developments/development/status'
+    .six.wide.column#actions
       = render partial: 'developments/development/actions'
-
-    .ui.horizontal.divider
-    #tags
-      = render partial: 'developments/development/tags'
-
-  .ui.horizontal.divider
-
-  #images
-    %img.ui.large.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
-      Alt Text
-
-  #data
-    .ui.horizontal.divider More Information
-
-    = render partial: 'developments/development/residential'
-    = render partial: 'developments/development/commercial'
-    = render partial: 'developments/development/transportation'
-
-  #context
-    .ui.horizontal.divider Neighborhood Context
-    = render partial: 'developments/development/context'
-
-  #sidebar
-    #map
+  .row
+    .ten.wide.column
+      #tags= render partial: 'developments/development/tags'
       .ui.horizontal.divider
-      = render partial: 'developments/development/map'
-    #team
-      = render partial: 'developments/development/team'
+      #images
+        %img.ui.large.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
+          Alt Text
+      #data
+        .ui.horizontal.divider Details
+        = render partial: 'developments/development/physical'
+        = render partial: 'developments/development/residential'
+        = render partial: 'developments/development/commercial'
+        = render partial: 'developments/development/transportation'
 
-  .ui.horizontal.divider
+    .six.wide.column#sidebar
+      #map=     render partial: 'developments/development/map'
+      #team=    render partial: 'developments/development/team'
+      #related= render partial: 'developments/development/related'
+      #history= render partial: 'developments/development/history'
 
-  #history
-    = render partial: 'developments/development/history'
-
-  .ui.horizontal.divider
-
-  #similar-projects
-    = render partial: 'developments/development/related'
+  .row
+    .column#context
+      .ui.horizontal.divider Neighborhood Context
+      = render partial: 'developments/development/context'

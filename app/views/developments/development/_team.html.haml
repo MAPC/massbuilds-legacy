@@ -1,14 +1,15 @@
 / TODO: In #team, set .ui.image.header top margin to 0 or 2
 / and float the text in the first table column toward the top
 / Maybe remove gridlines
-%h3 Development Team
+.ui.horizontal.divider
+%h4 Development Team
 %table.ui.very.basic.collapsing.celled.table
   %tbody
     %tr
       %td
         Developer
       %td
-        %h4.ui.image.header
+        %h5.ui.image.header
           %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/lena.png"}
             .content
               Boston Properties
@@ -18,14 +19,14 @@
       %td
         Architects
       %td
-        %h4.ui.image.header
+        %h5.ui.image.header
           %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/mark.png"}
             .content
               Moskow Linn Architects
               .sub.header
                 Boston, MA
         %br
-        %h4.ui.image.header
+        %h5.ui.image.header
           %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/lena.png"}
             .content
               Cesar Pelli
@@ -35,14 +36,14 @@
       %td
         Engineers
       %td
-        %h4.ui.image.header
+        %h5.ui.image.header
           %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/lindsay.png"}
             .content
               Vanasse Hangen Brustlin
               .sub.header
                 Watertown, MA
         %br
-        %h4.ui.image.header
+        %h5.ui.image.header
           %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/molly.png"}
             .content
               AECOM
@@ -53,9 +54,29 @@
       %td
         Contractor
       %td
-        %h4.ui.image.header
+        %h5.ui.image.header
           %img.ui.mini.rounded.image{:src => "http://semantic-ui.com/images/avatar2/small/eve.png"}
             .content
               Suffolk Construction
               .sub.header
                 Boston, MA
+    %tr
+    %tr
+      %td
+        Landlord
+      %td
+        %h5.ui.header
+          .content
+            Schutzberg Realty Trust, LLC,
+            .sub.header
+              Cambridge, MA
+    %tr
+    %tr
+      %td
+        Owner
+      %td
+        %h5.ui.header
+          .content
+            The Dartmouth Company
+            .sub.header
+              Boston, MA
