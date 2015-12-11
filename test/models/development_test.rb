@@ -89,6 +89,28 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal last_edit, d.last_edit
   end
 
+  test "#contributors" do
+    user = users :normal
+    d.edits.new(editor: user, state: 'applied').save(validate: false)
+    assert_includes d.contributors, user
+  end
+
+  test "#contributors pulls in unique users" do
+    user = users :tim
+    3.times {
+      d.edits.new(editor: user, state: 'applied').save(validate: false)
+    }
+    assert_equal 1, d.contributors.count
+  end
+
+  test "#contributors does not include unapplied edits" do
+    user = users :tim
+    d.edits.new(editor: user, state: 'pending').save(validate: false)
+    refute_includes d.contributors, user
+  end
+
+
+
 end
 
 

@@ -3,14 +3,16 @@ class Development < ActiveRecord::Base
 
   has_many :edits
   has_many :flags
-  # Will this apply the scope to edits, or to contributors?
-  has_many :contributors, through: :edits, class_name: :User#, -> { where(state: 'applied') }
   has_many :team_memberships, class_name: :DevelopmentTeamMemberships
   has_many :team_members, through: :team_memberships, class_name: :Organizations
   has_many :crosswalks
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
   has_one :walkscore
   has_and_belongs_to_many :zoning_tools
+
+  def contributors
+    edits.where(state: 'applied').map(&:editor).uniq
+  end
 
   # Break these out and require them in another file.
   @@residential_attributes = %i( affordable affunits gqpop lgmultifam
@@ -25,7 +27,8 @@ class Development < ActiveRecord::Base
       project_type project_url updated_at year_compl stalled
       status total_cost name address )
 
-  @@categorized_attributes = [@@residential_attributes, @@commercial_attributes, @@miscellaneous_attributes].flatten!
+  @@categorized_attributes = [@@residential_attributes,
+    @@commercial_attributes, @@miscellaneous_attributes].flatten!
 
   serialize :fields, HashSerializer
   store_accessor :fields, @@categorized_attributes
