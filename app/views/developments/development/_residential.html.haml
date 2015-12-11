@@ -8,6 +8,7 @@
 %table.ui.very.basic.celled.table
   %thead
     %th
+      / Only display rows with non-zero numbers
       %h4.ui.header
         .content
           Housing Type
@@ -41,12 +42,17 @@
         %h4.ui.header
           .content
             Affordable Units
+            .sub.header
+              Percentage
       %td 100
     %tr
       %td
         %h4.ui.header
           .content
             Group Quarters
+            %a{href: '#how-does-mapc-estimate-employment'}
+              %i.help.circle.icon
+              -# Estimated new population in group quarters (dorms, nursing homes, military barracks, etc)
             .sub.header
               Number of Beds
       %td 100

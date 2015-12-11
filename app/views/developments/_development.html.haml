@@ -1,5 +1,5 @@
 .ui.link.items
-  =link_to development, :class => 'item' do
+  =link_to development, :class => 'item development' do
     .image.small
       %img{:src => "http://semantic-ui.com/images/wireframe/image.png"}
     .content
@@ -14,7 +14,7 @@
           housing units
         .ui.basic.label.retail
           %i.building.icon
-          = development.retail_sq_ft
+          = development.floor_area_commercial
           retail sq. ft.
       .extra
         .ui.label.orange
