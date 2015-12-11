@@ -123,7 +123,9 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test "#crosswalks" do
-    skip "Implementing now."
+    org = organizations :mapc
+    d.crosswalks.new(organization: org, internal_id: "1-1")
+    assert_not_empty d.crosswalks
   end
 
   test "#programs" do
@@ -132,6 +134,10 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal 2, d.programs.count
     assert_equal 1, d.incentive_programs.count
     assert_equal 1, d.regulatory_programs.count
+  end
+
+  test "infer project type" do
+    skip
   end
 
 end

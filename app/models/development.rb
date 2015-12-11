@@ -6,9 +6,9 @@ class Development < ActiveRecord::Base
 
   has_many :edits
   has_many :flags
+  has_many :crosswalks
   has_many :team_memberships, -> { group(:role).order(:role) }, class_name: :DevelopmentTeamMembership
   has_many :team_members, through: :team_memberships, source: :organization
-  has_many :crosswalks
 
   has_and_belongs_to_many :programs
 
@@ -26,7 +26,7 @@ class Development < ActiveRecord::Base
     fa_other fa_ret fa_rnd fa_whs othremprat )
 
   @@miscellaneous_attributes = %i(
-      asofright cancelled clusteros created_at crosswalks desc
+      asofright cancelled clusteros created_at desc
       location mapc_notes onsitepark phased private rdv prjarea
       project_type project_url updated_at year_compl stalled
       status total_cost name address )

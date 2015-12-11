@@ -2,6 +2,7 @@ class Organization < ActiveRecord::Base
   has_many :memberships
   has_many :members, through: :memberships, source: :user
   has_many :administrators, class_name: :User
+  has_many :crosswalks
   belongs_to :creator,      class_name: :User
 
   validates :name,       presence: true
