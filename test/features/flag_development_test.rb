@@ -10,7 +10,7 @@ class FlagDevelopmentTest < Capybara::Rails::TestCase
   test "sign in, visit development, and flag it" do
     sign_in @user, visit: true, submit: true
     visit developments_path
-    first('.development > a').click
+    first('a.development').click
     assert_content page, 'Godfrey Hotel'
     click_link 'Flag'
     assert_content page, 'Flagging Godfrey Hotel'
