@@ -3,7 +3,7 @@ class Development < ActiveRecord::Base
 
   has_many :edits
   has_many :flags
-  has_many :team_memberships, class_name: :DevelopmentTeamMemberships
+  has_many :team_memberships, -> { group(:role).order(:role) }, class_name: :DevelopmentTeamMemberships
   has_many :team_members, through: :team_memberships, class_name: :Organizations
   has_many :crosswalks
   belongs_to :creator, class_name: :User, foreign_key: :creator_id
