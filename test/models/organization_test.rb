@@ -89,4 +89,23 @@ class OrganizationTest < ActiveSupport::TestCase
     assert org.members << user
     assert massit.members << user
   end
+
+  test 'URL template' do
+    organization.url_template = "http://www.bostonredevelopmentauthority.org/document-center?project={id}"
+    expanded = organization.url_parser.expand(id: 45)
+    expected = "http://www.bostonredevelopmentauthority.org/document-center?project=45"
+    assert_equal expanded, expected
+  end
+
+  test 'requires valid URL template' do
+    organization.url_template = "http://www.bostonredevelopmentauthority.org/document-center?project="
+    assert_not organization.valid?
+  end
+
+  test '#has_url_template?' do
+    organization.url_template = 'x'
+    assert organization.has_url_template?
+    organization.url_template = ' '
+    assert_not organization.has_url_template?
+  end
 end

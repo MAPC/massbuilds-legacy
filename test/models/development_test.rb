@@ -8,7 +8,12 @@ class DevelopmentTest < ActiveSupport::TestCase
   alias_method :d, :development
 
   test "valid" do
-    assert d.valid?
+    assert d.valid?, d.errors.full_messages
+  end
+
+  test "requires a creator" do
+    d.creator = nil
+    assert_not d.valid?
   end
 
   test "can read attributes from fields, as methods" do
@@ -115,6 +120,10 @@ class DevelopmentTest < ActiveSupport::TestCase
       organization: org, role: :developer
     ).save(validate: false)
     assert_includes d.team_members, org
+  end
+
+  test "#crosswalks" do
+    skip "Implementing now."
   end
 
 end

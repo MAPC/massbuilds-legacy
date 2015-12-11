@@ -1,18 +1,21 @@
 class Development < ActiveRecord::Base
   extend Enumerize
 
+  belongs_to :creator, class_name: :User
+
   has_many :edits
   has_many :flags
   has_many :team_memberships, -> { group(:role).order(:role) }, class_name: :DevelopmentTeamMembership
   has_many :team_members, through: :team_memberships, source: :organization
   has_many :crosswalks
-  belongs_to :creator, class_name: :User, foreign_key: :creator_id
   has_one :walkscore
   has_and_belongs_to_many :zoning_tools
 
   def contributors
     edits.where(state: 'applied').map(&:editor).uniq
   end
+
+  validates :creator, presence: true
 
   # Break these out and require them in another file.
   @@residential_attributes = %i( affordable affunits gqpop lgmultifam

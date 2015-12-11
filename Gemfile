@@ -14,6 +14,8 @@ gem 'devise'
 # Utilities
 gem 'enumerize'
 gem 'geometry'
+gem 'uri_template'
+gem 'escape_utils' # speeds up URI Template
 
 # Views
 gem 'haml-rails'
