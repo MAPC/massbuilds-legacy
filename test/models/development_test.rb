@@ -109,7 +109,13 @@ class DevelopmentTest < ActiveSupport::TestCase
     refute_includes d.contributors, user
   end
 
-
+  test "#team_members" do
+    org = organizations :mapc
+    d.team_memberships.new(
+      organization: org, role: :developer
+    ).save(validate: false)
+    assert_includes d.team_members, org
+  end
 
 end
 
