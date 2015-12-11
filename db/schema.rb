@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(version: 20151202230119) do
     t.integer  "development_id"
     t.string   "state"
     t.json     "fields"
+    t.datetime "applied_at"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end

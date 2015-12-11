@@ -37,6 +37,7 @@ class Edit < ActiveRecord::Base
 
   def applied
     self.state = :applied
+    self.applied_at = Time.now
   end
 
   def applyable?

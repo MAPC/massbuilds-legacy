@@ -1,84 +1,70 @@
 class Development < ActiveRecord::Base
+  extend Enumerize
+
   has_many :edits
   has_many :flags
-  # has_many :contributors, through: :edits, scope: :approved
-  # has_many :team_memberships, class_name: :DevelopmentTeamMemberships
-  # has_many :team_members, through: :team_memberships, class_name: :Organizations
-  # has_many :crosswalks
+  # Will this apply the scope to edits, or to contributors?
+  has_many :contributors, through: :edits, class_name: :User#, -> { where(state: 'applied') }
+  has_many :team_memberships, class_name: :DevelopmentTeamMemberships
+  has_many :team_members, through: :team_memberships, class_name: :Organizations
+  has_many :crosswalks
+  belongs_to :creator, class_name: :User, foreign_key: :creator_id
+  has_one :walkscore
+  has_and_belongs_to_many :zoning_tools
+
+  # Break these out and require them in another file.
+  @@residential_attributes = %i( affordable affunits gqpop lgmultifam
+                                 ovr55 singfamhu tothu twnhsmmult )
+  @@commercial_attributes = %i(
+    commsf rptdemp emploss estemp fa_edinst fa_hotel fa_indmf fa_ofcmd
+    fa_other fa_ret fa_rnd fa_whs othremprat )
+
+  @@miscellaneous_attributes = %i(
+      asofright cancelled clusteros created_at crosswalks desc
+      location mapc_notes onsitepark phased private rdv prjarea
+      project_type project_url updated_at year_compl stalled
+      status total_cost name address )
+
+  @@categorized_attributes = [@@residential_attributes, @@commercial_attributes, @@miscellaneous_attributes].flatten!
 
   serialize :fields, HashSerializer
-  store_accessor :fields, :name, :address, :housing_units
+  store_accessor :fields, @@categorized_attributes
 
-  # TODO Add definitions, metadata. Might be YML, could be in
-  # config/locales.
-
-  def status
-    "In Construction"
-  end
-  def complyr
-    2016
-  end
   def tagline
-    "Luxury hotel with street-level retail."
-  end
-  def retail_sq_ft
-    10_264
-  end
-  def housing_units
-    100
+    "Luxury hotel with ground floor retail."
   end
 
-  # TODO: Move to presenter
-  def status_with_year
-    if status == "Completed"
-      "#{status} (#{complyr_actual})"
-    else
-      "#{status} (est. #{complyr})"
-    end
+  def mixed_use?
+    any_residential_attributes? && any_commercial_attributes?
   end
+  # TODO: Cache this in the database.
+  alias_method :mixed_use, :mixed_use?
 
   def history
-    # Should be paginatable.
-    # Oh, it's belongs as a separate resource, paginateable.
-    self.edits.where(state: 'applied').order(:date)
+    self.edits.where(state: 'applied').order(applied_at: :desc)
   end
 
-  def pending
-    # See note in #history
-    self.edits.where(state: 'pending').order(:date)
+  def last_edit
+    history.limit(1).first
   end
 
-  def crosswalks
-    crosswalks_for(User.null)
-  end
+  def parcel ; nil ; end
 
-  def crosswalks_for(user)
-    []
-    # TODO
-    # First, this belongs in a presenter. Add Burgundy
-    # (https://github.com/fnando/burgundy) to the Gemfile and create presenters.
-    # #crosswalks gets all the organizations in common with both
-    # the development and the current_user.
-    # development.crosswalks.where(organization_id in user.organization.ids).uniq
-    # Then wrap them in a link if the organization has a URL template,
-    # or leave them as text if not.
-  end
+  alias_attribute :total_housing, :tothu
+  alias_attribute :housing_units, :tothu
+  alias_attribute :floor_area_commercial, :commsf
 
-  # TODO as we add more fields, potentially
-  # def method_missing(method_name, *arguments, &block)
-  #   fields.send(:fetch, method_name, &block)
-  # rescue
-  #   super
-  # end
-  # From https://robots.thoughtbot.com/always-define-respond-to-missing-when-overriding
-  # def respond_to_missing?(method_name, include_private = false)
-  #   method_name.to_s.start_with?('user_') || super
-  # end
+  private
+    # TODO Remove duplicate logic
+    def any_residential_attributes?
+      @_any_residential ||= @@residential_attributes.map { |method|
+        self.send(method)
+      }.any?
+    end
+
+    def any_commercial_attributes?
+      @_any_commercial ||= @@commercial_attributes.map { |method|
+        self.send(method)
+      }.any?
+    end
 end
-
-=begin
-
-rails g model DevelopmentTeamMembership development:belongs_to organization:belongs_to role:string|belongs_to if we make Role a database entity.
-rails g model Crosswalk development:belongs_to organization:belongs_to internal_id:string
-
-=end
