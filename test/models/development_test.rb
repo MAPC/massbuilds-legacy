@@ -126,7 +126,6 @@ class DevelopmentTest < ActiveSupport::TestCase
     skip "Implementing now."
   end
 
-  focus
   test "#programs" do
     d.programs << programs(:massworks)
     d.programs << programs(:forty_b)
@@ -136,20 +135,3 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -70,16 +70,14 @@ class Development < ActiveRecord::Base
   alias_attribute :floor_area_commercial, :commsf
 
   private
-    # TODO Remove duplicate logic
-    def any_residential_attributes?
-      @_any_residential ||= @@residential_attributes.map { |method|
-        self.send(method)
-      }.any?
-    end
 
+    def any_residential_attributes?
+      @_any_residential ||= any_attributes(:residential).any?
+    end
     def any_commercial_attributes?
-      @_any_commercial ||= @@commercial_attributes.map { |method|
-        self.send(method)
-      }.any?
+      @_any_commercial  ||= any_attributes(:commercial).any?
+    end
+    def any_attributes(type)
+      Development.class_variable_get("@@#{type}_attributes").map {|m| self.send(m)}
     end
 end
