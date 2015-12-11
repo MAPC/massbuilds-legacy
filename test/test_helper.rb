@@ -5,12 +5,13 @@ if ENV['CODECLIMATE_REPO_TOKEN']
 end
 
 require File.expand_path("../../config/environment", __FILE__)
+
 require "rails/test_help"
-require "minitest/rails"
-require "minitest/rails/capybara"
-require "minitest/hell" # Random ordering
+%w( rails rails/capybara hell reporters focus ).each {|lib|
+  require "minitest/#{lib}"
+}
 require "minitest/benchmark" if ENV["BENCH"]
-require "minitest/reporters"
+require "minitest/fail_fast" if ENV["FAST"]
 
 # Require entire support tree
 Dir[File.expand_path("test/support/**/*")].each { |file| require file }

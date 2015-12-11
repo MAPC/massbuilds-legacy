@@ -55,6 +55,8 @@ group :test do
   gem 'minitest-rails'     # Test library
   gem 'minitest-rails-capybara' # Integration tests
   gem 'minitest-reporters' # For progress bar, etc.
+  gem 'minitest-fail-fast' # End testing on first failure
+  gem 'minitest-focus'     # One test at a time
   gem 'codeclimate-test-reporter', require: nil
   gem 'launchy'
   gem 'rake' # Specified for Travis CI
