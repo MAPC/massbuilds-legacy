@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151211203155) do
+ActiveRecord::Schema.define(version: 20151211221759) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -73,6 +73,14 @@ ActiveRecord::Schema.define(version: 20151211203155) do
   end
 
   add_index "developments", ["creator_id"], name: "index_developments_on_creator_id", using: :btree
+
+  create_table "developments_programs", force: :cascade do |t|
+    t.integer "development_id"
+    t.integer "program_id"
+  end
+
+  add_index "developments_programs", ["development_id"], name: "index_developments_programs_on_development_id", using: :btree
+  add_index "developments_programs", ["program_id"], name: "index_developments_programs_on_program_id", using: :btree
 
   create_table "edits", force: :cascade do |t|
     t.integer  "editor_id"
@@ -148,6 +156,16 @@ ActiveRecord::Schema.define(version: 20151211203155) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "programs", force: :cascade do |t|
+    t.string   "type"
+    t.string   "name"
+    t.string   "description"
+    t.string   "url"
+    t.integer  "sort_order"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -185,6 +203,8 @@ ActiveRecord::Schema.define(version: 20151211203155) do
   add_foreign_key "crosswalks", "organizations"
   add_foreign_key "development_team_memberships", "developments"
   add_foreign_key "development_team_memberships", "organizations"
+  add_foreign_key "developments_programs", "developments"
+  add_foreign_key "developments_programs", "programs"
   add_foreign_key "edits", "developments"
   add_foreign_key "flags", "developments"
   add_foreign_key "memberships", "organizations"

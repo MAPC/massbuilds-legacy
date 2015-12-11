@@ -60,7 +60,7 @@ class DevelopmentTest < ActiveSupport::TestCase
     # #recent_changes -> presenter
     %i( contributors creator crosswalks edits flags history
         last_edit parcel team_members
-        team_memberships walkscore zoning_tools
+        team_memberships walkscore programs
       ).each do |attribute|
       assert_respond_to d, attribute
     end
@@ -124,6 +124,15 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test "#crosswalks" do
     skip "Implementing now."
+  end
+
+  focus
+  test "#programs" do
+    d.programs << programs(:massworks)
+    d.programs << programs(:forty_b)
+    assert_equal 2, d.programs.count
+    assert_equal 1, d.incentive_programs.count
+    assert_equal 1, d.regulatory_programs.count
   end
 
 end

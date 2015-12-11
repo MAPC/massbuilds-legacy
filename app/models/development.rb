@@ -2,14 +2,15 @@ class Development < ActiveRecord::Base
   extend Enumerize
 
   belongs_to :creator, class_name: :User
+  has_one :walkscore # < How did Christian set this up?
 
   has_many :edits
   has_many :flags
   has_many :team_memberships, -> { group(:role).order(:role) }, class_name: :DevelopmentTeamMembership
   has_many :team_members, through: :team_memberships, source: :organization
   has_many :crosswalks
-  has_one :walkscore
-  has_and_belongs_to_many :zoning_tools
+
+  has_and_belongs_to_many :programs
 
   def contributors
     edits.where(state: 'applied').map(&:editor).uniq
@@ -55,6 +56,14 @@ class Development < ActiveRecord::Base
   end
 
   def parcel ; nil ; end
+
+  def incentive_programs
+    programs.where(type: :incentive)
+  end
+
+  def regulatory_programs
+    programs.where(type: :regulatory)
+  end
 
   alias_attribute :total_housing, :tothu
   alias_attribute :housing_units, :tothu
