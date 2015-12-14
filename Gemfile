@@ -16,6 +16,8 @@ gem 'enumerize'
 gem 'geometry'
 gem 'uri_template'
 gem 'escape_utils' # speeds up URI Template
+gem 'seed-fu', '~> 2.3' # Helps with seed data.
+gem 'faker', require: false
 
 # Views
 gem 'haml-rails'
