@@ -1,19 +1,14 @@
 class DevelopmentPresenter
 
-  def initialize(development, view)
+  def initialize(development)
     assert_presentable_development(development)
-    @development, @view = development, view
+    @development = development
   end
 
   def assert_presentable_development(development)
     unless development.is_a? Development
       raise ArgumentError, "#{development} must be a Development."
     end
-  end
-
-  def group_developments
-    # @development.team
-    @development.team.group_by(&:role)
   end
 =begin
 
