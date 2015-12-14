@@ -10,6 +10,8 @@ class DevelopmentPresenter
       raise ArgumentError, "#{development} must be a Development."
     end
   end
+
+  
 =begin
 
   Presents all of the information for the development/show template.
