@@ -49,5 +49,9 @@ class DevelopmentTeamMembershipTest < ActiveSupport::TestCase
     skip
   end
 
+  test "requires a role" do
+    m.role = nil
+    assert_not m.valid?
+  end
 
 end

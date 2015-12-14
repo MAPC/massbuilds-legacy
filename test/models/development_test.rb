@@ -136,6 +136,34 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal 1, d.regulatory_programs.count
   end
 
+  test "#status" do
+    [:projected, :planning, :in_construction, :completed].each do |status|
+      d.status = status
+      assert d.valid?
+    end
+    [:built, :solid, :dead, :stalled].each do |status|
+      d.status = status
+      assert_not d.valid?
+    end
+  end
+
+  test "status predicates" do
+    [:projected?, :planning?, :in_construction?, :completed?].each {|method|
+      assert_respond_to d, method
+    }
+  end
+
+  test "boolean predicates" do
+    [:private?, :rdv?, :mixed_use?, :asofright?, :ovr55?,
+      :clusteros?, :phased?, :stalled?].each do |method|
+        assert_respond_to d, method
+    end
+  end
+
+  test "contributors includes creator" do
+    skip
+  end
+
   test "infer project type" do
     skip
   end

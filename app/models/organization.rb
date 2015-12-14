@@ -25,6 +25,11 @@ class Organization < ActiveRecord::Base
     url_template.present?
   end
 
+  def logo
+    user = %w(mark lena lindsay molly eve).sample
+    "http://semantic-ui.com/images/avatar2/small/#{user}.png"
+  end
+
   # validates :existence_of_website
   private
 

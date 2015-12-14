@@ -2,19 +2,15 @@ class Development < ActiveRecord::Base
   extend Enumerize
 
   belongs_to :creator, class_name: :User
-  has_one :walkscore # < How did Christian set this up?
+  has_one :walkscore # TODO next
 
   has_many :edits
   has_many :flags
   has_many :crosswalks
-  has_many :team_memberships, -> { group(:role).order(:role) }, class_name: :DevelopmentTeamMembership
+  has_many :team_memberships, class_name: :DevelopmentTeamMembership
   has_many :team_members, through: :team_memberships, source: :organization
 
   has_and_belongs_to_many :programs
-
-  def contributors
-    edits.where(state: 'applied').map(&:editor).uniq
-  end
 
   validates :creator, presence: true
 
@@ -25,17 +21,22 @@ class Development < ActiveRecord::Base
     commsf rptdemp emploss estemp fa_edinst fa_hotel fa_indmf fa_ofcmd
     fa_other fa_ret fa_rnd fa_whs othremprat )
 
-  @@miscellaneous_attributes = %i(
-      asofright cancelled clusteros created_at desc
-      location mapc_notes onsitepark phased private rdv prjarea
-      project_type project_url updated_at year_compl stalled
-      status total_cost name address )
+  # ovr55
+  @@boolean_attributes = %i( asofright cancelled clusteros phased private rdv stalled )
 
-  @@categorized_attributes = [@@residential_attributes,
-    @@commercial_attributes, @@miscellaneous_attributes].flatten!
+  @@miscellaneous_attributes = %i(
+      created_at desc location mapc_notes onsitepark prjarea
+      project_type project_url updated_at year_compl status total_cost
+      name address )
+
+  @@categorized_attributes = [@@residential_attributes, @@commercial_attributes, @@boolean_attributes, @@miscellaneous_attributes].flatten!
 
   serialize :fields, HashSerializer
   store_accessor :fields, @@categorized_attributes
+  STATUSES = [:projected, :planning, :in_construction, :completed]
+  enumerize :status, :in => STATUSES, predicates: true
+
+  alias_attribute :website, :project_url
 
   def tagline
     "Luxury hotel with ground floor retail."
@@ -46,6 +47,20 @@ class Development < ActiveRecord::Base
   end
   # TODO: Cache this in the database.
   alias_method :mixed_use, :mixed_use?
+
+  # TODO Move to presenter
+  def related
+    Development.limit(3)
+  end
+
+  # TODO Move to presenter
+  def team
+    self.team_memberships.order(:role)
+  end
+
+  def contributors
+    edits.where(state: 'applied').map(&:editor).uniq
+  end
 
   def history
     self.edits.where(state: 'applied').order(applied_at: :desc)
@@ -58,12 +73,20 @@ class Development < ActiveRecord::Base
   def parcel ; nil ; end
 
   def incentive_programs
-    programs.where(type: :incentive)
+    programs.where type: :incentive
   end
 
   def regulatory_programs
-    programs.where(type: :regulatory)
+    programs.where type: :regulatory
   end
+
+  def private?   ; read_attribute(:private) ; end
+  def rdv?       ; rdv ;       end
+  def asofright? ; asofright ; end
+  def ovr55?     ; ovr55 ;     end
+  def clusteros? ; clusteros ; end
+  def phased?    ; phased ;    end
+  def stalled?   ; stalled ;   end
 
   alias_attribute :total_housing, :tothu
   alias_attribute :housing_units, :tothu

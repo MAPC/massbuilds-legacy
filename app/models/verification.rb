@@ -1,5 +1,8 @@
 class Verification < ActiveRecord::Base
   extend Enumerize
+  # TODO Should be polymorph-ish. Basically, while it should belong
+  # to user (because a person must request it), they can also
+  # request it on behalf of an organization.
 
   belongs_to :user
   belongs_to :verifier, class_name: :User
