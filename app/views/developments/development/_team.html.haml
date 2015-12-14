@@ -5,4 +5,9 @@
 %h4 Development Team
 %table.ui.very.basic.collapsing.celled.table
   %tbody
-    = render partial: 'developments/development/team_member', collection: @development.team, as: :member
+    - @development.team.group_by(&:role).each do |role, members|
+      %tr
+        %td
+          = role
+        %td
+          = render partial: 'developments/development/team_member', collection: members, as: :member

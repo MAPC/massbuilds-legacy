@@ -1,10 +1,6 @@
-%tr
-  %td
-    = member.role.titleize
-  %td
-    %h5.ui.image.header
-      %img.ui.mini.rounded.image{:src => "#{member.organization.logo}"}
-        .content
-          = member.organization.short_name
-          .sub.header
-            = member.organization.location
+%h5.ui.header
+  %img.ui.mini.rounded.image{:src => "#{member.organization.logo}"}
+    .content
+      = member.organization.short_name
+      .sub.header
+        = member.organization.location
