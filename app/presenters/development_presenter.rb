@@ -1,8 +1,8 @@
 class DevelopmentPresenter
 
-  def initialize(development)
+  def initialize(development, view)
     assert_presentable_development(development)
-    @development = development
+    @development, @view = development, view
   end
 
   def assert_presentable_development(development)
@@ -11,7 +11,10 @@ class DevelopmentPresenter
     end
   end
 
-  
+  def group_developments
+    # @development.team
+    @development.team.group_by(&:role)
+  end
 =begin
 
   Presents all of the information for the development/show template.
