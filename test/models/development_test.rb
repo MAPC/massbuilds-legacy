@@ -105,7 +105,8 @@ class DevelopmentTest < ActiveSupport::TestCase
     3.times {
       d.edits.new(editor: user, state: 'applied').save(validate: false)
     }
-    assert_equal 1, d.contributors.count
+    d.creator = user
+    assert_equal 1, d.contributors.count, d.contributors
   end
 
   test "#contributors does not include unapplied edits" do
@@ -160,12 +161,32 @@ class DevelopmentTest < ActiveSupport::TestCase
     end
   end
 
-  test "contributors includes creator" do
+  test "infer project type" do
     skip
   end
 
-  test "infer project type" do
+  test "apply edit" do
+    d.edits = []
+    d.commsf = 12
+    edit = edits(:one)
+    d.edits << edit
+    assert_equal 12, d.commsf
+    assert_not edit.conflict?, edit.conflict
+    assert_difference 'd.history.count', +1 do
+      edit.apply!
+    end
+    assert_equal 'applied', edit.state
+    assert_equal 1000, d.commsf
+  end
+
+  test "edits result in contributors" do
     skip
+  end
+
+  test "contributors includes creator" do
+    creator = users(:normal)
+    assert d.creator.present?
+    assert_includes d.contributors, creator
   end
 
 end

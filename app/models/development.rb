@@ -33,6 +33,7 @@ class Development < ActiveRecord::Base
 
   serialize :fields, HashSerializer
   store_accessor :fields, @@categorized_attributes
+
   STATUSES = [:projected, :planning, :in_construction, :completed]
   enumerize :status, :in => STATUSES, predicates: true
 
@@ -59,7 +60,9 @@ class Development < ActiveRecord::Base
   end
 
   def contributors
-    edits.where(state: 'applied').map(&:editor).uniq
+    _contributors = edits.where(state: 'applied').map(&:editor)
+    _contributors << self.creator
+    _contributors.uniq
   end
 
   def history
