@@ -3,7 +3,8 @@ namespace :db do
   task sample: :environment do
     require 'faker'
 
-    user = User.create(email: "mcloyd@mapc.org", password: "password")
+    user  = User.create(email: "mcloyd@mapc.org",   password: "password")
+    user2 = User.create(email: "mgardner@mapc.org", password: "drowssap")
     development = Development.create(
       name: "Godfrey Hotel",
       address: "501 Washington Street, Boston MA 02111",
@@ -39,6 +40,22 @@ namespace :db do
       organization: organization,
       role: :developer
     )
+    edit1 = Edit.create(
+      development: development,
+      editor: user,
+      fields: {name: 'commsf', from: '12', to: '1000'}
+    )
+    edit2 = Edit.create(
+      development: development,
+      editor: user2,
+      fields: {name: 'prjarea', from: '0', to: '10'}
+    )
+    edit3 = Edit.create(
+      development: development,
+      editor: user1,
+      fields: {name: 'commsf', from: '1000', to: '9001'}
+    )
+
 
     # 7.times { create_user }
     # 6.times { create_development }
