@@ -1,0 +1,23 @@
+- user = ["2/small/mark.png", "/small/elliot.jpg", "2/small/lena.png", "2/small/molly.png"].sample
+- avatar = "http://semantic-ui.com/images/avatar#{user}"
+
+.event
+  .label
+    %img{:src => avatar}
+  .content
+    .date
+      = time_ago_in_words edit.applied_at
+      ago
+    -# Once we have it in the model, first name (last initial)
+    = link_to edit.editor.email.partition('@').first
+    changed
+    -# In presenter, decide that multiple-field edits need a summary.
+    - edit.fields.each do |field|
+      -# Get field alias
+      %strong= field[:name]
+      from
+      = field[:from]
+      to
+      = field[:to]
+      -# use the "succeed" syntax where applicable.
+      = "."
