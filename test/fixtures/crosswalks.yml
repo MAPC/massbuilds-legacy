@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one_mapc:
+  organization: mapc
+  development: one
+  internal_id: MAPC-1
+
+two_massit:
+  organization: massit
+  development: one
+  internal_id: ma.state.00001

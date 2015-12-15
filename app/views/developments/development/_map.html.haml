@@ -1,4 +1,4 @@
 %img.ui.medium.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
   = @development.address
   %br
-  %a Parcel 12345
+  %a= link_to "Parcel #{@development.parcel.id}", '#'

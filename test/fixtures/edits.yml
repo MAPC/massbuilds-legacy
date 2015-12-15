@@ -1,7 +1,7 @@
 one:
   fields:
     -
-      name: housing_units
+      name: commsf
       from: 12
       to:   1000
   development: one
@@ -11,7 +11,7 @@ one:
 conflict:
   fields:
     -
-      name: housing_units
+      name: commsf
       from: 11
       to:   100
   development: one

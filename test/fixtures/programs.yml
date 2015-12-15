@@ -1,0 +1,21 @@
+forty_b:
+  type: regulatory
+  name: 40B
+  description: >
+    Chapter 40B is a state statute, which enables local Zoning Boards
+    of Appeals to approve affordable housing developments under
+    flexible rules if at least 20-25% of the units have long-term
+    affordability restrictions.
+  url: http://www.mass.gov/hed/community/40b-plan/
+  sort_order: 2
+
+massworks:
+  type: incentive
+  name: MassWorks Infrastructure Program
+  description: >
+    The MassWorks Infrastructure Program provides a one-stop shop for
+    municipalities and other eligible public entities seeking public
+    infrastructure funding to support economic development and
+    job creation.
+  url: http://www.mass.gov/hed/economic/eohed/pro/infrastructure/massworks/
+  sort_order: 1

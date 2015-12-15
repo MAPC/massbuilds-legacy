@@ -8,7 +8,12 @@ class DevelopmentTest < ActiveSupport::TestCase
   alias_method :d, :development
 
   test "valid" do
-    assert d.valid?
+    assert d.valid?, d.errors.full_messages
+  end
+
+  test "requires a creator" do
+    d.creator = nil
+    assert_not d.valid?
   end
 
   test "can read attributes from fields, as methods" do
@@ -55,7 +60,7 @@ class DevelopmentTest < ActiveSupport::TestCase
     # #recent_changes -> presenter
     %i( contributors creator crosswalks edits flags history
         last_edit parcel team_members
-        team_memberships walkscore zoning_tools
+        team_memberships walkscore programs
       ).each do |attribute|
       assert_respond_to d, attribute
     end
@@ -89,21 +94,106 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal last_edit, d.last_edit
   end
 
+  test "#contributors" do
+    user = users :normal
+    d.edits.new(editor: user, state: 'applied').save(validate: false)
+    assert_includes d.contributors, user
+  end
+
+  test "#contributors pulls in unique users" do
+    user = users :tim
+    3.times {
+      d.edits.new(editor: user, state: 'applied').save(validate: false)
+    }
+    d.creator = user
+    assert_equal 1, d.contributors.count, d.contributors
+  end
+
+  test "#contributors does not include unapplied edits" do
+    user = users :tim
+    d.edits.new(editor: user, state: 'pending').save(validate: false)
+    refute_includes d.contributors, user
+  end
+
+  test "#team_members" do
+    org = organizations :mapc
+    d.team_memberships.new(
+      organization: org, role: :developer
+    ).save(validate: false)
+    assert_includes d.team_members, org
+  end
+
+  test "#crosswalks" do
+    org = organizations :mapc
+    d.crosswalks.new(organization: org, internal_id: "1-1")
+    assert_not_empty d.crosswalks
+  end
+
+  test "#programs" do
+    d.programs << programs(:massworks)
+    d.programs << programs(:forty_b)
+    assert_equal 2, d.programs.count
+    assert_equal 1, d.incentive_programs.count
+    assert_equal 1, d.regulatory_programs.count
+  end
+
+  test "#status" do
+    [:projected, :planning, :in_construction, :completed].each do |status|
+      d.status = status
+      assert d.valid?
+    end
+    [:built, :solid, :dead, :stalled].each do |status|
+      d.status = status
+      assert_not d.valid?
+    end
+  end
+
+  test "status predicates" do
+    [:projected?, :planning?, :in_construction?, :completed?].each {|method|
+      assert_respond_to d, method
+    }
+  end
+
+  test "boolean predicates" do
+    [:private?, :rdv?, :mixed_use?, :asofright?, :ovr55?,
+      :clusteros?, :phased?, :stalled?].each do |method|
+        assert_respond_to d, method
+    end
+  end
+
+  test "infer project type" do
+    skip
+  end
+
+  test "apply edit" do
+    d.edits = []
+    d.commsf = 12
+    edit = edits(:one)
+    d.edits << edit
+    assert_equal 12, d.commsf
+    assert_not edit.conflict?, edit.conflict
+    assert_difference 'd.history.count', +1 do
+      edit.apply!
+    end
+    assert_equal 'applied', edit.state
+    assert_equal 1000, d.commsf
+  end
+
+  test "contributors includes creator" do
+    creator = users(:normal)
+    # TODO clear out edits on this development.
+    assert d.creator.present?
+    assert_includes d.contributors, creator
+  end
+
+  test "applied edits result in contributors" do
+    skip
+  end
+
+  test "updates tagline" do
+    d.update_attribute(:tagline, nil)
+    d.save
+    assert_not_nil d.tagline
+  end
+
 end
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

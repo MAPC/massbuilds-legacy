@@ -62,26 +62,6 @@ class EditTest < ActiveSupport::TestCase
     assert_equal 'applied', edit.state
   end
 
-  # TODO Some of these might belong in Development
-  # or there's service objects like Edit::Approval, Edit::Denial
-  test "applying an edit alters the development history" do
-    skip "Not clear on the architecture."
-    # assert applying an edit changes history count by one
-    assert_difference 'development.history.count', +1 do
-      edit.apply!
-    end
-    # and that the first in the history is the last-applied edit
-    assert_equal edit, development.history.first
-    assert_equal :applied, edit.state
-  end
-
-  test "applying an edit without saving doesn't alter the history" do
-    skip "Do we really need this special case?"
-    # TODO some and then
-    assert_equal 'applied_unsaved', edit.state
-    assert_equal 'pending', edit.state
-  end
-
   test "conflicts prevent writing" do
     conflicting_edit = edits :conflict
     assert conflicting_edit.conflict?
@@ -98,19 +78,11 @@ class EditTest < ActiveSupport::TestCase
     assert_equal 'applied', conflicting_edit.state
   end
 
-  # Belongs in Development
-  test "revert to previous version" do
+  test "conflict" do
     skip
-    edit = edits :da39a3
-    development.revert_to edit.ref
-    development.history.first = edit
-    # how is the forward history available?
-    # This is like, branching. Ew.
-    # Maybe we don't go back. Maybe there's only forward.
-    # Maybe we use paper_trail. Maybe maybe maybe
   end
 
-  test "revert to previous version with conflicts" do
-    # unclear
+  test "add attribute (edit from nil)" do
+    skip
   end
 end

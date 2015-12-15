@@ -1,43 +1,7 @@
 .ui.horizontal.divider
 .ui.small.feed
   %h4.ui.header Recent Changes
-  .event
-    .label
-      %img{:src => "http://semantic-ui.com/images/avatar2/small/mark.png"}
-    .content
-      .date 10 minutes ago
-      %a You
-      changed
-      %strong Housing Units
-      from 100 to 200.
-  .event
-    .label
-      %img{:src => "http://semantic-ui.com/images/avatar/small/elliot.jpg"}
-    .content
-      .summary
-        %a Tim R.
-        %a (MAPC)
-        made several edits.
-        .date 2 hours ago
-      %ul
-        %li
-          Changed
-          %strong Housing Units
-          from 10 to 100.
-        %li
-          Set
-          %strong Stalled
-          to true.
-  .event
-    .label
-      %img{:src => "http://semantic-ui.com/images/avatar/small/elliot.jpg"}
-    .content
-      .summary
-        %a Tim R.
-        %a (MAPC)
-        created
-        %strong Godfrey Hotel.
-        .date Today
+  = render partial: 'edits/edit', collection: @development.recent_history, as: :edit
   .event
     .label
       %i.list.icon

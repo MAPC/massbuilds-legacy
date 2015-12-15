@@ -1,16 +1,20 @@
 class Development < ActiveRecord::Base
   extend Enumerize
 
+  before_save :update_tagline
+
+  belongs_to :creator, class_name: :User
+  has_one :walkscore # TODO next
+
   has_many :edits
   has_many :flags
-  # Will this apply the scope to edits, or to contributors?
-  has_many :contributors, through: :edits, class_name: :User#, -> { where(state: 'applied') }
-  has_many :team_memberships, class_name: :DevelopmentTeamMemberships
-  has_many :team_members, through: :team_memberships, class_name: :Organizations
   has_many :crosswalks
-  belongs_to :creator, class_name: :User, foreign_key: :creator_id
-  has_one :walkscore
-  has_and_belongs_to_many :zoning_tools
+  has_many :team_memberships, class_name: :DevelopmentTeamMembership
+  has_many :team_members, through: :team_memberships, source: :organization
+
+  has_and_belongs_to_many :programs
+
+  validates :creator, presence: true
 
   # Break these out and require them in another file.
   @@residential_attributes = %i( affordable affunits gqpop lgmultifam
@@ -19,52 +23,81 @@ class Development < ActiveRecord::Base
     commsf rptdemp emploss estemp fa_edinst fa_hotel fa_indmf fa_ofcmd
     fa_other fa_ret fa_rnd fa_whs othremprat )
 
-  @@miscellaneous_attributes = %i(
-      asofright cancelled clusteros created_at crosswalks desc
-      location mapc_notes onsitepark phased private rdv prjarea
-      project_type project_url updated_at year_compl stalled
-      status total_cost name address )
+  # ovr55
+  @@boolean_attributes = %i( asofright cancelled clusteros phased private rdv stalled )
 
-  @@categorized_attributes = [@@residential_attributes, @@commercial_attributes, @@miscellaneous_attributes].flatten!
+  @@miscellaneous_attributes = %i(
+      created_at desc location mapc_notes onsitepark prjarea
+      project_type project_url updated_at year_compl status total_cost
+      name address tagline )
+
+  @@categorized_attributes = [@@residential_attributes, @@commercial_attributes, @@boolean_attributes, @@miscellaneous_attributes].flatten!
 
   serialize :fields, HashSerializer
   store_accessor :fields, @@categorized_attributes
 
-  def tagline
-    "Luxury hotel with ground floor retail."
-  end
+  STATUSES = [:projected, :planning, :in_construction, :completed]
+  enumerize :status, :in => STATUSES, predicates: true
+
+  alias_attribute :website, :project_url
 
   def mixed_use?
     any_residential_attributes? && any_commercial_attributes?
   end
-  # TODO: Cache this in the database.
+  # TODO: Cache this in the database, to be used for searches.
   alias_method :mixed_use, :mixed_use?
 
   def history
     self.edits.where(state: 'applied').order(applied_at: :desc)
   end
 
+  def contributors
+    _contributors = edits.where(state: 'applied').map(&:editor)
+    _contributors << creator
+    _contributors.uniq
+  end
+
   def last_edit
     history.limit(1).first
   end
 
-  def parcel ; nil ; end
+  def parcel
+    OpenStruct.new(id: 12345)
+  end
+
+  def incentive_programs
+    programs.where type: :incentive
+  end
+
+  def regulatory_programs
+    programs.where type: :regulatory
+  end
+
+  def private?   ; read_attribute(:private) ; end
+  def rdv?       ; rdv       ; end
+  def asofright? ; asofright ; end
+  def ovr55?     ; ovr55     ; end
+  def clusteros? ; clusteros ; end
+  def phased?    ; phased    ; end
+  def stalled?   ; stalled   ; end
 
   alias_attribute :total_housing, :tothu
   alias_attribute :housing_units, :tothu
   alias_attribute :floor_area_commercial, :commsf
 
   private
-    # TODO Remove duplicate logic
+
     def any_residential_attributes?
-      @_any_residential ||= @@residential_attributes.map { |method|
-        self.send(method)
-      }.any?
+      @_any_residential ||= any_attributes(:residential).any?
+    end
+    def any_commercial_attributes?
+      @_any_commercial  ||= any_attributes(:commercial).any?
+    end
+    def any_attributes(type)
+      Development.class_variable_get("@@#{type}_attributes").map {|m| self.send(m)}
     end
 
-    def any_commercial_attributes?
-      @_any_commercial ||= @@commercial_attributes.map { |method|
-        self.send(method)
-      }.any?
+    def update_tagline
+      self.tagline = TaglineGenerator.new(self).perform!
     end
 end

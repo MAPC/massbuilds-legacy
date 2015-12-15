@@ -6,6 +6,8 @@ gem 'rails', '4.2.1'
 
 # Database
 gem 'pg'
+gem 'seed-fu', '~> 2.3'     # Manages fixtures
+gem 'faker', require: false # Fake sample data
 
 # Users
 gem 'bcrypt'
@@ -14,6 +16,11 @@ gem 'devise'
 # Utilities
 gem 'enumerize'
 gem 'geometry'
+
+# Presenters
+gem 'burgundy' # Presenter
+gem 'escape_utils' # speeds up URI Template
+gem 'uri_template'
 
 # Views
 gem 'haml-rails'

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151202230119) do
+ActiveRecord::Schema.define(version: 20151215192904) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -43,11 +43,44 @@ ActiveRecord::Schema.define(version: 20151202230119) do
   add_index "claims", ["development_id"], name: "index_claims_on_development_id", using: :btree
   add_index "claims", ["moderator_id"], name: "index_claims_on_moderator_id", using: :btree
 
+  create_table "crosswalks", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.integer  "development_id"
+    t.string   "internal_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "crosswalks", ["development_id"], name: "index_crosswalks_on_development_id", using: :btree
+  add_index "crosswalks", ["organization_id"], name: "index_crosswalks_on_organization_id", using: :btree
+
+  create_table "development_team_memberships", force: :cascade do |t|
+    t.string   "role"
+    t.integer  "development_id"
+    t.integer  "organization_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
+  end
+
+  add_index "development_team_memberships", ["development_id"], name: "index_development_team_memberships_on_development_id", using: :btree
+  add_index "development_team_memberships", ["organization_id"], name: "index_development_team_memberships_on_organization_id", using: :btree
+
   create_table "developments", force: :cascade do |t|
+    t.integer  "creator_id"
     t.json     "fields"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  add_index "developments", ["creator_id"], name: "index_developments_on_creator_id", using: :btree
+
+  create_table "developments_programs", force: :cascade do |t|
+    t.integer "development_id"
+    t.integer "program_id"
+  end
+
+  add_index "developments_programs", ["development_id"], name: "index_developments_programs_on_development_id", using: :btree
+  add_index "developments_programs", ["program_id"], name: "index_developments_programs_on_program_id", using: :btree
 
   create_table "edits", force: :cascade do |t|
     t.integer  "editor_id"
@@ -101,10 +134,11 @@ ActiveRecord::Schema.define(version: 20151202230119) do
     t.integer  "creator_id"
     t.string   "name"
     t.string   "website"
+    t.string   "url_template"
     t.string   "location"
     t.string   "email"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",   null: false
+    t.datetime "updated_at",   null: false
     t.string   "abbv"
     t.string   "short_name"
   end
@@ -122,6 +156,16 @@ ActiveRecord::Schema.define(version: 20151202230119) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "programs", force: :cascade do |t|
+    t.string   "type"
+    t.string   "name"
+    t.string   "description"
+    t.string   "url"
+    t.integer  "sort_order"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
     t.string   "encrypted_password",     default: "", null: false
@@ -136,6 +180,8 @@ ActiveRecord::Schema.define(version: 20151202230119) do
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "organization_id"
+    t.string   "first_name"
+    t.string   "last_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -155,6 +201,12 @@ ActiveRecord::Schema.define(version: 20151202230119) do
   add_index "verifications", ["verifier_id"], name: "index_verifications_on_verifier_id", using: :btree
 
   add_foreign_key "claims", "developments"
+  add_foreign_key "crosswalks", "developments"
+  add_foreign_key "crosswalks", "organizations"
+  add_foreign_key "development_team_memberships", "developments"
+  add_foreign_key "development_team_memberships", "organizations"
+  add_foreign_key "developments_programs", "developments"
+  add_foreign_key "developments_programs", "programs"
   add_foreign_key "edits", "developments"
   add_foreign_key "flags", "developments"
   add_foreign_key "memberships", "organizations"
