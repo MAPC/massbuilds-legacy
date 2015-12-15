@@ -1,77 +1,78 @@
-class DevelopmentPresenter
+class DevelopmentPresenter < Burgundy::Item
 
-  def initialize(development)
-    assert_presentable_development(development)
-    @development = development
+  # Relationships
+
+  # Everyone who has provided data for this development
+  def contributors
+    %w( mark lena lindsay molly eve ).shuffle
+    # item.contributors.first(5) # TODO Optimize query instead of getting all contributors
   end
 
-  def assert_presentable_development(development)
-    unless development.is_a? Development
-      raise ArgumentError, "#{development} must be a Development."
-    end
+  # Internal IDs for the current_user's organizations. Presented as
+  # a link if the organization has a URL template; plain ID if not.
+  def crosswalk_links
+    # crosswalks_for(current_user)
   end
-=begin
 
-  Presents all of the information for the development/show template.
-  Needs:
-
-  @development
-    .team           => all members of the development team
-    .contributors   => everyone who has edited this development, grouped by role
-                        This may link to a contributors presenter
-                        May include anyone who's moderated edits to this development
-    .related        => three nearby or similar developments
-    .recent_history => last three changes
-    .context        => neighborhood context, ready to be rendered
-    .tagline        => This may be where the tagline is constructed.
-
-  Deals with attribute presentation logic, such as
-    - choosing between actual and reported employment
-    - displaying units and percents
-    - forming the Status & Year field
-
-  May create helper methods to be used to determine whether user
-  can flag, claim, edit, or watch, if it gets confusing in the template.
-
-  Will also need to know whether current_user.watches?(@development)
-
+  # Last several changes, for a feed
   def recent_history
-    @development.history.limit(3)
+    history.limit(3)
   end
 
-  # CODE
-  def status_with_year
-    if status == "Completed"
-      "#{status} (#{complyr})"
-    else
-      "#{status} (est. #{complyr})"
-    end
+  # Nearby or similar developments
+  def related
+    # TODO make nearby / similar, instead of a simple limit
+    DevelopmentPresenter.wrap Development.limit(3)
   end
+
+  # Members of the development team
+  def team
+    team_memberships.order(:role)
+  end
+
+
+  # Attributes
 
   def employment
+    return nil if rptdemp.nil? && estemp.nil?
+    (rptdemp || estemp).to_i
   end
 
-  def crosswalks
-    crosswalks_for(User.null)
+  def status_with_year
+    if completed?
+      "#{status.titleize} (#{year_compl})"
+    else
+      "#{status.titleize} (est. #{year_compl})"
+    end
   end
 
-  def crosswalks_for(user)
-    @development.crosswalks.where(
-      organization IN user.organizations
-    )
+  # Neighborhood context (KnowPlace study)
+  def neighborhood
+    raise NotImplementedError, "We haven't yet implemented neighborhood context."
   end
 
+  # def watches?(current_user)
+  #   current_user.watches?(item)
+  # end
 
-=end
+  # private
+
+  #   def crosswalks_for(user)
+  #     []
+  #   end
+
+  #   # TODO Not sure where to put this logic.
+  #   # Probably back in the model.
+  #   def watches?
+  #     false
+  #   end
 
 end
 
+# Deals with attribute presentation logic, such as
+#   - choosing between actual and reported employment
+#   - displaying units and percents
+#   - forming the Status & Year field
 
-# TODO
-# First, this belongs in a presenter. Add Burgundy
-# (https://github.com/fnando/burgundy) to the Gemfile and create presenters.
-# #crosswalks gets all the organizations in common with both
-# the development and the current_user.
-# development.crosswalks.where(organization_id in user.organization.ids).uniq
-# Then wrap them in a link if the organization has a URL template,
-# or leave them as text if not.
+# May create helper methods to be used to determine whether user
+# can flag, claim, edit, or watch, if it gets confusing in the template.

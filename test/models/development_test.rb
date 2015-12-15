@@ -179,14 +179,21 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal 1000, d.commsf
   end
 
-  test "edits result in contributors" do
+  test "contributors includes creator" do
+    creator = users(:normal)
+    # TODO clear out edits on this development.
+    assert d.creator.present?
+    assert_includes d.contributors, creator
+  end
+
+  test "applied edits result in contributors" do
     skip
   end
 
-  test "contributors includes creator" do
-    creator = users(:normal)
-    assert d.creator.present?
-    assert_includes d.contributors, creator
+  test "updates tagline" do
+    d.update_attribute(:tagline, nil)
+    d.save
+    assert_not_nil d.tagline
   end
 
 end
