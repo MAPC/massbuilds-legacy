@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151211221759) do
+ActiveRecord::Schema.define(version: 20151215205923) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -81,6 +81,16 @@ ActiveRecord::Schema.define(version: 20151211221759) do
 
   add_index "developments_programs", ["development_id"], name: "index_developments_programs_on_development_id", using: :btree
   add_index "developments_programs", ["program_id"], name: "index_developments_programs_on_program_id", using: :btree
+
+  create_table "edit_fields", force: :cascade do |t|
+    t.integer  "edit_id"
+    t.string   "name"
+    t.json     "change"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "edit_fields", ["edit_id"], name: "index_edit_fields_on_edit_id", using: :btree
 
   create_table "edits", force: :cascade do |t|
     t.integer  "editor_id"
@@ -205,6 +215,7 @@ ActiveRecord::Schema.define(version: 20151211221759) do
   add_foreign_key "development_team_memberships", "organizations"
   add_foreign_key "developments_programs", "developments"
   add_foreign_key "developments_programs", "programs"
+  add_foreign_key "edit_fields", "edits"
   add_foreign_key "edits", "developments"
   add_foreign_key "flags", "developments"
   add_foreign_key "memberships", "organizations"

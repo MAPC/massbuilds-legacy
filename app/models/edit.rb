@@ -1,6 +1,8 @@
 class Edit < ActiveRecord::Base
   extend Enumerize
 
+  has_many :fields, class_name: :EditField
+
   belongs_to :editor,    class_name: :User
   belongs_to :moderator, class_name: :User
   belongs_to :development
@@ -11,7 +13,7 @@ class Edit < ActiveRecord::Base
 
   enumerize :state, in: [:pending, :applied], default: :pending, predicates: true
 
-  serialize :fields, CollectionSerializer
+  default_scope { includes(:fields) }
 
   # Alter self.development with contents, and optionally save.
   def apply!(options={})
@@ -26,11 +28,7 @@ class Edit < ActiveRecord::Base
   end
 
   def apply(options={})
-    if development.fields.merge!(assignable_fields)
-      applied
-    else
-      false
-    end
+    applied if development.fields.merge!(assignable_attributes)
   end
 
   def applied
@@ -38,16 +36,15 @@ class Edit < ActiveRecord::Base
     self.state = :applied
   end
 
+  # The edit can be applied if it's not applied and there's no conflict.
   def applyable?
-    # Applyable if it's not applied and there's no conflict.
     if applied? || conflict?
       false
     else
       true
     end
   rescue StandardError => e
-    puts " APPLYABLE ERROR "
-    puts e.inspect
+    puts "APPLYABLE ERROR: #{e.inspect}"
     false
   end
 
@@ -55,44 +52,34 @@ class Edit < ActiveRecord::Base
     !applyable?
   end
 
-  # "From" values in the edit are different
-  # from the current values of the development
-  # attributes. This doesn't necessarily invalidate
-  # the entire edit, but needs to be taken into
-  # account.
-  def conflict?
-    conflict.any?
-  end
-
+  # Edit's "from" values which are different from the development's
+  # current values
   def conflict
     from_values.select{ |d,e| d != e }
   end
 
+  def conflict?
+    conflict.any?
+  end
+
   # Returns a hash that can be used in assign_attributes
-    # or update_attributes.
-  def assignable_fields
-    names     = fields.map{|f| f.fetch "name" }
-    to_values = fields.map{|f| f.fetch "to" }
-    Hash[names.zip(to_values)] #=> [{"commsf" => 1000}]
+  # or update_attributes.
+  def assignable_attributes
+    names, to_values = fields.pluck(:name), fields.map(&:to)
+    Hash[names.zip(to_values)]
   end
 
   private
-    # Returns pairs of "from" values, from development and edit,
-    # in that order. All values are strings.
-    # TODO: May want to make each edited field its own model,
-    # to better enforce the schema.
+
+    # Return the development's current value, paired with
+    # the edit's 'from' value, partly to see if there's a conflict.
     def from_values
-      d_attrs = development.fields
-      self.fields.map{ |field|
-        name = field.fetch('name').to_s
-        edit_from  = field.fetch('from')
-        devel_from = d_attrs.fetch( name )
-        [ devel_from, edit_from ]
+      fields.map { |field|
+        [ development.send( field.name ), field.from ]
       }
     end
 
-
-
+    # If there's a conflict, and we aren't explicitly ignoring it.
     def unignored_conflict?(options={})
       ignore_conflict = options.fetch(:ignore_conflict, false)
       do_not_ignore_conflict = !ignore_conflict

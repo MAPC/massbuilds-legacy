@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  edit: one
+  name: commsf
+  change:
+    from: 12
+    to: 1000
+
+two:
+  edit: conflict
+  name: commsf
+  change:
+    from: 11
+    to:  100

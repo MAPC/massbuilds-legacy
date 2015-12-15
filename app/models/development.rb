@@ -33,6 +33,10 @@ class Development < ActiveRecord::Base
 
   @@categorized_attributes = [@@residential_attributes, @@commercial_attributes, @@boolean_attributes, @@miscellaneous_attributes].flatten!
 
+  def self.categorized_attributes
+    @@categorized_attributes
+  end
+
   serialize :fields, HashSerializer
   store_accessor :fields, @@categorized_attributes
 

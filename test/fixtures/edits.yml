@@ -1,18 +1,12 @@
 one:
   fields:
-    -
-      name: commsf
-      from: 12
-      to:   1000
+    - one
   development: one
   editor: normal
   state:  pending
 
 conflict:
   fields:
-    -
-      name: commsf
-      from: 11
-      to:   100
+    - two
   development: one
   editor: normal
