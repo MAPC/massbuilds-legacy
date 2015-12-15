@@ -71,7 +71,16 @@ class PlaceProfileTest < ActiveSupport::TestCase
     profile.x = profile.y = 0
     profile.radius = 1
     profile.save
-    assert_equal geojson, profile.polygon
+    assert_equal geojson['type'], profile.polygon['type']
+
+    # See if the coordinates are within a ridiculously small
+    # tolerance. Testing equality results in very slightly
+    # different rounding on the continuous integration platform.
+    geo_coords  = geojson['coordinates'].flatten
+    poly_coords = profile.polygon['coordinates'].flatten
+    geo_coords.each_with_index {|coord, i|
+      assert_in_delta coord, poly_coords[i], 0.00000000000001
+    }
   end
 
   test "gets information from KnowPlace" do
