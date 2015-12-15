@@ -1,0 +1,13 @@
+language: ruby
+sudo: false
+rvm:
+  - 2.1.5
+before_script:
+  - psql -c 'create database travis_ci_test;' -U postgres
+  - cp config/database.yml.travis config/database.yml
+  - bundle exec rake db:create db:schema:load db:migrate
+cache: bundler
+addons:
+  postgresql: '9.3'
+  code_climate:
+    repo_token: ebd431336a17c38b101c377f4300158ce02a4a6588502935120f25eb162a4d70
