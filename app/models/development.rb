@@ -29,7 +29,7 @@ class Development < ActiveRecord::Base
   @@miscellaneous_attributes = %i(
       created_at desc location mapc_notes onsitepark prjarea
       project_type project_url updated_at year_compl status total_cost
-      name address tagline )
+      name tagline address city state zip_code )
 
   @@categorized_attributes = [@@residential_attributes, @@commercial_attributes, @@boolean_attributes, @@miscellaneous_attributes].flatten!
 

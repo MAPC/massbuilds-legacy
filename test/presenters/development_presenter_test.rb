@@ -80,4 +80,14 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
     assert_respond_to pres, :tagline
   end
 
+  test "address" do
+    expected = "505 Washington Street, Boston MA 02111"
+    assert_equal expected, pres.address
+  end
+
+  test "short address" do
+    expected = "505 Washington Street, Boston"
+    assert_equal expected, pres.address(short: true)
+  end
+
 end

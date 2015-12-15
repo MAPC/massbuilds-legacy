@@ -34,6 +34,11 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Attributes
 
+  def address(options={})
+    return short_address if options[:short]
+    long_address
+  end
+
   def employment
     return nil if rptdemp.nil? && estemp.nil?
     (rptdemp || estemp).to_i
@@ -56,7 +61,15 @@ class DevelopmentPresenter < Burgundy::Item
   #   current_user.watches?(item)
   # end
 
-  # private
+  private
+
+    def long_address
+      "#{item.address}, #{item.city} #{item.state} #{item.zip_code}"
+    end
+
+    def short_address
+      "#{item.address}, #{item.city}"
+    end
 
   #   def crosswalks_for(user)
   #     []
