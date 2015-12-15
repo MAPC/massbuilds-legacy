@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :organizations, through: :memberships
 
+  validates_presence_of :first_name, :last_name
+
   # TODO Replace using Naught
   def self.null
     @null ||= new(email: "<Null User>")
