@@ -74,12 +74,12 @@ class Development < ActiveRecord::Base
   end
 
   def private?   ; read_attribute(:private) ; end
-  def rdv?       ; rdv ;       end
+  def rdv?       ; rdv       ; end
   def asofright? ; asofright ; end
-  def ovr55?     ; ovr55 ;     end
+  def ovr55?     ; ovr55     ; end
   def clusteros? ; clusteros ; end
-  def phased?    ; phased ;    end
-  def stalled?   ; stalled ;   end
+  def phased?    ; phased    ; end
+  def stalled?   ; stalled   ; end
 
   alias_attribute :total_housing, :tothu
   alias_attribute :housing_units, :tothu

@@ -4,6 +4,7 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Everyone who has provided data for this development
   def contributors
+    # TODO Wrap contributors in ContributorPresenter
     %w( mark lena lindsay molly eve ).shuffle
     # item.contributors.first(5) # TODO Optimize query instead of getting all contributors
   end
@@ -27,7 +28,7 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Members of the development team
   def team
-    team_memberships.order(:role)
+    team_memberships.order(:role).group_by(&:role)
   end
 
 
@@ -69,10 +70,6 @@ class DevelopmentPresenter < Burgundy::Item
 
 end
 
-# Deals with attribute presentation logic, such as
-#   - choosing between actual and reported employment
-#   - displaying units and percents
-#   - forming the Status & Year field
-
+# TODO displaying units and percents on numeric data
 # May create helper methods to be used to determine whether user
 # can flag, claim, edit, or watch, if it gets confusing in the template.

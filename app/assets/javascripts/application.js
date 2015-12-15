@@ -15,3 +15,8 @@
 //= require turbolinks
 //= require semantic_ui/semantic_ui
 //= require_tree .
+
+$(document).ready(function(){
+  $('.ui.dropdown').dropdown();
+  $('img.contributor').popup();
+});
