@@ -2,7 +2,18 @@
 
 %h4.ui.header Contributors
 
-= render partial: 'users/contributor', collection: @development.contributors
+= render partial: 'users/contributor', collection: @development.contributors.first(5)
 
-%a See all
+%a.launch.modal See all
 %br
+
+%div.ui.modal
+  %div.header
+    All Contributors
+  %div.content
+    %p
+      .ui.celled.list
+        = render partial: 'developments/development/contributors_list', collection: @development.contributors, as: :contributor
+  %div.actions
+    %div.ui.cancel.button
+      Exit

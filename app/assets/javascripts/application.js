@@ -19,4 +19,6 @@
 $(document).ready(function(){
   $('.ui.dropdown').dropdown();
   $('img.contributor').popup();
+  $('.ui.modal').modal('attach events', '.launch.modal', 'show');
 });
+

@@ -14,4 +14,9 @@ class User < ActiveRecord::Base
     @null ||= new(email: "<Null User>")
   end
 
+  def avatar
+    user = %w(mark lena lindsay molly eve).sample
+    "http://semantic-ui.com/images/avatar2/small/#{user}.png"
+  end
+
 end

@@ -5,7 +5,6 @@ class DevelopmentPresenter < Burgundy::Item
   # Everyone who has provided data for this development
   def contributors
     # TODO Wrap contributors in ContributorPresenter
-    # %w( mark lena lindsay molly eve ).shuffle
     ContributorPresenter.wrap item.contributors.shuffle
     # item.contributors.first(5) # TODO Optimize query instead of getting all contributors
   end
