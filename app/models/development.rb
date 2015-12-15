@@ -1,6 +1,8 @@
 class Development < ActiveRecord::Base
   extend Enumerize
 
+  before_save :update_tagline
+
   belongs_to :creator, class_name: :User
   has_one :walkscore # TODO next
 
@@ -27,50 +29,41 @@ class Development < ActiveRecord::Base
   @@miscellaneous_attributes = %i(
       created_at desc location mapc_notes onsitepark prjarea
       project_type project_url updated_at year_compl status total_cost
-      name address )
+      name address tagline )
 
   @@categorized_attributes = [@@residential_attributes, @@commercial_attributes, @@boolean_attributes, @@miscellaneous_attributes].flatten!
 
   serialize :fields, HashSerializer
   store_accessor :fields, @@categorized_attributes
+
   STATUSES = [:projected, :planning, :in_construction, :completed]
   enumerize :status, :in => STATUSES, predicates: true
 
   alias_attribute :website, :project_url
 
-  def tagline
-    "Luxury hotel with ground floor retail."
-  end
-
   def mixed_use?
     any_residential_attributes? && any_commercial_attributes?
   end
-  # TODO: Cache this in the database.
+  # TODO: Cache this in the database, to be used for searches.
   alias_method :mixed_use, :mixed_use?
-
-  # TODO Move to presenter
-  def related
-    Development.limit(3)
-  end
-
-  # TODO Move to presenter
-  def team
-    self.team_memberships.order(:role)
-  end
-
-  def contributors
-    edits.where(state: 'applied').map(&:editor).uniq
-  end
 
   def history
     self.edits.where(state: 'applied').order(applied_at: :desc)
+  end
+
+  def contributors
+    _contributors = edits.where(state: 'applied').map(&:editor)
+    _contributors << creator
+    _contributors.uniq
   end
 
   def last_edit
     history.limit(1).first
   end
 
-  def parcel ; nil ; end
+  def parcel
+    OpenStruct.new(id: 12345)
+  end
 
   def incentive_programs
     programs.where type: :incentive
@@ -81,12 +74,12 @@ class Development < ActiveRecord::Base
   end
 
   def private?   ; read_attribute(:private) ; end
-  def rdv?       ; rdv ;       end
+  def rdv?       ; rdv       ; end
   def asofright? ; asofright ; end
-  def ovr55?     ; ovr55 ;     end
+  def ovr55?     ; ovr55     ; end
   def clusteros? ; clusteros ; end
-  def phased?    ; phased ;    end
-  def stalled?   ; stalled ;   end
+  def phased?    ; phased    ; end
+  def stalled?   ; stalled   ; end
 
   alias_attribute :total_housing, :tothu
   alias_attribute :housing_units, :tothu
@@ -102,5 +95,9 @@ class Development < ActiveRecord::Base
     end
     def any_attributes(type)
       Development.class_variable_get("@@#{type}_attributes").map {|m| self.send(m)}
+    end
+
+    def update_tagline
+      self.tagline = TaglineGenerator.new(self).perform!
     end
 end

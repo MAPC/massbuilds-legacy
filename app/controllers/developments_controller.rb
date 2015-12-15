@@ -4,6 +4,6 @@ class DevelopmentsController < ApplicationController
   end
 
   def show
-    @development = Development.find params[:id]
+    @development = DevelopmentPresenter.new( Development.find(params[:id]) )
   end
 end
