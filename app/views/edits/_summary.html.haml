@@ -1,0 +1,7 @@
+.summary
+  = link_to edit.editor.short_name, 'edit.editor'
+  %a (MAPC)
+  made several edits.
+  .date= edit.time_ago
+%ul
+  = render partial: 'changes/change', collection: edit.changes
