@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20151215292904) do
     t.integer  "claimant_id"
     t.integer  "development_id"
     t.integer  "moderator_id"
+    t.string   "role"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
     t.string   "reason"

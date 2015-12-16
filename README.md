@@ -1,6 +1,7 @@
 # Development Database
 _(Name may change)_
 
+[![Build Status](https://travis-ci.org/MAPC/developmentdatabase.svg?branch=develop)](https://travis-ci.org/MAPC/developmentdatabase)
 [![Code Climate](https://codeclimate.com/github/MAPC/developmentdatabase/badges/gpa.svg)](https://codeclimate.com/github/MAPC/developmentdatabase)
 [![Test Coverage](https://codeclimate.com/github/MAPC/developmentdatabase/badges/coverage.svg)](https://codeclimate.com/github/MAPC/developmentdatabase/coverage)
 [![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MAPC/developmentdatabase?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)

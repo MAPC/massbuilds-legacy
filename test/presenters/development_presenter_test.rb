@@ -21,6 +21,10 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
     assert_respond_to pres, :related
   end
 
+  test "#neighborhood not yet implemented" do
+    assert_raises(NotImplementedError) { pres.neighborhood }
+  end
+
   test "related developments are also wrapped" do
     pres.related.each do |development|
       assert_respond_to development, :recent_history

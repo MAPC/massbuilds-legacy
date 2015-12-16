@@ -17,6 +17,7 @@ namespace :db do
       name: "Metropolitan Area Planning Council",
       short_name: "MAPC",
       abbv: "MAPC",
+      location: 'Boston, MA',
       website: 'http://mapc.org',
       creator: user
     )
@@ -43,23 +44,24 @@ namespace :db do
     edit1 = Edit.create(
       development: development,
       editor: user,
-      fields: {name: 'commsf', from: '12', to: '1000'}
+      fields: [EditField.create(name: 'commsf', change: {from: '12', to: '1000'})]
     )
     edit2 = Edit.create(
       development: development,
       editor: user2,
-      fields: {name: 'prjarea', from: '0', to: '10'}
+      fields: [EditField.create(name: 'prjarea', change: {from: '0', to: '10'})]
     )
     edit3 = Edit.create(
       development: development,
-      editor: user1,
-      fields: {name: 'commsf', from: '1000', to: '9001'}
+      editor: user,
+      fields: [EditField.create(name: 'commsf', change: {from: '1000', to: '9001'})]
     )
 
 
     # 7.times { create_user }
     # 6.times { create_development }
     # 3.times { create_organization }
+    puts "----> Added sample data."
   end
 end
 

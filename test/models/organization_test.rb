@@ -78,9 +78,17 @@ class OrganizationTest < ActiveSupport::TestCase
     """
   end
 
-  test "can have many members" do
-    assert org.members << users(:normal)
-    assert org.members << users(:moderator)
+  test "can have many members through memberships" do
+    org.memberships.create user: users(:normal)
+    org.memberships.create user: users(:moderator)
+    assert_not_empty org.members
+  end
+
+  test "#active_members" do
+    org.memberships.create user: users(:normal)
+    org.memberships.create user: users(:moderator), state: :active
+    assert_equal 1, org.active_members.count
+    assert_equal users(:moderator), org.active_members.first
   end
 
   test "members can belong to many organizations" do

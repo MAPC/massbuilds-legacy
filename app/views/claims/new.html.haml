@@ -1,7 +1,10 @@
-%h3 Claims #{@claim.development.name}
+%h3 Claiming #{@claim.development.name}
 
 %p Are you the owner of this project, or otherwise on the development team?
 
 = form_for @claim, url: development_claims_path do |f|
+
+  = f.label :role
+  = f.select :role, Claim.role.options
   = link_to "Cancel", @claim.development
   = f.submit "Claim #{@claim.development.name}"

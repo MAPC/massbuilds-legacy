@@ -79,15 +79,14 @@ class BroadcastTest < ActiveSupport::TestCase
     assert_difference 'ActionMailer::Base.deliveries.size', +1 do
       broadcast.deliver!
     end
-    assert_equal :delivered, broadcast.state
+    assert_equal 'delivered', broadcast.state
   end
 
-  test "schedule" do
-    skip "No background job queue to speak on"
-    assert_no_difference 'BackgroundJob.queue.count', 'Should not add to queue' do
-      broadcast.schedule!
-    end
-    assert_equal :scheduled, broadcast.state
+  test "#schedule!" do
+    # TODO assert_no_difference in the background job queue count
+    broadcast.scheduled_for = 10.days.from_now
+    broadcast.schedule!
+    assert_equal 'scheduled', broadcast.state
   end
 
   test "can't reschedule a delivered message" do

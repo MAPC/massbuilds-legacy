@@ -19,7 +19,7 @@ class Broadcast < ActiveRecord::Base
 
   # This is 'notifying'.
   def scheduled
-    state = :scheduled
+    self.state = :scheduled
   end
 
   def deliver!
@@ -32,7 +32,7 @@ class Broadcast < ActiveRecord::Base
   end
 
   def delivered
-    state = :delivered
+    self.state = :delivered
   end
 
   def schedulable?

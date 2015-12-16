@@ -17,7 +17,11 @@ class ClaimTest < ActiveSupport::TestCase
   end
 
   def claim
-    @claim ||= Claim.new(development: development, claimant: claimant)
+    @claim ||= Claim.new(
+      development: development,
+      claimant: claimant,
+      role: :developer
+    )
   end
   alias_method :c, :claim
 
@@ -77,8 +81,27 @@ class ClaimTest < ActiveSupport::TestCase
     assert_raises(StandardError) { mc.deny! }
   end
 
-  test "requires a moderator" do
-    assert_raises(StandardError) { claim.approve!(moderator: nil) }
+  test "approval requires a moderator" do
+    assert_raises(ArgumentError) { claim.approve!(moderator: nil) }
+    assert_raises(ArgumentError) { claim.approve!(blerg: :blarg) }
+  end
+
+  test "requires a role" do
+    claim.role = ' '
+    assert_not claim.valid?
+    claim.role = nil
+    assert_not claim.valid?
+  end
+
+  test "requires a valid role" do
+    [:developer, :owner].each do |role|
+      claim.role = role
+      assert claim.valid?
+    end
+    [:blerg, :blarg].each do |role|
+      claim.role = role
+      assert_not claim.valid?
+    end
   end
 
   # Needing so many collaboratiors suggests the need for

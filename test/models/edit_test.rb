@@ -89,4 +89,13 @@ class EditTest < ActiveSupport::TestCase
   test "add attribute (edit from nil)" do
     skip
   end
+
+  test "#applyable" do
+    assert edit.applyable?
+  end
+
+  test "#not_applyable" do
+    edit.state = :applied
+    assert edit.not_applyable?
+  end
 end

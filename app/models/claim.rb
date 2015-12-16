@@ -7,12 +7,12 @@ class Claim < ActiveRecord::Base
 
   validates :development, presence: true
   validates :claimant,    presence: true
+  validates :role,        presence: true
 
   enumerize :state, in: [:pending, :approved, :denied],
     default: :pending, predicates: true
 
-  # TODO: enumerize the role they're claiming, on the development team.
-  # For now: :developer, :architect, :engineer, :contractor, :designer
+  enumerize :role, :in => DevelopmentTeamMembership::ROLES
 
   def approve!(options={})
     if approve(options)

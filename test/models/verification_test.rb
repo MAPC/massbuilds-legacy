@@ -58,4 +58,15 @@ class VerificationTest < ActiveSupport::TestCase
     v.rejected
     assert_equal 'rejected', v.state
   end
+
+  test "#open" do
+    assert v.open?
+  end
+
+  test "#closed" do
+    v.state = :verified
+    assert v.closed?
+    v.state = :rejected
+    assert v.closed?
+  end
 end

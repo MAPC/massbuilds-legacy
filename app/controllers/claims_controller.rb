@@ -7,7 +7,7 @@ class ClaimsController < ApplicationController
   end
 
   def create
-    @claim = Claim.new
+    @claim = Claim.new new_claim_params
     @claim.assign_attributes(development: @development, claimant: current_user)
     if @claim.save
       flash[:success] = CLAIM_CREATED
@@ -26,6 +26,10 @@ class ClaimsController < ApplicationController
 
     def load_parent
       @development = Development.find params[:development_id]
+    end
+
+    def new_claim_params
+      params.require(:claim).permit(:role)
     end
 
     CLAIM_CREATED = """
