@@ -1,11 +1,17 @@
 normal:
   email: mcloyd@mapc.org
   encrypted_password: <%= BCrypt::Password.create("password", cost: 1) %>
+  first_name: Matt
+  last_name: Cloyd
 
 moderator:
   email: planner@boston.ma
   encrypted_password: <%= BCrypt::Password.create("secretplans", cost: 1) %>
+  first_name: Ken
+  last_name: Reardon
 
 tim:
   email: tim@mapc.ma
   encrypted_password: <%= BCrypt::Password.create("administrator", cost: 1) %>
+  first_name: Tim
+  last_name: Reardon

@@ -3,10 +3,14 @@ class DevelopmentPresenter < Burgundy::Item
   # Relationships
 
   # Everyone who has provided data for this development
-  def contributors
+  def preview_contributors
     # TODO Wrap contributors in ContributorPresenter
-    %w( mark lena lindsay molly eve ).shuffle
+    ContributorPresenter.wrap item.contributors.first(5).shuffle
     # item.contributors.first(5) # TODO Optimize query instead of getting all contributors
+  end
+
+  def contributors
+    ContributorPresenter.wrap item.contributors.sort_by(&:last_name)
   end
 
   # Internal IDs for the current_user's organizations. Presented as
