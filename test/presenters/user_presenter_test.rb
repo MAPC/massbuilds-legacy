@@ -23,10 +23,10 @@ class UserPresenterTest < ActiveSupport::TestCase
   end
   
   test "gravatar id" do
-    assert_equal '4b258e95d8f90023e4499a077ec4ab83', pres.gravatar_id
+    assert_equal '72dedd9e525e529e37b724e8aba4997f', pres.gravatar_id
   end
 
   test "gravatar url" do
-    assert_equal 'https://secure.gravatar.com/avatar/4b258e95d8f90023e4499a077ec4ab83', pres.gravatar_url
+    assert_equal 'https://secure.gravatar.com/avatar/72dedd9e525e529e37b724e8aba4997f', pres.gravatar_url
   end
 end
