@@ -15,3 +15,9 @@ tim:
   encrypted_password: <%= BCrypt::Password.create("administrator", cost: 1) %>
   first_name: Tim
   last_name: Reardon
+
+lower_case:
+  email: bhooks@berea.edu
+  encrypted_password: <%= BCrypt::Password.create("profinresidence", cost: 1) %>
+  first_name: bell
+  last_name:  hooks
