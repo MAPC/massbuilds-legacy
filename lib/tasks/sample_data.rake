@@ -3,8 +3,8 @@ namespace :db do
   task sample: :environment do
     require 'faker'
 
-    user  = User.create(email: "mcloyd@mapc.org",   password: "password")
-    user2 = User.create(email: "mgardner@mapc.org", password: "drowssap")
+    user  = User.create(email: "mcloyd@mapc.org",   password: "password", first_name: "Matt", last_name: "Cloyd")
+    user2 = User.create(email: "mgardner@mapc.org", password: "drowssap", first_name: "Matt", last_name: "Gardner")
     development = Development.create(
       name: "Godfrey Hotel",
       address: "501 Washington Street, Boston MA 02111",

@@ -22,4 +22,11 @@ class ContributorPresenterTest < ActiveSupport::TestCase
     assert_equal 'bell hooks', pres.full_name
   end
 
+  test "gravatar id" do
+    assert_equal '4b258e95d8f90023e4499a077ec4ab83', pres.gravatar_id
+  end
+
+  test "gravatar url" do
+    assert_equal 'https://secure.gravatar.com/avatar/4b258e95d8f90023e4499a077ec4ab83', pres.gravatar_url
+  end
 end
