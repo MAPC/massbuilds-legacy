@@ -4,13 +4,11 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Everyone who has provided data for this development
   def preview_contributors
-    # TODO Wrap contributors in ContributorPresenter
-    ContributorPresenter.wrap item.contributors.first(5).shuffle
-    # item.contributors.first(5) # TODO Optimize query instead of getting all contributors
+    UserPresenter.wrap item.contributors.first(5).shuffle
   end
 
   def contributors
-    ContributorPresenter.wrap item.contributors.sort_by(&:last_name)
+    UserPresenter.wrap item.contributors.sort_by(&:last_name)
   end
 
   # Internal IDs for the current_user's organizations. Presented as
@@ -21,7 +19,7 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Last several changes, for a feed
   def recent_history
-    history.limit(3)
+    EditPresenter.wrap history.limit(3)
   end
 
   # Nearby or similar developments

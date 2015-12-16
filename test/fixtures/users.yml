@@ -17,7 +17,7 @@ tim:
   last_name: Reardon
 
 lower_case:
-  email: bhooks@berea.edu
-  encrypted_password: <%= BCrypt::Password.create("profinresidence", cost: 1) %>
-  first_name: bell
-  last_name:  hooks
+  email: mgardner@mapc.org
+  encrypted_password: <%= BCrypt::Password.create("drowssap", cost: 1) %>
+  first_name: matt
+  last_name:  gardner

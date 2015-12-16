@@ -1,4 +1,4 @@
-class ContributorPresenter < Burgundy::Item
+class UserPresenter < Burgundy::Item
   def first_name
     item.first_name.titleize
   end
