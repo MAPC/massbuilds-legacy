@@ -16,6 +16,7 @@ gem 'devise'
 # Utilities
 gem 'enumerize'
 gem 'geometry'
+gem 'wannabe_bool', '0.3.0'
 
 # Presenters
 gem 'burgundy' # Presenter
