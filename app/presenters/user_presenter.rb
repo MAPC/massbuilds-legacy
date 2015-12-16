@@ -16,7 +16,7 @@ class UserPresenter < Burgundy::Item
   end
 
   def gravatar_id
-    Digest::MD5::hexdigest(item.email.downcase)
+    Digest::MD5::hexdigest(email.downcase)
   end
 
   def gravatar_url
