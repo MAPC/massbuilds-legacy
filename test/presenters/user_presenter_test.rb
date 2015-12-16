@@ -22,4 +22,12 @@ class UserPresenterTest < ActiveSupport::TestCase
     assert_equal 'Matt Gardner', pres.full_name
   end
 
+  test "gravatar id" do
+    assert_equal '72dedd9e525e529e37b724e8aba4997f', pres.gravatar_id
+  end
+
+  test "gravatar url" do
+    expected = 'https://secure.gravatar.com/avatar/72dedd9e525e529e37b724e8aba4997f'
+    assert_equal expected, pres.gravatar_url
+  end
 end

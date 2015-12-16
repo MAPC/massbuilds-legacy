@@ -15,6 +15,7 @@ namespace :db do
       first_name: "Matt",
       last_name:  "Gardner"
     )
+
     development = Development.create(
       name: "Godfrey Hotel",
       address: "501 Washington Street, Boston MA 02111",
