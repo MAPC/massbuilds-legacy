@@ -20,6 +20,6 @@ class UserPresenter < Burgundy::Item
   end
 
   def gravatar_url
-    "https://secure.gravatar.com/avatar/#{gravatar_id}"
+    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{gravatar_id}"
   end
 end
