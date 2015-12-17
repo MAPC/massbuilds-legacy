@@ -1,0 +1,22 @@
+= edit.editor.short_name
+-# TODO Present this the same way we present a change in the feed.
+- edit.fields.each do |field|
+  changed
+  = field.name
+  from
+  = "\"#{field.from}\""
+  to
+  = "\"#{field.to}\""
+
+%br
+%br
+
+= link_to decline_development_edit_path(@development, edit), method: :post do
+  .ui.basic.red.button
+    %i.remove.icon
+    Decline
+
+= link_to approve_development_edit_path(@development, edit), method: :post do
+  .ui.basic.green.button
+    %i.checkmark.icon
+    Approve

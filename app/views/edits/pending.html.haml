@@ -1,0 +1,9 @@
+#main.ui.main.grid.container
+  .row
+    .ten.wide.column#title-area
+      %h1.ui.header
+        Proposed changes to
+        = link_to @development.name, @development
+  .row
+    .twelve.wide.column#pending-edits
+      = render partial: 'pending', collection: @development.pending_edits, as: :edit

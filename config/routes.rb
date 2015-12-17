@@ -4,6 +4,11 @@ Rails.application.routes.draw do
     resources :claims, only: [:new, :create]
     # resources :edits,  only: [:new, :create]
     resources :flags,  only: [:new, :create]
+    resources :edits, only: [:index, :show] do
+      post :approve, on: :member
+      post :decline, on: :member
+      get  :pending, on: :collection
+    end
   end
 
   devise_for :users
