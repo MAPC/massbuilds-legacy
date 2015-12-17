@@ -2,10 +2,9 @@
 
 %h4.ui.header Contributors
 
-= render partial: 'users/contributor', collection: @development.preview_contributors
-
-%a.launch.modal See all
-%br
+.middle.aligned.content
+  = render partial: 'users/contributor', collection: @development.preview_contributors
+  %a.launch.modal See all
 
 .ui.modal
   %i.close.icon
