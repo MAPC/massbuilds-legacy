@@ -7,13 +7,10 @@
 %a.launch.modal See all
 %br
 
-%div.ui.modal
-  %div.header
+.ui.modal
+  %i.close.icon
+  .header
     All Contributors
-  %div.content
-    %p
-      .ui.celled.list
-        = render partial: 'developments/development/contributors_list', collection: @development.contributors, as: :contributor
-  %div.actions
-    %div.ui.cancel.button
-      Exit
+  .content
+    .ui.middle.aligned.relaxed.selection.list
+      = render partial: 'users/contributor_item', collection: @development.contributors, as: :contributor
