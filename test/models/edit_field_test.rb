@@ -53,4 +53,21 @@ class EditFieldTest < ActiveSupport::TestCase
   test "#to" do
     assert_equal 1000, field.to
   end
+
+  test "#development" do
+    assert_respond_to field, :development
+  end
+
+  test "#conflict" do
+    assert_nil field.conflict
+    field.development.commsf = 13
+    expected = {current: 13, from: 12}
+    assert_equal expected, field.conflict
+  end
+
+  test "#conflict?" do
+    refute field.conflict?
+    field.development.commsf = 13
+    assert field.conflict?
+  end
 end

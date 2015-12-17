@@ -54,19 +54,14 @@ class Edit < ActiveRecord::Base
     else
       true
     end
-  rescue StandardError => e
-    puts "APPLYABLE ERROR: #{e.inspect}"
-    false
   end
 
   def not_applyable?
     !applyable?
   end
 
-  # Edit's "from" values which are different from the development's
-  # current values
   def conflict
-    from_values.select{ |d,e| d != e }
+    fields.map(&:conflict).compact
   end
 
   def conflict?
@@ -81,14 +76,6 @@ class Edit < ActiveRecord::Base
   end
 
   private
-
-    # Return the development's current value, paired with
-    # the edit's 'from' value, partly to see if there's a conflict.
-    def from_values
-      fields.map { |field|
-        [ development.send( field.name ), field.from ]
-      }
-    end
 
     # If there's a conflict, and we aren't explicitly ignoring it.
     def unignored_conflict?(options={})
