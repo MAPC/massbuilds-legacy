@@ -18,7 +18,6 @@ class PendingEditsTest < Capybara::Rails::TestCase
 
   test "approve edit" do
     click_link 'Approve'
-    save_and_open_page
     assert_content 'approved'
     refute_content 'Approve'
     refute_content 'Decline'
@@ -27,7 +26,6 @@ class PendingEditsTest < Capybara::Rails::TestCase
 
   test "decline edit" do
     click_link 'Decline'
-    save_and_open_page
     assert_content 'declined'
     refute_content 'Approve'
     refute_content 'Decline'
