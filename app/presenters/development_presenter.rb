@@ -25,6 +25,7 @@ class DevelopmentPresenter < Burgundy::Item
   def pending_edits
     EditPresenter.wrap item.pending_edits
   end
+  alias_method :pending, :pending_edits
 
   # Nearby or similar developments
   def related

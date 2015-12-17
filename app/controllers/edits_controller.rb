@@ -8,14 +8,16 @@ class EditsController < ApplicationController
 
   def approve
     @edit.approved
-    redirect_to :pending_development_edits, success: claim_approved
+    flash[:partial] = partial_object(:approved)
+    redirect_to :pending_development_edits
   rescue
     default_rescue_action
   end
 
   def decline
     @edit.declined
-    redirect_to :pending_development_edits, success: claim_declined
+    flash[:partial] = partial_object(:declined)
+    redirect_to :pending_development_edits
   rescue
     default_rescue_action
   end
@@ -33,19 +35,22 @@ class EditsController < ApplicationController
     end
 
     def default_rescue_action
-      redirect_to :pending_development_edits, danger: claim_not_acted_upon
-    end
-
-    def claim_approved
-      "You approved #{@edit.editor.short_name}'s edit."
-    end
-
-    def claim_declined
-      "You declined #{@edit.editor.short_name}'s edit."
+      flash[:partial] = error_partial(message)
+      redirect_to :pending_development_edits
     end
 
     def claim_not_acted_upon
       # TODO: Trigger error notices
-      "We've experienced an unexpected error."
+      error_partial """
+        As a result, the edit you were trying to resolve may not be resolved.
+      """
+    end
+
+    def partial_object(action)
+      {path: "edits/action", object: {action: action, name: @edit.editor.first_name}}
+    end
+
+    def error_partial(message)
+      { path: "unexpected_error", object: { message: message } }
     end
 end

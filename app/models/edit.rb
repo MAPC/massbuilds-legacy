@@ -9,11 +9,22 @@ class Edit < ActiveRecord::Base
 
   validates :development, presence: true
   validates :editor, presence: true
-  validates :state,  presence: true, inclusion: { in: %W( pending applied ) }
+  validates :state,  presence: true
 
-  enumerize :state, in: [:pending, :applied], default: :pending, predicates: true
+  enumerize :state, in: [:pending, :applied, :approved, :declined],
+    default: :pending, predicates: true
 
   default_scope { includes(:fields) }
+
+  def approved(options={})
+    self.state = :approved
+    apply!(options)
+  end
+
+  def declined(options={})
+    self.state = :declined
+    self.save! if should_save?(options)
+  end
 
   # Alter self.development with contents, and optionally save.
   def apply!(options={})

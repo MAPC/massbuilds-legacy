@@ -1,15 +1,6 @@
-= edit.editor.short_name
--# TODO Present this the same way we present a change in the feed.
-- edit.fields.each do |field|
-  changed
-  = field.name
-  from
-  = "\"#{field.from}\""
-  to
-  = "\"#{field.to}\""
+.ui.horizontal.divider
 
-%br
-%br
+= render partial: 'edits/edit', object: edit
 
 = link_to decline_development_edit_path(@development, edit), method: :post do
   .ui.basic.red.button
@@ -20,3 +11,8 @@
   .ui.basic.green.button
     %i.checkmark.icon
     Approve
+
+- if edit.conflict?
+  .ui.basic.orange.label Conflict
+
+.ui.horizontal.divider

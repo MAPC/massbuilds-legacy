@@ -1,0 +1,12 @@
+.ui.success.message
+  %i.close.icon
+  .header
+    Edit
+    = "#{object['action']}."
+  .p
+    You
+    = object['action']
+    = succeed "'s" do
+      = object['name']
+    edit.
+  = render partial: 'edits/none_left' if object['none_left']

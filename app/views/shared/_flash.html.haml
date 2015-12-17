@@ -1,18 +1,9 @@
-- if flash
-  - flash.each do |key, value|
-    %div{class: "alert alert-#{key}"}
-      %a x
-      = value
-
-:javascript
-
-  $(document).on('ready', function () {
-    $( document ).on('click', '.removable', function() {
-
-      if (window.cancel_timeout) {
-        clearTimeout(window.cancel_timeout);
-      }
-      $( this ).parent().slideUp();
-    });
-
-  });
+%br
+%br
+- flash.each do |key, value|
+  - if flash[:partial]
+    = render partial: "flashes/#{value['path']}", locals: {key: key, object: value['object']}
+  - else
+    .ui.message{:class => key}
+      %i.close.icon
+      .p= value

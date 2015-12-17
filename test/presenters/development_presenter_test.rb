@@ -101,4 +101,8 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
     assert_equal true, pres.disable_moderation?
   end
 
+  test "#pending" do
+    assert_equal item.pending_edits, pres.pending
+  end
+
 end

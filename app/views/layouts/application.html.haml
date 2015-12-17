@@ -7,7 +7,10 @@
     = csrf_meta_tags
 
   %body
-    #flash= render 'shared/flash'
-    = render 'layouts/header'
-    = yield
-    = render 'layouts/footer'
+    #main.ui.main.grid.container
+      .row
+        .column
+          #flash= render 'shared/flash'
+      = render 'layouts/header'
+      = yield
+      = render 'layouts/footer'
