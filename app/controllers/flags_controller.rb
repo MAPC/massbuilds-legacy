@@ -34,7 +34,7 @@ class FlagsController < ApplicationController
     end
 
     FLAG_CREATED = """
-      We received your flag and will address it shortly.
+      Thanks! We received your flag and will address it shortly.
     """
 
     FLAG_NOT_CREATED = """
