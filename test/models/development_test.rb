@@ -85,6 +85,10 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_not_empty d.history
   end
 
+  test "#pending" do
+    assert_not_empty d.pending_edits
+  end
+
   test "#last_edit" do
     3.times {
       d.edits.new(state: 'applied', applied_at: 1.minute.ago).save(validate: false)

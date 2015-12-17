@@ -6,7 +6,11 @@
         = render partial: 'developments/development/status'
 
     .six.wide.column#actions
-      = render partial: 'developments/development/actions'
+      .row
+        .column= render partial: 'developments/development/actions'
+      .row
+        .column= render partial: 'developments/development/pending'
+
   .row
     .ten.wide.column
       #tags= render partial: 'developments/development/tags'

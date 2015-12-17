@@ -55,6 +55,10 @@ class Development < ActiveRecord::Base
     self.edits.where(state: 'applied').order(applied_at: :desc)
   end
 
+  def pending_edits
+    self.edits.where(state: 'pending').order(created_at: :asc)
+  end
+
   def contributors
     _contributors = edits.where(state: 'applied').map(&:editor)
     _contributors << creator

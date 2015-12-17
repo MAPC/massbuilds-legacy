@@ -94,4 +94,11 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
     assert_equal expected, pres.address(short: true)
   end
 
+  test "#disable_moderation?" do
+    assert_not_empty item.pending_edits
+    assert_equal false, pres.disable_moderation?
+    item.pending_edits.destroy_all
+    assert_equal true, pres.disable_moderation?
+  end
+
 end

@@ -22,6 +22,10 @@ class DevelopmentPresenter < Burgundy::Item
     EditPresenter.wrap history.limit(3)
   end
 
+  def pending_edits
+    EditPresenter.wrap item.pending_edits
+  end
+
   # Nearby or similar developments
   def related
     # TODO make nearby / similar, instead of a simple limit
@@ -57,6 +61,10 @@ class DevelopmentPresenter < Burgundy::Item
   # Neighborhood context (KnowPlace study)
   def neighborhood
     raise NotImplementedError, "We haven't yet implemented neighborhood context."
+  end
+
+  def disable_moderation?
+    pending_edits.empty?
   end
 
   # def watches?(current_user)

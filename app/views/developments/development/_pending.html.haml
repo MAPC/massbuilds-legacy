@@ -1,0 +1,12 @@
+%br
+- disabled = "disabled" if @development.disable_moderation?
+- color = @development.disable_moderation? ? "" : "green"
+
+= link_to pending_development_edits_path(@development) do
+  .ui.labeled.button{class: disabled}
+    .ui.button{class: color}
+      %i.filter.icon
+      Moderate
+    %a.ui.basic.left.pointing.label{class: color}
+      = @development.pending_edits.count
+      edits
