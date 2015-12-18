@@ -1,22 +1,36 @@
 -# Organization logo
 -#  alt: "#{@org.name} Logo"
+#main.ui.main.container
+  =link_to edit_organization_path do
+    %button.ui.right.floated.primary.button 
+      %i.edit.icon
+      Edit Organization
+  %h1   
+    = @organization.name
+  #organization
+    #stats
+      #location= @organization.location
+      #website=  @organization.website
+      #email=    @organization.email
+    #tabs
+      .ui.top.attached.tabular.menu
+        %a.item.active{"data-tab" => "people"} People
+        %a.item{"data-tab" => "settings"} Settings
+        %a.item{"data-tab" => "developments"} Developments
+      .ui.bottom.attached.tab.segment.active{"data-tab" => "developments"}
+        First
+      .ui.bottom.attached.tab.segment{"data-tab" => "people"}
+        = render partial: 'users/contributor', collection: @organization.members, as: :contributor
+      .ui.bottom.attached.tab.segment{"data-tab" => "settings"}
+        Third
 
-%h1 @org
-
-#organization
-  #stats
-    #location= @org.location
-    #website=  @org.website
-    #email=    @org.email
-  #tabs
-    .tab.developments
-      #filter
-        -# Filter dropdown & input
-        -# "+ New Development" button
-      #developments
-        -# List developments (AJAX)
-    .tab.people
-      = render partial: 'members', collection: @org.members, as: :members
-      -# List people
-    .tab.settings
-      -# Show settings
+-# .tab.developments
+-#   #filter
+-#     -# Filter dropdown & input
+-#     -# "+ New Development" button
+-#   #developments
+-#     -# List developments (AJAX)
+-# .tab.people
+-#   -# List people
+-# .tab.settings
+-#   -# Show settings

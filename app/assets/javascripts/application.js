@@ -16,9 +16,17 @@
 //= require semantic_ui/semantic_ui
 //= require_tree .
 
-$(document).ready(function(){
+$(document).ready(function() {
+  semanticInitializers();
+});
+
+$( document ).on('page:load',function() {
+  semanticInitializers();
+});
+
+function semanticInitializers() {
   $('.ui.dropdown').dropdown();
   $('img.contributor').popup();
   $('.ui.modal').modal('attach events', '.launch.modal', 'show');
-});
-
+  $('.menu .item').tab();
+}

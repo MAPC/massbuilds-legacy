@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     resources :flags,  only: [:new, :create]
   end
 
+  resources :organizations
+
   devise_for :users
   devise_scope :user do
     get    'signup',  to: 'devise/registrations#new'
