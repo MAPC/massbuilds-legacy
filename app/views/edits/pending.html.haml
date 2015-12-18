@@ -6,9 +6,7 @@
 .row
   .twelve.wide.column#pending-edits
     .ui.large.feed
-
       = render partial: 'pending', collection: @development.pending, as: :edit
-
       - if @development.pending.empty?
         %p
           There are no pending edits left to show.

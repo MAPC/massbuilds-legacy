@@ -1,38 +1,55 @@
-%br
-.ui.dropdown.icon.button#subscribe
-  %i.unhide.icon
-  -# TODO Add label for # of watchers
-  %span.text Watch
-  .menu
-    .item
-      .ui.unhide.icon
-      Watching
-      -# %span.description
-      -#   Receiving notifications
-    .item
-      .ui.hide.icon
-      Not Watching
-      -# %span.description
-      -#   Not receiving notifications about updates
+.row
+  .column
+  %br
+  .ui.dropdown.icon.button#subscribe
+    %i.unhide.icon
+    -# TODO Add label for # of watchers
+    %span.text Watch
+    .menu
+      .item
+        .ui.unhide.icon
+        Watching
+        -# %span.description
+        -#   Receiving notifications
+      .item
+        .ui.hide.icon
+        Not Watching
+        -# %span.description
+        -#   Not receiving notifications about updates
 
--# Consider making this a partial
-=link_to '#' do
-  .ui.vertical.animated.button{:tabindex => "0"}
-    .visible.content
-      %i.pencil.icon
-    .hidden.content
-      Edit
+  -# Consider making this a partial
+  =link_to '#' do
+    .ui.vertical.animated.button{:tabindex => "0"}
+      .visible.content
+        %i.pencil.icon
+      .hidden.content
+        Edit
 
-=link_to new_development_flag_path(@development) do
-  .ui.vertical.animated.button{:tabindex => "0"}
-    .visible.content
-      %i.flag.icon
-    .hidden.content
-      Flag
+  =link_to new_development_flag_path(@development) do
+    .ui.vertical.animated.button{:tabindex => "0"}
+      .visible.content
+        %i.flag.icon
+      .hidden.content
+        Flag
 
-=link_to new_development_claim_path(@development) do
-  .ui.vertical.animated.button{:tabindex => "0"}
-    .visible.content
-      %i.university.icon
-    .hidden.content
-      Claim
+  =link_to new_development_claim_path(@development) do
+    .ui.vertical.animated.button{:tabindex => "0"}
+      .visible.content
+        %i.university.icon
+      .hidden.content
+        Claim
+
+.row
+  .column
+    %br
+    - disabled = "disabled" if @development.disable_moderation?
+    - color = @development.disable_moderation? ? "" : "green"
+
+    .ui.labeled.button{class: disabled}
+      = link_to pending_development_edits_path(@development) do
+        .ui.button{class: color}
+          %i.filter.icon
+          Moderate
+        %a.ui.basic.left.pointing.label{class: color}
+          = @development.pending_edits.count
+          edits
