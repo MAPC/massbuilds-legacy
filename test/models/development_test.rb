@@ -222,4 +222,11 @@ class DevelopmentTest < ActiveSupport::TestCase
     refute_includes Development.commercial_fields, 'clusteros'
   end
 
+  test "gets metatdata for fields" do
+    assert_equal d.name_for(:status), 'status'
+    assert_equal d.human_name_for('prjarea'), 'Project area'
+    assert_equal d.description_for(:prjarea), "Area of development site, in square feet"
+    assert_equal d.category_for(:year_compl), 'miscellaneous'
+  end
+
 end
