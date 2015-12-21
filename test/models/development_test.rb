@@ -41,7 +41,7 @@ class DevelopmentTest < ActiveSupport::TestCase
     %i( affordable affunits asofright cancelled clusteros commsf
         created_at crosswalks desc emploss estemp fa_edinst
         fa_hotel fa_indmf fa_ofcmd fa_other fa_ret fa_rnd fa_whs
-        gqpop lgmultifam location mapc_notes onsitepark othremprat
+        gqpop lgmultifam location mapc_notes onsitepark other_rate
         ovr55 phased private prjarea project_type project_url rdv
         rptdemp singfamhu stalled status total_cost tothu
         twnhsmmult updated_at year_compl
@@ -198,6 +198,28 @@ class DevelopmentTest < ActiveSupport::TestCase
     d.update_attribute(:tagline, nil)
     d.save
     assert_not_nil d.tagline
+  end
+
+  test "metadata" do
+    assert_respond_to Development, :fields_hash
+    dfh = Development.fields_hash
+    assert_equal 'status', dfh['status'].name
+    assert_equal 'Project area', dfh['prjarea'].human_name
+  end
+
+  test "field categories" do
+    cats = %w( boolean commercial residential miscellaneous )
+    cats.each {|cat|
+      assert_includes Development.field_categories, cat
+    }
+  end
+
+  test "field category helper methods" do
+    %w( boolean commercial residential miscellaneous ).each {|cat|
+      assert_respond_to Development, :"#{cat}_fields"
+    }
+    assert_includes Development.boolean_fields, 'clusteros'
+    refute_includes Development.commercial_fields, 'clusteros'
   end
 
 end

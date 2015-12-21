@@ -8,7 +8,7 @@ class EditField < ActiveRecord::Base
   validates :edit, presence: true
   validate :valid_change
 
-  enumerize :name, :in => Development.categorized_attributes
+  enumerize :name, :in => Development.all_fields
 
   serialize :change, HashSerializer
 

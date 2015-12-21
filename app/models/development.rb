@@ -16,29 +16,17 @@ class Development < ActiveRecord::Base
 
   validates :creator, presence: true
 
-  # Break these out and require them in another file.
-  @@residential_attributes = %i( affordable affunits gqpop lgmultifam
-                                 ovr55 singfamhu tothu twnhsmmult )
-  @@commercial_attributes = %i(
-    commsf rptdemp emploss estemp fa_edinst fa_hotel fa_indmf fa_ofcmd
-    fa_other fa_ret fa_rnd fa_whs othremprat )
-
-  # ovr55
-  @@boolean_attributes = %i( asofright cancelled clusteros phased private rdv stalled )
-
-  @@miscellaneous_attributes = %i(
-      created_at desc location mapc_notes onsitepark prjarea
-      project_type project_url updated_at year_compl status total_cost
-      name tagline address city state zip_code )
-
-  @@categorized_attributes = [@@residential_attributes, @@commercial_attributes, @@boolean_attributes, @@miscellaneous_attributes].flatten!
-
-  def self.categorized_attributes
-    @@categorized_attributes
-  end
-
   serialize :fields, HashSerializer
-  store_accessor :fields, @@categorized_attributes
+  # Should get from self.all_fields, but comes up as nil.
+  store_accessor :fields, [:name, :status, :year_compl, :prjarea,
+    :rdv, :singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop,
+    :clusteros, :ovr55, :mixeduse, :rptdemp, :emploss, :estemp,
+    :commsf, :fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs, :fa_rnd,
+    :fa_edinst, :fa_other, :other_rate, :fa_hotel, :hotelrms, :desc,
+    :project_url, :mapc_notes, :stalled, :phased, :onsitepark,
+    :asofright, :total_cost, :private, :cancelled, :location,
+    :tagline, :address, :city, :state, :zip_code, :affunits,
+    :affordable, :ch40_id, :project_type]
 
   STATUSES = [:projected, :planning, :in_construction, :completed]
   enumerize :status, :in => STATUSES, predicates: true
@@ -46,7 +34,7 @@ class Development < ActiveRecord::Base
   alias_attribute :website, :project_url
 
   def mixed_use?
-    any_residential_attributes? && any_commercial_attributes?
+    any_residential_fields? && any_commercial_fields?
   end
   # TODO: Cache this in the database, to be used for searches.
   alias_method :mixed_use, :mixed_use?
@@ -82,6 +70,7 @@ class Development < ActiveRecord::Base
   end
 
   def private?   ; read_attribute(:private) ; end
+  # Use self.boolean_fields to define these dynamically.
   def rdv?       ; rdv       ; end
   def asofright? ; asofright ; end
   def ovr55?     ; ovr55     ; end
@@ -93,16 +82,57 @@ class Development < ActiveRecord::Base
   alias_attribute :housing_units, :tothu
   alias_attribute :floor_area_commercial, :commsf
 
+  def self.fields_hash
+    @@fields_hash ||= build_fields_hash
+  end
+
+  def self.field_categories
+    @@field_categories ||= build_field_categories
+  end
+
+  def self.all_fields
+    @@_all ||= Array(self.fields_hash).map(&:first).map(&:to_sym)
+  end
+
   private
 
-    def any_residential_attributes?
-      @_any_residential ||= any_attributes(:residential).any?
+    def self.build_fields_hash
+      pairs = YAML.load_file('db/metadata/development.yml').map{|e|
+        [ e.fetch('name'), OpenStruct.new(e) ]
+      }
+      Hash[pairs]
     end
-    def any_commercial_attributes?
-      @_any_commercial  ||= any_attributes(:commercial).any?
+
+    def self.build_field_categories
+      categories = []
+      fields_hash.each_value {|v| categories << v.category}
+      categories.uniq!
     end
-    def any_attributes(type)
-      Development.class_variable_get("@@#{type}_attributes").map {|m| self.send(m)}
+
+    def self.build_category_helper_methods
+      field_categories.each do |category|
+        self.class.send(:define_method, "#{category}_fields") do
+          Array(fields_hash).map{|a|
+            a.first if a.last.category == category
+          }.compact
+        end
+      end
+    end
+    self.build_category_helper_methods
+
+
+    def any_residential_fields?
+      @_any_residential ||= any_values(:residential).any?
+    end
+
+    def any_commercial_fields?
+      @_any_commercial  ||= any_values(:commercial).any?
+    end
+
+    # Determine if `{type}_fields` (i.e. `boolean_fields`) have any
+    # assigned values.
+    def any_values(type)
+      Development.send("#{type}_fields").map {|m| self.send(m)}
     end
 
     def update_tagline
