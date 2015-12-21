@@ -9,8 +9,8 @@
   -# = render partial: 'edits/review_conflict', object: edit, as: :edit
   .ui.basic.modal{id: "conflict-#{edit.id}"}
     %i.close.icon
-    .header  Review Conflict #{edit.id}
-    .content The explanation of the diff here.
+    .header  Review Conflict
+    .content The explanation of the diff for conflict #{edit.id} here.
     .actions.left
       = link_to decline_development_edit_path(@development, edit), method: :post do
         .ui.red.button
@@ -36,7 +36,6 @@
 
 :javascript
 
-  $('.ui.modal').modal({allowMultiple: false});
   $('.launch-modal').on('click', function(){
     // Get the data-modal attribute containing the id of the modal
     // we want to launch.
