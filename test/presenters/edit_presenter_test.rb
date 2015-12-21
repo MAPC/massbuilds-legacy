@@ -23,7 +23,9 @@ class EditPresenterTest < ActiveSupport::TestCase
     item.state = :applied
     assert_equal "about 10 hours ago", pres.time_ago
     item.state = :pending
-    assert_equal "less than a minute ago", pres.time_ago
+    # For slow-running tests on Travis CI
+    time_options = ["less than a minute ago", "1 minute ago"]
+    assert_includes time_options, pres.time_ago
   end
 
   test "#time is an alias of #time_ago" do

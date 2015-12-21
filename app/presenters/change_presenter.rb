@@ -21,7 +21,7 @@ class ChangePresenter < Burgundy::Item
         when :TrueClass, :FalseClass
           "set #{name} to #{to.to_b}"
         when :String
-          "changed #{name} from #{from} to #{to}"
+          "changed #{name} from '#{from}' to '#{to}'"
       else
         raise ArgumentError, "unexpected type: #{type}"
       end
