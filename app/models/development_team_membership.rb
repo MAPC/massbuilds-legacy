@@ -13,4 +13,6 @@ class DevelopmentTeamMembership < ActiveRecord::Base
 
   enumerize :role, :in => ROLES, predicates: true
 
+  default_scope { includes(:organization) }
+
 end

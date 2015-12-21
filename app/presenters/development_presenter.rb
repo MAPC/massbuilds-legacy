@@ -23,9 +23,12 @@ class DevelopmentPresenter < Burgundy::Item
   end
 
   def pending_edits
-    EditPresenter.wrap item.pending_edits
+    EditPresenter.wrap item.pending_edits.includes(:editor, :fields)
   end
   alias_method :pending, :pending_edits
+  def pending_edits_count
+    item.pending_edits.count
+  end
 
   # Nearby or similar developments
   def related

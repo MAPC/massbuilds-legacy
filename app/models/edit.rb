@@ -14,8 +14,6 @@ class Edit < ActiveRecord::Base
   enumerize :state, in: [:pending, :applied, :approved, :declined],
     default: :pending, predicates: true
 
-  default_scope { includes(:fields) }
-
   def approved(options={})
     self.state = :approved
     apply!(options)

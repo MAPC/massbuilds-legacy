@@ -47,6 +47,8 @@ gem 'api-pagination'    # Paginates API in headers
 gem 'puma'
 gem 'foreman', require: false
 
+gem 'bullet', group: [:development, :test]
+
 group :development do
   gem 'spring'            # Keeps environment in background
   gem 'better_errors'     # Clearer error messages
@@ -57,6 +59,7 @@ group :development do
   gem 'guard-minitest',          require: false # MiniTest adapter
   # Watch Mac filesystem events
   gem 'rb-fsevent', require: RUBY_PLATFORM.include?('darwin') && 'rb-fsevent'
+  gem 'brakeman', require: false # Assess security
 end
 
 group :test do
