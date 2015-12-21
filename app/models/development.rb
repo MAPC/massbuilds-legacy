@@ -94,6 +94,16 @@ class Development < ActiveRecord::Base
     @@_all ||= Array(self.fields_hash).map(&:first).map(&:to_sym)
   end
 
+  [:name, :human_name, :description, :category].each do |method|
+    define_method "#{method}_for" do |field|
+      lookup_metadata field, method
+    end
+  end
+
+  def lookup_metadata(field, method)
+    self.class.fields_hash.fetch(field.to_s).send(method)
+  end
+
   private
 
     def self.build_fields_hash
