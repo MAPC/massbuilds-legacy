@@ -56,8 +56,9 @@ class EditTest < ActiveSupport::TestCase
 
   test "ignore conflict and apply edit" do
     conflicting_edit = edits :conflict
-    conflicting_edit.apply!
-    assert conflicting_edit.apply!(ignore_conflict: true)
+    refute conflicting_edit.apply!
+    conflicting_edit.ignore_conflicts = true
+    assert conflicting_edit.apply!
     assert_equal 'applied', conflicting_edit.state
   end
 
@@ -74,7 +75,7 @@ class EditTest < ActiveSupport::TestCase
   end
 
   test "#applyable" do
-    assert edit.applyable?
+    assert edit.applyable?, [edit.inspect, edit.conflict?]
   end
 
   test "#not_applyable" do

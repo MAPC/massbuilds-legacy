@@ -26,7 +26,7 @@ class Edit < ActiveRecord::Base
 
   # Alter self.development with contents, and optionally save.
   def apply!(options={})
-    return false if unignored_conflict?(options)
+    return false unless applyable?
     apply(options)
     if should_save?(options)
       transaction do
@@ -45,9 +45,11 @@ class Edit < ActiveRecord::Base
     self.state = :applied
   end
 
-  # The edit can be applied if it's not applied and there's no conflict.
+  # The edit can be applied if:
+  # - it's not already applied AND
+  # - there's no conflict OR there is a conflict but it is ignored.
   def applyable?
-    if applied? || conflict?
+    if applied? || unignored_conflict?
       false
     else
       true
@@ -58,28 +60,28 @@ class Edit < ActiveRecord::Base
     !applyable?
   end
 
-  def conflict
+  def conflicts
     fields.map(&:conflict).compact
   end
+  alias_method :conflict, :conflicts
 
-  def conflict?
-    conflict.any?
+  def conflicts?
+    conflicts.any?
   end
-
-  # Returns a hash that can be used in assign_attributes
-  # or update_attributes.
-  def assignable_attributes
-    names, to_values = fields.pluck(:name), fields.map(&:to)
-    Hash[names.zip(to_values)]
-  end
+  alias_method :conflict?, :conflicts?
 
   private
 
     # If there's a conflict, and we aren't explicitly ignoring it.
-    def unignored_conflict?(options={})
-      ignore_conflict = options.fetch(:ignore_conflict, false)
-      do_not_ignore_conflict = !ignore_conflict
-      conflict? && do_not_ignore_conflict
+    def unignored_conflict?
+      conflict? && !ignore_conflicts?
+    end
+
+    # Returns a hash that can be used in assign_attributes
+    # or update_attributes.
+    def assignable_attributes
+      names, to_values = fields.pluck(:name), fields.map(&:to)
+      Hash[names.zip(to_values)]
     end
 
     def should_save?(options={})
