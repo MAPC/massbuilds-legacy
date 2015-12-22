@@ -1,34 +1,35 @@
 .row
   .ten.wide.column#title-area
-    = render partial: 'developments/development/title'
+    = render partial: 'developments/show/title'
     #status
-      = render partial: 'developments/development/status'
+      = render partial: 'developments/show/status'
 
   .six.wide.column#actions
-    = render partial: 'developments/development/actions'
+    = render partial: 'developments/show/actions'
 
 .row
   .ten.wide.column
-    #tags= render partial: 'developments/development/tags'
+    #tags
+      = render partial: 'developments/show/tags'
     .ui.horizontal.divider
     #images
       %img.ui.large.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
         Alt Text
     #data
       .ui.horizontal.divider Details
-      = render partial: 'developments/development/physical'
-      = render partial: 'developments/development/residential'
-      = render partial: 'developments/development/commercial'
-      = render partial: 'developments/development/transportation'
+      = render partial: 'developments/show/physical'
+      = render partial: 'developments/show/residential'
+      = render partial: 'developments/show/commercial'
+      = render partial: 'developments/show/transportation'
 
   .six.wide.column#sidebar
-    #map=     render partial: 'developments/development/map'
-    #team=    render partial: 'developments/development/team' # <
-    #contrib= render partial: 'developments/development/contributors'
-    #related= render partial: 'developments/development/related'
-    #history= render partial: 'developments/development/history'
+    #map=     render partial: 'developments/show/map'
+    #team=    render partial: 'developments/show/team'
+    #contrib= render partial: 'developments/show/contributors'
+    #related= render partial: 'developments/show/related'
+    #history= render partial: 'developments/show/history'
 
 .row
   .column#context
     .ui.horizontal.divider Neighborhood Context
-    = render partial: 'developments/development/context'
+    = render partial: 'developments/show/context'

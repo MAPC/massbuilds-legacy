@@ -1,0 +1,5 @@
+.ui.horizontal.divider
+%h4 Development Team
+%table.ui.very.basic.collapsing.celled.table
+  %tbody
+    = render partial: 'developments/edit/team_member', collection: @development.team_memberships, as: :member, locals: { f: f }

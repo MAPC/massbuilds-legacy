@@ -1,0 +1,34 @@
+%h3.ui.header
+  Residential
+  .sub.header
+    Housing
+
+%table.ui.very.basic.celled.table
+  %thead
+    %th
+      %h4.ui.header
+        .content
+          Housing Type
+    %th
+      %h4.ui.header
+        .content
+          Number of Units
+  %tbody
+    - @development.housing_table_fields.each do |field|
+      %tr
+        %td
+          %h4.ui.header
+            .content
+              = @development.human_name_for(field)
+        %td= f.text_field field
+    %tr
+      %td
+        %h4.ui.header
+          .content
+            = @development.human_name_for(:gqpop)
+            %a{href: '#what-are-group-quarters'}
+              %i.help.circle.icon
+              -# Modal
+            .sub.header
+              Number of Beds
+      %td= f.text_field :gqpop

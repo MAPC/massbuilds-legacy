@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  resources :developments, only: [:index, :show] do
+  resources :developments, only: [:index, :show, :edit] do
     resources :claims, only: [:new, :create]
     # resources :edits,  only: [:new, :create]
     resources :flags,  only: [:new, :create]
