@@ -12,7 +12,7 @@ class Claim < ActiveRecord::Base
   enumerize :state, in: [:pending, :approved, :denied],
     default: :pending, predicates: true
 
-  enumerize :role, :in => DevelopmentTeamMembership::ROLES
+  enumerize :role, :in => DevelopmentTeamMembership.role.options
 
   def approve!(options={})
     if approve(options)

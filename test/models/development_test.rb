@@ -44,7 +44,7 @@ class DevelopmentTest < ActiveSupport::TestCase
         gqpop lgmultifam location mapc_notes onsitepark other_rate
         ovr55 phased private prjarea project_type project_url rdv
         rptdemp singfamhu stalled status total_cost tothu
-        twnhsmmult updated_at year_compl
+        twnhsmmult updated_at year_compl stories feet_tall
       ).each do |attribute|
       assert_respond_to d, attribute
     end
