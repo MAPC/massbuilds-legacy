@@ -1,6 +1,6 @@
 #main.ui.main.container
-  Create Organization
-  = form_for :organization, url: { action: 'create' }, html:{ class: "ui form" } do |f|
+  Edit Organization
+  = form_for @organization, html:{ class: "ui form" } do |f|
     = label :name, "Name"
     = f.text_field :name
     = label :email, "E-mail"
@@ -11,4 +11,4 @@
     = f.text_field :short_name
     = label :website, "Website"
     = f.text_field :website
-    = f.submit "Create Organization", class: "ui primary button"
+    = f.submit "Edit Organization", class: "ui primary button"
