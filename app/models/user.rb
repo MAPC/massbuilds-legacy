@@ -22,6 +22,10 @@ class User < ActiveRecord::Base
     "http://semantic-ui.com/images/avatar2/small/#{user}.png"
   end
 
+  def contributions
+    Edit.where(editor_id: id, state: "applied")
+  end
+
   private
 
     def hasherize_email

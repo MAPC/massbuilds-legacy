@@ -1,4 +1,6 @@
 class UserPresenter < Burgundy::Item
+  include ActionView::Helpers
+
   def first_name
     item.first_name.titleize
   end
@@ -13,6 +15,14 @@ class UserPresenter < Burgundy::Item
 
   def full_name
     "#{first_name} #{last_name}"
+  end
+
+  def joined
+    "Joined #{time_ago_in_words item.created_at} ago"
+  end
+
+  def number_of_contributions
+    pluralize(item.contributions.count, "contribution")
   end
 
   def gravatar_url

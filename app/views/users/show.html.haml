@@ -1,7 +1,12 @@
-#identity
-  #photo
-    = gravatar_for @user, size: :show
-  #stats
-    #location @user.location
-    #website  @user.website
-    #email    @user.email
+#main.ui.main.container
+  .image
+    %img{src: @user.gravatar_url}
+  .content
+    %a.header 
+      = @user.full_name
+    .meta
+      %span.date
+        = @user.joined
+  .extra.content
+    %i.user.icon
+    = @user.number_of_contributions

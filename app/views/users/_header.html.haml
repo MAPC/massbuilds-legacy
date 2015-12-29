@@ -4,14 +4,15 @@
   = current_user.email.split('@').first
   %i.dropdown.icon
   .menu
-    %a.item{:href => "#"} Link Item
-    %a.item{:href => "#"} Link Item
-    .divider
-    .header Header Item
-    .item
-      %i.dropdown.icon
-      Sub Menu
-      .menu
-        %a.item{:href => "#"} Link Item
-        %a.item{:href => "#"} Link Item
-    %a.item{:href => "#"} Link Item
+    = link_to("Profile", user_path(current_user), class: "item")
+    %a.item{:href => "#"} Edit
+    %a.item{:href => "#"} Logout
+    - # .divider
+    - # .header Header Item
+    - # .item
+    - #   %i.dropdown.icon
+    - #   Sub Menu
+    - #   .menu
+    - #     %a.item{:href => "#"} Link Item
+    - #     %a.item{:href => "#"} Link Item
+    - # %a.item{:href => "#"} Link Item
