@@ -11,6 +11,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :organizations, only: [:index, :show, :edit, :create, :update, :new]
+
   devise_for :users
   devise_scope :user do
     get    'signup',  to: 'devise/registrations#new'
