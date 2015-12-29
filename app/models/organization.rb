@@ -6,7 +6,7 @@ class Organization < ActiveRecord::Base
   has_many :development_team_memberships
   has_many :developments, through: :development_team_memberships 
   #this should be scoped for unique, but our Postgres version cannot select distinct on tables with JSON data types.
-  #for now, see the organization presenter for this
+  #for now, see the organization presenter
 
   belongs_to :creator,      class_name: :User
 
