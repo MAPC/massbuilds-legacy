@@ -14,4 +14,9 @@ class UserTest < ActiveSupport::TestCase
     user.last_name = nil
     assert_not user.valid?
   end
+
+  test "hasherize email" do
+    user.save
+    assert_not_empty user.hasherized_email
+  end
 end

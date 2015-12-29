@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  before_save :hasherize_email
+
   has_many :memberships
   has_many :organizations, through: :memberships
 
@@ -20,4 +22,9 @@ class User < ActiveRecord::Base
     "http://semantic-ui.com/images/avatar2/small/#{user}.png"
   end
 
+  private
+
+    def hasherize_email
+      self.hasherized_email = Digest::MD5::hexdigest(email.downcase)
+    end
 end

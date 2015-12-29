@@ -15,11 +15,7 @@ class UserPresenter < Burgundy::Item
     "#{first_name} #{last_name}"
   end
 
-  def gravatar_id
-    Digest::MD5::hexdigest(email.downcase)
-  end
-
   def gravatar_url
-    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{gravatar_id}"
+    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{hasherized_email}"
   end
 end
