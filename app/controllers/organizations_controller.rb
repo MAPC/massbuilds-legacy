@@ -10,6 +10,12 @@ class OrganizationsController < ApplicationController
     @organization = Organization.new
   end
 
+  def show
+  end
+
+  def edit
+  end
+
   def update
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(org_params)
