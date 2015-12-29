@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
     if user_signed_in?
       super
     else
-      redirect_to '/users/sign_in', :notice => 'if you want to add a notice'
+      redirect_to '/users/sign_in'
     end
   end
 end
