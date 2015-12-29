@@ -36,4 +36,4 @@ function semanticInitializers() {
         .closest('.message')
         .transition('fade');
     });
-});
+}
