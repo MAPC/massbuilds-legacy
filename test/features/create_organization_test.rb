@@ -34,7 +34,7 @@ class CreateOrganizationTest < Capybara::Rails::TestCase
     fill_in 'organization_location', :with => 'brauser@bra.org'
     fill_in 'organization_short_name', :with => 'BRA'
     fill_in 'organization_website', :with => 'bra.org'
-    click_button 'Create Organization'
+    click_button 'Submit'
     assert_content page, 'Boston Properties'
   end
 
@@ -46,7 +46,7 @@ class CreateOrganizationTest < Capybara::Rails::TestCase
     fill_in 'organization_location', :with => 'brauser@bra.org'
     fill_in 'organization_short_name', :with => 'BRA'
     fill_in 'organization_website', :with => 'bra.org'
-    click_button 'Edit Organization'
+    click_button 'Submit'
     assert_content page, 'Boston Properties'
   end
 
