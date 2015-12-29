@@ -11,7 +11,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :organizations
+  resources :organizations, only: [:index, :show, :edit, :create, :update, :new]
 
   devise_for :users
   devise_scope :user do

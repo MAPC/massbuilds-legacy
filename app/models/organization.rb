@@ -4,10 +4,10 @@ class Organization < ActiveRecord::Base
   has_many :administrators, class_name: :User
   has_many :crosswalks
   has_many :development_team_memberships
-  has_many :developments, through: :development_team_memberships 
-  #this should be scoped for unique, but our Postgres version cannot select distinct on tables with JSON data types.
-  #for now, see the organization presenter
 
+  # this should be scoped for unique, but our Postgres version cannot
+  # select distinct on tables with JSON data types.
+  has_many :developments, through: :development_team_memberships 
   belongs_to :creator,      class_name: :User
 
   validates :name,       presence: true
@@ -33,6 +33,13 @@ class Organization < ActiveRecord::Base
   def logo
     user = %w(mark lena lindsay molly eve).sample
     "http://semantic-ui.com/images/avatar2/small/#{user}.png"
+  end
+
+  def developments
+    DevelopmentTeamMembership.where(organization_id: id)
+      .includes(:development)
+      .map(&:development)
+      .uniq
   end
 
   # validates :existence_of_website

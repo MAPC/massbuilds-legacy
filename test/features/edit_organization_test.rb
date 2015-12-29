@@ -2,9 +2,10 @@ require "test_helper"
 
 class EditOrganizationTest < Capybara::Rails::TestCase
 
-  def setup
-    @user = users :normal
+  def user
+    @user ||= users :normal
     @user.password = 'password'
+    @user
   end
 
   def organization
@@ -14,7 +15,7 @@ class EditOrganizationTest < Capybara::Rails::TestCase
   alias_method :org, :organization
 
   test "signed in user visits existing organization, and successfully edits it" do
-    sign_in @user, visit: true, submit: true
+    sign_in user, visit: true, submit: true
     visit edit_organization_path(org)
     fill_in 'organization_name', :with => 'Boston Properties'
     fill_in 'organization_email', :with => 'brauser@bra.org'
