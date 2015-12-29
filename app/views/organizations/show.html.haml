@@ -14,15 +14,15 @@
       #email=    @organization.email
     #tabs
       .ui.top.attached.tabular.menu
-        %a.item.active{"data-tab" => "people"} People
+        %a.item.active{"data-tab" => "developments"} Developments
+        %a.item{"data-tab" => "people"} People
         %a.item{"data-tab" => "settings"} Settings
-        %a.item{"data-tab" => "developments"} Developments
       .ui.bottom.attached.tab.segment.active{"data-tab" => "developments"}
-        First
+        = render @organization.developments
       .ui.bottom.attached.tab.segment{"data-tab" => "people"}
         = render partial: 'users/contributor', collection: @organization.members, as: :contributor
       .ui.bottom.attached.tab.segment{"data-tab" => "settings"}
-        Third
+        Settings
 
 -# .tab.developments
 -#   #filter

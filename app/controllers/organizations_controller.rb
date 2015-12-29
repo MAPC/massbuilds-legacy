@@ -28,21 +28,20 @@ class OrganizationsController < ApplicationController
 
   def create
     @current_user = current_user
-    puts org_params
     @organization = Organization.new(org_params)
     @organization.creator = @current_user
 
     if @organization.save
+      flash[:success] = "Organization successfully created."
       redirect_to @organization
     else
-      puts @organization.errors.full_messages
+      flash[:danger] = @organization.errors.full_messages
       render new_organization_path
     end
   end
 
   private
     def org_params
-      # should require(:creator)
       params.require(:organization).permit(:name, :email, :location, :short_name, :website)
     end  
 end

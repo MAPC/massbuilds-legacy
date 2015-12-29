@@ -10,6 +10,9 @@ class CreateOrganizationTest < Capybara::Rails::TestCase
   def setup
     @user = users :normal
     @user.password = 'password'
+
+    @unauthorized_user = users :lower_case
+    @unauthorized_user.password = 'drowssap'
   end
 
   test "signed out guest, visit organization creation, and be redirected" do
@@ -45,6 +48,18 @@ class CreateOrganizationTest < Capybara::Rails::TestCase
     fill_in 'organization_website', :with => 'bra.org'
     click_button 'Edit Organization'
     assert_content page, 'Boston Properties'
+  end
+
+  test "signed in user can only edit organizations she has permission to edit" do
+    sign_in @unauthorized_user, visit: true, submit: true
+    visit edit_organization_path(org)
+    fill_in 'organization_name', :with => 'Boston Properties'
+    fill_in 'organization_email', :with => 'brauser@bra.org'
+    fill_in 'organization_location', :with => 'brauser@bra.org'
+    fill_in 'organization_short_name', :with => 'BRA'
+    fill_in 'organization_website', :with => 'bra.org'
+    click_button 'Edit Organization'
+    assert_content page, 'Access Denied'
   end
 end
 
