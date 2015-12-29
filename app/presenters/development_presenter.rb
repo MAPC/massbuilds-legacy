@@ -22,6 +22,14 @@ class DevelopmentPresenter < Burgundy::Item
     EditPresenter.wrap history.limit(3)
   end
 
+  def pending_edits
+    EditPresenter.wrap item.pending_edits.includes(:editor, :fields)
+  end
+  alias_method :pending, :pending_edits
+  def pending_edits_count
+    item.pending_edits.count
+  end
+
   # Nearby or similar developments
   def related
     # TODO make nearby / similar, instead of a simple limit
@@ -46,6 +54,10 @@ class DevelopmentPresenter < Burgundy::Item
     (rptdemp || estemp).to_i
   end
 
+  def employment_type
+    rptdemp ? :reported : :estimated
+  end
+
   def status_with_year
     if completed?
       "#{status.titleize} (#{year_compl})"
@@ -58,6 +70,38 @@ class DevelopmentPresenter < Burgundy::Item
   def neighborhood
     raise NotImplementedError, "We haven't yet implemented neighborhood context."
   end
+
+  def disable_moderation?
+    pending_edits.empty?
+  end
+
+  def housing_table_fields
+    %i( singfamhu twnhsmmult lgmultifam affordable )
+  end
+
+  def commercial_table_fields
+    %i( fa_ret fa_ofcmd fa_indmf fa_whs fa_rnd fa_edinst fa_hotel fa_other )
+  end
+
+  def employment_table_fields
+    %i( employment hotelrms )
+  end
+
+  def any_commercial_table_fields?
+    any_fields? :commercial
+  end
+
+  def any_employment_table_fields?
+    any_fields? :employment
+  end
+
+  def stats
+    [:tothu, :commsf, :prjarea, :stories, :feet_tall]
+  end
+
+  alias_attribute :total_housing, :tothu
+  alias_attribute :housing_units, :tothu
+  alias_attribute :floor_area_commercial, :commsf
 
   # def watches?(current_user)
   #   current_user.watches?(item)
@@ -72,6 +116,11 @@ class DevelopmentPresenter < Burgundy::Item
     def short_address
       "#{item.address}, #{item.city}"
     end
+
+    def any_fields?(type)
+      self.send("#{type}_table_fields").map{|f| item.send(f)}.compact.any?
+    end
+
 
   #   def crosswalks_for(user)
   #     []

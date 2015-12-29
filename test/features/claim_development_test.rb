@@ -14,9 +14,9 @@ class ClaimDevelopmentTest < Capybara::Rails::TestCase
     assert_content page, 'Godfrey Hotel'
     click_link 'Claim'
     assert_content page, 'Claiming Godfrey Hotel'
-    select 'Developer', from: 'Role'
+    select 'Developer', from: 'role'
     assert_difference 'Claim.count', +1 do
-      click_button 'Claim Godfrey Hotel'
+      click_button 'Claim'
     end
   end
 end

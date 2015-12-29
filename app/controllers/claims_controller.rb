@@ -33,7 +33,7 @@ class ClaimsController < ApplicationController
     end
 
     CLAIM_CREATED = """
-      We received your claim and will address it within 5-10 business days.
+      Thanks! We received your claim and will address it within 5-10 business days.
     """
 
     CLAIM_NOT_CREATED = """

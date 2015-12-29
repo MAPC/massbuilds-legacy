@@ -1,11 +1,15 @@
-%h3
-  Flagging
-  = @flag.development.name
+.row
+  .column
+    %h3
+      Flagging
+      = @flag.development.name
 
-%p Why are you flagging this development?
+    %p Why are you flagging this development?
 
-= form_for @flag, url: development_flags_path do |f|
-  = f.label :reason, "Reason"
-  = f.text_area :reason, size: "55x5"
-  = link_to "Cancel", @flag.development
-  = f.submit "Flag"
+    .ui.form
+      = form_for @flag, url: development_flags_path do |f|
+        .eight.wide.field
+          = f.label :reason, "Reason"
+          = f.text_area :reason, rows: 4
+        = link_to "Cancel", @flag.development, class: 'ui basic button'
+        = f.submit "Flag", class: 'ui green submit button'

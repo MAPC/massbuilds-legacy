@@ -1,0 +1,39 @@
+- if @development.any_residential_fields?
+  %h3.ui.header
+    Residential
+    .sub.header
+      Housing
+
+  %table.ui.very.basic.celled.table
+    %thead
+      %th
+        / Only display rows with non-zero numbers
+        %h4.ui.header
+          .content
+            Housing Type
+      %th
+        %h4.ui.header
+          .content
+            Number of Units
+    %tbody
+      - @development.housing_table_fields.each do |field|
+        - if value = @development.send(field)
+          %tr
+            %td
+              %h4.ui.header
+                .content
+                  = @development.human_name_for(field)
+            %td= value
+      - if @development.gqpop
+        %tr
+          %td
+            %h4.ui.header
+              .content
+                = @development.human_name_for(:gqpop)
+                %a{href: '#what-are-group-quarters'}
+                  %i.help.circle.icon
+                  -# Modal with:
+                  -# Estimated new population in group quarters (dorms, nursing homes, military barracks, etc)
+                .sub.header
+                  Number of Beds
+          %td= @development.gqpop

@@ -1,0 +1,250 @@
+# field:       The name of the field as used in the database.
+# alias:       Longer name, as displayed in forms.
+# description: Description, or longer explanation of the field
+
+---
+-
+  name:        name
+  human_name:  Development Name
+  description: Name of development project or area
+  category:    miscellaneous
+-
+  name:        status
+  human_name:  Status
+  description: 'One of: Completed, In Construction, Planning, Projected'
+  category:    miscellaneous
+-
+  name:        year_compl
+  human_name:  Completion Year
+  description: 'Year of completion, estimated or actual'
+  category:    miscellaneous
+-
+  name:        prjarea
+  human_name:  Project area
+  description: 'Area of development site, in square feet'
+  category:    miscellaneous
+-
+  name:        rdv
+  human_name:  Redevelopment
+  description: Indicates projects known to be reuse of previously developed land; not indicated for projects in City of Boston
+  category:    boolean
+-
+  name:        singfamhu
+  human_name:  Single family homes
+  description: Number of single family homes; not indicated for projects in City of Boston
+  category:    residential
+-
+  name:        twnhsmmult
+  human_name:  Small multifamily
+  description: Number of attached single family homes or units in townhouses and multifamily homes up to 5 units
+  category:    residential
+-
+  name:        lgmultifam
+  human_name:  Large multifamily
+  description: Units in structures with six or more units
+  category:    residential
+-
+  name:        tothu
+  human_name:  Total housing units
+  description: 'Total housing units completed, planned, or projected'
+  category:    residential
+-
+  name:        gqpop
+  human_name:  Group Quarters
+  description: 'Estimated new population in group quarters (dorms, nursing homes, military barracks, etc)'
+  category:    residential
+-
+  name:        clusteros
+  human_name:  Cluster Development
+  description: 'Use of cluster development or open space residential design, if known; not indicated for projects in City of Boston'
+  category:    boolean
+-
+  name:        ovr55
+  human_name:  Age-Restricted
+  description: Some or all units age restricted to residents 55 and older
+  category:    boolean
+-
+  name:        mixeduse
+  human_name:  Mixed Use
+  description: 'Indicates a mixed use development (housing and commercial on same site), if known; not indicated for City of Boston'
+  category:    boolean
+-
+  name:        rptdemp
+  human_name:  Reported Employment
+  description: 'New employment, as reported by municipal staff, project proponent, or other source'
+  category:    commercial
+-
+  name:        emploss
+  human_name:  Employment Losses
+  description: 'Employment losses through closures or layoffs, or employment to be eliminated and replaced (wholely or partially) through redevelopment '
+  category:    commercial
+-
+  name:        estemp
+  human_name:  Total Employment Potential
+  description: 'MAPC estimates of total potential employment based on reported employment, square footage, and standard employment density factors'
+  category:    commercial
+-
+  name:        commsf
+  human_name:  Commercial Square Feet
+  description: 'Total floor area of nonresidential uses, not including parking'
+  category:    commercial
+-
+  name:        fa_ret
+  human_name:  Retail
+  description: Floor area dedicated to retail uses
+  category:    commercial
+-
+  name:        fa_ofcmd
+  human_name:  Office or Medical
+  description: Floor area dedicated to office and health care uses
+  category:    commercial
+-
+  name:        fa_indmf
+  human_name:  Industrial or Manufacturing
+  description: Floor area dedicated to industrial or manufacturing uses
+  category:    commercial
+-
+  name:        fa_whs
+  human_name:  Warehouse and Shipping
+  description: 'Floor area dedicated to warehouse, wholesale, and trucking/shipping uses'
+  category:    commercial
+-
+  name:        fa_rnd
+  human_name:  Research and Development
+  description: Floor area dedicated to research and development uses (including medical research)
+  category:    commercial
+-
+  name:        fa_edinst
+  human_name:  Educational and Institution
+  description: Floor area dedicated to education and institutional uses
+  category:    commercial
+-
+  name:        fa_other
+  human_name:  Other
+  description: Floor area dedicated to other uses
+  category:    commercial
+-
+  name:        other_rate
+  human_name:  Job Density - Other
+  description: Employment density (sq ft per job) for "Other" employment uses
+  category:    commercial
+-
+  name:        fa_hotel
+  human_name:  Hotel Room
+  description: Floor area dedicated to hotel room uses
+  category:    commercial
+-
+  name:        hotelrms
+  human_name:  Hotel Rooms
+  description: Number of hotel rooms
+  category:    commercial
+-
+  name:        desc
+  human_name:  Project Description
+  description: 'Project information, where available'
+  category:    miscellaneous
+-
+  name:        project_url
+  human_name:  Project URL
+  description: Project website or related site with additional information
+  category:    miscellaneous
+-
+  name:        mapc_notes
+  human_name:  MAPC Comments
+  description: 'Field for MAPC comments, assumptions, caveats, observations'
+  category:    miscellaneous
+-
+  name:        stalled
+  human_name:  Stalled
+  description: Indicates if project is stalled and not actively moving forward
+  category:    boolean
+-
+  name:        phased
+  human_name:  Phased
+  description: 'Indicates if entry is part of a larger, multi-phased project (should have same Project Name)'
+  category:    boolean
+-
+  name:        onsitepark
+  human_name:  Parking Spaces
+  description: Number of on-site parking spaces
+  category:    commercial
+-
+  name:        asofright
+  human_name:  As of Right
+  description: Indicate if the project required no special permit or zoning variance (site plan review OK)
+  category:    boolean
+-
+  name:        total_cost
+  human_name:  Total Cost
+  description: Total estimated construction cost
+  category:    miscellaneous
+-
+  name:        private
+  human_name:  Private
+  description: 'Indicates if project is hidden and not part of public site, for any reason.'
+  category:    boolean
+-
+  name:        cancelled
+  human_name:  Removed
+  description: Indicates if project is cancelled
+  category:    boolean
+-
+  name:        location
+  human_name:  Project location
+  description:
+  category:    miscellaneous
+-
+  name:        tagline
+  human_name:  Project Tagline
+  description: Generated short project description
+  category:    miscellaneous
+-
+  name:        address
+  human_name:  Street address
+  description: Street address
+  category:    miscellaneous
+-
+  name:        city
+  human_name:  City
+  description: City
+  category:    miscellaneous
+-
+  name:        state
+  human_name:  State
+  description: State
+  category:    miscellaneous
+-
+  name:        zip_code
+  human_name:  Zip code
+  description: Zip code
+  category:    miscellaneous
+-
+  name:        affunits
+  human_name:  Number
+  description: 'Percent of deed-restricted affordable units, if known; not indicated for projects in City of Boston'
+  category:    residential
+-
+  name:        affordable
+  human_name:  Affordable Percent
+  description: Percent of units deed-restricted for low- or moderate-income occupants
+  category:    residential
+-
+  name: feet_tall
+  human_name: Height
+  description: Building height (in feet)
+  category: miscellaneous
+-
+  name: stories
+  human_name: Stories
+  description: Number of stories
+  category: miscellaneous
+# -
+#   name:        ch40_id
+#   human_name:  40B/40R/43D
+#   description: 'Indicates use of (1) Chapter 40B (Comprehensive Permit law), (2) 40R (Smart Growth Zoning), or (3) 43D (Expedited Permitting)'
+#   category:    |
+# -
+#   name: project_type
+#   human_name: Project type
+#   description: 'Project type, based on use attributes'
+#   category: |

@@ -18,7 +18,10 @@ namespace :db do
 
     development = Development.create(
       name: "Godfrey Hotel",
-      address: "501 Washington Street, Boston MA 02111",
+      address: "501 Washington Street",
+      city: "Boston",
+      state: "MA",
+      zip_code: "02111",
       status: :in_construction,
       website: "http://godfreyhotelboston.com",
       total_cost: 10_020_300,

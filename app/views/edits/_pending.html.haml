@@ -1,0 +1,46 @@
+.ui.horizontal.divider
+
+= render partial: 'edits/edit', object: edit
+
+- if edit.conflict?
+  .ui.basic.black.button.launch-modal{ data: { modal: "conflict-#{edit.id}" } }
+    %i.right.arrow.icon
+    Review Conflict
+  -# = render partial: 'edits/review_conflict', object: edit, as: :edit
+  .ui.basic.modal{id: "conflict-#{edit.id}"}
+    %i.close.icon
+    .header  Review Conflict
+    .content The explanation of the diff for conflict #{edit.id} here.
+    .actions.left
+      = link_to decline_development_edit_path(@development, edit), method: :post do
+        .ui.red.button
+          %i.remove.icon
+          Decline
+
+      = link_to approve_development_edit_path(@development, edit), method: :post do
+        .ui.green.button
+          %i.checkmark.icon
+          Approve
+- else
+  = link_to decline_development_edit_path(@development, edit), method: :post do
+    .ui.basic.red.button
+      %i.remove.icon
+      Decline
+
+  = link_to approve_development_edit_path(@development, edit), method: :post do
+    .ui.basic.green.button
+      %i.checkmark.icon
+      Approve
+
+.ui.horizontal.divider
+
+:javascript
+
+  $(document).ready(function(){
+    $('.launch-modal').on('click', function(){
+      // Get the data-modal attribute containing the id of the modal
+      // we want to launch.
+      modal_id = $(this).attr('data-modal');
+      $('#' + modal_id + '.modal').modal('show');
+    });
+  });

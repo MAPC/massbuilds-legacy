@@ -2,12 +2,13 @@ class EditField < ActiveRecord::Base
   extend Enumerize
 
   belongs_to :edit
+  delegate :development, to: :edit
 
   validates :name, presence: true
   validates :edit, presence: true
   validate :valid_change
 
-  enumerize :name, :in => Development.categorized_attributes
+  enumerize :name, :in => Development.all_fields
 
   serialize :change, HashSerializer
 
@@ -17,6 +18,15 @@ class EditField < ActiveRecord::Base
 
   def to
     self.change.fetch(:to)
+  end
+
+  def conflict
+    _from = development.send(name)
+    {current: _from, from: from} if _from != from
+  end
+
+  def conflict?
+    conflict.present?
   end
 
   private

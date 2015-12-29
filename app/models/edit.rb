@@ -1,7 +1,7 @@
 class Edit < ActiveRecord::Base
   extend Enumerize
 
-  has_many :fields, class_name: :EditField
+  has_many :fields, class_name: :EditField, dependent: :nullify
 
   belongs_to :editor,    class_name: :User
   belongs_to :moderator, class_name: :User
@@ -9,15 +9,26 @@ class Edit < ActiveRecord::Base
 
   validates :development, presence: true
   validates :editor, presence: true
-  validates :state,  presence: true, inclusion: { in: %W( pending applied ) }
+  validates :state,  presence: true
 
-  enumerize :state, in: [:pending, :applied], default: :pending, predicates: true
+  enumerize :state, in: [:pending, :applied, :approved, :declined],
+    default: :pending, predicates: true
 
-  default_scope { includes(:fields) }
+  def approved(options={})
+    self.moderated_at = Time.now
+    self.state = :approved
+    apply!(options)
+  end
+
+  def declined(options={})
+    self.moderated_at = Time.now
+    self.state = :declined
+    self.save! if should_save?(options)
+  end
 
   # Alter self.development with contents, and optionally save.
   def apply!(options={})
-    return false if unignored_conflict?(options)
+    return false unless applyable?
     apply(options)
     if should_save?(options)
       transaction do
@@ -36,54 +47,43 @@ class Edit < ActiveRecord::Base
     self.state = :applied
   end
 
-  # The edit can be applied if it's not applied and there's no conflict.
+  # The edit can be applied if:
+  # - it's not already applied AND
+  # - there's no conflict OR there is a conflict but it is ignored.
   def applyable?
-    if applied? || conflict?
+    if applied? || unignored_conflict?
       false
     else
       true
     end
-  rescue StandardError => e
-    puts "APPLYABLE ERROR: #{e.inspect}"
-    false
   end
 
   def not_applyable?
     !applyable?
   end
 
-  # Edit's "from" values which are different from the development's
-  # current values
-  def conflict
-    from_values.select{ |d,e| d != e }
+  def conflicts
+    fields.map(&:conflict).compact
   end
+  alias_method :conflict, :conflicts
 
-  def conflict?
-    conflict.any?
+  def conflicts?
+    conflicts.any?
   end
-
-  # Returns a hash that can be used in assign_attributes
-  # or update_attributes.
-  def assignable_attributes
-    names, to_values = fields.pluck(:name), fields.map(&:to)
-    Hash[names.zip(to_values)]
-  end
+  alias_method :conflict?, :conflicts?
 
   private
 
-    # Return the development's current value, paired with
-    # the edit's 'from' value, partly to see if there's a conflict.
-    def from_values
-      fields.map { |field|
-        [ development.send( field.name ), field.from ]
-      }
+    # If there's a conflict, and we aren't explicitly ignoring it.
+    def unignored_conflict?
+      conflict? && !ignore_conflicts?
     end
 
-    # If there's a conflict, and we aren't explicitly ignoring it.
-    def unignored_conflict?(options={})
-      ignore_conflict = options.fetch(:ignore_conflict, false)
-      do_not_ignore_conflict = !ignore_conflict
-      conflict? && do_not_ignore_conflict
+    # Returns a hash that can be used in assign_attributes
+    # or update_attributes.
+    def assignable_attributes
+      names, to_values = fields.pluck(:name), fields.map(&:to)
+      Hash[names.zip(to_values)]
     end
 
     def should_save?(options={})

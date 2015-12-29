@@ -1,9 +1,14 @@
 Rails.application.routes.draw do
 
-  resources :developments, only: [:index, :show] do
+  resources :developments, only: [:index, :show, :edit] do
     resources :claims, only: [:new, :create]
     # resources :edits,  only: [:new, :create]
     resources :flags,  only: [:new, :create]
+    resources :edits, only: [:index, :show] do
+      post :approve, on: :member
+      post :decline, on: :member
+      get  :pending, on: :collection
+    end
   end
 
   resources :organizations

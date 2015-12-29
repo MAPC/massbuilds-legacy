@@ -29,4 +29,11 @@ function semanticInitializers() {
   $('img.contributor').popup();
   $('.ui.modal').modal('attach events', '.launch.modal', 'show');
   $('.menu .item').tab();
-}
+  $('.ui.modal').modal('attach events', '.launch-modal', 'show');
+  $('.message .close')
+    .on('click', function() {
+      $(this)
+        .closest('.message')
+        .transition('fade');
+    });
+});
