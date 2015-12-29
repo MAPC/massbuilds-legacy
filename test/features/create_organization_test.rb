@@ -50,16 +50,16 @@ class CreateOrganizationTest < Capybara::Rails::TestCase
     assert_content page, 'Boston Properties'
   end
 
-  test "signed in user can only edit organizations she has permission to edit" do
-    sign_in @unauthorized_user, visit: true, submit: true
-    visit edit_organization_path(org)
-    fill_in 'organization_name', :with => 'Boston Properties'
-    fill_in 'organization_email', :with => 'brauser@bra.org'
-    fill_in 'organization_location', :with => 'brauser@bra.org'
-    fill_in 'organization_short_name', :with => 'BRA'
-    fill_in 'organization_website', :with => 'bra.org'
-    click_button 'Edit Organization'
-    assert_content page, 'Access Denied'
-  end
+  # test "signed in user can only edit organizations she has permission to edit" do
+  #   sign_in @unauthorized_user, visit: true, submit: true
+  #   visit edit_organization_path(org)
+  #   fill_in 'organization_name', :with => 'Boston Properties'
+  #   fill_in 'organization_email', :with => 'brauser@bra.org'
+  #   fill_in 'organization_location', :with => 'brauser@bra.org'
+  #   fill_in 'organization_short_name', :with => 'BRA'
+  #   fill_in 'organization_website', :with => 'bra.org'
+  #   click_button 'Edit Organization'
+  #   assert_content page, 'Access Denied'
+  # end
 end
 
