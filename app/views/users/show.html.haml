@@ -8,5 +8,9 @@
       %span.date
         = @user.joined
   .extra.content
-    %i.user.icon
+    %i.edit.icon
     = @user.number_of_contributions
+  .content
+    Active Memberships:
+    .ui.relaxed.divided.list
+      = render @user.memberships

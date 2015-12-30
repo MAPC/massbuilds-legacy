@@ -3,12 +3,8 @@ class UsersController < ApplicationController
     @user = UserPresenter.new(User.find(params[:id]))
   end
 
-  def edit
-
-  end
-
   private
     def user_params
-      params.require(:user).permit(:name, :email)
+      params.require(:user).permit(:name, :email, :first_name, :last_name)
     end
 end
