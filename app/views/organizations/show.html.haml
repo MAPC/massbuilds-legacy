@@ -5,10 +5,11 @@
     %button.ui.right.floated.primary.button 
       %i.edit.icon
       Edit Organization
-  = link_to organization_membership_join_path(@organization, current_user), method: :post do
-    %button.ui.right.floated.green.button 
-      %i.edit.icon
-      Request to Join
+  = if current_user
+    - link_to organization_membership_join_path(@organization, current_user), method: :post do
+      %button.ui.right.floated.green.button 
+        %i.edit.icon
+        Request to Join
   %h1   
     = @organization.name
   #organization
