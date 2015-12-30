@@ -7,6 +7,7 @@ class Membership < ActiveRecord::Base
 
   validates :user, presence: true
   validates :organization, presence: true
+  validates_uniqueness_of :organization_id, scope: [:user_id], conditions: -> { where.not(state: :inactive) }
 
   enumerize :state, in: [:pending, :invited, :active, :inactive],
     default: :pending, predicates: true
@@ -24,5 +25,9 @@ class Membership < ActiveRecord::Base
   def deactivated
     self.state = :inactive
     self
+  end
+
+  def is_unique?
+
   end
 end

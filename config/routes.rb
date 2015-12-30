@@ -11,7 +11,13 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :organizations, only: [:index, :show, :edit, :create, :update, :new]
+  resources :organizations, only: [:index, :show, :edit, :create, :update, :new] do
+    resources :memberships do
+      post :join
+    end
+  end
+
+
 
   devise_for :users, :controllers => { registrations: 'registrations' }
   devise_scope :user do
@@ -21,7 +27,12 @@ Rails.application.routes.draw do
     delete 'signout', to: 'devise/sessions#destroy'
   end
 
-  resources :users, only: [:show]
+  resources :users, only: [:show] do
+    resources :memberships do
+      put :deactivate
+      post :activate
+    end
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 

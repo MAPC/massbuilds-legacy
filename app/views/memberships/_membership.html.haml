@@ -5,3 +5,4 @@
       = link_to membership.organization.name, membership.organization
     .description 
       = link_to membership.organization.website, target: "_blank"
+      = link_to "Cancel", user_membership_deactivate_path(current_user,membership), method: :put, class: "button mini ui button active"

@@ -13,4 +13,7 @@
   .content
     Active Memberships:
     .ui.relaxed.divided.list
-      = render @user.memberships
+      = render @user.active_memberships
+    Pending Memberships:
+    .ui.relaxed.divided.list
+      = render @user.pending_memberships

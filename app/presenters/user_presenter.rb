@@ -28,4 +28,12 @@ class UserPresenter < Burgundy::Item
   def gravatar_url
     @gravatar_url ||= "https://secure.gravatar.com/avatar/#{hasherized_email}"
   end
+
+  def active_memberships
+    item.memberships.where(state: :active)
+  end
+
+  def pending_memberships
+    item.memberships.where(state: :pending)
+  end
 end
