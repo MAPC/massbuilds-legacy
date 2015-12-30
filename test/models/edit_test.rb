@@ -28,7 +28,7 @@ class EditTest < ActiveSupport::TestCase
     assert_not edit.valid?
   end
 
-  test "#edit_fields" do
+  test "edited #fields" do
     assert_respond_to edit, :fields
   end
 

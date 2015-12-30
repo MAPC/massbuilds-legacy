@@ -23,10 +23,10 @@ class InboxNotice < ActiveRecord::Base
     def mark_as(state)
       self.state = :read
     end
-end
 
-# Notification = in-app message
-# Server-side events push them, also Hackpad- or Slack-style notices
-# But "Notification" could mean SMS, email, robocall etc.
-# So "notiication" isn't the right concept here, but rather "inbox message"
-# or something like that.
+  # Notification = in-app message
+  # Server-side events push them, also Hackpad- or Slack-style notices
+  # But "Notification" could mean SMS, email, robocall etc.
+  # So "notiication" isn't the right concept here, but rather "inbox message"
+  # or something like that.
+end

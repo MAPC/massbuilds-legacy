@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ChangePresenterTest < ActiveSupport::TestCase
   def presenter
-    @_presenter ||= ChangePresenter.new(edit_fields(:one))
+    @_presenter ||= ChangePresenter.new(field_edits(:one))
   end
   def item
     presenter.item

@@ -1,4 +1,4 @@
-class EditField < ActiveRecord::Base
+class FieldEdit < ActiveRecord::Base
   extend Enumerize
 
   belongs_to :edit
