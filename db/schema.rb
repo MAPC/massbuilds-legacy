@@ -83,16 +83,6 @@ ActiveRecord::Schema.define(version: 20151221194441) do
   add_index "developments_programs", ["development_id"], name: "index_developments_programs_on_development_id", using: :btree
   add_index "developments_programs", ["program_id"], name: "index_developments_programs_on_program_id", using: :btree
 
-  create_table "edit_fields", force: :cascade do |t|
-    t.integer  "edit_id"
-    t.string   "name"
-    t.json     "change"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "edit_fields", ["edit_id"], name: "index_edit_fields_on_edit_id", using: :btree
-
   create_table "edits", force: :cascade do |t|
     t.integer  "editor_id"
     t.integer  "moderator_id"
@@ -109,6 +99,16 @@ ActiveRecord::Schema.define(version: 20151221194441) do
   add_index "edits", ["development_id"], name: "index_edits_on_development_id", using: :btree
   add_index "edits", ["editor_id"], name: "index_edits_on_editor_id", using: :btree
   add_index "edits", ["moderator_id"], name: "index_edits_on_moderator_id", using: :btree
+
+  create_table "field_edits", force: :cascade do |t|
+    t.integer  "edit_id"
+    t.string   "name"
+    t.json     "change"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "field_edits", ["edit_id"], name: "index_field_edits_on_edit_id", using: :btree
 
   create_table "flags", force: :cascade do |t|
     t.integer  "flagger_id"
@@ -192,13 +192,11 @@ ActiveRecord::Schema.define(version: 20151221194441) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer  "organization_id"
     t.string   "first_name"
     t.string   "last_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["organization_id"], name: "index_users_on_organization_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "verifications", force: :cascade do |t|
@@ -220,11 +218,10 @@ ActiveRecord::Schema.define(version: 20151221194441) do
   add_foreign_key "development_team_memberships", "organizations"
   add_foreign_key "developments_programs", "developments"
   add_foreign_key "developments_programs", "programs"
-  add_foreign_key "edit_fields", "edits"
   add_foreign_key "edits", "developments"
+  add_foreign_key "field_edits", "edits"
   add_foreign_key "flags", "developments"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
-  add_foreign_key "users", "organizations"
   add_foreign_key "verifications", "users"
 end

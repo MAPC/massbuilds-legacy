@@ -1,10 +1,10 @@
 require 'test_helper'
 
-class EditFieldTest < ActiveSupport::TestCase
-  def edit_field
-    @_edit_field = edit_fields :one
+class FieldEditTest < ActiveSupport::TestCase
+  def field_edit
+    @_field_edit = field_edits :one
   end
-  alias_method :field, :edit_field
+  alias_method :field, :field_edit
 
   test "valid" do
     assert field.valid?, field.errors.full_messages
