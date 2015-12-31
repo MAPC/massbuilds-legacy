@@ -24,8 +24,7 @@ class OrganizationMembershipTest < Capybara::Rails::TestCase
   test "signed in user requests to join org twice and receives an error the second time" do
     sign_in user, visit: true, submit: true
     visit organization_path(org)
-    click_link 'Request to Join'
-    click_link 'Request to Join'
+    2.times { click_link 'Request to Join' }
     assert_content page, "You've already asked to join that organization."
   end
 
