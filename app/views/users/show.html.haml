@@ -1,7 +1,19 @@
-#identity
-  #photo
-    = gravatar_for @user, size: :show
-  #stats
-    #location @user.location
-    #website  @user.website
-    #email    @user.email
+#main.ui.main.container
+  .image
+    %img{src: @user.gravatar_url}
+  .content
+    %a.header 
+      = @user.full_name
+    .meta
+      %span.date
+        = @user.joined
+  .extra.content
+    %i.edit.icon
+    = pluralize(@user.contributions.count, "contribution")
+  .content
+    Active Memberships:
+    .ui.relaxed.divided.list
+      = render @user.active_memberships
+    Pending Memberships:
+    .ui.relaxed.divided.list
+      = render @user.pending_memberships

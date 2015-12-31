@@ -1,4 +1,6 @@
 class Organization < ActiveRecord::Base
+  extend Enumerize
+
   has_many :memberships
   has_many :members, through: :memberships, source: :user
   has_many :administrators, class_name: :User
@@ -19,7 +21,7 @@ class Organization < ActiveRecord::Base
   validate  :valid_url_template, if: 'url_template.present?'
 
   def active_members
-    memberships.where(state: 'active').map(&:user)
+    memberships.where(state: 'active').map(&:user).uniq
   end
 
   def url_parser

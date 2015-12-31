@@ -74,8 +74,16 @@ namespace :db do
       state: :applied,
       applied_at: 4.hours.ago
     )
-
-
+    edit4 = Edit.create(
+      development: development,
+      editor: user,
+      fields: [FieldEdit.create(name: 'commsf', change: {from: '12', to: '1200'})]
+    )
+    edit5 = Edit.create(
+      development: development,
+      editor: user,
+      fields: [FieldEdit.create(name: 'commsf', change: {from: '12', to: '1300'})]
+    )
     # 7.times { create_user }
     # 6.times { create_development }
     # 3.times { create_organization }

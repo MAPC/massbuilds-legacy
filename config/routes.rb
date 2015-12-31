@@ -11,14 +11,23 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :organizations, only: [:index, :show, :edit, :create, :update, :new]
+  resources :organizations, only: [:index, :show, :edit, :create, :update, :new, :join] do
+    post :join, to: 'memberships#join', on: :member
+  end
 
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
   devise_scope :user do
     get    'signup',  to: 'devise/registrations#new'
     get    'signin',  to: 'devise/sessions#new'
     post   'signin',  to: 'devise/sessions#create'
     delete 'signout', to: 'devise/sessions#destroy'
+  end
+
+  resources :users, only: [:show] do
+    resources :memberships, only: [:deactivate, :activate] do
+      put :deactivate
+      post :activate
+    end
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
