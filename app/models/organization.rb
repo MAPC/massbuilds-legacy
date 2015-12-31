@@ -19,7 +19,7 @@ class Organization < ActiveRecord::Base
   validate  :valid_url_template, if: 'url_template.present?'
 
   def active_members
-    memberships.where(state: 'active').map(&:user)
+    memberships.where(state: 'active').map(&:user).uniq
   end
 
   def url_parser
