@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  before_save :hasherize_email
+  before_save :hash_email
 
   has_many :memberships
   has_many :organizations, through: :memberships
@@ -12,7 +12,6 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name,  presence: true
 
-  # TODO Replace using Naught
   def self.null
     @null ||= new(email: "<Null User>")
   end
@@ -28,7 +27,7 @@ class User < ActiveRecord::Base
 
   private
 
-    def hasherize_email
+    def hash_email
       self.hasherized_email = Digest::MD5::hexdigest(email.downcase)
     end
 end

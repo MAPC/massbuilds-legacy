@@ -1,15 +1,13 @@
 class MembershipsController < ApplicationController
 
   def join
-    @organization = Organization.find membership_params[:organization_id]
-    @membership = Membership.new
-    @membership.user = current_user
-    @membership.organization = @organization
+    @organization = Organization.find membership_params[:id]
+    membership = @organization.memberships.new(user: current_user)
 
-    if @membership.save
+    if membership.save
       flash[:success] = "Membership request sent."
     else
-      flash[:danger] = @membership.errors.full_messages
+      flash[:danger] = membership.errors.full_messages
     end
 
     redirect_to @organization
@@ -17,14 +15,12 @@ class MembershipsController < ApplicationController
 
   def deactivate
     @membership = Membership.find(membership_params[:membership_id])
-    @membership.deactivated
-    @membership.save
+    @membership.deactivated.save
     redirect_to current_user
   end
 
   def activate
-    @membership = Membership.new
-    @membership.user = current_user
+    @membership = Membership.new(user: current_user)
 
     if @membership.save
       flash[:success] = "Membership request sent."
@@ -37,6 +33,6 @@ class MembershipsController < ApplicationController
 
   private
     def membership_params
-      params.permit(:membership_id, :user_id, :organization_id)
+      params.permit(:membership_id, :user_id, :organization_id, :id, :_method, :authenticity_token,)
     end  
 end

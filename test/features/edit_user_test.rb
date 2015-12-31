@@ -12,7 +12,6 @@ class EditUserTest < Capybara::Rails::TestCase
     sign_in user, visit: true, submit: true
     visit edit_user_registration_path
     fill_in 'user_first_name', :with => 'William'
-    fill_in 'user_current_password', :with => user.password
     click_button 'Update'
     assert_content page, 'William'
   end

@@ -11,10 +11,8 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :organizations, only: [:index, :show, :edit, :create, :update, :new] do
-    resources :memberships do
-      post :join
-    end
+  resources :organizations, only: [:index, :show, :edit, :create, :update, :new, :join] do
+    post :join, to: 'memberships#join', on: :member
   end
 
   devise_for :users, :controllers => { registrations: 'registrations' }
@@ -26,7 +24,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show] do
-    resources :memberships do
+    resources :memberships, only: [:deactivate, :activate] do
       put :deactivate
       post :activate
     end

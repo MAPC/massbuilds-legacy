@@ -18,11 +18,7 @@ class UserPresenter < Burgundy::Item
   end
 
   def joined
-    "Joined #{time_ago_in_words item.created_at} ago"
-  end
-
-  def number_of_contributions
-    pluralize(item.contributions.count, "contribution")
+    "#{time_ago_in_words item.created_at} ago"
   end
 
   def gravatar_url

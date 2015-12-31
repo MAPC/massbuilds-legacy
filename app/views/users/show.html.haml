@@ -9,7 +9,7 @@
         = @user.joined
   .extra.content
     %i.edit.icon
-    = @user.number_of_contributions
+    = pluralize(@user.contributions.count, "contribution")
   .content
     Active Memberships:
     .ui.relaxed.divided.list

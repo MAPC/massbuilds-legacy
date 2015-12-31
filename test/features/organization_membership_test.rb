@@ -1,6 +1,6 @@
 require "test_helper"
 
-class EditOrganizationTest < Capybara::Rails::TestCase
+class OrganizationMembershipTest < Capybara::Rails::TestCase
 
   def user
     @user ||= users :normal
@@ -14,22 +14,22 @@ class EditOrganizationTest < Capybara::Rails::TestCase
 
   alias_method :org, :organization
 
-  test "signed in user visits existing organization and requests to join it" do
+  test "signed in user requests to join organization" do
     sign_in user, visit: true, submit: true
     visit organization_path(org)
     click_link 'Request to Join'
     assert_content page, 'Membership request sent'
   end
 
-  test "signed in user visits existing organization, requests to join it twice, and receives an error the second time" do
+  test "signed in user requests to join org twice and receives an error the second time" do
     sign_in user, visit: true, submit: true
     visit organization_path(org)
     click_link 'Request to Join'
     click_link 'Request to Join'
-    assert_content page, 'Organization has already been taken'
+    assert_content page, "You've already asked to join that organization."
   end
 
-  test "signed in user visits existing organization, requests to join it, and cancels join request" do
+  test "signed in user requests to join organization and cancels join request" do
     sign_in user, visit: true, submit: true
     visit organization_path(org)
     click_link 'Request to Join'
