@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151221194441) do
+ActiveRecord::Schema.define(version: 20151231181025) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -71,6 +71,12 @@ ActiveRecord::Schema.define(version: 20151221194441) do
     t.json     "fields"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.boolean  "rdv"
+    t.boolean  "asofright"
+    t.boolean  "ovr55"
+    t.boolean  "clusteros"
+    t.boolean  "phased"
+    t.boolean  "stalled"
   end
 
   add_index "developments", ["creator_id"], name: "index_developments_on_creator_id", using: :btree

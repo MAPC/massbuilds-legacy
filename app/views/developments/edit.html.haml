@@ -7,7 +7,7 @@
           = render partial: 'developments/edit/status', locals: { f: f }
 
         #tags
-          = render partial: 'developments/edit/tags'
+          = render partial: 'developments/edit/tags', locals: { f: f }
 
         %br
 
@@ -25,11 +25,3 @@
     .six.wide.column#sidebar
       #map=     render partial: 'developments/edit/map',          locals: { f: f }
       #team=    render partial: 'developments/edit/team',         locals: { f: f }
-
-:javascript
-  $(document).ready(function() {
-    $('.checkable.label').css('cursor', 'pointer');
-    $('.checkable.label').click(function() {
-      $(this).toggleClass('basic');
-    });
-  });
