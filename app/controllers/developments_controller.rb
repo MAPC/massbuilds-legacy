@@ -1,5 +1,5 @@
 class DevelopmentsController < ApplicationController
-  before_action :load_record, only: [:show, :edit]
+  before_action :load_record, only: [:show]
 
   def index
     @developments = Development.all
@@ -9,6 +9,7 @@ class DevelopmentsController < ApplicationController
   end
 
   def edit
+    @development = ProposedEdit.new( Development.find(params[:id]) )
   end
 
   private

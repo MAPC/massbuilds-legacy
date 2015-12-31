@@ -59,7 +59,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   test "associations" do
     # #recent_changes -> presenter
     %i( contributors creator crosswalks edits flags history
-        last_edit parcel team_members
+        parcel team_members
         team_memberships walkscore programs
       ).each do |attribute|
       assert_respond_to d, attribute
@@ -87,15 +87,6 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test "#pending" do
     assert_not_empty d.pending_edits
-  end
-
-  test "#last_edit" do
-    3.times {
-      d.edits.new(state: 'applied', applied_at: 1.minute.ago).save(validate: false)
-    }
-    last_edit = d.edits.new(state: 'applied', applied_at: Time.now)
-    last_edit.save(validate: false)
-    assert_equal last_edit, d.last_edit
   end
 
   test "#contributors" do

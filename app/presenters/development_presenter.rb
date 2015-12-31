@@ -75,20 +75,12 @@ class DevelopmentPresenter < Burgundy::Item
     pending_edits.empty?
   end
 
-  def housing_table_fields
-    %i( singfamhu twnhsmmult lgmultifam affordable )
-  end
-
   def commercial_table_fields
     %i( fa_ret fa_ofcmd fa_indmf fa_whs fa_rnd fa_edinst fa_hotel fa_other )
   end
 
   def employment_table_fields
     %i( employment hotelrms )
-  end
-
-  def any_commercial_table_fields?
-    any_fields? :commercial
   end
 
   def any_employment_table_fields?

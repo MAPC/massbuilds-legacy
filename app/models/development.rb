@@ -4,7 +4,7 @@ class Development < ActiveRecord::Base
   before_save :update_tagline
 
   belongs_to :creator, class_name: :User
-  has_one :walkscore # TODO next
+  has_one :walkscore # TODO
 
   has_many :edits
   has_many :flags
@@ -53,10 +53,6 @@ class Development < ActiveRecord::Base
     _contributors.uniq
   end
 
-  def last_edit
-    history.limit(1).first
-  end
-
   def parcel
     OpenStruct.new(id: 12345)
   end
@@ -70,13 +66,6 @@ class Development < ActiveRecord::Base
   end
 
   def private?   ; read_attribute(:private) ; end
-  # Use self.boolean_fields to define these dynamically.
-  def rdv?       ; rdv       ; end
-  def asofright? ; asofright ; end
-  def ovr55?     ; ovr55     ; end
-  def clusteros? ; clusteros ; end
-  def phased?    ; phased    ; end
-  def stalled?   ; stalled   ; end
 
   def self.fields_hash
     @@fields_hash ||= build_fields_hash
