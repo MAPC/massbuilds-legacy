@@ -22,7 +22,7 @@ class UserPresenter < Burgundy::Item
   end
 
   def gravatar_url
-    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{hasherized_email}"
+    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{hashed_email}"
   end
 
   def active_memberships

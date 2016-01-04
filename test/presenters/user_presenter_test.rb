@@ -25,7 +25,7 @@ class UserPresenterTest < ActiveSupport::TestCase
   test "gravatar id" do
     pres.save
     expected = '72dedd9e525e529e37b724e8aba4997f'
-    assert_equal expected, pres.hasherized_email
+    assert_equal expected, pres.hashed_email
   end
 
   test "gravatar url" do

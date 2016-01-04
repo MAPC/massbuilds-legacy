@@ -15,7 +15,11 @@ class MembershipsController < ApplicationController
 
   def deactivate
     membership = Membership.find(membership_params[:membership_id])
-    membership.deactivated.save
+    if membership.deactivated.save
+      flash[:success] = "Membership deactivated."
+    else
+      flash[:danger] = membership.errors.full_messages
+    end
     redirect_to current_user
   end
 
