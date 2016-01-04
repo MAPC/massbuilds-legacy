@@ -41,7 +41,8 @@ class Development < ActiveRecord::Base
   end
 
   def mixed_use?
-    any_residential_fields? && any_commercial_fields?
+    false
+    # any_residential_fields? && any_commercial_fields?
   end
   # TODO: Cache this in the database, to be used for searches.
   alias_method :mixed_use, :mixed_use?

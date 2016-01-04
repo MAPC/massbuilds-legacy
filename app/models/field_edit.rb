@@ -8,8 +8,10 @@ class FieldEdit < ActiveRecord::Base
   validates :edit, presence: true
   validate :valid_change
 
-  enumerize :name, :in => Development.all_fields
+  enumerize :name, :in => Development.attribute_names
 
+  # Storing as JSON allows us to store the
+  # :to and :from attributes as any type.
   serialize :change, HashSerializer
 
   def from
@@ -21,8 +23,9 @@ class FieldEdit < ActiveRecord::Base
   end
 
   def conflict
-    _from = development.send(name)
-    {current: _from, from: from} if _from != from
+    development_current = development.send(name)
+    return nil if development_current == from
+    {current: development_current, from: from}
   end
 
   def conflict?

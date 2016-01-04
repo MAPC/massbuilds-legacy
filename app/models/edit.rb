@@ -15,12 +15,14 @@ class Edit < ActiveRecord::Base
     default: :pending, predicates: true
 
   def approved(options={})
+    return false if self.moderated?
     self.moderated_at = Time.now
     self.state = :approved
     apply!(options)
   end
 
   def declined(options={})
+    return false if self.moderated?
     self.moderated_at = Time.now
     self.state = :declined
     self.save! if should_save?(options)
@@ -71,6 +73,10 @@ class Edit < ActiveRecord::Base
     conflicts.any?
   end
   alias_method :conflict?, :conflicts?
+
+  def moderated?
+    moderated_at.presence
+  end
 
   private
 

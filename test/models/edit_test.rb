@@ -99,6 +99,12 @@ class EditTest < ActiveSupport::TestCase
     assert edit.moderated_at
   end
 
+  test "moderated" do
+    refute edit.moderated?
+    edit.declined
+    assert edit.moderated?
+  end
+
   # test "approval without save" do
   #   skip """
   #     The approval process and interface for edits is a little

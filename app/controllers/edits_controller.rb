@@ -34,6 +34,11 @@ class EditsController < ApplicationController
 
     def load_record
       @edit = EditPresenter.new( Edit.find params[:id] )
+      if @edit.moderated?
+        # TODO Test this.
+        flash[:error] = "The edit you were trying to moderate has already been #{@edit.state}."
+        redirect_to :pending_development_edits
+      end
     end
 
     def default_rescue_action
