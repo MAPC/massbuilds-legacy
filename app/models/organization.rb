@@ -1,4 +1,6 @@
 class Organization < ActiveRecord::Base
+  extend Enumerize
+
   has_many :memberships
   has_many :members, through: :memberships, source: :user
   has_many :administrators, class_name: :User
