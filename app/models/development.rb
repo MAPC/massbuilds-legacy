@@ -18,7 +18,6 @@ class Development < ActiveRecord::Base
   validates :creator, presence: true
 
   serialize :fields, HashSerializer
-  # Should get from self.all_fields, but comes up as nil.
   store_accessor :fields, [:mixeduse, :private, :cancelled,
     :fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst,
     :fa_other, :other_rate, :fa_hotel,
@@ -56,9 +55,7 @@ class Development < ActiveRecord::Base
   end
 
   def contributors
-    _contributors = edits.where(state: 'applied').map(&:editor)
-    _contributors << creator
-    _contributors.uniq
+    ContributorQuery.new(self).find.map(&:editor).push(creator).uniq
   end
 
   def parcel
@@ -73,7 +70,9 @@ class Development < ActiveRecord::Base
     programs.where type: :regulatory
   end
 
-  def private?   ; read_attribute(:private) ; end
+  def private?
+    read_attribute(:private)
+  end
 
   private
 
