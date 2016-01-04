@@ -26,6 +26,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test "attribute read is from an indifferent hash" do
+    skip "Moving attributes out of hash."
     d.name = 'Godfrey Hotel'
     assert_equal d.fields['name'], d.name
     assert_equal d.fields[:name], d.name
@@ -55,6 +56,23 @@ class DevelopmentTest < ActiveSupport::TestCase
       assert_respond_to d, attribute
     end
   end
+
+  # Attributes
+
+  test "accepts 5-digit zip codes" do
+    assert_respond_to d, :zip_code
+    assert_respond_to d, :zip
+    d.zip_code = '02139'
+  end
+
+  test "accepts 9-digit zip codes" do
+    d.zip_code = input = '02139-1112'
+    assert d.save
+    assert_equal '021391112',  d.read_attribute(:zip_code)
+    assert_equal input, d.zip_code
+  end
+
+  # Associations
 
   test "associations" do
     # #recent_changes -> presenter

@@ -1,10 +1,10 @@
 one:
+  name: Godfrey Hotel
+  address: 505 Washington Street
+  city: Boston
+  state: MA
+  zip_code: '02111'
   fields:
-    name: Godfrey Hotel
-    address: 505 Washington Street
-    city: Boston
-    state: MA
-    zip_code: '02111'
     commsf: 12
     estemp: 75
   creator: normal

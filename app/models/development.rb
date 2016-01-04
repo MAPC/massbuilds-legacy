@@ -2,6 +2,7 @@ class Development < ActiveRecord::Base
   extend Enumerize
 
   before_save :update_tagline
+  before_save :clean_zip_code
 
   belongs_to :creator, class_name: :User
   has_one :walkscore # TODO
@@ -18,20 +19,29 @@ class Development < ActiveRecord::Base
 
   serialize :fields, HashSerializer
   # Should get from self.all_fields, but comes up as nil.
-  store_accessor :fields, [:name, :status, :year_compl, :prjarea,
+  store_accessor :fields, [:year_compl, :prjarea,
     :rdv, :singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop,
     :clusteros, :ovr55, :mixeduse, :rptdemp, :emploss, :estemp,
     :commsf, :fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs, :fa_rnd,
-    :fa_edinst, :fa_other, :other_rate, :fa_hotel, :hotelrms, :desc,
-    :project_url, :mapc_notes, :stalled, :phased, :onsitepark,
-    :asofright, :total_cost, :private, :cancelled, :location,
-    :tagline, :address, :city, :state, :zip_code, :affunits,
-    :affordable, :ch40_id, :project_type, :feet_tall, :stories]
+    :fa_edinst, :fa_other, :other_rate, :fa_hotel, :hotelrms,
+    :stalled, :phased, :onsitepark, :asofright, :total_cost, :private,
+    :cancelled, :location, :affunits, :affordable, :ch40_id,
+    :project_type, :feet_tall, :stories]
 
   STATUSES = [:projected, :planning, :in_construction, :completed]
   enumerize :status, :in => STATUSES, predicates: true
 
   alias_attribute :website, :project_url
+  alias_attribute :zip, :zip_code
+
+  def zip_code
+    code = read_attribute(:zip_code)
+    if code.length == 9
+      "#{code[0..4]}-#{code[-4..-1]}"
+    else
+      code
+    end
+  end
 
   def mixed_use?
     any_residential_fields? && any_commercial_fields?
@@ -131,5 +141,9 @@ class Development < ActiveRecord::Base
 
     def update_tagline
       self.tagline = TaglineGenerator.new(self).perform!
+    end
+
+    def clean_zip_code
+      self.zip_code = self.zip_code.to_s.gsub(/\D*/, '')
     end
 end
