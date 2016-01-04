@@ -154,7 +154,6 @@ ActiveRecord::Schema.define(version: 20160104162316) do
     t.datetime "updated_at",   null: false
     t.string   "abbv"
     t.string   "short_name"
-    t.boolean  "type"
   end
 
   add_index "organizations", ["creator_id"], name: "index_organizations_on_creator_id", using: :btree
