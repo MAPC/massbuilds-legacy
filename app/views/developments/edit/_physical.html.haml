@@ -3,12 +3,19 @@
   .sub.header
     Physical Attributes
 
-.ui.tiny.statistics
-  .five.fields
-    - @development.stats.each do |stat|
-      .field
-        .ui.statistic
-          .value
-            = f.text_field stat
-          .label
-            = @development.human_name_for(stat)
+.ui.form
+  .required.inline.field
+    = f.label :tothu, "Total Housing Units"
+    = f.number_field :tothu, min: 0
+  .required.inline.field
+    = f.label :commsf, "Total Commercial Floor Area (in sqft.)"
+    = f.number_field :commsf, min: 0
+  .inline.field
+    = f.label :prjarea, "Project Area (in sqft.)"
+    = f.number_field :prjarea, min: 0
+  .inline.field
+    = f.label :stories, "Stories"
+    = f.number_field :stories, min: 0
+  .inline.field
+    = f.label :feet_tall, "Height (in feet)"
+    = f.number_field :feet_tall, min: 0

@@ -11,9 +11,9 @@
 
         %br
 
-        #images
-          %img.ui.large.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
-          Street View Editor
+        -# #images
+        -#   %img.ui.large.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
+        -#   Street View Editor
 
         #data
           .ui.horizontal.divider Details
@@ -22,6 +22,6 @@
           = render partial: 'developments/edit/commercial',     locals: { f: f }
           = render partial: 'developments/edit/transportation', locals: { f: f }
 
-    .six.wide.column#sidebar
-      #map=     render partial: 'developments/edit/map',          locals: { f: f }
-      #team=    render partial: 'developments/edit/team',         locals: { f: f }
+    -# .six.wide.column#sidebar
+    -#   #map=     render partial: 'developments/edit/map',          locals: { f: f }
+    -#   #team=    render partial: 'developments/edit/team',         locals: { f: f }
