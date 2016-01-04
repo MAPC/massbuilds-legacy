@@ -17,6 +17,6 @@ class UserTest < ActiveSupport::TestCase
 
   test "hasherize email" do
     user.save
-    assert_not_empty user.hasherized_email
+    assert_not_empty user.hashed_email
   end
 end

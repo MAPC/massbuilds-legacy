@@ -28,6 +28,6 @@ class User < ActiveRecord::Base
   private
 
     def hash_email
-      self.hasherized_email = Digest::MD5::hexdigest(email.downcase)
+      self.hashed_email = Digest::MD5::hexdigest(email.downcase)
     end
 end
