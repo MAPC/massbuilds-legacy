@@ -1,4 +1,6 @@
 class UserPresenter < Burgundy::Item
+  include ActionView::Helpers
+
   def first_name
     item.first_name.titleize
   end
@@ -15,11 +17,19 @@ class UserPresenter < Burgundy::Item
     "#{first_name} #{last_name}"
   end
 
-  def gravatar_id
-    Digest::MD5::hexdigest(email.downcase)
+  def joined
+    "#{time_ago_in_words item.created_at} ago"
   end
 
   def gravatar_url
-    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{gravatar_id}"
+    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{hashed_email}"
+  end
+
+  def active_memberships
+    item.memberships.where(state: :active)
+  end
+
+  def pending_memberships
+    item.memberships.where(state: :pending)
   end
 end
