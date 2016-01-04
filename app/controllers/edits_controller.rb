@@ -7,19 +7,21 @@ class EditsController < ApplicationController
   end
 
   def approve
-    @edit.approved
-    flash[:partial] = partial_object(:approved)
-    redirect_to :pending_development_edits
-  rescue
-    default_rescue_action
+    if @edit.approved
+      flash[:partial] = partial_object(:approved)
+      redirect_to :pending_development_edits
+    else
+      default_rescue_action
+    end
   end
 
   def decline
-    @edit.declined
-    flash[:partial] = partial_object(:declined)
-    redirect_to :pending_development_edits
-  rescue
-    default_rescue_action
+    if @edit.declined
+      flash[:partial] = partial_object(:declined)
+      redirect_to :pending_development_edits
+    else
+      default_rescue_action
+    end
   end
 
   private

@@ -1,0 +1,19 @@
+-# TODO make this a view helper
+- if @development.private?
+  .ui.teal.basic.label   Draft
+- if @development.private?
+  .ui.grey.basic.label   Private
+- if @development.rdv?
+  .ui.red.basic.label    Redevelopment
+- if @development.mixed_use?
+  .ui.orange.basic.label Mixed Use
+- if @development.asofright?
+  .ui.green.basic.label  As of Right
+- if @development.ovr55?
+  .ui.blue.basic.label   Age-Restricted
+- if @development.clusteros?
+  .ui.purple.basic.label Cluster Development
+- if @development.phased?
+  .ui.pink.basic.label   Phased
+- if @development.stalled?
+  .ui.black.basic.label  Stalled

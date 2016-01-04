@@ -1,0 +1,14 @@
+%h3.ui.header
+  Building & Site
+  .sub.header
+    Physical Attributes
+
+.ui.tiny.statistics
+  .five.fields
+    - @development.stats.each do |stat|
+      .field
+        .ui.statistic
+          .value
+            = f.text_field stat
+          .label
+            = @development.human_name_for(stat)

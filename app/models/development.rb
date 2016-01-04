@@ -26,7 +26,7 @@ class Development < ActiveRecord::Base
     :project_url, :mapc_notes, :stalled, :phased, :onsitepark,
     :asofright, :total_cost, :private, :cancelled, :location,
     :tagline, :address, :city, :state, :zip_code, :affunits,
-    :affordable, :ch40_id, :project_type]
+    :affordable, :ch40_id, :project_type, :feet_tall, :stories]
 
   STATUSES = [:projected, :planning, :in_construction, :completed]
   enumerize :status, :in => STATUSES, predicates: true
@@ -78,10 +78,6 @@ class Development < ActiveRecord::Base
   def phased?    ; phased    ; end
   def stalled?   ; stalled   ; end
 
-  alias_attribute :total_housing, :tothu
-  alias_attribute :housing_units, :tothu
-  alias_attribute :floor_area_commercial, :commsf
-
   def self.fields_hash
     @@fields_hash ||= build_fields_hash
   end
@@ -102,6 +98,14 @@ class Development < ActiveRecord::Base
 
   def lookup_metadata(field, method)
     self.class.fields_hash.fetch(field.to_s).send(method)
+  end
+
+  def any_residential_fields?
+    @_any_residential ||= any_values(:residential).any?
+  end
+
+  def any_commercial_fields?
+    @_any_commercial  ||= any_values(:commercial).any?
   end
 
   private
@@ -129,15 +133,6 @@ class Development < ActiveRecord::Base
       end
     end
     self.build_category_helper_methods
-
-
-    def any_residential_fields?
-      @_any_residential ||= any_values(:residential).any?
-    end
-
-    def any_commercial_fields?
-      @_any_commercial  ||= any_values(:commercial).any?
-    end
 
     # Determine if `{type}_fields` (i.e. `boolean_fields`) have any
     # assigned values.

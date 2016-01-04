@@ -15,6 +15,9 @@
  *= require_self
  */
 
+#main {
+  margin-top: 50px;
+}
 
 a {
   cursor: pointer;

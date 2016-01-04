@@ -12,21 +12,32 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require turbolinks
 //= require semantic_ui/semantic_ui
 //= require_tree .
+//= require turbolinks
 
-$(document).ready(function(){
+$(document).ready(function() {
+  semanticInitializers();
+});
+
+$( document ).on('page:load',function() {
+  semanticInitializers();
+});
+
+function semanticInitializers() {
   $('.ui.dropdown').dropdown();
   $('img.contributor').popup();
-  $('.ui.modal').modal('attach events', '.launch-modal', 'show');
+  $('.menu .item').tab();
   $('.message .close')
     .on('click', function() {
       $(this)
         .closest('.message')
-        .transition('fade')
-      ;
-    })
-  ;
-});
-
+        .transition('fade');
+    });
+  $('.launch-modal').on('click', function(){
+    // Get the data-modal attribute containing the id of the modal
+    // we want to launch.
+    modal_id = $(this).attr('data-modal');
+    $('#' + modal_id + '.modal').modal('show');
+  });
+}

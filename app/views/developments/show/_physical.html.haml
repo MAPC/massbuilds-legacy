@@ -1,0 +1,12 @@
+%h3.ui.header
+  Building & Site
+  .sub.header
+    Physical Attributes
+
+.ui.tiny.statistics
+  - @development.stats.each do |stat|
+    - if value = @development.send(stat)
+      .ui.statistic
+        .value= value
+        .label
+          = @development.human_name_for(stat)

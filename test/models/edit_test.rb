@@ -28,7 +28,7 @@ class EditTest < ActiveSupport::TestCase
     assert_not edit.valid?
   end
 
-  test "#edit_fields" do
+  test "edited #fields" do
     assert_respond_to edit, :fields
   end
 
@@ -87,13 +87,16 @@ class EditTest < ActiveSupport::TestCase
     assert_respond_to edit, :approved
     edit.approved
     assert_equal 'applied', edit.state
+    assert edit.moderated_at
   end
 
   test "declined" do
     assert_respond_to edit, :declined
+    refute edit.moderated_at
     edit.declined
     assert_equal 'declined', edit.state
     assert_equal 'declined', edit.reload.state
+    assert edit.moderated_at
   end
 
   # test "approval without save" do

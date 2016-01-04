@@ -122,4 +122,8 @@ class OrganizationTest < ActiveSupport::TestCase
     org.crosswalks.new(development: dev, internal_id: '1-0')
     assert_not_empty org.crosswalks
   end
+
+  test 'related developments custom method responds correctly' do
+    assert_respond_to(org, :developments)
+  end
 end

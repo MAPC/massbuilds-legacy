@@ -1,7 +1,7 @@
 class Edit < ActiveRecord::Base
   extend Enumerize
 
-  has_many :fields, class_name: :EditField, dependent: :nullify
+  has_many :fields, class_name: :FieldEdit, dependent: :nullify
 
   belongs_to :editor,    class_name: :User
   belongs_to :moderator, class_name: :User
@@ -15,11 +15,13 @@ class Edit < ActiveRecord::Base
     default: :pending, predicates: true
 
   def approved(options={})
+    self.moderated_at = Time.now
     self.state = :approved
     apply!(options)
   end
 
   def declined(options={})
+    self.moderated_at = Time.now
     self.state = :declined
     self.save! if should_save?(options)
   end

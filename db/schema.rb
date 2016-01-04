@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151221193304) do
+ActiveRecord::Schema.define(version: 20160104162316) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -83,16 +83,6 @@ ActiveRecord::Schema.define(version: 20151221193304) do
   add_index "developments_programs", ["development_id"], name: "index_developments_programs_on_development_id", using: :btree
   add_index "developments_programs", ["program_id"], name: "index_developments_programs_on_program_id", using: :btree
 
-  create_table "edit_fields", force: :cascade do |t|
-    t.integer  "edit_id"
-    t.string   "name"
-    t.json     "change"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  add_index "edit_fields", ["edit_id"], name: "index_edit_fields_on_edit_id", using: :btree
-
   create_table "edits", force: :cascade do |t|
     t.integer  "editor_id"
     t.integer  "moderator_id"
@@ -103,11 +93,22 @@ ActiveRecord::Schema.define(version: 20151221193304) do
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
     t.boolean  "ignore_conflicts", default: false
+    t.datetime "moderated_at"
   end
 
   add_index "edits", ["development_id"], name: "index_edits_on_development_id", using: :btree
   add_index "edits", ["editor_id"], name: "index_edits_on_editor_id", using: :btree
   add_index "edits", ["moderator_id"], name: "index_edits_on_moderator_id", using: :btree
+
+  create_table "field_edits", force: :cascade do |t|
+    t.integer  "edit_id"
+    t.string   "name"
+    t.json     "change"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "field_edits", ["edit_id"], name: "index_field_edits_on_edit_id", using: :btree
 
   create_table "flags", force: :cascade do |t|
     t.integer  "flagger_id"
@@ -153,6 +154,7 @@ ActiveRecord::Schema.define(version: 20151221193304) do
     t.datetime "updated_at",   null: false
     t.string   "abbv"
     t.string   "short_name"
+    t.boolean  "type"
   end
 
   add_index "organizations", ["creator_id"], name: "index_organizations_on_creator_id", using: :btree
@@ -193,6 +195,7 @@ ActiveRecord::Schema.define(version: 20151221193304) do
     t.datetime "updated_at",                          null: false
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "hashed_email"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
@@ -217,8 +220,8 @@ ActiveRecord::Schema.define(version: 20151221193304) do
   add_foreign_key "development_team_memberships", "organizations"
   add_foreign_key "developments_programs", "developments"
   add_foreign_key "developments_programs", "programs"
-  add_foreign_key "edit_fields", "edits"
   add_foreign_key "edits", "developments"
+  add_foreign_key "field_edits", "edits"
   add_foreign_key "flags", "developments"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"

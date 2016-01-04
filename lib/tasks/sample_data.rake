@@ -58,24 +58,32 @@ namespace :db do
     edit1 = Edit.create(
       development: development,
       editor: user,
-      fields: [EditField.create(name: 'commsf', change: {from: '12', to: '1000'})]
+      fields: [FieldEdit.create(name: 'commsf', change: {from: '12', to: '1000'})]
     )
     edit2 = Edit.create(
       development: development,
       editor: user2,
-      fields: [EditField.create(name: 'prjarea', change: {from: '0', to: '10'})],
+      fields: [FieldEdit.create(name: 'prjarea', change: {from: '0', to: '10'})],
       state: :applied,
       applied_at: 2.days.ago
     )
     edit3 = Edit.create(
       development: development,
       editor: user,
-      fields: [EditField.create(name: 'commsf', change: {from: '1000', to: '9001'})],
+      fields: [FieldEdit.create(name: 'commsf', change: {from: '1000', to: '9001'})],
       state: :applied,
       applied_at: 4.hours.ago
     )
-
-
+    edit4 = Edit.create(
+      development: development,
+      editor: user,
+      fields: [FieldEdit.create(name: 'commsf', change: {from: '12', to: '1200'})]
+    )
+    edit5 = Edit.create(
+      development: development,
+      editor: user,
+      fields: [FieldEdit.create(name: 'commsf', change: {from: '12', to: '1300'})]
+    )
     # 7.times { create_user }
     # 6.times { create_development }
     # 3.times { create_organization }

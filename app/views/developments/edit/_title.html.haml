@@ -1,0 +1,19 @@
+.fields
+  .sixteen.wide.field
+    %h1.ui.header#title
+      = f.text_field :name
+.fields
+  .twelve.wide.field
+    .sub.header#address
+      .ui.left.icon.input
+        %i.marker.icon
+        = f.text_field :address
+.fields
+  .eight.wide.field
+    .ui.disabled.input
+      = f.text_field :tagline
+  .eight.wide.field
+    .ui.labeled.input
+      .ui.label
+        %i.linkify.icon
+      = f.text_field :project_url

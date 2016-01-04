@@ -12,7 +12,4 @@ class DevelopmentTeamMembership < ActiveRecord::Base
             landlord:  5, owner:     6, designer: 7 }
 
   enumerize :role, :in => ROLES, predicates: true
-
-  default_scope { includes(:organization) }
-
 end

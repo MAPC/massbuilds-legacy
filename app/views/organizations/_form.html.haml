@@ -1,0 +1,14 @@
+= form_for @organization, html:{ class: "ui form" } do |f|
+  = label :name, "Name"
+  = f.text_field :name
+  = label :email, "E-mail"
+  = f.text_field :email
+  = label :location, "Location"
+  = f.text_field :location
+  = label :short_name, "Short Name"
+  = f.text_field :short_name
+  = label :abbv, "Abbreviation"
+  = f.text_field :abbv
+  = label :website, "Website"
+  = f.text_field :website
+  = f.submit "Submit", class: "ui primary button"

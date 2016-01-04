@@ -1,0 +1,23 @@
+.two.fields
+  .four.wide.field
+    .ui.floating.labeled.icon.dropdown.button
+      %i.angle.down.icon
+      %span.text Select Status
+      .menu
+        .item
+          %i.icon.checkmark
+          Completed
+        .item
+          %i.icon.find
+          Projected
+        .item
+          %i.icon.calendar
+          Planning
+        .item
+          %i.icon.configure
+          In Construction
+  .five.wide.field
+    .ui.right.labeled.input
+      .ui.label $
+      = f.text_field :total_cost
+      .ui.label .00
