@@ -191,13 +191,11 @@ ActiveRecord::Schema.define(version: 20151221193304) do
     t.inet     "last_sign_in_ip"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
-    t.integer  "organization_id"
     t.string   "first_name"
     t.string   "last_name"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["organization_id"], name: "index_users_on_organization_id", using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "verifications", force: :cascade do |t|
@@ -224,6 +222,5 @@ ActiveRecord::Schema.define(version: 20151221193304) do
   add_foreign_key "flags", "developments"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
-  add_foreign_key "users", "organizations"
   add_foreign_key "verifications", "users"
 end
