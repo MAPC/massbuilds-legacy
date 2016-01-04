@@ -45,7 +45,7 @@ class DevelopmentTest < ActiveSupport::TestCase
         gqpop lgmultifam location mapc_notes onsitepark other_rate
         ovr55 phased private prjarea project_type project_url rdv
         rptdemp singfamhu stalled status total_cost tothu
-        twnhsmmult updated_at year_compl stories feet_tall
+        twnhsmmult updated_at year_compl stories height
       ).each do |attribute|
       assert_respond_to d, attribute
     end
@@ -207,35 +207,6 @@ class DevelopmentTest < ActiveSupport::TestCase
     d.update_attribute(:tagline, nil)
     d.save
     assert_not_nil d.tagline
-  end
-
-  test "metadata" do
-    assert_respond_to Development, :fields_hash
-    dfh = Development.fields_hash
-    assert_equal 'status', dfh['status'].name
-    assert_equal 'Project area', dfh['prjarea'].human_name
-  end
-
-  test "field categories" do
-    cats = %w( boolean commercial residential miscellaneous )
-    cats.each {|cat|
-      assert_includes Development.field_categories, cat
-    }
-  end
-
-  test "field category helper methods" do
-    %w( boolean commercial residential miscellaneous ).each {|cat|
-      assert_respond_to Development, :"#{cat}_fields"
-    }
-    assert_includes Development.boolean_fields, 'clusteros'
-    refute_includes Development.commercial_fields, 'clusteros'
-  end
-
-  test "gets metatdata for fields" do
-    assert_equal d.name_for(:status), 'status'
-    assert_equal d.human_name_for('prjarea'), 'Project area'
-    assert_equal d.description_for(:prjarea), "Area of development site, in square feet"
-    assert_equal d.category_for(:year_compl), 'miscellaneous'
   end
 
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104163955) do
+ActiveRecord::Schema.define(version: 20160104174240) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -87,6 +87,22 @@ ActiveRecord::Schema.define(version: 20160104163955) do
     t.string   "city",        limit: 46
     t.string   "state",       limit: 2,   default: "MA"
     t.string   "zip_code",    limit: 9
+    t.integer  "height"
+    t.integer  "stories"
+    t.integer  "year_compl"
+    t.integer  "prjarea"
+    t.integer  "singfamhu"
+    t.integer  "twnhsmmult"
+    t.integer  "lgmultifam"
+    t.integer  "tothu"
+    t.integer  "gqpop"
+    t.integer  "rptdemp"
+    t.integer  "emploss"
+    t.integer  "estemp"
+    t.integer  "commsf"
+    t.integer  "hotelrms"
+    t.integer  "onsitepark"
+    t.integer  "total_cost"
   end
 
   add_index "developments", ["creator_id"], name: "index_developments_on_creator_id", using: :btree
