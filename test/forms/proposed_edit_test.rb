@@ -3,7 +3,10 @@ require 'test_helper'
 class ProposedEditTest < ActiveSupport::TestCase
 
   def form
-    @_form ||= ProposedEdit.new(developments(:one))
+    @_form ||= ProposedEdit.new(developments(:one), current_user: User.first.id)
+    @_form.item.name = "Changed Name"
+    @_form.item.commsf = 1337
+    @_form
   end
 
   test "valid" do
@@ -31,11 +34,11 @@ class ProposedEditTest < ActiveSupport::TestCase
   end
 
   test "#development" do
-    assert form.development
+    assert form.item
   end
 
   test "attribute delegation" do
-    assert_equal form.development.name, form.name
+    assert_equal form.item.name, form.name
   end
 
   test ".model_name" do

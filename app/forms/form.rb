@@ -2,6 +2,10 @@ class Form
   include ActiveModel::Model
   include Virtus.model
 
+  def persisted?
+    false
+  end
+
   def save
     if valid?
       persist!
