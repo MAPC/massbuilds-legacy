@@ -178,6 +178,8 @@ class DevelopmentTest < ActiveSupport::TestCase
     skip
   end
 
+  # Move this to EditTest, or when we break into Service Objects,
+  # into those service objects.
   test "apply edit" do
     d.edits = []
     d.commsf = 12

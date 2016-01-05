@@ -45,23 +45,6 @@ class EditTest < ActiveSupport::TestCase
     }
   end
 
-  test "conflicts prevent writing" do
-    conflicting_edit = edits :conflict
-    assert conflicting_edit.conflict?
-    # Changed from raising an error to simply returning false.
-    # assert_raises(StandardError) { conflicting_edit.apply! }
-    assert_not conflicting_edit.apply!
-    assert_equal 'pending', conflicting_edit.state
-  end
-
-  test "ignore conflict and apply edit" do
-    conflicting_edit = edits :conflict
-    refute conflicting_edit.apply!
-    conflicting_edit.ignore_conflicts = true
-    assert conflicting_edit.apply!
-    assert_equal 'applied', conflicting_edit.state
-  end
-
   test "#conflict" do
     assert_empty edit.conflict
     edit.development.commsf = 13
@@ -78,15 +61,12 @@ class EditTest < ActiveSupport::TestCase
     assert edit.applyable?, [edit.inspect, edit.conflict?]
   end
 
-  test "#not_applyable" do
-    edit.state = :applied
-    assert edit.not_applyable?
-  end
-
   test "approved" do
     assert_respond_to edit, :approved
+    refute edit.moderated_at
     edit.approved
-    assert_equal 'applied', edit.state
+    assert_equal 'approved', edit.state
+    # assert_equal 'approved', edit.reload.state
     assert edit.moderated_at
   end
 
@@ -95,7 +75,7 @@ class EditTest < ActiveSupport::TestCase
     refute edit.moderated_at
     edit.declined
     assert_equal 'declined', edit.state
-    assert_equal 'declined', edit.reload.state
+    # assert_equal 'declined', edit.reload.state
     assert edit.moderated_at
   end
 
@@ -105,35 +85,10 @@ class EditTest < ActiveSupport::TestCase
     assert edit.moderated?
   end
 
-  # test "approval without save" do
-  #   skip """
-  #     The approval process and interface for edits is a little
-  #     messy, still. Could use some refactoring work.
-  #   """
-  #   edit.approved(save: false)
-  #   assert_equal 'approved', edit.state
-  #   assert_equal 'approved', edit.reload.state
-  # end
-
-  # test "cannot apply without a moderator/user" do
-  #   skip "No roles implemented yet."
-  #   edit.moderator = nil
-  #   assert_raises(StandardError) { edit.apply! }
-  #   assert_equal 'pending', edit.state
-  # end
-
-  # test "a normal user cannot apply" do
-  #   skip "No roles implemented yet."
-  #   edit.moderator = users :normal
-  #   assert_raises(StandardError) { edit.apply! }
-  #   assert_equal 'pending', edit.state
-  # end
-
-  # test "a moderator can apply" do
-  #   skip "No roles implemented yet."
-  #   edit.moderator = users :moderator
-  #   assert_raises(StandardError) { edit.apply! }
-  #   assert_equal 'applied', edit.state
-  # end
+  test "moderatable?" do
+    assert edit.moderatable?, edit.inspect
+    edit.declined
+    refute edit.moderatable?
+  end
 
 end

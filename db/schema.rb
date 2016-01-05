@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104174240) do
+ActiveRecord::Schema.define(version: 20160105155100) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -126,6 +126,7 @@ ActiveRecord::Schema.define(version: 20160104174240) do
     t.datetime "updated_at",                       null: false
     t.boolean  "ignore_conflicts", default: false
     t.datetime "moderated_at"
+    t.boolean  "applied",          default: false, null: false
   end
 
   add_index "edits", ["development_id"], name: "index_edits_on_development_id", using: :btree
