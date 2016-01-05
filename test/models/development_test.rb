@@ -99,7 +99,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test "#history" do
-    d.edits.new(state: 'applied').save(validate: false)
+    d.edits.new(applied: true).save(validate: false)
     assert_not_empty d.history
   end
 
@@ -176,22 +176,6 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test "infer project type" do
     skip
-  end
-
-  # Move this to EditTest, or when we break into Service Objects,
-  # into those service objects.
-  test "apply edit" do
-    d.edits = []
-    d.commsf = 12
-    edit = edits(:one)
-    d.edits << edit
-    assert_equal 12, d.commsf
-    assert_not edit.conflict?, edit.conflict
-    assert_difference 'd.history.count', +1 do
-      edit.apply!
-    end
-    assert_equal 'applied', edit.state
-    assert_equal 1000, d.commsf
   end
 
   test "contributors includes creator" do

@@ -24,8 +24,11 @@ class EditApplication
 
     def apply!
       ActiveRecord::Base.transaction do
-        @development.update_attributes(assignable_attributes)
-        @edit.applied && @edit.save
+        if @development.update_attributes(assignable_attributes)
+          @edit.applied
+          @edit.save
+        end
+        true
       end
     end
 

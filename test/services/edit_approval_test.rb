@@ -36,7 +36,7 @@ class EditApprovalTest < ActiveSupport::TestCase
   end
 
   test "not #performable?" do
-    edit.state = :approved
+    edit.applied = true
     refute approval.performable?, [edit.inspect, edit.conflict?]
   end
 

@@ -47,7 +47,7 @@ class Development < ActiveRecord::Base
   alias_method :mixed_use, :mixed_use?
 
   def history
-    self.edits.where(state: 'applied').order(applied_at: :desc)
+    self.edits.where(applied: true).order(applied_at: :desc)
   end
 
   def pending_edits

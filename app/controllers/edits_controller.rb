@@ -7,7 +7,7 @@ class EditsController < ApplicationController
   end
 
   def approve
-    if @edit.approved
+    if EditApproval.new(@edit).perform!
       flash[:partial] = partial_object(:approved)
       redirect_to :pending_development_edits
     else
@@ -16,7 +16,7 @@ class EditsController < ApplicationController
   end
 
   def decline
-    if @edit.declined
+    if EditDecline.new(@edit).perform!
       flash[:partial] = partial_object(:declined)
       redirect_to :pending_development_edits
     else
@@ -44,20 +44,22 @@ class EditsController < ApplicationController
     def default_rescue_action
       flash[:partial] = error_partial(message)
       redirect_to :pending_development_edits
-    end
-
-    def claim_not_acted_upon
       # TODO: Trigger error notices
-      error_partial """
-        As a result, the edit you were trying to resolve may not be resolved.
-      """
     end
 
     def partial_object(action)
-      {path: "edits/action", object: {action: action, name: @edit.editor.first_name}}
+      { path: "edits/action", object:
+        { action: action, name: @edit.editor.first_name }}
     end
 
     def error_partial(message)
       { path: "unexpected_error", object: { message: message } }
     end
+
+    # def claim_not_acted_upon
+    #   # TODO: Trigger error notices
+    #   error_partial """
+    #     As a result, the edit you were trying to resolve may not be resolved.
+    #   """
+    # end
 end

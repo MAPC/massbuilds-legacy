@@ -8,6 +8,7 @@ class EditDecline < EditModeration
     return false unless performable?
     @edit.declined
     @edit.save
+    true
   end
 
 end
