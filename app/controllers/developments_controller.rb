@@ -13,10 +13,6 @@ class DevelopmentsController < ApplicationController
   def edit
   end
 
-  # WHEN I COME BACK
-  # - Try this out in the interface.
-  # - Write tests for what I tried out.
-
   def update
     @development.assign_attributes(params[:development])
     if @development.save

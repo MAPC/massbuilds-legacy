@@ -1,16 +1,29 @@
 require 'test_helper'
 
 class DevelopmentsControllerTest < ActionController::TestCase
+
+  def development
+    @_development ||= developments(:one)
+  end
+
   test "should get index" do
-    skip
     get :index
     assert_response :success
   end
 
   test "should get show" do
-    skip "Pending"
-    get :show
+    get :show, id: development.id
     assert_response :success
+  end
+
+  test "should get edit" do
+    get :edit, id: development.id
+    assert_response :success
+  end
+
+  test "should patch update" do
+    patch :update, id: development.id
+    assert_response :created
   end
 
 end
