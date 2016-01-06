@@ -4,6 +4,6 @@ class ContributorQuery
   end
 
   def find
-    @relation.edits.includes(:editor).where(state: 'applied')
+    @relation.edits.includes(:editor).where(applied: true)
   end
 end

@@ -16,10 +16,6 @@ class EditApplication
     apply! if performable?
   end
 
-  def assignable_attributes
-    Hash[ @fields.map{|f| [f.name, f.to] } ]
-  end
-
   private
 
     def apply!
@@ -30,6 +26,10 @@ class EditApplication
         end
         true
       end
+    end
+
+    def assignable_attributes
+      Hash[ @fields.map{|f| [f.name, f.to] } ]
     end
 
 end

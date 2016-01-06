@@ -18,7 +18,7 @@ class ProposedEdit < Form
     @item || Development.new
   end
 
-  delegate *Development.attribute_names, to: :item
+  delegate(*Development.attribute_names, to: :item)
   delegate :private, :affordable, to: :item
 
   private

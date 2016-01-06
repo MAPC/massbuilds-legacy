@@ -4,8 +4,7 @@ class ProposedEditTest < ActiveSupport::TestCase
 
   def form
     @_form ||= ProposedEdit.new(developments(:one), current_user: User.first.id)
-    @_form.item.name = "Changed Name"
-    @_form.item.commsf = 1337
+    @_form.item.assign_attributes(name: "Changed Name", commsf: 1337)
     @_form
   end
 
