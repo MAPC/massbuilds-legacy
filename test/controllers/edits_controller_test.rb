@@ -20,14 +20,14 @@ class EditsControllerTest < ActionController::TestCase
     assert_difference 'development.history.count', +1 do
       post :approve, development_id: development.id, id: edit.id
     end
-    assert_response :success
+    assert_response :redirect
   end
 
   test "should decline" do
     assert_difference 'development.pending_edits.count', -1 do
       post :decline, development_id: development.id, id: edit.id
     end
-    assert_response :success
+    assert_response :redirect
   end
 
 end

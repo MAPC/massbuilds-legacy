@@ -18,13 +18,13 @@ class PendingEditsTest < Capybara::Rails::TestCase
 
   test "approve edit" do
     click_link 'Approve'
-    assert_content 'approved'
+    assert_content 'approved' # in the flash
     refute_content 'changed commsf from 12 to 1000'
   end
 
   test "decline edit" do
     click_link 'Decline'
-    assert_content 'declined'
+    assert_content 'declined' # in the flash
     refute_content 'changed commsf from 12 to 1000'
   end
 end

@@ -19,7 +19,7 @@ class EditsController < ApplicationController
     def moderate(moderator_class, object, partial_ref)
       if moderator_class.new(object).perform!
         flash[:partial] = partial_object(partial_ref)
-        redirect_to :pending_development_edits, status: :ok
+        redirect_to :pending_development_edits
       else
         default_rescue_action(object)
       end
