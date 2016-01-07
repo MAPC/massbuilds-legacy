@@ -3,7 +3,7 @@ require 'test_helper'
 class ProposedEditTest < ActiveSupport::TestCase
 
   def form
-    @_form ||= ProposedEdit.new(developments(:one), current_user: User.first.id)
+    @_form ||= ProposedEdit.new(developments(:one), current_user: User.first)
     @_form.item.assign_attributes(name: "Changed Name", commsf: 1337)
     @_form
   end
@@ -32,6 +32,11 @@ class ProposedEditTest < ActiveSupport::TestCase
     end
   end
 
+  test "saving without user raises" do
+    invalid_form = ProposedEdit.new(developments(:one))
+    assert_raises(ArgumentError) { invalid_form.save }
+  end
+
   test "#development" do
     assert form.item
   end
@@ -42,6 +47,10 @@ class ProposedEditTest < ActiveSupport::TestCase
 
   test ".model_name" do
     assert_equal 'Development', ProposedEdit.model_name
+  end
+
+  test "not a new record" do
+    refute form.new_record?
   end
 
 end

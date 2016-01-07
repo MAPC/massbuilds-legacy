@@ -1,5 +1,5 @@
 .row
-  = form_for @development, url: development_path(@development.item), method: :patch do |f|
+  = form_for @development, url: development_path(params[:id]), method: :patch do |f|
     .ten.wide.column#title-area
       .ui.form
         = render partial: 'developments/edit/title', locals: { f: f }
@@ -17,10 +17,10 @@
 
         #data
           .ui.horizontal.divider Details
-          = render partial: 'developments/edit/physical',       locals: { f: f }
-          = render partial: 'developments/edit/residential',    locals: { f: f }
+          -# = render partial: 'developments/edit/physical',       locals: { f: f }
+          -# = render partial: 'developments/edit/residential',    locals: { f: f }
           -# = render partial: 'developments/edit/commercial',     locals: { f: f }
-          = render partial: 'developments/edit/transportation', locals: { f: f }
+          -# = render partial: 'developments/edit/transportation', locals: { f: f }
 
     -# .six.wide.column#sidebar
     -#   #map=     render partial: 'developments/edit/map',          locals: { f: f }

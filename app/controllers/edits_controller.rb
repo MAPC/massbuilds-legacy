@@ -18,7 +18,9 @@ class EditsController < ApplicationController
 
     def moderate(moderator_class, object, partial_ref)
       if moderator_class.new(object).perform!
-        flash[:partial] = partial_object(partial_ref)
+        obj = partial_object(partial_ref)
+        obj[:object][:none_left] = true if object.development.pending_edits.empty?
+        flash[:partial] = obj
         redirect_to :pending_development_edits
       else
         default_rescue_action(object)
@@ -42,13 +44,6 @@ class EditsController < ApplicationController
 
     def default_rescue_action(object)
       # TODO: Trigger Airbrake error notices
-      puts """
-        ERROR:
-          Moderatable?: #{object.moderatable?}
-          Applyable?:   #{object.applyable?}
-          Conflict?:    #{object.conflict?}
-          Conflicts:    #{object.conflicts}
-      """
       flash[:partial] = claim_not_acted_upon
       redirect_to :pending_development_edits, status: 400
     end

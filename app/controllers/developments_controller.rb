@@ -1,7 +1,6 @@
 class DevelopmentsController < ApplicationController
-  before_action :load_record, only: [:show]
+  before_action :load_record, only: [:show, :edit, :update]
   before_action :authenticate_user!, only: [:edit, :update]
-  before_action :load_proposal,      only: [:edit, :update]
 
   def index
     @developments = Development.all
@@ -14,19 +13,15 @@ class DevelopmentsController < ApplicationController
   end
 
   def update
-    @development.assign_attributes(params[:development])
-    if @development.save
-      flash[:success] = """
-        Thank you! Your proposed changes have been accepted and will
-        be reviewed by a moderator.
-      """
+    # Initialize the form, since we're capturing changes through
+    # the form and not acting on the development itself.
+    form = DevelopmentForm.new(current_user)
+    if form.submit(@development.id, edit_development_params)
+      flash[:partial] = { path: "developments/proposed_success" }
       redirect_to @development
     else
-      flash[:danger] = """
-        Would you take another look? There appear to be some errors
-        with your submission.
-      """
-      redirect_to :edit
+      flash[:partial] = { path: "developments/proposed_error" }
+      redirect_to edit_development_path(@development)
     end
   end
 
@@ -38,14 +33,14 @@ class DevelopmentsController < ApplicationController
       )
     end
 
-    def load_proposal
-      @development = ProposedEdit.new(
-        Development.find(params[:id]),
-        current_user: current_user.id
-      )
-    end
-
     def development_params
       params.require(:development).permit(:name)
+    end
+
+    def edit_development_params
+      params.require(:development).permit(
+        :name, :total_cost, :rdv, :address, :city, :state, :zip_code,
+        :status
+      )
     end
 end

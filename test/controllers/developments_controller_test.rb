@@ -17,13 +17,18 @@ class DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test "should get edit" do
+    sign_in users(:normal)
     get :edit, id: development.id
     assert_response :success
   end
 
   test "should patch update" do
-    patch :update, id: development.id
-    assert_response :created
+    sign_in users(:normal)
+    data = { name: "lol", rdv: true }
+    assert_difference 'Edit.count + FieldEdit.count', +3 do
+      patch :update, id: development.id, development: data
+    end
+    assert_response :redirect
   end
 
 end

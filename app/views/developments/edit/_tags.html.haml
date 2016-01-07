@@ -1,12 +1,7 @@
 %br
--# TODO:
--# Make these fields hidden checkboxes, set appropriately
--# based on their actual form values.
--# https://css-tricks.com/snippets/css/custom-checkboxes-and-radio-buttons/
-
 .fields
-  = f.check_box :private,                      :class => 'checkable'
-  = f.label :private, "Private",               :class => 'teal'
+  -# = f.check_box :private,                      :class => 'checkable'
+  -# = f.label :private, "Private",               :class => 'teal'
 
   = f.check_box :rdv,                          :class => 'checkable'
   = f.label :rdv, "Redevelopment",             :class => 'red'

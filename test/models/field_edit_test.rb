@@ -39,6 +39,21 @@ class FieldEditTest < ActiveSupport::TestCase
     assert field.valid?
   end
 
+  test "change :to a non-nil false value" do
+    field.change = {from: true, to: false}
+    assert field.valid?
+    field.change = {from: nil, to: false}
+    assert field.valid?
+    field.change = {from: false, to: nil}
+    assert_not field.valid?
+  end
+
+  test "change a string to an empty string" do
+    skip "Not yet sure what to do about this."
+    field.change = {from: "x", to: ""}
+    assert_not field.valid?
+  end
+
   test "requires a change that is really a change" do
     field.change = {from: 100, to: 100}
     assert_not field.valid?

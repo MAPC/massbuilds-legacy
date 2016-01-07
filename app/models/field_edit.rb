@@ -40,7 +40,9 @@ class FieldEdit < ActiveRecord::Base
     end
 
     def has_right_keys?
-      self.change.fetch(:to) { false }
+      !self.change.fetch(:to).nil?
+    rescue # doesn't have the key
+      false
     end
 
     def difference?
