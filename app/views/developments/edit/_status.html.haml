@@ -1,21 +1,21 @@
 .two.fields
-  .four.wide.field
-    .ui.floating.labeled.icon.dropdown.button
-      %i.angle.down.icon
-      %span.text Select Status
-      .menu
-        .item
-          %i.icon.checkmark
-          Completed
-        .item
-          %i.icon.find
-          Projected
-        .item
-          %i.icon.calendar
-          Planning
-        .item
-          %i.icon.configure
-          In Construction
+  .three.wide.field
+    = f.select :status, Development.status.options, :class => 'ui floating labeled icon dropdown button'
+    -# %i.angle.down.icon
+    -# %span.text Select Status
+    -# .menu
+    -#   .item
+    -#     %i.icon.checkmark
+    -#     Completed
+    -#   .item
+    -#     %i.icon.find
+    -#     Projected
+    -#   .item
+    -#     %i.icon.calendar
+    -#     Planning
+    -#   .item
+    -#     %i.icon.configure
+    -#     In Construction
   .five.wide.field
     .ui.right.labeled.input
       .ui.label $

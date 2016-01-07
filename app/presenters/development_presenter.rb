@@ -1,5 +1,7 @@
 class DevelopmentPresenter < Burgundy::Item
 
+  delegate :status_with_year, to: :status_info
+
   # Relationships
 
   # Everyone who has provided data for this development
@@ -19,11 +21,11 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Last several changes, for a feed
   def recent_history
-    EditPresenter.wrap history.limit(3)
+    EditPresenter.wrap history.includes(:fields).limit(3)
   end
 
   def pending_edits
-    EditPresenter.wrap item.pending_edits.includes(:editor, :fields)
+    EditPresenter.wrap item.pending_edits
   end
   alias_method :pending, :pending_edits
   def pending_edits_count
@@ -38,11 +40,16 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Members of the development team
   def team
-    team_memberships.order(:role).group_by(&:role)
+    team_memberships.includes(:organization)
+      .order(:role).group_by(&:role)
   end
 
 
   # Attributes
+
+   def stats
+     [:tothu, :commsf, :prjarea, :stories, :height]
+   end
 
   def address(options={})
     return short_address if options[:short]
@@ -58,12 +65,8 @@ class DevelopmentPresenter < Burgundy::Item
     rptdemp ? :reported : :estimated
   end
 
-  def status_with_year
-    if completed?
-      "#{status.titleize} (#{year_compl})"
-    else
-      "#{status.titleize} (est. #{year_compl})"
-    end
+  def status_info
+    @status_info ||= StatusInfo.new(item)
   end
 
   # Neighborhood context (KnowPlace study)
@@ -75,38 +78,6 @@ class DevelopmentPresenter < Burgundy::Item
     pending_edits.empty?
   end
 
-  def housing_table_fields
-    %i( singfamhu twnhsmmult lgmultifam affordable )
-  end
-
-  def commercial_table_fields
-    %i( fa_ret fa_ofcmd fa_indmf fa_whs fa_rnd fa_edinst fa_hotel fa_other )
-  end
-
-  def employment_table_fields
-    %i( employment hotelrms )
-  end
-
-  def any_commercial_table_fields?
-    any_fields? :commercial
-  end
-
-  def any_employment_table_fields?
-    any_fields? :employment
-  end
-
-  def stats
-    [:tothu, :commsf, :prjarea, :stories, :feet_tall]
-  end
-
-  alias_attribute :total_housing, :tothu
-  alias_attribute :housing_units, :tothu
-  alias_attribute :floor_area_commercial, :commsf
-
-  # def watches?(current_user)
-  #   current_user.watches?(item)
-  # end
-
   private
 
     def long_address
@@ -116,24 +87,4 @@ class DevelopmentPresenter < Burgundy::Item
     def short_address
       "#{item.address}, #{item.city}"
     end
-
-    def any_fields?(type)
-      self.send("#{type}_table_fields").map{|f| item.send(f)}.compact.any?
-    end
-
-
-  #   def crosswalks_for(user)
-  #     []
-  #   end
-
-  #   # TODO Not sure where to put this logic.
-  #   # Probably back in the model.
-  #   def watches?
-  #     false
-  #   end
-
 end
-
-# TODO displaying units and percents on numeric data
-# May create helper methods to be used to determine whether user
-# can flag, claim, edit, or watch, if it gets confusing in the template.

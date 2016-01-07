@@ -69,8 +69,40 @@ ActiveRecord::Schema.define(version: 20160106201538) do
   create_table "developments", force: :cascade do |t|
     t.integer  "creator_id"
     t.json     "fields"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
+    t.boolean  "rdv"
+    t.boolean  "asofright"
+    t.boolean  "ovr55"
+    t.boolean  "clusteros"
+    t.boolean  "phased"
+    t.boolean  "stalled"
+    t.string   "name",        limit: 140
+    t.string   "status",      limit: 20
+    t.string   "desc"
+    t.string   "project_url", limit: 140
+    t.string   "mapc_notes"
+    t.string   "tagline",     limit: 85
+    t.string   "address",     limit: 140
+    t.string   "city",        limit: 46
+    t.string   "state",       limit: 2,   default: "MA"
+    t.string   "zip_code",    limit: 9
+    t.integer  "height"
+    t.integer  "stories"
+    t.integer  "year_compl"
+    t.integer  "prjarea"
+    t.integer  "singfamhu"
+    t.integer  "twnhsmmult"
+    t.integer  "lgmultifam"
+    t.integer  "tothu"
+    t.integer  "gqpop"
+    t.integer  "rptdemp"
+    t.integer  "emploss"
+    t.integer  "estemp"
+    t.integer  "commsf"
+    t.integer  "hotelrms"
+    t.integer  "onsitepark"
+    t.integer  "total_cost"
   end
 
   add_index "developments", ["creator_id"], name: "index_developments_on_creator_id", using: :btree
@@ -94,6 +126,7 @@ ActiveRecord::Schema.define(version: 20160106201538) do
     t.datetime "updated_at",                       null: false
     t.boolean  "ignore_conflicts", default: false
     t.datetime "moderated_at"
+    t.boolean  "applied",          default: false, null: false
   end
 
   add_index "edits", ["development_id"], name: "index_edits_on_development_id", using: :btree

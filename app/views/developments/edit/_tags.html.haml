@@ -1,9 +1,38 @@
 %br
+-# TODO:
+-# Make these fields hidden checkboxes, set appropriately
+-# based on their actual form values.
+-# https://css-tricks.com/snippets/css/custom-checkboxes-and-radio-buttons/
+
 .fields
-  .ui.small.teal.checkable.basic.label   Private
-  .ui.small.red.checkable.basic.label    Redevelopment
-  .ui.small.green.checkable.basic.label  As of Right
-  .ui.small.blue.checkable.basic.label   Age-Restricted
-  .ui.small.purple.checkable.basic.label Cluster Development
-  .ui.small.pink.checkable.basic.label   Phased
-  .ui.small.black.checkable.basic.label  Stalled
+  = f.check_box :private,                      :class => 'checkable'
+  = f.label :private, "Private",               :class => 'teal'
+
+  = f.check_box :rdv,                          :class => 'checkable'
+  = f.label :rdv, "Redevelopment",             :class => 'red'
+
+  = f.check_box :asofright,                    :class => 'checkable'
+  = f.label :asofright, "As of Right",         :class => 'green'
+
+  = f.check_box :ovr55,                        :class => 'checkable'
+  = f.label :ovr55, "Age-Restricted",          :class => 'blue'
+
+  = f.check_box :clusteros,                    :class => 'checkable'
+  = f.label :clusteros, "Cluster Development", :class => 'purple'
+
+  = f.check_box :phased,                       :class => 'checkable'
+  = f.label :phased, "Phased",                 :class => 'pink'
+
+  = f.check_box :stalled,                      :class => 'checkable'
+  = f.label :stalled, "Stalled",               :class => 'black'
+
+
+:javascript
+  $(document).ready(function() {
+    $('input.checkable + label').addClass('ui small basic label');
+    $('input.checkable:checked + label').removeClass('basic');
+    $('input.checkable + label').css('cursor', 'pointer');
+    $('input.checkable + label').click(function() {
+      $(this).toggleClass('basic');
+    });
+  });

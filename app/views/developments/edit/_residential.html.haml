@@ -13,19 +13,37 @@
       %h4.ui.header
         .content
           Number of Units
+
   %tbody
-    - @development.housing_table_fields.each do |field|
-      %tr
-        %td
-          %h4.ui.header
-            .content
-              = @development.human_name_for(field)
-        %td= f.text_field field
     %tr
       %td
         %h4.ui.header
           .content
-            = @development.human_name_for(:gqpop)
+            Single-family homes
+      %td= f.text_field :singfamhu
+    %tr
+      %td
+        %h4.ui.header
+          .content
+            Small multifamily units
+      %td= f.text_field :twnhsmmult
+    %tr
+      %td
+        %h4.ui.header
+          .content
+            Large multifamily
+      %td= f.text_field :lgmultifam
+    %tr
+      %td
+        %h4.ui.header
+          .content
+            Affordable percent
+      %td= f.text_field :affordable
+    %tr
+      %td
+        %h4.ui.header
+          .content
+            Group Quarters
             %a{href: '#what-are-group-quarters'}
               %i.help.circle.icon
               -# Modal

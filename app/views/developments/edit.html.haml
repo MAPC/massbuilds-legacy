@@ -1,5 +1,5 @@
 .row
-  = form_for @development do |f|
+  = form_for @development, url: development_path(@development.item), method: :patch do |f|
     .ten.wide.column#title-area
       .ui.form
         = render partial: 'developments/edit/title', locals: { f: f }
@@ -7,29 +7,26 @@
           = render partial: 'developments/edit/status', locals: { f: f }
 
         #tags
-          = render partial: 'developments/edit/tags'
+          = render partial: 'developments/edit/tags', locals: { f: f }
 
         %br
 
-        #images
-          %img.ui.large.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
-          Street View Editor
+        -# #images
+        -#   %img.ui.large.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
+        -#   Street View Editor
 
         #data
           .ui.horizontal.divider Details
           = render partial: 'developments/edit/physical',       locals: { f: f }
           = render partial: 'developments/edit/residential',    locals: { f: f }
-          = render partial: 'developments/edit/commercial',     locals: { f: f }
+          -# = render partial: 'developments/edit/commercial',     locals: { f: f }
           = render partial: 'developments/edit/transportation', locals: { f: f }
 
-    .six.wide.column#sidebar
-      #map=     render partial: 'developments/edit/map',          locals: { f: f }
-      #team=    render partial: 'developments/edit/team',         locals: { f: f }
+    -# .six.wide.column#sidebar
+    -#   #map=     render partial: 'developments/edit/map',          locals: { f: f }
+    -#   #team=    render partial: 'developments/edit/team',         locals: { f: f }
 
-:javascript
-  $(document).ready(function() {
-    $('.checkable.label').css('cursor', 'pointer');
-    $('.checkable.label').click(function() {
-      $(this).toggleClass('basic');
-    });
-  });
+    %br
+    %br
+
+    = f.submit 'Propose Changes', class: 'ui blue button'
