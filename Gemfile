@@ -17,6 +17,7 @@ gem 'devise'
 gem 'enumerize'
 gem 'geometry'
 gem 'wannabe_bool', '0.3.0'
+gem 'forty_facets'
 
 # Presenters
 gem 'burgundy' # Presenter

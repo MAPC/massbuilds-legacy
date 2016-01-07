@@ -111,6 +111,7 @@ GEM
     foreman (0.78.0)
       thor (~> 0.19.1)
     formatador (0.2.5)
+    forty_facets (0.1.2)
     geometry (6.5)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -338,6 +339,7 @@ DEPENDENCIES
   escape_utils
   faker
   foreman
+  forty_facets
   geometry
   guard (>= 2.2.2)
   guard-minitest

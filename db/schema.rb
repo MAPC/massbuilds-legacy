@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160104162316) do
+ActiveRecord::Schema.define(version: 20160106201538) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -154,7 +154,6 @@ ActiveRecord::Schema.define(version: 20160104162316) do
     t.datetime "updated_at",   null: false
     t.string   "abbv"
     t.string   "short_name"
-    t.boolean  "type"
   end
 
   add_index "organizations", ["creator_id"], name: "index_organizations_on_creator_id", using: :btree
@@ -179,6 +178,17 @@ ActiveRecord::Schema.define(version: 20160104162316) do
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
   end
+
+  create_table "searches", force: :cascade do |t|
+    t.boolean  "saved",      default: false
+    t.json     "query"
+    t.string   "search_url"
+    t.integer  "user_id"
+    t.datetime "created_at",                 null: false
+    t.datetime "updated_at",                 null: false
+  end
+
+  add_index "searches", ["user_id"], name: "index_searches_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "", null: false
@@ -225,5 +235,6 @@ ActiveRecord::Schema.define(version: 20160104162316) do
   add_foreign_key "flags", "developments"
   add_foreign_key "memberships", "organizations"
   add_foreign_key "memberships", "users"
+  add_foreign_key "searches", "users"
   add_foreign_key "verifications", "users"
 end

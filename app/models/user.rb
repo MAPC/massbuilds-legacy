@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
 
   has_many :memberships
   has_many :organizations, through: :memberships
+  has_many :searches
 
   validates :first_name, presence: true
   validates :last_name,  presence: true
