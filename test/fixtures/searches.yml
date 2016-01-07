@@ -1,9 +1,11 @@
 # Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
 
 one:
-  boolean: 
-  json: 
+  query: { tothu: 3 }
+  search_url: "/search?tothu=3"
+  saved: true
 
 two:
-  boolean: 
-  json: 
+  query: { tothu: 3 }
+  search_url:  "/search?tothu=3"
+  saved: false

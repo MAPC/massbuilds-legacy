@@ -27,6 +27,27 @@ namespace :db do
       total_cost: 10_020_300,
       creator: user
     )
+
+    development2 = Development.create(   
+      year_compl: 2027,
+      tothu: 16,
+      onsitepark: 12,
+      total_cost: 42_000_000,
+      name: "74 Highland Street",
+      status: :planning,
+      city: "Boston",
+      creator: user,
+    )
+
+    development3 = Development.create(
+      year_compl: 2007,
+      tothu: 13,
+      name: "Jefferson Union",
+      status: :completed,
+      city: "Lexington",
+      creator: user2,
+    )
+
     organization = Organization.create(
       name: "Metropolitan Area Planning Council",
       short_name: "MAPC",
