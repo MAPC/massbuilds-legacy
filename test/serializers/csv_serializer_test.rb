@@ -2,35 +2,58 @@ require 'test_helper'
 
 class CsvSerializerTest < ActiveSupport::TestCase
   def serializer
-    @_serializer ||= CsvSerializer.new(nil)
+    @_base ||= CsvSerializer.new(nil)
   end
-  alias_method :s, :serializer
 
   def serializer_with_development
-    @_serializer_w_d ||= CsvSerializer.new(developments(:one))
+    @_development ||= CsvSerializer.new(developments(:one))
   end
-  alias_method :ds, :serializer_with_development
+
+  def serializer_only
+    @_only ||= CsvSerializer.new(developments(:one), only: :name)
+  end
+
+  def serializer_except
+    @_except ||= CsvSerializer.new(developments(:one), except: ['name', 'address'])
+  end
+
+  alias_method :base,   :serializer
+  alias_method :dev,    :serializer_with_development
+  alias_method :only,   :serializer_only
+  alias_method :except, :serializer_except
 
   test "#to_row" do
-    assert_respond_to s, :to_row
+    assert_respond_to base, :to_row
   end
 
   test "#to_row produces csv row of values" do
     # Because the Time.zone.now.to_s might be a second off from the
     # result, we check to see if the difference has two elements (the
     # two time fields) or none (they're the same.)
-    count = (expected_row - ds.to_row).count
+    count = (expected_row - dev.to_row).count
     assert [0,2].include?(count)
   end
 
   test "#to_header with an #attribute-less object" do
-    assert_respond_to s, :to_header
-    assert_equal [], s.to_header
+    assert_respond_to base, :to_header
+    assert_equal [], base.to_header
   end
 
   test "#to_header with an object" do
-    assert_equal expected_header, ds.to_header
+    assert_equal expected_header, dev.to_header
   end
+
+  test "can allow (only) certain attributes" do
+    assert_equal ['Godfrey Hotel'], only.to_row
+    assert_equal ['name'], only.to_header
+  end
+
+  test "can block (except) attributes" do
+    refute_includes except.to_row, 'Godfrey Hotel'
+    refute_includes except.to_row, '505 Washington Street'
+    refute_includes except.to_header, 'name'
+  end
+
 
   private
 
