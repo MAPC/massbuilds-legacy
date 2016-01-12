@@ -19,7 +19,7 @@ class DevelopmentSearch < FortyFacets::FacetSearch
   range :total_cost 
 
   text :name
-  text :status
+  facet :status, name: "Status"
   text :desc
   text :project_url
   text :mapc_notes

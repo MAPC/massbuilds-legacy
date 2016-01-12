@@ -1,0 +1,20 @@
+#main.ui.main.container
+  %h1 Developments
+
+  Development Search
+  = form_tag nil, method: :get do
+    - title_filter = @search.filter(:name)
+    = text_field_tag 'search[name]', title_filter.value, class: 'form-control', placeholder: title_filter.name
+  .row
+    - filter = @search.filter(:status)
+    .col-md-4
+      .filter
+        .filter-title= filter.name
+        .filter-values  
+          %ul.selected
+            - filter.each do |status|
+              = radio_button_tag status.name, status.name
+    .input-group-btn
+      %button.btn.btn-primary search
+  #developments
+    = render @developments

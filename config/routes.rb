@@ -29,7 +29,9 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :searches, only: [:create]
+  resources :searches, only: [:index, :show, :save_search] do
+    # post :build, to: 'exports#build', on: :export
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
