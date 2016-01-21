@@ -10,7 +10,8 @@ class Development < ActiveRecord::Base
   has_many :edits
   has_many :flags
   has_many :crosswalks
-  has_many :team_memberships, class_name: :DevelopmentTeamMembership
+  has_many :team_memberships, class_name: :DevelopmentTeamMembership,
+    counter_cache: :team_membership_count
   has_many :team_members, through: :team_memberships, source: :organization
 
   has_and_belongs_to_many :programs

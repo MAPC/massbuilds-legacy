@@ -1,20 +1,20 @@
 require 'test_helper'
 
-class CsvSerializerTest < ActiveSupport::TestCase
+class DevelopmentSerializerTest < ActiveSupport::TestCase
   def serializer
-    @_base ||= CsvSerializer.new(nil)
+    @_base ||= DevelopmentSerializer.new(nil)
   end
 
   def serializer_with_development
-    @_development ||= CsvSerializer.new(developments(:one))
+    @_development ||= DevelopmentSerializer.new(developments(:one))
   end
 
   def serializer_only
-    @_only ||= CsvSerializer.new(developments(:one), only: :name)
+    @_only ||= DevelopmentSerializer.new(developments(:one), only: :name)
   end
 
   def serializer_except
-    @_except ||= CsvSerializer.new(developments(:one), except: ['name', 'address'])
+    @_except ||= DevelopmentSerializer.new(developments(:one), except: ['name', 'address'])
   end
 
   alias_method :base,   :serializer
@@ -34,6 +34,10 @@ class CsvSerializerTest < ActiveSupport::TestCase
     assert [0,2].include?(count)
   end
 
+  test "#to_row includes development team" do
+    skip
+  end
+
   test "#to_header with an #attribute-less object" do
     assert_respond_to base, :to_header
     assert_equal [], base.to_header
@@ -41,6 +45,10 @@ class CsvSerializerTest < ActiveSupport::TestCase
 
   test "#to_header with an object" do
     assert_equal expected_header, dev.to_header
+  end
+
+  test "#to_header shows development team" do
+    skip
   end
 
   test "can allow (only) certain attributes" do
@@ -58,11 +66,22 @@ class CsvSerializerTest < ActiveSupport::TestCase
   private
 
     def expected_row
-      [980190962, 562391268, {}, Time.zone.now.to_s, Time.zone.now.to_s, nil, nil, nil, nil, nil, nil, "Godfrey Hotel", nil, nil, nil, nil, nil, "505 Washington Street", "Boston", "MA", "02111", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 75, 12, nil, nil, nil]
+      [980190962, 562391268, {}, Time.zone.now.to_s, Time.zone.now.to_s,
+       nil, nil, nil, nil, nil, nil, "Godfrey Hotel", nil, nil, nil,
+       nil, nil, "505 Washington Street", "Boston", "MA", "02111",
+       nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 75, 12,
+       nil, nil, nil]
     end
 
     def expected_header
-      ["id", "creator_id", "fields", "created_at", "updated_at", "rdv", "asofright", "ovr55", "clusteros", "phased", "stalled", "name", "status", "desc", "project_url", "mapc_notes", "tagline", "address", "city", "state", "zip_code", "height", "stories", "year_compl", "prjarea", "singfamhu", "twnhsmmult", "lgmultifam", "tothu", "gqpop", "rptdemp", "emploss", "estemp", "commsf", "hotelrms", "onsitepark", "total_cost"]
+      ["id", "creator_id", "fields", "created_at", "updated_at",
+       "rdv", "asofright", "ovr55", "clusteros", "phased", "stalled",
+       "name", "status", "desc", "project_url", "mapc_notes",
+       "tagline", "address", "city", "state", "zip_code", "height",
+       "stories", "year_compl", "prjarea", "singfamhu", "twnhsmmult",
+       "lgmultifam", "tothu", "gqpop", "rptdemp", "emploss", "estemp",
+       "commsf", "hotelrms", "onsitepark", "total_cost",
+       "team_membership_count"]
     end
 
 end
