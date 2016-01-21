@@ -1,24 +1,23 @@
 class DevelopmentSerializer
 
-  # TODO Add option parsing for max_team_size
-
   def initialize(record, options={})
     @record  = record
     @options = options
   end
 
   def to_row
-    attributes.values.map { |value| ensure_csv_ready(value) }
+    [attributes.values.map { |value| ensure_csv_ready(value) },
+      DevelopmentTeamSerializer.new(@record, max_team_size).to_row].flatten
   rescue
     []
   end
 
   def to_header
-    attributes.keys
+    [attributes.keys,
+      DevelopmentTeamSerializer.new(@record, max_team_size).to_header].flatten
   rescue
     []
   end
-
 
   private
 
@@ -55,6 +54,10 @@ class DevelopmentSerializer
     def selection(option)
       option = option.to_sym
       Array(@options[option]).flatten.map(&:to_sym)
+    end
+
+    def max_team_size
+      @options.fetch(:max_team_size) { 1 }
     end
 
     def ensure_csv_ready(attribute)

@@ -35,7 +35,7 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   end
 
   test "#to_row includes development team" do
-    skip
+    assert_includes dev.to_row, "landlord"
   end
 
   test "#to_header with an #attribute-less object" do
@@ -48,12 +48,13 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   end
 
   test "#to_header shows development team" do
-    skip
+    assert_includes dev.to_header, "team_member_1_name"
+    assert_includes dev.to_header, "team_member_1_role"
   end
 
   test "can allow (only) certain attributes" do
-    assert_equal ['Godfrey Hotel'], only.to_row
-    assert_equal ['name'], only.to_header
+    refute_includes ['505 Washington Street'], only.to_row
+    refute_includes ['address'], only.to_header
   end
 
   test "can block (except) attributes" do
@@ -81,7 +82,10 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
        "stories", "year_compl", "prjarea", "singfamhu", "twnhsmmult",
        "lgmultifam", "tothu", "gqpop", "rptdemp", "emploss", "estemp",
        "commsf", "hotelrms", "onsitepark", "total_cost",
-       "team_membership_count"]
+       "team_membership_count", "team_member_1_name", "team_member_1_website",
+       "team_member_1_url_template", "team_member_1_location",
+       "team_member_1_email", "team_member_1_abbv",
+       "team_member_1_short_name", "team_member_1_role"]
     end
 
 end
