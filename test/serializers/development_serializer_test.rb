@@ -27,11 +27,9 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   end
 
   test "#to_row produces csv row of values" do
-    # Because the Time.zone.now.to_s might be a second off from the
-    # result, we check to see if the difference has two elements (the
-    # two time fields) or none (they're the same.)
-    count = (expected_row - dev.to_row).count
-    assert [0,2].include?(count)
+    Time.stub :now, Time.at(0) do
+      assert_equal expected_row, dev.to_row
+    end
   end
 
   test "#to_row includes development team" do
@@ -67,11 +65,13 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   private
 
     def expected_row
-      [980190962, 562391268, {}, Time.zone.now.to_s, Time.zone.now.to_s,
-       nil, nil, nil, nil, nil, nil, "Godfrey Hotel", nil, nil, nil,
-       nil, nil, "505 Washington Street", "Boston", "MA", "02111",
-       nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 75, 12,
-       nil, nil, nil]
+      [980190962, 562391268, {}, "1970-01-01 00:00:00 UTC",
+      "1970-01-01 00:00:00 UTC", nil, nil, nil, nil, nil, nil,
+      "Godfrey Hotel", nil, nil, nil, nil, nil, "505 Washington Street",
+      "Boston", "MA", "02111", nil, nil, nil, nil, nil, nil, nil, nil,
+      nil, nil, nil, 75, 12, nil, nil, nil, nil,
+      "Metropolitan Area Planning Council", "http://mapc.org", nil,
+      "Boston, MA", nil, "MAPC", "MAPC", "landlord"]
     end
 
     def expected_header

@@ -7,13 +7,17 @@ one:
   commsf: 12
   estemp: 75
   creator: normal
+  created_at: 1969-12-31 19:00:00 -0500
+  updated_at: 1969-12-31 19:00:00 -0500
 
 two:
-  name: Woop Woop
-  address: That's the sound of
-  city: The poli
-  state: CE
+  name: Hello
+  address: It's me / I was wondering if after all the years
+  city: you'd like to me
+  state: ET
   zip_code: '02118'
   commsf: 200
   estemp: 1000
   creator: normal
+  created_at: 1969-12-31 19:00:00 -0500
+  updated_at: 1969-12-31 19:00:00 -0500
