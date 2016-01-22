@@ -22,14 +22,27 @@ class Development < ActiveRecord::Base
 
   validates :creator, presence: true
 
-  serialize :fields, HashSerializer
-  store_accessor :fields, [:location, :project_type]
-
   STATUSES = [:projected, :planning, :in_construction, :completed]
   enumerize :status, :in => STATUSES, predicates: true
 
   alias_attribute :website, :project_url
   alias_attribute :zip, :zip_code
+
+  scope :close_to, -> (latitude, longitude, distance_in_meters = 2000) {
+    where(%{
+      ST_DWithin(
+        ST_GeographyFromText(
+          'SRID=4326;POINT(' || developments.longitude || ' ' || developments.latitude || ')'
+        ),
+        ST_GeographyFromText('SRID=4326;POINT(%f %f)'),
+        %d
+      )
+    } % [longitude, latitude, distance_in_meters])
+  }
+
+  def location
+    # [longitude, latitude]
+  end
 
   def zip_code
     code = read_attribute(:zip_code).to_s

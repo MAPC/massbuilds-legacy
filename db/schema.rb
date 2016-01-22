@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160122220243) do
+ActiveRecord::Schema.define(version: 20160122225135) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -68,9 +68,8 @@ ActiveRecord::Schema.define(version: 20160122220243) do
 
   create_table "developments", force: :cascade do |t|
     t.integer  "creator_id"
-    t.json     "fields"
-    t.datetime "created_at",                                        null: false
-    t.datetime "updated_at",                                        null: false
+    t.datetime "created_at",                                                                 null: false
+    t.datetime "updated_at",                                                                 null: false
     t.boolean  "rdv"
     t.boolean  "asofright"
     t.boolean  "ovr55"
@@ -85,7 +84,7 @@ ActiveRecord::Schema.define(version: 20160122220243) do
     t.string   "tagline",               limit: 85
     t.string   "address",               limit: 140
     t.string   "city",                  limit: 46
-    t.string   "state",                 limit: 2,   default: "MA"
+    t.string   "state",                 limit: 2,                            default: "MA"
     t.string   "zip_code",              limit: 9
     t.integer  "height"
     t.integer  "stories"
@@ -104,8 +103,8 @@ ActiveRecord::Schema.define(version: 20160122220243) do
     t.integer  "onsitepark"
     t.integer  "total_cost"
     t.integer  "team_membership_count"
-    t.boolean  "cancelled",                         default: false
-    t.boolean  "private",                           default: false
+    t.boolean  "cancelled",                                                  default: false
+    t.boolean  "private",                                                    default: false
     t.float    "fa_ret"
     t.float    "fa_ofcmd"
     t.float    "fa_indmf"
@@ -116,6 +115,8 @@ ActiveRecord::Schema.define(version: 20160122220243) do
     t.float    "fa_hotel"
     t.float    "other_rate"
     t.float    "affordable"
+    t.decimal  "latitude",                          precision: 12, scale: 9
+    t.decimal  "longitude",                         precision: 12, scale: 9
   end
 
   add_index "developments", ["creator_id"], name: "index_developments_on_creator_id", using: :btree

@@ -51,8 +51,8 @@ class ChangePresenterTest < ActiveSupport::TestCase
   end
 
   def deletable_attributes
-    %w(id city state creator_id fields phased stalled status height
-       stories total_cost private)
+    %w( id city state creator_id fields phased stalled status height
+       stories total_cost private latitude longitude )
   end
 
 end

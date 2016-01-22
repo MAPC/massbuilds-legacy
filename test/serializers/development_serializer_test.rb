@@ -65,27 +65,22 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   private
 
     def expected_row
-      [980190962, 562391268, {}, "1970-01-01 00:00:00 UTC",
-      "1970-01-01 00:00:00 UTC", nil, nil, nil, nil, nil, nil,
-      "Godfrey Hotel", nil, nil, nil, nil, nil, "505 Washington Street",
-      "Boston", "MA", "02111", nil, nil, nil, nil, nil, nil, nil, nil,
-      nil, nil, nil, 75, 12, nil, nil, nil, nil, false, false, nil,
-      nil, nil, nil, nil, nil, nil, nil, nil, nil, "Metropolitan Area Planning Council",
-      "http://mapc.org", nil, "Boston, MA", nil, "MAPC", "MAPC", "landlord"]
+      [980190962, 562391268, "1970-01-01 00:00:00 UTC", "1970-01-01 00:00:00 UTC", nil, nil, nil, nil, nil, nil, "Godfrey Hotel", nil, nil, nil, nil, nil, "505 Washington Street", "Boston", "MA", "02111", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 75, 12, nil, nil, nil, nil, false, false, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Metropolitan Area Planning Council", "http://mapc.org", nil, "Boston, MA", nil, "MAPC", "MAPC", "landlord"]
     end
 
     def expected_header
-      %w( id creator_id fields created_at updated_at rdv asofright
-       ovr55 clusteros phased stalled name status desc project_url
-       mapc_notes tagline address city state zip_code height stories
-       year_compl prjarea singfamhu twnhsmmult lgmultifam tothu gqpop
-       rptdemp emploss estemp commsf hotelrms onsitepark total_cost
-       team_membership_count cancelled private fa_ret fa_ofcmd
-       fa_indmf fa_whs fa_rnd fa_edinst fa_other fa_hotel other_rate
-       affordable team_member_1_name team_member_1_website
-       team_member_1_url_template team_member_1_location
-       team_member_1_email team_member_1_abbv team_member_1_short_name
-       team_member_1_role )
+      %w( id creator_id created_at updated_at rdv asofright ovr55
+          clusteros phased stalled name status desc project_url
+          mapc_notes tagline address city state zip_code height
+          stories year_compl prjarea singfamhu twnhsmmult lgmultifam
+          tothu gqpop rptdemp emploss estemp commsf hotelrms
+          onsitepark total_cost team_membership_count cancelled
+          private fa_ret fa_ofcmd fa_indmf fa_whs fa_rnd fa_edinst
+          fa_other fa_hotel other_rate affordable latitude longitude
+          team_member_1_name team_member_1_website
+          team_member_1_url_template team_member_1_location
+          team_member_1_email team_member_1_abbv
+          team_member_1_short_name team_member_1_role )
     end
 
 end

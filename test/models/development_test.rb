@@ -43,7 +43,7 @@ class DevelopmentTest < ActiveSupport::TestCase
         created_at crosswalks desc emploss estemp fa_edinst
         fa_hotel fa_indmf fa_ofcmd fa_other fa_ret fa_rnd fa_whs
         gqpop lgmultifam location mapc_notes onsitepark other_rate
-        ovr55 phased private prjarea project_type project_url rdv
+        ovr55 phased private prjarea project_url rdv
         rptdemp singfamhu stalled status total_cost tothu
         twnhsmmult updated_at year_compl stories height
       ).each do |attribute|
@@ -194,6 +194,23 @@ class DevelopmentTest < ActiveSupport::TestCase
     d.update_attribute(:tagline, nil)
     d.save
     assert_not_nil d.tagline
+  end
+
+  test "nearby developments" do
+    far_dev = developments(:one)
+    far_dev.latitude = 40.000000
+    far_dev.longitude = -77.000000
+    far_dev.save
+
+    close_dev = developments(:two)
+    close_dev.latitude = 39.010000
+    close_dev.longitude = -75.990000
+    close_dev.save
+
+    close_devs = Development.close_to(39.000000, -76.000000).load
+
+    assert_equal 1,          close_devs.size
+    assert_equal close_dev, close_devs.first
   end
 
 end
