@@ -2,22 +2,59 @@
 # and are automatically loaded by Rails. If you want to use locales other
 # than English, add the necessary files in this directory.
 #
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
 # To learn more, please read the Rails Internationalization guide
 # available at http://guides.rubyonrails.org/i18n.html.
-
 en:
   hello: "Hello world"
+  activerecord:
+    attributes:
+      development:
+        name:         Development Name
+        status:       Status
+        year_compl:   Completion Year
+        prjarea:      Project area (sqft)
+        rdv:          Redevelopment
+        singfamhu:    Single family homes
+        twnhsmmult:   Small multifamily
+        lgmultifam:   Large multifamily
+        tothu:        Total housing units
+        gqpop:        Group Quarters
+        clusteros:    Cluster Development
+        ovr55:        Age-Restricted
+        mixeduse:     Mixed Use
+        rptdemp:      Reported Employment
+        emploss:      Employment Losses
+        estemp:       Total Employment Potential
+        commsf:       Commercial Square Feet
+        fa_ret:       Retail
+        fa_ofcmd:     Office or Medical
+        fa_indmf:     Industrial or Manufacturing
+        fa_whs:       Warehouse and Shipping
+        fa_rnd:       Research and Development
+        fa_edinst:    Educational and Institution
+        fa_other:     Other
+        other_rate:   Job Density - Other
+        fa_hotel:     Hotel Room
+        hotelrms:     Hotel Rooms
+        desc:         Project Description
+        project_url:  Project URL
+        mapc_notes:   MAPC Comments
+        stalled:      Stalled
+        phased:       Phased
+        onsitepark:   Parking Spaces
+        asofright:    As of Right
+        total_cost:   Total Cost
+        private:      Private
+        cancelled:    Removed
+        location:     Project location
+        tagline:      Project Tagline
+        address:      Street address
+        city:         City
+        state:        State
+        zip_code:     Zip code
+        affunits:     Number of affordable units
+        affordable:   Affordable Percent
+        feet_tall:    Height
+        stories:      Stories
+        ch40_id:      40B/40R/43D
+        project_type: Project type

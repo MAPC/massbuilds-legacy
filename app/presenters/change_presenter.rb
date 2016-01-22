@@ -12,6 +12,8 @@ class ChangePresenter < Burgundy::Item
       template_for(types.first.name.to_sym)
     end
 
+    # TODO Make this return an object, for the template
+    # to lay out and interpolate text.
     def template_for(type)
       case type
         when :Fixnum
@@ -25,5 +27,9 @@ class ChangePresenter < Burgundy::Item
       else
         raise ArgumentError, "unexpected type: #{type}"
       end
+    end
+
+    def name
+      Development.human_attribute_name item.name
     end
 end
