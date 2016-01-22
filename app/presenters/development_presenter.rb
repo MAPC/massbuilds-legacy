@@ -51,7 +51,7 @@ class DevelopmentPresenter < Burgundy::Item
      [:tothu, :commsf, :prjarea, :stories, :height]
    end
 
-  def address(options={})
+  def display_address(options={})
     return short_address if options[:short]
     long_address
   end

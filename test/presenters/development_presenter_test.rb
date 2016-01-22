@@ -75,12 +75,12 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
 
   test "address" do
     expected = "505 Washington Street, Boston MA 02111"
-    assert_equal expected, pres.address
+    assert_equal expected, pres.display_address
   end
 
   test "short address" do
     expected = "505 Washington Street, Boston"
-    assert_equal expected, pres.address(short: true)
+    assert_equal expected, pres.display_address(short: true)
   end
 
   test "#disable_moderation?" do
