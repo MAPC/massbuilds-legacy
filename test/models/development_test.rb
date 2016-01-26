@@ -16,6 +16,11 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_not d.valid?
   end
 
+  test "requires a completion year" do
+    d.year_compl = nil
+    assert_not d.valid?
+  end
+
   test "can read attributes from fields, as methods" do
     assert_nothing_raised { d.name }
     assert_equal 'Godfrey Hotel', d.name

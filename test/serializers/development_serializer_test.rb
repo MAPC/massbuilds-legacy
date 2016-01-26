@@ -65,7 +65,7 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   private
 
     def expected_row
-      [980190962, 562391268, "1970-01-01 00:00:00 UTC", "1970-01-01 00:00:00 UTC", nil, nil, nil, nil, nil, nil, "Godfrey Hotel", nil, nil, nil, nil, nil, "505 Washington Street", "Boston", "MA", "02111", nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, 75, 12, nil, nil, nil, nil, false, false, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Metropolitan Area Planning Council", "http://mapc.org", nil, "Boston, MA", nil, "MAPC", "MAPC", "landlord"]
+      [980190962, 562391268, "1970-01-01 00:00:00 UTC", "1970-01-01 00:00:00 UTC", nil, nil, nil, nil, nil, nil, "Godfrey Hotel", "in_construction", nil, nil, nil, nil, "505 Washington Street", "Boston", "MA", "02111", nil, nil, 2016, nil, nil, nil, nil, nil, nil, nil, nil, 75, 12, nil, nil, nil, nil, false, false, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, "Metropolitan Area Planning Council", "http://mapc.org", nil, "Boston, MA", nil, "MAPC", "MAPC", "landlord"]
     end
 
     def expected_header
