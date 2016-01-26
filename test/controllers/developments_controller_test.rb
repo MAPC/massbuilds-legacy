@@ -1,16 +1,34 @@
 require 'test_helper'
 
 class DevelopmentsControllerTest < ActionController::TestCase
+
+  def development
+    @_development ||= developments(:one)
+  end
+
   test "should get index" do
-    skip
     get :index
     assert_response :success
   end
 
   test "should get show" do
-    skip "Pending"
-    get :show
+    get :show, id: development.id
     assert_response :success
+  end
+
+  test "should get edit" do
+    sign_in users(:normal)
+    get :edit, id: development.id
+    assert_response :success
+  end
+
+  test "should patch update" do
+    sign_in users(:normal)
+    data = { name: "lol", rdv: true }
+    assert_difference 'Edit.count + FieldEdit.count', +3 do
+      patch :update, id: development.id, development: data
+    end
+    assert_response :redirect
   end
 
 end

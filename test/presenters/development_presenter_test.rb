@@ -31,17 +31,6 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
     end
   end
 
-  test "status_with_year" do
-    pres.item.year_compl = 2001
-    { projected:       "Projected (est. 2001)",
-      planning:        "Planning (est. 2001)",
-      in_construction: "In Construction (est. 2001)",
-      completed:       "Completed (2001)" }.each_pair do |status, text|
-        pres.item.status = status
-        assert_equal text, pres.status_with_year
-    end
-  end
-
   test "#team" do
     assert_respond_to pres, :team
   end
@@ -86,12 +75,12 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
 
   test "address" do
     expected = "505 Washington Street, Boston MA 02111"
-    assert_equal expected, pres.address
+    assert_equal expected, pres.display_address
   end
 
   test "short address" do
     expected = "505 Washington Street, Boston"
-    assert_equal expected, pres.address(short: true)
+    assert_equal expected, pres.display_address(short: true)
   end
 
   test "#disable_moderation?" do

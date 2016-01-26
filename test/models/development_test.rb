@@ -16,6 +16,11 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_not d.valid?
   end
 
+  test "requires a completion year" do
+    d.year_compl = nil
+    assert_not d.valid?
+  end
+
   test "can read attributes from fields, as methods" do
     assert_nothing_raised { d.name }
     assert_equal 'Godfrey Hotel', d.name
@@ -26,6 +31,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test "attribute read is from an indifferent hash" do
+    skip "Moving attributes out of hash."
     d.name = 'Godfrey Hotel'
     assert_equal d.fields['name'], d.name
     assert_equal d.fields[:name], d.name
@@ -38,13 +44,13 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test "literal attributes" do
-    %i( affordable affunits asofright cancelled clusteros commsf
+    %i( affordable asofright cancelled clusteros commsf
         created_at crosswalks desc emploss estemp fa_edinst
         fa_hotel fa_indmf fa_ofcmd fa_other fa_ret fa_rnd fa_whs
         gqpop lgmultifam location mapc_notes onsitepark other_rate
-        ovr55 phased private prjarea project_type project_url rdv
+        ovr55 phased private prjarea project_url rdv
         rptdemp singfamhu stalled status total_cost tothu
-        twnhsmmult updated_at year_compl stories feet_tall
+        twnhsmmult updated_at year_compl stories height
       ).each do |attribute|
       assert_respond_to d, attribute
     end
@@ -56,10 +62,27 @@ class DevelopmentTest < ActiveSupport::TestCase
     end
   end
 
+  # Attributes
+
+  test "accepts 5-digit zip codes" do
+    assert_respond_to d, :zip_code
+    assert_respond_to d, :zip
+    d.zip_code = '02139'
+  end
+
+  test "accepts 9-digit zip codes" do
+    d.zip_code = input = '02139-1112'
+    assert d.save
+    assert_equal '021391112',  d.read_attribute(:zip_code)
+    assert_equal input, d.zip_code
+  end
+
+  # Associations
+
   test "associations" do
     # #recent_changes -> presenter
     %i( contributors creator crosswalks edits flags history
-        last_edit parcel team_members
+        parcel team_members
         team_memberships walkscore programs
       ).each do |attribute|
       assert_respond_to d, attribute
@@ -67,6 +90,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test "#mixed_use?" do
+    skip "Come back to this soon."
     assert_not Development.new.mixed_use?
     assert_not Development.new(tothu:  1).mixed_use?
     assert_not Development.new(commsf: 1).mixed_use?
@@ -81,21 +105,12 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test "#history" do
-    d.edits.new(state: 'applied').save(validate: false)
+    d.edits.new(applied: true).save(validate: false)
     assert_not_empty d.history
   end
 
   test "#pending" do
     assert_not_empty d.pending_edits
-  end
-
-  test "#last_edit" do
-    3.times {
-      d.edits.new(state: 'applied', applied_at: 1.minute.ago).save(validate: false)
-    }
-    last_edit = d.edits.new(state: 'applied', applied_at: Time.now)
-    last_edit.save(validate: false)
-    assert_equal last_edit, d.last_edit
   end
 
   test "#contributors" do
@@ -169,20 +184,6 @@ class DevelopmentTest < ActiveSupport::TestCase
     skip
   end
 
-  test "apply edit" do
-    d.edits = []
-    d.commsf = 12
-    edit = edits(:one)
-    d.edits << edit
-    assert_equal 12, d.commsf
-    assert_not edit.conflict?, edit.conflict
-    assert_difference 'd.history.count', +1 do
-      edit.apply!
-    end
-    assert_equal 'applied', edit.state
-    assert_equal 1000, d.commsf
-  end
-
   test "contributors includes creator" do
     creator = users(:normal)
     # TODO clear out edits on this development.
@@ -200,33 +201,21 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_not_nil d.tagline
   end
 
-  test "metadata" do
-    assert_respond_to Development, :fields_hash
-    dfh = Development.fields_hash
-    assert_equal 'status', dfh['status'].name
-    assert_equal 'Project area', dfh['prjarea'].human_name
-  end
+  test "nearby developments" do
+    far_dev = developments(:one)
+    far_dev.latitude = 40.000000
+    far_dev.longitude = -77.000000
+    far_dev.save
 
-  test "field categories" do
-    cats = %w( boolean commercial residential miscellaneous )
-    cats.each {|cat|
-      assert_includes Development.field_categories, cat
-    }
-  end
+    close_dev = developments(:two)
+    close_dev.latitude = 39.010000
+    close_dev.longitude = -75.990000
+    close_dev.save
 
-  test "field category helper methods" do
-    %w( boolean commercial residential miscellaneous ).each {|cat|
-      assert_respond_to Development, :"#{cat}_fields"
-    }
-    assert_includes Development.boolean_fields, 'clusteros'
-    refute_includes Development.commercial_fields, 'clusteros'
-  end
+    close_devs = Development.close_to(39.000000, -76.000000).load
 
-  test "gets metatdata for fields" do
-    assert_equal d.name_for(:status), 'status'
-    assert_equal d.human_name_for('prjarea'), 'Project area'
-    assert_equal d.description_for(:prjarea), "Area of development site, in square feet"
-    assert_equal d.category_for(:year_compl), 'miscellaneous'
+    assert_equal 1,          close_devs.size
+    assert_equal close_dev, close_devs.first
   end
 
 end

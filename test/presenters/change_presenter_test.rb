@@ -11,27 +11,27 @@ class ChangePresenterTest < ActiveSupport::TestCase
 
   test "numbers" do
     item.change = {from: 100.0, to: 200}
-    assert_equal "changed commsf from 100.0 to 200.0", pres.text
+    assert_equal "changed Commercial Square Feet from 100.0 to 200.0", pres.text
     item.change = {from: 200, to: nil}
-    assert_equal "changed commsf from 200 to 0", pres.text
+    assert_equal "changed Commercial Square Feet from 200 to 0", pres.text
     item.change = {from: nil, to: 200}
-    assert_equal "changed commsf from 0 to 200", pres.text
+    assert_equal "changed Commercial Square Feet from 0 to 200", pres.text
   end
 
   test "booleans" do
     item.change = {from: true, to: false}
-    assert_equal "set commsf to false", pres.text
+    assert_equal "set Commercial Square Feet to false", pres.text
     item.change = {from: false, to: true}
-    assert_equal "set commsf to true", pres.text
+    assert_equal "set Commercial Square Feet to true", pres.text
     item.change = {from: nil, to: true}
-    assert_equal "set commsf to true", pres.text
+    assert_equal "set Commercial Square Feet to true", pres.text
     item.change = {from: true, to: nil}
-    assert_equal "set commsf to false", pres.text
+    assert_equal "set Commercial Square Feet to false", pres.text
   end
 
   test "strings" do
     item.change = {from: "Godfrey", to: "The Godfrey."}
-    assert_equal "changed commsf from 'Godfrey' to 'The Godfrey.'", pres.text
+    assert_equal "changed Commercial Square Feet from 'Godfrey' to 'The Godfrey.'", pres.text
   end
 
   test "unexpected" do
@@ -39,4 +39,19 @@ class ChangePresenterTest < ActiveSupport::TestCase
     assert_raises(ArgumentError) { pres.text }
   end
 
+  test "changeable attributes have human names" do
+    development = developments(:one)
+    attributes = development.attributes.select{|k,v| !v.is_a? String }
+    deletable_attributes.each{|key| attributes.delete(key) }
+    attributes.each_pair do |key, value|
+      expected = key.to_s.titleize
+      actual = Development.human_attribute_name(key)
+      refute_equal expected, actual
+    end
+  end
+
+  def deletable_attributes
+    %w( id city state creator_id fields phased stalled status height
+       stories total_cost private latitude longitude )
+  end
 end

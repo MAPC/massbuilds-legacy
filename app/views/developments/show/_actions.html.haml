@@ -17,7 +17,9 @@
         -# %span.description
         -#   Not receiving notifications about updates
 
-  -# Consider making this a partial
+  -# Consider making this a partial, passing the path, icon, and text
+
+  -# TODO Can edit if ... ?
   =link_to edit_development_path(@development) do
     .ui.vertical.animated.button{:tabindex => "0"}
       .visible.content
@@ -25,6 +27,7 @@
       .hidden.content
         Edit
 
+  -# TODO Can flag if you are signed in.
   =link_to new_development_flag_path(@development) do
     .ui.vertical.animated.button{:tabindex => "0"}
       .visible.content
@@ -32,6 +35,7 @@
       .hidden.content
         Flag
 
+  -# TODO Can claim if you belong to at least one organization.
   =link_to new_development_claim_path(@development) do
     .ui.vertical.animated.button{:tabindex => "0"}
       .visible.content

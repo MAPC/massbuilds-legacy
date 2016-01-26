@@ -9,4 +9,5 @@
     = succeed "'s" do
       = object['name']
     edit.
-  = render partial: 'edits/none_left' if object['none_left']
+  -# Rendering issue: says 'missing partial'
+  -# = render partial: 'edits/none_left' if object['none_left']

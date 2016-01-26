@@ -1,10 +1,27 @@
 one:
-  fields:
-    name: Godfrey Hotel
-    address: 505 Washington Street
-    city: Boston
-    state: MA
-    zip_code: '02111'
-    commsf: 12
-    estemp: 75
+  name: Godfrey Hotel
+  address: 505 Washington Street
+  city: Boston
+  state: MA
+  zip_code: '02111'
+  status: in_construction
+  commsf: 12
+  estemp: 75
   creator: normal
+  created_at: 1969-12-31 19:00:00 -0500
+  updated_at: 1969-12-31 19:00:00 -0500
+  year_compl: 2016
+
+two:
+  name: Hello
+  address: It's me / I was wondering if after all the years
+  city: you'd like to me
+  state: ET
+  zip_code: '02118'
+  status: completed
+  commsf: 200
+  estemp: 1000
+  creator: normal
+  created_at: 1969-12-31 19:00:00 -0500
+  updated_at: 1969-12-31 19:00:00 -0500
+  year_compl: 2012
