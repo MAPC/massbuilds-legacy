@@ -36,11 +36,11 @@ class DevelopmentSerializer
     end
 
     def only_attributes
-      @record.attributes.select{|k,v| only_selection.include? k.to_sym }
+      @record.attributes.select{|k,_v| only_selection.include? k.to_sym }
     end
 
     def except_attributes
-      @record.attributes.reject{|k,v| except_selection.include? k.to_sym }
+      @record.attributes.reject{|k,_v| except_selection.include? k.to_sym }
     end
 
     def only_selection
