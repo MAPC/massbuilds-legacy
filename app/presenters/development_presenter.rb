@@ -1,6 +1,6 @@
 class DevelopmentPresenter < Burgundy::Item
 
-  delegate :status_with_year, :year, to: :status_info
+  delegate :status_with_year, :status_icon, to: :status_info
 
   # Relationships
 

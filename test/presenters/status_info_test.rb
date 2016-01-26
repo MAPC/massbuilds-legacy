@@ -12,7 +12,7 @@ class StatusInfoTest < ActiveSupport::TestCase
   test "#status_with_year" do
     Time.stub :now, Time.new(2000) do
       item.year_compl = 2100
-      { projected:       "Projected (est. 2100-2110)",
+      { projected:       "Projected (for 2100-2110)",
         planning:        "Planning (est. 2100-2110)",
         in_construction: "In Construction (est. 2100-2110)",
         completed:       "Completed (2100)" }.each_pair do |status, text|
@@ -35,6 +35,11 @@ class StatusInfoTest < ActiveSupport::TestCase
         assert_equal set[:expected], pres.year
       end
     end
+  end
+
+  test "status icon" do
+    item.status = :projected
+    assert_equal :find,  pres.status_icon
   end
 
 end

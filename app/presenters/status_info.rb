@@ -12,7 +12,7 @@ class StatusInfo
     if @item.completed?
       "#{@item.status.titleize} (#{@item.year_compl})"
     else
-      "#{@item.status.titleize} (est. #{year})"
+      "#{@item.status.titleize} (#{prefix}#{year})"
     end
   end
 
@@ -24,7 +24,24 @@ class StatusInfo
     end
   end
 
+  def status_icon
+    status_objects.fetch(@item.status).fetch(:icon)
+  end
+
+  def prefix
+    status_objects.fetch(@item.status).fetch(:year_prefix, '')
+  end
+
   private
+
+    def status_objects
+      {
+        completed:       {icon: :checkmark},
+        in_construction: {icon: :configure, year_prefix: 'est. '},
+        projected:       {icon: :find,      year_prefix: 'for ' },
+        planning:        {icon: :calendar,  year_prefix: 'est. '}
+      }.with_indifferent_access
+    end
 
     def year_gte_10_yrs_from_now
       @item.year_compl.to_i >= 10.years.from_now.year

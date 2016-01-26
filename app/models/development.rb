@@ -21,6 +21,7 @@ class Development < ActiveRecord::Base
   has_and_belongs_to_many :programs
 
   validates :creator, presence: true
+  validates :year_compl, presence: true
 
   STATUSES = [:projected, :planning, :in_construction, :completed]
   enumerize :status, :in => STATUSES, predicates: true
