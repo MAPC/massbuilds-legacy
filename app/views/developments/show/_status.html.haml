@@ -1,20 +1,6 @@
--# TODO Make this a view helper or lookup
-- if @development.completed?
-  .ui.label.large.basic
-    %i.icon.checkmark
-    Completed (2016)
-- if @development.in_construction?
-  .ui.label.large.basic
-    %i.icon.configure
-    In Construction (est. 2016)
-- if @development.projected?
-  .ui.label.large.basic
-    %i.icon.find
-    Projected (for 2027)
-- if @development.planning?
-  .ui.label.large.basic
-    %i.icon.calendar
-    Planning (est. 2016)
+.ui.label.large.basic
+  %i.icon{class: @development.status_icon}
+  = @development.status_with_year
 
 .ui.label.large.basic
   %i.green.money.icon

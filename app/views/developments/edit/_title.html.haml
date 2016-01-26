@@ -1,19 +1,26 @@
 .fields
   .sixteen.wide.field
     %h1.ui.header#title
-      = f.text_field :name
+      = f.text_field :name, placeholder: 'Project Name'
+
+.fields#address
+  .four.wide.field
+    .ui.left.icon.input
+      = f.text_field :address,  placeholder: '99 Street Address'
+      %i.marker.icon
+  .two.wide.field
+    = f.text_field :city,     placeholder: 'Boston'
+  .two.wide.field
+    = f.text_field :state,    placeholder: 'MA'
+  .two.wide.field
+    = f.text_field :zip_code, placeholder: '01010'
+
 .fields
-  .twelve.wide.field
-    .sub.header#address
-      .ui.left.icon.input
-        %i.marker.icon
-        = f.text_field :address
-.fields
-  .eight.wide.field
-    .ui.disabled.input
-      = f.text_field :tagline
-  .eight.wide.field
-    .ui.labeled.input
+  .six.wide.field
+  -#   .ui.disabled.input#tagline
+  -#     = f.text_field :tagline # Don't need tagline in #edit
+  -# .four.wide.field
+    .ui.labeled.input#website
       .ui.label
         %i.linkify.icon
       = f.text_field :project_url

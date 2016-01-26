@@ -2,6 +2,7 @@ mapc:
   name: Metropolitan Area Planning Council
   abbv: MAPC
   short_name: MAPC
+  location: 'Boston, MA'
   creator: normal
   website: http://mapc.org
 

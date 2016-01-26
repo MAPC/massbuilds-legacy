@@ -21,57 +21,57 @@
             Percent
             .sub.header
               of total floor area
-    %tbody
-      - @development.commercial_table_fields.each do |field|
-        - if use_value = @development.send(field)
-          %tr
-            %td
-              %h4.ui.header
-                .content
-                  = @development.human_name_for(field)
-                  .sub.header
-                    = @development.description_for(field)
-            %td= f.text_field field
-            %td= f.text_field field
-      %tr
-        %td
-          %h4.ui.header
-            .content
-              = @development.human_name_for(:commsf)
-              .sub.header
-                = @development.description_for(:commsf)
-        %td
-          = f.text_field :commsf
-        %td
-          .disabled.field
-            100%
+    -# %tbody
+    -#   - @development.commercial_table_fields.each do |field|
+    -#     - if use_value = @development.send(field)
+    -#       %tr
+    -#         %td
+    -#           %h4.ui.header
+    -#             .content
+    -#               = @development.human_name_for(field)
+    -#               .sub.header
+    -#                 = @development.description_for(field)
+    -#         %td= f.text_field field
+    -#         %td= f.text_field field
+    -#   %tr
+    -#     %td
+    -#       %h4.ui.header
+    -#         .content
+    -#           = @development.human_name_for(:commsf)
+    -#           .sub.header
+    -#             = @development.description_for(:commsf)
+    -#     %td
+    -#       = f.text_field :commsf
+    -#     %td
+    -#       .disabled.field
+    -#         100%
 
 %table.ui.very.basic.celled.table
-  %tbody
-    %tr
-      %td
-        %h4.ui.header
-          .content
-            = @development.human_name_for(:hotelrms)
-            .sub.header
-              = @development.description_for(:hotelrms)
-      %td= f.text_field :hotelrms
-    %tr
-      %td
-        %h4.ui.header
-          .content
-            Employment
-            .sub.header
-              reported
-      %td= f.text_field :rptdemp
+  -# %tbody
+  -#   %tr
+  -#     %td
+  -#       %h4.ui.header
+  -#         .content
+  -#           = @development.human_name_for(:hotelrms)
+  -#           .sub.header
+  -#             = @development.description_for(:hotelrms)
+  -#     %td= f.text_field :hotelrms
+  -#   %tr
+  -#     %td
+  -#       %h4.ui.header
+  -#         .content
+  -#           Employment
+  -#           .sub.header
+  -#             reported
+  -#     %td= f.text_field :rptdemp
 
-    %tr
-      %td
-        %h4.ui.header
-          .content
-            Employment
-            .sub.header
-              estimated
-      %td
-        .disabled.field
-          = f.text_field :estemp
+  -#   %tr
+  -#     %td
+  -#       %h4.ui.header
+  -#         .content
+  -#           Employment
+  -#           .sub.header
+  -#             estimated
+  -#     %td
+  -#       .disabled.field
+  -#         = f.text_field :estemp

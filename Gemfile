@@ -14,17 +14,19 @@ gem 'bcrypt'
 gem 'devise'
 
 # Utilities
-gem 'enumerize'
-gem 'geometry'
-gem 'wannabe_bool', '0.3.0'
+gem 'enumerize' # Store options in a string field
+gem 'geometry'  # Simple geometry constructor
+gem 'wannabe_bool', '0.3.0' # Convert to boolean
+gem 'paperclip' # File attachments
 
-# Presenters
-gem 'burgundy' # Presenter
-gem 'escape_utils' # speeds up URI Template
-gem 'uri_template'
+# Forms & Presenters
+gem 'virtus'       # Form objects
+gem 'burgundy'     # Tiny decorator/presenter library
+gem 'escape_utils' # Speeds up uri_template
+gem 'uri_template' # Rendering dynamic URLs
 
 # Views
-gem 'haml-rails'
+gem 'haml-rails'   # Use HAML views
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'jquery-rails'
@@ -37,8 +39,6 @@ gem 'therubyracer'
 gem 'less-rails-semantic_ui', '~> 2.1'
 gem 'autoprefixer-rails', '~> 5.2.1.2'
 
-gem 'paperclip' # File attachments
-
 # API
 gem 'jsonapi-resources' # JSON API standard
 gem 'api-pagination'    # Paginates API in headers
@@ -46,8 +46,6 @@ gem 'api-pagination'    # Paginates API in headers
 # Server
 gem 'puma'
 gem 'foreman', require: false
-
-gem 'bullet', group: [:development, :test]
 
 group :development do
   gem 'spring'            # Keeps environment in background
@@ -61,6 +59,8 @@ group :development do
   gem 'rb-fsevent', require: RUBY_PLATFORM.include?('darwin') && 'rb-fsevent'
   gem 'brakeman', require: false # Assess security
 end
+
+gem 'bullet', group: [:development, :test] # SQL diagnostics
 
 group :test do
   gem 'minitest-rails'     # Test library

@@ -18,8 +18,8 @@
     #data
       .ui.horizontal.divider Details
       = render partial: 'developments/show/physical'
-      = render partial: 'developments/show/residential'
-      = render partial: 'developments/show/commercial'
+      -#= render partial: 'developments/show/residential'
+      -#= render partial: 'developments/show/commercial'
       = render partial: 'developments/show/transportation'
 
   .six.wide.column#sidebar
@@ -29,7 +29,7 @@
     #related= render partial: 'developments/show/related'
     #history= render partial: 'developments/show/history'
 
-.row
-  .column#context
-    .ui.horizontal.divider Neighborhood Context
-    = render partial: 'developments/show/context'
+-# .row
+-#   .column#context
+-#     .ui.horizontal.divider Neighborhood Context
+-#     = render partial: 'developments/show/context'

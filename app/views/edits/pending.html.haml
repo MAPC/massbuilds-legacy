@@ -3,11 +3,16 @@
     %h1.ui.header
       Proposed changes to
       = link_to @development.name, @development
+    %br
+    = @development.pending_edits_count
+    pending edits,
+    = @development.pending_edits.select(&:conflict?).count
+    with conflicts
 .row
   .twelve.wide.column#pending-edits
     .ui.large.feed
-      = render partial: 'pending', collection: @development.pending, as: :edit
-      - if @development.pending.empty?
+      = render partial: 'pending', collection: @development.pending_edits, as: :edit
+      - if @development.pending_edits.empty?
         %p
           There are no pending edits left to show.
           = link_to "Go back to #{@development.name}.", @development
