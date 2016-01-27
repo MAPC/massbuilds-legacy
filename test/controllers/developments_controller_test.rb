@@ -8,6 +8,13 @@ class DevelopmentsControllerTest < ActionController::TestCase
 
   test "should get index" do
     get :index
+    assigns(:developments).count > 1
+    assert_response :success
+  end
+
+  test "should get index, searching" do
+    get :index, q: { commsf: '[11,13]' }
+    assert_equal 1, assigns(:developments).count
     assert_response :success
   end
 

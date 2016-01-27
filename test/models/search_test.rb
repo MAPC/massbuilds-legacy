@@ -14,6 +14,11 @@ class SearchTest < ActiveSupport::TestCase
     assert search.valid?
   end
 
+  test "requires a current_user" do
+    search.user = nil
+    assert_not search.valid?
+  end
+
   test "query" do
     refute_empty search.query
     assert_instance_of Hash, search.query

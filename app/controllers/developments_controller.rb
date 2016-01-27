@@ -1,9 +1,11 @@
 class DevelopmentsController < ApplicationController
   before_action :load_record, only: [:show, :edit, :update]
   before_action :authenticate_user!, only: [:edit, :update]
+  after_action  :log_search, only: [:index]
 
   def index
-    @developments = Development.all
+    # Falls back to Development.all
+    @developments = Development.periscope(search_params)
   end
 
   def show
@@ -42,5 +44,18 @@ class DevelopmentsController < ApplicationController
         :name, :total_cost, :rdv, :address, :city, :state, :zip_code,
         :status
       )
+    end
+
+    def search_params
+      # TODO Anticipating this to get unwieldy quickly.
+      params[:q] ? params[:q].permit(:commsf) : {}
+    end
+
+    def log_search
+      Search.create!(
+        query: search_params,
+        # TODO: This is going to cause problems until
+        #       we set up anonymous users.
+        user: current_user || User.null )
     end
 end
