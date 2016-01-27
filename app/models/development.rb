@@ -28,18 +28,18 @@ class Development < ActiveRecord::Base
 
   alias_attribute :website, :project_url
   alias_attribute :zip, :zip_code
+  alias_attribute :hidden, :private
 
-  scope :close_to, -> (latitude, longitude, distance_in_meters = 2000) {
-    where(%{
-      ST_DWithin(
-        ST_GeographyFromText(
-          'SRID=4326;POINT(' || developments.longitude || ' ' || developments.latitude || ')'
-        ),
-        ST_GeographyFromText('SRID=4326;POINT(%f %f)'),
-        %d
-      )
-    } % [longitude, latitude, distance_in_meters])
-  }
+  ranged_scopes :created_at, :updated_at, :height, :stories,
+    :year_compl, :affordable, :prjarea, :singfamhu, :twnhsmmult,
+    :lgmultifam, :tothu, :gqpop, :rptdemp, :emploss, :estemp, :commsf,
+    :hotelrms, :onsitepark, :total_cost, :fa_ret, :fa_ofcmd,
+    :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst, :fa_other, :fa_hotel
+
+  boolean_scopes :rdv, :asofright, :ovr55, :clusteros, :phased,
+    :stalled, :cancelled, :hidden
+
+  scope :close_to, CloseToQuery.new(self).scope
 
   def location
     # [longitude, latitude]
@@ -86,13 +86,10 @@ class Development < ActiveRecord::Base
     def update_tagline
       self.tagline = TaglineGenerator.new(self).perform!
     end
-
     def clean_zip_code
       self.zip_code = self.zip_code.to_s.gsub(/\D*/, '')
     end
-
     def nine_digit_formatted_zip(code)
       "#{code[0..4]}-#{code[-4..-1]}"
     end
-
 end

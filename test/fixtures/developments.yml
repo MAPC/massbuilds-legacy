@@ -7,6 +7,7 @@ one:
   status: in_construction
   commsf: 12
   estemp: 75
+  private: true
   creator: normal
   created_at: 1969-12-31 19:00:00 -0500
   updated_at: 1969-12-31 19:00:00 -0500
@@ -21,6 +22,7 @@ two:
   status: completed
   commsf: 200
   estemp: 1000
+  private: false
   creator: normal
   created_at: 1969-12-31 19:00:00 -0500
   updated_at: 1969-12-31 19:00:00 -0500

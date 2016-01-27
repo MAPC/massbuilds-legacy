@@ -10,6 +10,8 @@ Rails.application.routes.draw do
     end
   end
 
+  resources :searches, only: [:index, :show, :new, :create]
+
   resources :organizations, only: [:index, :show, :edit, :create, :update, :new, :join] do
     post :join, to: 'memberships#join', on: :member
   end
