@@ -6,8 +6,9 @@ gem 'rails', '4.2.1'
 
 # Database
 gem 'pg'
-gem 'seed-fu', '~> 2.3'     # Manages fixtures
-gem 'faker', require: false # Fake sample data
+gem 'periscope-activerecord' # Makes filtering simpler
+gem 'seed-fu', '~> 2.3'      # Manages fixtures
+gem 'faker', require: false  # Fake sample data
 
 # Users
 gem 'bcrypt'
@@ -60,7 +61,7 @@ group :development do
   gem 'brakeman', require: false # Assess security
 end
 
-gem 'bullet', group: [:development, :test] # SQL diagnostics
+gem 'bullet', '4.14.10', group: [:development, :test] # SQL diagnostics
 
 group :test do
   gem 'minitest-rails'     # Test library
