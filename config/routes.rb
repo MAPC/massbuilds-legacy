@@ -1,5 +1,9 @@
 Rails.application.routes.draw do
 
+  namespace :api, constraints: {subdomain: 'api'}, path: '' do
+    jsonapi_resources :searches, only: [:index, :show, :new, :create]
+  end
+
   resources :developments, only: [:index, :show, :edit, :update] do
     resources :claims, only: [:new, :create]
     resources :flags,  only: [:new, :create]
