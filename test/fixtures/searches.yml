@@ -19,3 +19,8 @@ saved:
   query:
   user:  normal
   saved: true
+
+saved_for_someone_else:
+  query: { rdv: true }
+  user:  tim
+  saved: true

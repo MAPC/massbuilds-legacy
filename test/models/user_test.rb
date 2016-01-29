@@ -40,4 +40,11 @@ class UserTest < ActiveSupport::TestCase
     new_user.api_key = APIKey.new
     assert new_user.api_key
   end
+
+  test "#searches returns user's saved searches" do
+    saved_search = searches(:saved)
+    assert_equal user, saved_search.user
+    assert_equal [saved_search.id], user.searches.map(&:id)
+  end
+
 end

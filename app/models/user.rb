@@ -10,6 +10,7 @@ class User < ActiveRecord::Base
   attr_readonly :api_key
 
   has_one  :api_key,       dependent: :destroy
+  has_many :searches, -> { where(saved: true) }
   has_many :memberships
   has_many :organizations, through: :memberships
 

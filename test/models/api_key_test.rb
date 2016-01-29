@@ -20,4 +20,8 @@ class APIKeyTest < ActiveSupport::TestCase
       key.update_attribute(:token, '')
     }
   end
+
+  test "#to_s results in token" do
+    assert_equal key.token, key.to_s
+  end
 end

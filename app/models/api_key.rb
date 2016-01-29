@@ -7,6 +7,10 @@ class APIKey < ActiveRecord::Base
 
   validates :user,  presence: true
 
+  def to_s
+    token
+  end
+
   private
 
   def generate_token
