@@ -1,7 +1,10 @@
+require 'api_constraints'
 Rails.application.routes.draw do
 
   namespace :api, constraints: {subdomain: 'api'}, path: '' do
-    jsonapi_resources :searches, only: [:index, :show, :new, :create]
+    scope module: :v1, path: '', constraints: ApiConstraints.new(version: 1, default: true) do
+      jsonapi_resources :searches, only: [:index, :show, :new, :create]
+    end
   end
 
   resources :developments, only: [:index, :show, :edit, :update] do

@@ -9,7 +9,7 @@ class JSONAPITest < ActiveSupport::TestCase
   end
 
   test "route without /api in path" do
-    primary_resource_klass = API::SearchResource
+    primary_resource_klass = API::V1::SearchResource
 
     config = {
       base_url: @base_url,
