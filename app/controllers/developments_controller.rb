@@ -47,15 +47,14 @@ class DevelopmentsController < ApplicationController
     end
 
     def search_params
-      # TODO Anticipating this to get unwieldy quickly.
-      params[:q] ? params[:q].permit(:commsf) : {}
+      params.fetch(:q) { Hash.new }
     end
 
+    # TODO test that empty queries don't log
     def log_search
-      Search.create!(
-        query: search_params,
-        # TODO: This is going to cause problems until
-        #       we set up anonymous users.
-        user: current_user || User.null )
+      if search_params.keys.any?
+        Search.create!( query: search_params,
+          user: current_user || User.null )
+      end
     end
 end
