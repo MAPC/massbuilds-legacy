@@ -44,6 +44,38 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: api_keys; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE api_keys (
+    id integer NOT NULL,
+    user_id integer,
+    token character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: api_keys_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE api_keys_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: api_keys_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE api_keys_id_seq OWNED BY api_keys.id;
+
+
+--
 -- Name: broadcasts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -695,6 +727,13 @@ ALTER SEQUENCE verifications_id_seq OWNED BY verifications.id;
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY api_keys ALTER COLUMN id SET DEFAULT nextval('api_keys_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY broadcasts ALTER COLUMN id SET DEFAULT nextval('broadcasts_id_seq'::regclass);
 
 
@@ -808,6 +847,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 --
 
 ALTER TABLE ONLY verifications ALTER COLUMN id SET DEFAULT nextval('verifications_id_seq'::regclass);
+
+
+--
+-- Name: api_keys_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY api_keys
+    ADD CONSTRAINT api_keys_pkey PRIMARY KEY (id);
 
 
 --
@@ -944,6 +991,13 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY verifications
     ADD CONSTRAINT verifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_api_keys_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_api_keys_on_user_id ON api_keys USING btree (user_id);
 
 
 --
@@ -1137,6 +1191,14 @@ ALTER TABLE ONLY developments_programs
 
 
 --
+-- Name: fk_rails_32c28d0dc2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY api_keys
+    ADD CONSTRAINT fk_rails_32c28d0dc2 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: fk_rails_4ba831b3b1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1317,4 +1379,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160122225135');
 INSERT INTO schema_migrations (version) VALUES ('20160122231311');
 
 INSERT INTO schema_migrations (version) VALUES ('20160126211510');
+
+INSERT INTO schema_migrations (version) VALUES ('20160129171814');
 
