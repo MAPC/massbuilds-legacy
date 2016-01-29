@@ -1,7 +1,12 @@
 module API
   module V1
     class SearchResource < JSONAPI::Resource
-      attributes :query, :saved
+      include Rails.application.routes.url_helpers
+      attributes :query, :saved, :url
+
+      def url
+        developments_url(query: query)
+      end
 
       def self.records(options = {})
         context = options[:context]

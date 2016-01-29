@@ -15,7 +15,6 @@ Rails.application.configure do
 
   # Don't care if the mailer can't send.
   config.action_mailer.raise_delivery_errors = false
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
@@ -45,3 +44,9 @@ Rails.application.configure do
     Bullet.add_footer = true
   end
 end
+
+DEFAULT_HOST = ENV['HOST'] || 'lvh.me'
+DEFAULT_PORT = ENV['PORT'] || 5000
+DEFAULT_OPTIONS = { host: DEFAULT_HOST, port: DEFAULT_PORT }
+
+Rails.application.default_url_options = DEFAULT_OPTIONS
