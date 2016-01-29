@@ -43,6 +43,7 @@ gem 'autoprefixer-rails', '~> 5.2.1.2'
 # API
 gem 'jsonapi-resources' # JSON API standard
 gem 'api-pagination'    # Paginates API in headers
+gem 'versionist'
 
 # Server
 gem 'puma'

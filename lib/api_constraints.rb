@@ -16,7 +16,8 @@ class ApiConstraints
   private
 
     def request_version
-      if matched = @req.headers['Accept'].match(version_regex)
+      accept_header = @req.headers.fetch('Accept') { "" }
+      if matched = accept_header.match(version_regex)
         matched.captures.first.to_i
       end
     end

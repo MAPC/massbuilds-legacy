@@ -39,13 +39,6 @@ class ApiConstraintsTest < ActiveSupport::TestCase
     assert v2.default
   end
 
-  test "request_version" do
-    skip "made private"
-    assert_equal 1, v1.request_version(request_v1)
-    assert_equal 2, v1.request_version(request_v2)
-    assert_equal nil, v1.request_version(request_no_version)
-  end
-
   test "matches v1" do
     assert v1.matches?(request_v1)
   end
