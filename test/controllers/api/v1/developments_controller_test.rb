@@ -10,10 +10,18 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  test "should get index, filtering" do
+  test "should get index, filtering on range" do
     get :index, filter: { commsf: '[11,13]' }
     assert_equal 1, results(response).count
     assert_response :success
+  end
+
+  test "should get index, filtering on boolean" do
+    [{ rdv: 'true' }, { rdv: 'false' }].each do |filter_value|
+      get :index, filter: filter_value
+      assert_response :success
+      assert_equal 0, results(response).count
+    end
   end
 
   test "should log non-blank searches" do
