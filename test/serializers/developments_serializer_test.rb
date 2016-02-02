@@ -29,28 +29,28 @@ class DevelopmentsSerializerTest < ActiveSupport::TestCase
   end
   alias_method :base, :serializer
 
-  test "#developments" do
+  test '#developments' do
     refute_empty base.developments
   end
 
-  test "prevents empty developments" do
+  test 'prevents empty developments' do
     assert_raises(ArgumentError) { DevelopmentsSerializer.new([]) }
   end
 
-  test "#to_header" do
+  test '#to_header' do
     assert_equal 1, development_one.team_memberships.count
     assert_equal 1, development_one.team_members.count
     assert_equal expected_header, base.to_header
   end
 
-  test "#to_csv" do
+  test '#to_csv' do
     assert_respond_to base, :to_csv
     Time.stub :now, Time.at(0) do
       assert_equal expected_csv, base.to_csv
     end
   end
 
-  test "#to_file" do
+  test '#to_file' do
     skip
   end
 

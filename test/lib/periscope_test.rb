@@ -6,7 +6,7 @@ class PeriscopeTest < ActiveSupport::TestCase
     Development
   end
 
-  test "ranged_scopes" do
+  test 'ranged_scopes' do
     assert_respond_to klass, :ranged_scopes
     assert_respond_to klass, :ranged_scope
 
@@ -18,7 +18,7 @@ class PeriscopeTest < ActiveSupport::TestCase
     }
   end
 
-  test "boolean scopes" do
+  test 'boolean scopes' do
     assert_respond_to klass, :boolean_scopes
     assert_respond_to klass, :boolean_scope
 

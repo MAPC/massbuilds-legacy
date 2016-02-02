@@ -37,40 +37,40 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   alias_method :only,   :serializer_only
   alias_method :except, :serializer_except
 
-  test "#to_row" do
+  test '#to_row' do
     assert_respond_to base, :to_row
   end
 
-  test "#to_row produces csv row of values" do
+  test '#to_row produces csv row of values' do
     Time.stub :now, Time.at(0) do
       assert_equal expected_row, dev.to_row
     end
   end
 
-  test "#to_row includes development team" do
+  test '#to_row includes development team' do
     assert_includes dev.to_row, "landlord"
   end
 
-  test "#to_header with an #attribute-less object" do
+  test '#to_header with an #attribute-less object' do
     assert_respond_to base, :to_header
     assert_equal [], base.to_header
   end
 
-  test "#to_header with an object" do
+  test '#to_header with an object' do
     assert_equal expected_header, dev.to_header
   end
 
-  test "#to_header shows development team" do
+  test '#to_header shows development team' do
     assert_includes dev.to_header, "team_member_1_name"
     assert_includes dev.to_header, "team_member_1_role"
   end
 
-  test "can allow (only) certain attributes" do
+  test 'can allow (only) certain attributes' do
     refute_includes ['505 Washington Street'], only.to_row
     refute_includes ['address'], only.to_header
   end
 
-  test "can block (except) attributes" do
+  test 'can block (except) attributes' do
     refute_includes except.to_row, 'Godfrey Hotel'
     refute_includes except.to_row, '505 Washington Street'
     refute_includes except.to_header, 'name'

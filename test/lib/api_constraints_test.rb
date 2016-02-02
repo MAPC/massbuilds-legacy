@@ -29,29 +29,29 @@ class ApiConstraintsTest < ActiveSupport::TestCase
     })
   end
 
-  test "version" do
+  test 'version' do
     assert_equal 1, v1.version
     assert_equal 2, v2.version
   end
 
-  test "default" do
+  test 'default' do
     refute v1.default
     assert v2.default
   end
 
-  test "matches v1" do
+  test 'matches v1' do
     assert v1.matches?(request_v1)
   end
 
-  test "matches v2" do
+  test 'matches v2' do
     assert v2.matches?(request_v2)
   end
 
-  test "matches v2 by default" do
+  test 'matches v2 by default' do
     assert v2.matches?(request_no_version)
   end
 
-  test "does not match the wrong version" do
+  test 'does not match the wrong version' do
     refute v1.matches?(request_v2), "v1 matched v2"
     refute v2.matches?(request_v1), "v2 matched v1"
   end

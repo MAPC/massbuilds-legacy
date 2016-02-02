@@ -7,44 +7,44 @@ class MembershipTest < ActiveSupport::TestCase
   end
   alias_method :m, :membership
 
-  test "valid" do
+  test 'valid' do
     assert m.valid?
   end
 
-  test "requires a member" do
+  test 'requires a member' do
     m.member = nil
     assert_not m.valid?
   end
 
-  test "requires an organization" do
+  test 'requires an organization' do
     m.organization = nil
     assert_not m.valid?
   end
 
-  test "defaults to pending" do
+  test 'defaults to pending' do
     assert_equal 'pending', Membership.new.state
   end
 
-  test "state predicates" do
+  test 'state predicates' do
     [:pending?, :invited?, :active?, :inactive?].each { |method|
       assert_respond_to membership, method
     }
   end
 
-  test "#invited" do
+  test '#invited' do
     assert_equal 'invited', m.invited.state
   end
 
-  test "#activated" do
+  test '#activated' do
     assert_equal 'active', m.activated.state
   end
 
-  test "#deactivated" do
+  test '#deactivated' do
     assert_equal 'inactive', m.deactivated.state
   end
 
   # I think this belongs in a controller test
-  test "member can leave an organization" do
+  test 'member can leave an organization' do
     skip "For now"
     user = m.user
     org  = m.organization
@@ -56,15 +56,15 @@ class MembershipTest < ActiveSupport::TestCase
     assert_empty org.active_members
   end
 
-  # test "only administrators can promote members" do
+  # test 'only administrators can promote members' do
   #   skip "Roles not yet implemented"
   # end
 
-  # test "administrators are notified when someone leaves the org" do
+  # test 'administrators are notified when someone leaves the org' do
   #   skip "Roles and notifications not yet implemented"
   # end
 
-  # test "administrators are notified when someone wants in" do
+  # test 'administrators are notified when someone wants in' do
   #   skip "email, notification / inbox"
   # end
 end

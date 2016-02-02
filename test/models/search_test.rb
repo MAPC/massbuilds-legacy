@@ -10,42 +10,42 @@ class SearchTest < ActiveSupport::TestCase
   end
   alias_method :saved, :saved_search
 
-  test "valid" do
+  test 'valid' do
     assert search.valid?
   end
 
-  test "requires a current_user" do
+  test 'requires a current_user' do
     search.user = nil
     assert_not search.valid?
   end
 
-  test "query" do
+  test 'query' do
     refute_empty search.query
     assert_instance_of Hash, search.query
   end
 
-  test "results" do
+  test 'results' do
     refute_empty search.results
   end
 
-  test "exact" do
+  test 'exact' do
     # Warning: Code Smell
     # Requires collaborator (Development) to have the right scopes
     assert_equal 1, search.results.count
     assert_equal developments(:one), search.results.first
   end
 
-  test "range" do
+  test 'range' do
     ranged_search = searches(:ranged)
     assert_equal 1, ranged_search.results.count
   end
 
-  test "unsaved" do
+  test 'unsaved' do
     assert search.unsaved?
     refute  saved.unsaved?
   end
 
-  test "saved" do
+  test 'saved' do
     refute search.saved?
     assert  saved.saved?
   end

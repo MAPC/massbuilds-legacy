@@ -19,7 +19,7 @@ class JSONAPITest < ActiveSupport::TestCase
     resource.filters
   end
 
-  test "route without /api in path" do
+  test 'route without /api in path' do
     primary_resource_klass = API::V1::SearchResource
 
     config = {
@@ -35,20 +35,20 @@ class JSONAPITest < ActiveSupport::TestCase
     assert_equal expected_link, builder.self_link(source)
   end
 
-  test "#range_filters" do
+  test '#range_filters' do
     range_filter_names.each{ |f| refute_includes filters, f }
     resource.range_filter(range_filter_names.first)
     resource.range_filters(range_filter_names)
     range_filter_names.each{ |f| assert_includes filters, f }
   end
 
-  test "#boolean_filters" do
+  test '#boolean_filters' do
     boolean_filter_names.each{ |f| refute_includes filters, f }
     resource.boolean_filters(boolean_filter_names)
     boolean_filter_names.each{ |f| assert_includes filters, f }
   end
 
-  test "singular aliases" do
+  test 'singular aliases' do
     assert_respond_to resource, :range_filter
     assert_respond_to resource, :boolean_filter
   end

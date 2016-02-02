@@ -8,7 +8,7 @@ class EditUserTest < Capybara::Rails::TestCase
     @user
   end
 
-  test "signed in user can edit their profile by changing their name" do
+  test 'signed in user can edit their profile by changing their name' do
     sign_in user, visit: true, submit: true
     visit edit_user_registration_path
     fill_in 'user_first_name', :with => 'William'

@@ -23,7 +23,7 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
     @_search ||= searches(:saved)
   end
 
-  test "index requires a user" do
+  test 'index requires a user' do
     get :index
     assert_response :unauthorized
 
@@ -40,7 +40,7 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
     assert_equal expected_ids, actual_ids
   end
 
-  test "show" do
+  test 'show' do
     set_auth_header_for_user!(user)
     get :show, id: search.id
     assert_response :success
@@ -56,7 +56,7 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
     assert_response :not_found
   end
 
-  test "create with user authorized through header" do
+  test 'create with user authorized through header' do
     set_content_type_header!
     set_auth_header_for_user!(user)
     post :create,
@@ -69,7 +69,7 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
     assert_response :created, response.body
   end
 
-  test "create with user authorized through URL param" do
+  test 'create with user authorized through URL param' do
     set_content_type_header!
     post :create, {
       data: {type: 'searches', attributes: {query: {}, saved: true}},
@@ -78,7 +78,7 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
     assert_response :created, response.body
   end
 
-  test "create with no user" do
+  test 'create with no user' do
     set_content_type_header!
     post :create, {
       data: { type: 'searches', attributes: { query: {} } }

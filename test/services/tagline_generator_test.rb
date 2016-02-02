@@ -2,7 +2,7 @@ require 'test_helper'
 
 class TaglineGeneratorTest < ActiveSupport::TestCase
   def generator
-    @_generator ||= TaglineGenerator.new( developments(:one) )
+    @_generator ||= TaglineGenerator.new(developments(:one))
   end
   alias_method :gen, :generator
 
@@ -14,7 +14,7 @@ class TaglineGeneratorTest < ActiveSupport::TestCase
     generator.perform!
   end
 
-  test "performed" do
+  test 'performed' do
     assert_match /luxury hotel/i, perform
   end
 
