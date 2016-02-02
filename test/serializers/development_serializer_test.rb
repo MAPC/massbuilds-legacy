@@ -3,7 +3,12 @@ require 'test_helper'
 class DevelopmentSerializerTest < ActiveSupport::TestCase
   def development
     @_d ||= Development.create!(
-      id: 101010, name: 'Gadfly Hotel', address: '505 Washington Street', city: 'Boston', state: 'MA', zip_code: '02111', status: 'in_construction', commsf: 12, estemp: 75, private: true, created_at: Time.new('1969-12-31 19:00:00 -0500'), updated_at: Time.new('1969-12-31 19:00:00 -0500'), year_compl: 2016, creator: users(:normal)
+      id: 101010, name: 'Gadfly Hotel', address: '505 Washington Street',
+      city: 'Boston', state: 'MA', zip_code: '02111', status: 'in_construction',
+      commsf: 12, estemp: 75, private: true,
+      created_at: Time.new('1969-12-31 19:00:00 -0500'),
+      updated_at: Time.new('1969-12-31 19:00:00 -0500'),
+      year_compl: 2016, creator: users(:normal)
     )
     @_d.team_memberships = [DevelopmentTeamMembership.create(
       development: @_d, role: 'landlord', organization: organizations(:mapc)
