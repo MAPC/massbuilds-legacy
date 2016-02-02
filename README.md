@@ -21,7 +21,7 @@ The Development Database is very important to the work we do at MAPC. High-quali
 - :european_post_office: Create __organization pages__ to keep all of your team's developments in one place.
 - :trophy: __Gain reputation__ by contributing developments, improving data quality, or moderating developments.
 - :pushpin: __Claim__ developments that your development team is working on in the real world.
-- :flag: __Flag__ developments that you think need moderator attention.
+- :triangular_flag_on_post: __Flag__ developments that you think need moderator attention.
 
 
 ### Roadmap
