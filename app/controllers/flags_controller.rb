@@ -3,8 +3,8 @@ class FlagsController < ApplicationController
   before_action :load_parent, only: [:new, :create]
 
   def new
-    @flag = Flag.new( development: @development,
-                      reason: DEFAULT_REASON )
+    @flag = Flag.new(development: @development,
+                     reason: DEFAULT_REASON)
   end
 
   def create

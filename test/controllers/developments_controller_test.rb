@@ -6,23 +6,30 @@ class DevelopmentsControllerTest < ActionController::TestCase
     @_development ||= developments(:one)
   end
 
-  test "should get index" do
+  test 'should get index' do
     get :index
+    assigns(:developments).count > 1
     assert_response :success
   end
 
-  test "should get show" do
+  test 'should get index, searching' do
+    get :index, q: { commsf: '[11,13]' }
+    assert_equal 1, assigns(:developments).count
+    assert_response :success
+  end
+
+  test 'should get show' do
     get :show, id: development.id
     assert_response :success
   end
 
-  test "should get edit" do
+  test 'should get edit' do
     sign_in users(:normal)
     get :edit, id: development.id
     assert_response :success
   end
 
-  test "should patch update" do
+  test 'should patch update' do
     sign_in users(:normal)
     data = { name: "lol", rdv: true }
     assert_difference 'Edit.count + FieldEdit.count', +3 do

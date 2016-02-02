@@ -2,7 +2,7 @@ require 'test_helper'
 
 class EditDeclineTest < ActiveSupport::TestCase
   def decline
-    @_decline ||= EditDecline.new( edits(:one) )
+    @_decline ||= EditDecline.new(edits(:one))
   end
 
   def edit
@@ -13,11 +13,11 @@ class EditDeclineTest < ActiveSupport::TestCase
     decline.edit.development
   end
 
-  test "precondition: edit is valid" do
+  test 'precondition: edit is valid' do
     assert edit.valid?
   end
 
-  test "#perform! declines the edit" do
+  test '#perform! declines the edit' do
     decline.perform!
     assert_equal 'declined', edit.state
     assert edit.declined?

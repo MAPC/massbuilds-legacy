@@ -46,3 +46,5 @@ Rails.application.configure do
     Bullet.raise = true
   end
 end
+
+Rails.application.default_url_options = { host: 'test.host' }

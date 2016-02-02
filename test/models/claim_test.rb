@@ -34,66 +34,66 @@ class ClaimTest < ActiveSupport::TestCase
   end
   alias_method :mc, :moderated_claim
 
-  test "valid" do
+  test 'valid' do
     assert claim.valid?
   end
 
-  test "requires a claimant (user)" do
+  test 'requires a claimant (user)' do
     claim.claimant = nil
     assert_not claim.valid?
   end
 
-  test "requires a development" do
+  test 'requires a development' do
     claim.development = nil
     assert_not claim.valid?
   end
 
-  test "default state is pending" do
+  test 'default state is pending' do
     assert_equal 'pending', Claim.new.state
   end
 
-  test "state predicates" do
-    [:pending?, :approved?, :denied?].each {|method|
+  test 'state predicates' do
+    [:pending?, :approved?, :denied?].each { |method|
       assert_respond_to claim, method
     }
   end
 
-  test "approval" do
+  test 'approval' do
     moderated_claim.approve!
     assert_equal 'approved', moderated_claim.state
     assert_equal nil, moderated_claim.reason
   end
 
-  test "approval can take a reason hash" do
+  test 'approval can take a reason hash' do
     mc.approve! reason: "Message"
     assert_equal 'approved', mc.state
     assert_equal mc.reason, "Message"
   end
 
-  test "denial with a hash message" do
+  test 'denial with a hash message' do
     message = "Reason for deny."
     mc.deny! reason: message
     assert_equal 'denied', mc.state
     assert_equal message, mc.reason
   end
 
-  test "denial requires a reason" do
+  test 'denial requires a reason' do
     assert_raises(StandardError) { mc.deny! }
   end
 
-  test "approval requires a moderator" do
+  test 'approval requires a moderator' do
     assert_raises(ArgumentError) { claim.approve!(moderator: nil) }
     assert_raises(ArgumentError) { claim.approve!(blerg: :blarg) }
   end
 
-  test "requires a role" do
+  test 'requires a role' do
     claim.role = ' '
     assert_not claim.valid?
     claim.role = nil
     assert_not claim.valid?
   end
 
-  test "requires a valid role" do
+  test 'requires a valid role' do
     [:developer, :owner].each do |role|
       claim.role = role
       assert claim.valid?
@@ -106,7 +106,7 @@ class ClaimTest < ActiveSupport::TestCase
 
   # Needing so many collaboratiors suggests the need for
   # service objects like Claim::Approval and Claim::Denial
-  test "user cannot moderate their own claim unless admin" do
+  test 'user cannot moderate their own claim unless admin' do
     skip """
       Expecting this to fail because we have not yet implemented
       roles like :admin that would help this pass.

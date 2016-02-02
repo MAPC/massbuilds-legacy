@@ -52,8 +52,7 @@ class DevelopmentPresenter < Burgundy::Item
    end
 
   def display_address(options={})
-    return short_address if options[:short]
-    long_address
+    options[:short] ? short_address : long_address
   end
 
   def employment

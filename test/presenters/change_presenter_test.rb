@@ -9,7 +9,7 @@ class ChangePresenterTest < ActiveSupport::TestCase
   end
   alias_method :pres, :presenter
 
-  test "numbers" do
+  test 'numbers' do
     item.change = {from: 100.0, to: 200}
     assert_equal "changed Commercial Square Feet from 100.0 to 200.0", pres.text
     item.change = {from: 200, to: nil}
@@ -18,7 +18,7 @@ class ChangePresenterTest < ActiveSupport::TestCase
     assert_equal "changed Commercial Square Feet from 0 to 200", pres.text
   end
 
-  test "booleans" do
+  test 'booleans' do
     item.change = {from: true, to: false}
     assert_equal "set Commercial Square Feet to false", pres.text
     item.change = {from: false, to: true}
@@ -29,20 +29,20 @@ class ChangePresenterTest < ActiveSupport::TestCase
     assert_equal "set Commercial Square Feet to false", pres.text
   end
 
-  test "strings" do
+  test 'strings' do
     item.change = {from: "Godfrey", to: "The Godfrey."}
     assert_equal "changed Commercial Square Feet from 'Godfrey' to 'The Godfrey.'", pres.text
   end
 
-  test "unexpected" do
+  test 'unexpected' do
     item.change = {from: Class, to: Object}
     assert_raises(ArgumentError) { pres.text }
   end
 
-  test "changeable attributes have human names" do
+  test 'changeable attributes have human names' do
     development = developments(:one)
-    attributes = development.attributes.select{|k,v| !v.is_a? String }
-    deletable_attributes.each{|key| attributes.delete(key) }
+    attributes = development.attributes.select{ |_k,v| !v.is_a? String }
+    deletable_attributes.each{ |key| attributes.delete(key) }
     attributes.each_pair do |key, value|
       expected = key.to_s.titleize
       actual = Development.human_attribute_name(key)

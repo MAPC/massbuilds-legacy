@@ -24,6 +24,7 @@ namespace :db do
       zip_code: "02111",
       status: :in_construction,
       website: "http://godfreyhotelboston.com",
+      year_compl: 2016,
       total_cost: 10_020_300,
       creator: user
     )

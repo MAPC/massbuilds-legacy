@@ -34,7 +34,7 @@ class EditsController < ApplicationController
     end
 
     def load_unmoderated_record
-      @edit = EditPresenter.new( Edit.find params[:id] )
+      @edit = EditPresenter.new(Edit.find(params[:id]))
       if @edit.moderated?
         # TODO Test this.
         flash[:error] = "The edit you were trying to moderate has already been #{@edit.state}."

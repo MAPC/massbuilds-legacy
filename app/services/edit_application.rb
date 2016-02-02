@@ -29,7 +29,7 @@ class EditApplication
     end
 
     def assignable_attributes
-      Hash[ @fields.map{|f| [f.name, f.to] } ]
+      Hash[ @fields.map{ |f| [f.name, f.to] } ]
     end
 
 end
