@@ -218,4 +218,13 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal close_dev, close_devs.first
   end
 
+  test "#subscriptions" do
+    refute_empty d.subscriptions
+  end
+
+  test "#subscribers" do
+    refute_empty d.subscribers
+    assert_includes d.subscribers, users(:normal)
+  end
+
 end

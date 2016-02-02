@@ -44,6 +44,38 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
+-- Name: api_keys; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE api_keys (
+    id integer NOT NULL,
+    user_id integer,
+    token character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: api_keys_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE api_keys_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: api_keys_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE api_keys_id_seq OWNED BY api_keys.id;
+
+
+--
 -- Name: broadcasts; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -582,6 +614,73 @@ CREATE TABLE schema_migrations (
 
 
 --
+-- Name: searches; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE searches (
+    id integer NOT NULL,
+    query json,
+    user_id integer,
+    saved boolean,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: searches_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE searches_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: searches_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE searches_id_seq OWNED BY searches.id;
+
+
+--
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE subscriptions (
+    id integer NOT NULL,
+    user_id integer,
+    subscribable_id integer,
+    subscribable_type character varying,
+    last_checked_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE subscriptions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
+
+
+--
 -- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -656,6 +755,13 @@ CREATE SEQUENCE verifications_id_seq
 --
 
 ALTER SEQUENCE verifications_id_seq OWNED BY verifications.id;
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY api_keys ALTER COLUMN id SET DEFAULT nextval('api_keys_id_seq'::regclass);
 
 
 --
@@ -760,6 +866,20 @@ ALTER TABLE ONLY programs ALTER COLUMN id SET DEFAULT nextval('programs_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY searches ALTER COLUMN id SET DEFAULT nextval('searches_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions ALTER COLUMN id SET DEFAULT nextval('subscriptions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -768,6 +888,14 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 --
 
 ALTER TABLE ONLY verifications ALTER COLUMN id SET DEFAULT nextval('verifications_id_seq'::regclass);
+
+
+--
+-- Name: api_keys_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY api_keys
+    ADD CONSTRAINT api_keys_pkey PRIMARY KEY (id);
 
 
 --
@@ -883,6 +1011,22 @@ ALTER TABLE ONLY programs
 
 
 --
+-- Name: searches_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY searches
+    ADD CONSTRAINT searches_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -896,6 +1040,13 @@ ALTER TABLE ONLY users
 
 ALTER TABLE ONLY verifications
     ADD CONSTRAINT verifications_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: index_api_keys_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_api_keys_on_user_id ON api_keys USING btree (user_id);
 
 
 --
@@ -1039,6 +1190,27 @@ CREATE INDEX index_organizations_on_creator_id ON organizations USING btree (cre
 
 
 --
+-- Name: index_searches_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_searches_on_user_id ON searches USING btree (user_id);
+
+
+--
+-- Name: index_subscriptions_on_subscribable_type_and_subscribable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_subscriptions_on_subscribable_type_and_subscribable_id ON subscriptions USING btree (subscribable_type, subscribable_id);
+
+
+--
+-- Name: index_subscriptions_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_subscriptions_on_user_id ON subscriptions USING btree (user_id);
+
+
+--
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1082,6 +1254,14 @@ ALTER TABLE ONLY developments_programs
 
 
 --
+-- Name: fk_rails_32c28d0dc2; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY api_keys
+    ADD CONSTRAINT fk_rails_32c28d0dc2 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: fk_rails_4ba831b3b1; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1122,6 +1302,14 @@ ALTER TABLE ONLY flags
 
 
 --
+-- Name: fk_rails_933bdff476; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT fk_rails_933bdff476 FOREIGN KEY (user_id) REFERENCES users(id);
+
+
+--
 -- Name: fk_rails_99326fb65d; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1159,6 +1347,14 @@ ALTER TABLE ONLY development_team_memberships
 
 ALTER TABLE ONLY claims
     ADD CONSTRAINT fk_rails_bbb862ca66 FOREIGN KEY (development_id) REFERENCES developments(id);
+
+
+--
+-- Name: fk_rails_e192b86393; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY searches
+    ADD CONSTRAINT fk_rails_e192b86393 FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1252,4 +1448,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160122225122');
 INSERT INTO schema_migrations (version) VALUES ('20160122225135');
 
 INSERT INTO schema_migrations (version) VALUES ('20160122231311');
+
+INSERT INTO schema_migrations (version) VALUES ('20160126211510');
+
+INSERT INTO schema_migrations (version) VALUES ('20160129171814');
+
+INSERT INTO schema_migrations (version) VALUES ('20160202213848');
 
