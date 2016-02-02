@@ -9,6 +9,7 @@ Rails.application.routes.draw do
       parameter: {name: "version", value: "1"},
       default: true) do
       jsonapi_resources :searches, only: [:index, :show, :create]
+      jsonapi_resources :developments, only: [:index, :show]
     end
   end
 

@@ -1,8 +1,6 @@
 class DevelopmentsController < ApplicationController
   before_action :load_record, only: [:show, :edit, :update]
   before_action :authenticate_user!, only: [:edit, :update]
-  after_action  :log_search, only: [:index]
-
   def index
     # Falls back to Development.all
     @developments = Development.periscope(search_params)
@@ -48,13 +46,5 @@ class DevelopmentsController < ApplicationController
 
     def search_params
       params.fetch(:q) { Hash.new }
-    end
-
-    # TODO test that empty queries don't log
-    def log_search
-      if search_params.keys.any?
-        Search.create!( query: search_params,
-          user: current_user || User.null )
-      end
     end
 end
