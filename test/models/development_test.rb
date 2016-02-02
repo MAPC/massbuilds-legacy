@@ -281,4 +281,8 @@ class DevelopmentTest < ActiveSupport::TestCase
     array
   end
 
+  test "location" do
+    assert_equal d.location, [71.000001,42.000001]
+  end
+
 end

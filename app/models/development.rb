@@ -44,7 +44,7 @@ class Development < ActiveRecord::Base
   scope :close_to, CloseToQuery.new(self).scope
 
   def location
-    # TODO [longitude, latitude]
+    [longitude, latitude]
   end
 
   def zip_code
