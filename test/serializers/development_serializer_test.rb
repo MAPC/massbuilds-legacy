@@ -25,11 +25,11 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   end
 
   def serializer_only
-    @_only ||= DevelopmentSerializer.new(development, only: :name)
+    @_only ||= DevelopmentSerializer.new(development, only: 'name')
   end
 
   def serializer_except
-    @_except ||= DevelopmentSerializer.new(development, except: ['name', 'address'])
+    @_e ||= DevelopmentSerializer.new(development, except: [:name, 'address'])
   end
 
   alias_method :base,   :serializer
@@ -80,14 +80,14 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   private
 
     def expected_row
-      [101010, 562391268, "1969-01-01 05:00:00 UTC", "1969-01-01 05:00:00 UTC",
-       nil, nil, nil, nil, nil, nil, "Gadfly Hotel", "in_construction", nil,
-       nil, nil, "Luxury hotel with ground-floor retail.",
-       "505 Washington Street", "Boston", "MA", "02111", nil, nil, 2016, nil,
+      [101010, 562391268, '1969-01-01 05:00:00 UTC', '1969-01-01 05:00:00 UTC',
+       nil, nil, nil, nil, nil, nil, 'Gadfly Hotel', 'in_construction', nil,
+       nil, nil, 'Luxury hotel with ground-floor retail.',
+       '505 Washington Street', 'Boston', 'MA', '02111', nil, nil, 2016, nil,
        nil, nil, nil, nil, nil, nil, nil, 75, 12, nil, nil, nil, nil, false,
        true, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
-       "Metropolitan Area Planning Council", "http://mapc.org", nil,
-       "Boston, MA", nil, "MAPC", "MAPC", "landlord"]
+       'Metropolitan Area Planning Council', 'http://mapc.org', nil,
+       'Boston, MA', nil, 'MAPC', 'MAPC', 'landlord']
     end
 
     def expected_header

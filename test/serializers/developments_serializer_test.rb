@@ -20,12 +20,18 @@ class DevelopmentsSerializerTest < ActiveSupport::TestCase
 
   def development_two
     @_d2 ||= Development.create!(
-      id: 101011, name: 'Hello', address: "It's me / I was wondering if after all these years", city: "you'd like to me", state: 'ET', zip_code: '02118', status: 'completed', commsf: 200, estemp: 1000, private: false, created_at: Time.new('1969-12-31 19:00:00 -0500'), updated_at: Time.new('1969-12-31 19:00:00 -0500'), year_compl: 2012, creator: users(:tim)
+      id: 101011, name: 'Hello',
+      address: "It's me / I was wondering if after all these years",
+      city: "you'd like to me", state: 'ET', zip_code: '02118',
+      status: 'completed', commsf: 200, estemp: 1000, private: false,
+      created_at: Time.new('1969-12-31 19:00:00 -0500'),
+      updated_at: Time.new('1969-12-31 19:00:00 -0500'), year_compl: 2012,
+      creator: users(:tim)
     )
   end
 
   def serializer
-    @_base ||= DevelopmentsSerializer.new( [development_one, development_two] )
+    @_base ||= DevelopmentsSerializer.new([development_one, development_two])
   end
   alias_method :base, :serializer
 
