@@ -57,7 +57,7 @@ class DevelopmentSerializer
     end
 
     def max_team_size
-      @options.fetch(:max_team_size) { 1 }
+      @options.fetch(:max_team_size) { 0 }
     end
 
     def ensure_csv_ready(attribute)
