@@ -49,7 +49,7 @@ class FlagTest < ActiveSupport::TestCase
   end
 
   test "state predicates" do
-    [:pending?, :open?, :resolved?].each {|method|
+    [:pending?, :open?, :resolved?].each { |method|
       assert_respond_to flag, method
     }
   end

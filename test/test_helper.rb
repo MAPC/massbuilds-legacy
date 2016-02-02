@@ -7,7 +7,7 @@ end
 require File.expand_path("../../config/environment", __FILE__)
 
 require "rails/test_help"
-%w( rails rails/capybara hell reporters focus ).each {|lib|
+%w( rails rails/capybara hell reporters focus ).each { |lib|
   require "minitest/#{lib}"
 }
 require "minitest/benchmark" if ENV["BENCH"]

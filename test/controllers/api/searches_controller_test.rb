@@ -36,7 +36,7 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
     expected_ids = user.searches.map(&:id)
     set_auth_header_for_user!(user)
     get :index
-    actual_ids = JSON.parse(response.body)['data'].map{|r| r['id'].to_i}
+    actual_ids = JSON.parse(response.body)['data'].map{ |r| r['id'].to_i}
     assert_equal expected_ids, actual_ids
   end
 

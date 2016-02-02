@@ -26,7 +26,7 @@ class MembershipTest < ActiveSupport::TestCase
   end
 
   test "state predicates" do
-    [:pending?, :invited?, :active?, :inactive?].each {|method|
+    [:pending?, :invited?, :active?, :inactive?].each { |method|
       assert_respond_to membership, method
     }
   end

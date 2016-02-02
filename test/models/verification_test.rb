@@ -35,7 +35,7 @@ class VerificationTest < ActiveSupport::TestCase
   end
 
   test "state predicates" do
-    [:pending?, :requested?].each {|method|
+    [:pending?, :requested?].each { |method|
       assert_respond_to v, method
     }
   end

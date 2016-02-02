@@ -21,7 +21,7 @@ module API
 
         def restrict_access_by_header
           return true if @api_key
-          authenticate_with_http_token {|token|
+          authenticate_with_http_token { |token|
             @api_key = APIKey.find_by(token: token)
           }
         end

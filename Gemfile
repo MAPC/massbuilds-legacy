@@ -74,5 +74,3 @@ group :test do
   gem 'launchy'
   gem 'rake' # Specified for Travis CI
 end
-
-

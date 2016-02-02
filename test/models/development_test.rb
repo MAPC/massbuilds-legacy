@@ -168,7 +168,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test "status predicates" do
-    [:projected?, :planning?, :in_construction?, :completed?].each {|method|
+    [:projected?, :planning?, :in_construction?, :completed?].each { |method|
       assert_respond_to d, method
     }
   end
@@ -221,16 +221,16 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test "range scopes, dates" do
     range_scopes = %i( created_at updated_at )
-    range_scopes.each {|scope| assert_respond_to Development, scope }
+    range_scopes.each { |scope| assert_respond_to Development, scope }
   end
 
   test "range scopes, float and integer" do
-    ranged_scopes.each {|scope| assert_respond_to Development, scope }
+    ranged_scopes.each { |scope| assert_respond_to Development, scope }
   end
 
 
   test "boolean scopes" do
-    boolean_scopes.each {|s| assert_respond_to Development, s }
+    boolean_scopes.each { |s| assert_respond_to Development, s }
   end
 
   test "boolean scope definition" do
@@ -254,13 +254,13 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   def periscope_params
     hash = Hash.new
-    ranged_scopes.each {|key| hash[key] = [0,1] }
+    ranged_scopes.each { |key| hash[key] = [0,1] }
     hash.merge({rdv: true, asofright: false, ovr55: nil, clusteros: 'true', phased: 'false', stalled: 'NULL', cancelled: true, hidden: true})
   end
 
   def periscope_params_alt
     hash = Hash.new
-    ranged_scopes.each {|key| hash[key] = 1_234 }
+    ranged_scopes.each { |key| hash[key] = 1_234 }
     hash.merge({rdv: true, asofright: false, ovr55: nil, clusteros: 'true', phased: 'false', stalled: 'NULL', cancelled: true, hidden: true})
   end
 

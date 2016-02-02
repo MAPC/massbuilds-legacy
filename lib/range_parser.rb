@@ -1,5 +1,7 @@
 # Given an Array or String in the form of [min, max]
-# conver it to a Range of min..max
+# convert it to a Range of min..max.
+# TODO: Return a single value or a single value range (val..val)
+#       in the event a single value or repetitive value is given.
 module RangeParser
 
   def self.parse(value)

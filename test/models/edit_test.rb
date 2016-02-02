@@ -40,7 +40,7 @@ class EditTest < ActiveSupport::TestCase
   end
 
   test "state predicates" do
-    [:pending?, :applied?].each {|method|
+    [:pending?, :applied?].each { |method|
       assert_respond_to edit, method
     }
   end

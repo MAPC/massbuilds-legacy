@@ -56,4 +56,3 @@ class ApiConstraintsTest < ActiveSupport::TestCase
     refute v2.matches?(request_v1), "v2 matched v1"
   end
 end
-

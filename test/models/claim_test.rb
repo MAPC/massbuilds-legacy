@@ -53,7 +53,7 @@ class ClaimTest < ActiveSupport::TestCase
   end
 
   test "state predicates" do
-    [:pending?, :approved?, :denied?].each {|method|
+    [:pending?, :approved?, :denied?].each { |method|
       assert_respond_to claim, method
     }
   end

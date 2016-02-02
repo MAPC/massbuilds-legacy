@@ -10,7 +10,7 @@ class PendingEditsTest < Capybara::Rails::TestCase
   end
 
   test "view pending edits" do
-    ['Proposed changes to', 'Decline', 'Approve'].each {|content|
+    ['Proposed changes to', 'Decline', 'Approve'].each { |content|
       assert_content page, content
     }
     assert_content 'changed Commercial Square Feet'

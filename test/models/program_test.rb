@@ -36,7 +36,7 @@ class ProgramTest < ActiveSupport::TestCase
   end
 
   test "type predicates" do
-    [:regulatory?, :incentive?].each {|type|
+    [:regulatory?, :incentive?].each { |type|
       assert_respond_to program, type
     }
   end

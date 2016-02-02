@@ -2,7 +2,7 @@ module Periscope
 
   def ranged_scopes(*scope_names)
     scope_names.each do |name|
-      scope name.to_sym, Proc.new {|min, max|
+      scope name.to_sym, Proc.new { |min, max|
         if max
           where(name.to_sym => min..max)
         else
@@ -15,7 +15,7 @@ module Periscope
 
   def boolean_scopes(*scope_names)
     scope_names.each do |name|
-      scope name.to_sym, Proc.new {|*bool| where(name.to_sym => (bool.first.to_s.presence || :true)) }
+      scope name.to_sym, Proc.new { |*bool| where(name.to_sym => (bool.first.to_s.presence || :true)) }
     end
     scope_accessible *scope_names
   end

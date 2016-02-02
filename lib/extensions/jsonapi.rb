@@ -3,7 +3,7 @@ module JSONAPI
   class Resource
     class << self
       def range_filters(*filter_attributes)
-        Array(filter_attributes).flatten.each {|attribute|
+        Array(filter_attributes).flatten.each { |attribute|
           filter(attribute, apply: ->(records, value, options) {
             records.where(attribute => RangeParser.parse(value))
           })
@@ -11,7 +11,7 @@ module JSONAPI
       end
 
       def boolean_filters(*filter_attributes)
-        Array(filter_attributes).flatten.each {|attribute|
+        Array(filter_attributes).flatten.each { |attribute|
           filter(attribute, apply: ->(records, value, options) {
             records.where(attribute => value)
           })

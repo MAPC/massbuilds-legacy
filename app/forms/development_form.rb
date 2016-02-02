@@ -13,7 +13,7 @@ class DevelopmentForm
   attribute :status, String
   attribute :total_cost, Integer
 
-  [:rdv, :asofright, :ovr55, :clusteros, :phased, :stalled].each {|b|
+  [:rdv, :asofright, :ovr55, :clusteros, :phased, :stalled].each { |b|
     attribute b, Boolean, default: false
   }
 

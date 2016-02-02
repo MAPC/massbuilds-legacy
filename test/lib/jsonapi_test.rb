@@ -36,16 +36,16 @@ class JSONAPITest < ActiveSupport::TestCase
   end
 
   test "#range_filters" do
-    range_filter_names.each{|f| refute_includes filters, f }
+    range_filter_names.each{ |f| refute_includes filters, f }
     resource.range_filter(range_filter_names.first)
     resource.range_filters(range_filter_names)
-    range_filter_names.each{|f| assert_includes filters, f }
+    range_filter_names.each{ |f| assert_includes filters, f }
   end
 
   test "#boolean_filters" do
-    boolean_filter_names.each{|f| refute_includes filters, f }
+    boolean_filter_names.each{ |f| refute_includes filters, f }
     resource.boolean_filters(boolean_filter_names)
-    boolean_filter_names.each{|f| assert_includes filters, f }
+    boolean_filter_names.each{ |f| assert_includes filters, f }
   end
 
   test "singular aliases" do
@@ -61,6 +61,4 @@ class JSONAPITest < ActiveSupport::TestCase
     %i( several boolean attributes )
   end
 
-
 end
-

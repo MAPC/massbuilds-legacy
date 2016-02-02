@@ -78,7 +78,7 @@ class PlaceProfileTest < ActiveSupport::TestCase
     # different rounding on the continuous integration platform.
     geo_coords  = geojson['coordinates'].flatten
     poly_coords = profile.polygon['coordinates'].flatten
-    geo_coords.each_with_index {|coord, i|
+    geo_coords.each_with_index { |coord, i|
       assert_in_delta coord, poly_coords[i], 0.00000000000001
     }
   end

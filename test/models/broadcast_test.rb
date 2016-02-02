@@ -58,7 +58,7 @@ class BroadcastTest < ActiveSupport::TestCase
   end
 
   test "state predicates" do
-    [:draft?, :scheduled?, :delivered?].each {|method|
+    [:draft?, :scheduled?, :delivered?].each { |method|
       assert_respond_to cast, method
     }
   end
