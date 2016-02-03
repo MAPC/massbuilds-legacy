@@ -14,8 +14,7 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :organizations, through: :memberships
 
-  # TODO has_many :subscriptions, as: :subscribable
-  #      Test difference in SubscriptionsController Test
+  has_many :subscriptions
 
   validates :first_name, presence: true
   validates :last_name,  presence: true

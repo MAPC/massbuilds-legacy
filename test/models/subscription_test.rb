@@ -5,6 +5,10 @@ class SubscriptionTest < ActiveSupport::TestCase
     @_subscription ||= subscriptions(:one)
   end
 
+  def subscription_two
+    @_subscription_two ||= subscriptions(:two)
+  end
+
   class BadThing < ActiveRecord::Base
     self.table_name = 'users'
   end

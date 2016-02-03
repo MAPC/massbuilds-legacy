@@ -50,4 +50,8 @@ class SearchTest < ActiveSupport::TestCase
     assert  saved.saved?
   end
 
+  test 'responds to #developments' do
+    assert_respond_to search, :developments
+  end
+
 end

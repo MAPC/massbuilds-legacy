@@ -6,6 +6,6 @@ one:
   subscribable_type: Development
 
 two:
-  user_id:
-  subscribable_id:
-  subscribable_type: Subscribable
+  user: normal
+  subscribable_id: 131746201 # ID of Search.first
+  subscribable_type: Search
