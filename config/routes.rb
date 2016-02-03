@@ -1,4 +1,18 @@
+require 'api_constraints'
 Rails.application.routes.draw do
+
+  namespace :api, constraints: {subdomain: 'api'}, path: '' do
+    api_version(
+      module: "V1",
+      header: {name: "Accept",
+        value: "application/vnd.api+json; application/org.dd.v1"},
+      parameter: {name: "version", value: "1"},
+      default: true) do
+      jsonapi_resources :developments, only: [:index, :show]
+      jsonapi_resources :searches, only: [:index, :show, :create]
+      # jsonapi_resources :subscriptions, only: [:create, :destroy]
+    end
+  end
 
   resources :developments, only: [:index, :show, :edit, :update] do
     resources :claims, only: [:new, :create]

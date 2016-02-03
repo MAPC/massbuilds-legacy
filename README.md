@@ -19,8 +19,9 @@ The Development Database is very important to the work we do at MAPC. High-quali
 - :city_sunrise: __Understand the neighborhood__ through neighborhood context, including demographics and transportation information such as income breakdowns, public transit access, average parking ratios, and walkability scores.
 - :mailbox_with_mail: __Subscribe__ to developments, neighborhoods, or saved searches, and receive notifications when the developments or areas that interest you change.
 - :european_post_office: Create __organization pages__ to keep all of your team's developments in one place.
-- :+1: __Gain reputation__ by contributing developments, improving data quality, or moderating developments.
-- __Claim__ developments that your development team is working on in the real world, and __Flag__ developments that you think need attention.
+- :trophy: __Gain reputation__ by contributing developments, improving data quality, or moderating developments.
+- :pushpin: __Claim__ developments that your development team is working on in the real world.
+- :triangular_flag_on_post: __Flag__ developments that you think need moderator attention.
 
 
 ### Roadmap
@@ -28,8 +29,8 @@ The Development Database is very important to the work we do at MAPC. High-quali
 - :calendar: __Longitudinal area studies__ that show a picture of the recent past and near future.
 - :earth_americas: __Opportunity identification__ to help developers discover potential opportunities.
 - :parking: __Parking utilization data__, to help developers support a right-sized parking ratio for their proposed developments.
-- __Integrations__ with other development & property web services, as well as common applications like Slack.
-- __Public API and Webhooks__, to enable custom integrations.
+- :link: __Integrations__ with other development & property web services, as well as common applications like Slack.
+- :left_right_arrow: __Public API and Webhooks__, to enable custom integrations.
 
 
 ### Contact

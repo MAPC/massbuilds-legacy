@@ -7,10 +7,13 @@ one:
   status: in_construction
   commsf: 12
   estemp: 75
+  private: true
   creator: normal
   created_at: 1969-12-31 19:00:00 -0500
   updated_at: 1969-12-31 19:00:00 -0500
   year_compl: 2016
+  latitude:  42.000001
+  longitude: 71.000001
 
 two:
   name: Hello
@@ -21,7 +24,10 @@ two:
   status: completed
   commsf: 200
   estemp: 1000
+  private: false
   creator: normal
   created_at: 1969-12-31 19:00:00 -0500
   updated_at: 1969-12-31 19:00:00 -0500
   year_compl: 2012
+  latitude:  43.000001
+  longitude: 70.000001

@@ -9,7 +9,7 @@ class StatusInfoTest < ActiveSupport::TestCase
   end
   alias_method :pres, :presenter
 
-  test "#status_with_year" do
+  test '#status_with_year' do
     Time.stub :now, Time.new(2000) do
       item.year_compl = 2100
       { projected:       "Projected (for 2100-2110)",
@@ -22,7 +22,7 @@ class StatusInfoTest < ActiveSupport::TestCase
     end
   end
 
-  test "year or year range" do
+  test 'year or year range' do
     Time.stub :now, Time.new(2000) do
       [{year: 2000, expected: '2000'     },
        {year: 2009, expected: '2009'     },
@@ -37,7 +37,7 @@ class StatusInfoTest < ActiveSupport::TestCase
     end
   end
 
-  test "status icon" do
+  test 'status icon' do
     item.status = :projected
     assert_equal :find,  pres.status_icon
   end

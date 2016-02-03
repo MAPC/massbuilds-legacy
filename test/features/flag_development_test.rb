@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 class FlagDevelopmentTest < Capybara::Rails::TestCase
 
@@ -7,7 +7,7 @@ class FlagDevelopmentTest < Capybara::Rails::TestCase
     @user.password = 'password'
   end
 
-  test "sign in, visit development, and flag it" do
+  test 'sign in, visit development, and flag it' do
     sign_in @user, visit: true, submit: true
     visit developments_path
     first('a.development').click

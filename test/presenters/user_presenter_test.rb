@@ -9,26 +9,26 @@ class UserPresenterTest < ActiveSupport::TestCase
   end
   alias_method :pres, :presenter
 
-  test "first name and last name" do
+  test 'first name and last name' do
     assert_equal 'Matt',  pres.first_name
     assert_equal 'Gardner', pres.last_name
   end
 
-  test "short name" do
+  test 'short name' do
     assert_equal 'Matt G.', pres.short_name
   end
 
-  test "full_name" do
+  test 'full_name' do
     assert_equal 'Matt Gardner', pres.full_name
   end
 
-  test "gravatar id" do
+  test 'gravatar id' do
     pres.save
     expected = '72dedd9e525e529e37b724e8aba4997f'
     assert_equal expected, pres.hashed_email
   end
 
-  test "gravatar url" do
+  test 'gravatar url' do
     pres.save
     expected = 'https://secure.gravatar.com/avatar/72dedd9e525e529e37b724e8aba4997f'
     assert_equal expected, pres.gravatar_url

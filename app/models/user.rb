@@ -5,9 +5,17 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   before_save :hash_email
+  after_create :assign_api_key
 
+  attr_readonly :api_key
+
+  has_one  :api_key,       dependent: :destroy
+  has_many :searches, -> { where(saved: true) }
   has_many :memberships
   has_many :organizations, through: :memberships
+
+  # TODO has_many :subscriptions, as: :subscribable
+  #      Test difference in SubscriptionsController Test
 
   validates :first_name, presence: true
   validates :last_name,  presence: true
@@ -29,5 +37,9 @@ class User < ActiveRecord::Base
 
     def hash_email
       self.hashed_email = Digest::MD5::hexdigest(email.downcase)
+    end
+
+    def assign_api_key
+      APIKey.create!(user: self)
     end
 end

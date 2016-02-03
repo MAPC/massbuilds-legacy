@@ -1,28 +1,30 @@
 class Development < ActiveRecord::Base
-  extend Enumerize
-
-  before_save :update_tagline
-  before_save :clean_zip_code
-
   # TODO basic geocoding
   # geocoded_by :full_street_address   # Implement this method
   # after_validation :geocode          # Auto-fetch coordinates
-
-  belongs_to :creator, class_name: :User
   has_one :walkscore # TODO
 
+  extend Enumerize
+
+  # Callbacks
+  before_save :update_tagline
+  before_save :clean_zip_code
+
+  # Relationships
+  belongs_to :creator, class_name: :User
   has_many :edits
   has_many :flags
   has_many :crosswalks
   has_many :team_memberships, class_name: :DevelopmentTeamMembership,
-    counter_cache: :team_membership_count
+            counter_cache: :team_membership_count
   has_many :team_members, through: :team_memberships, source: :organization
-  has_many :subscriptions, as: :subscribable
-  has_many :subscribers, through: :subscriptions, source: :user
+  # has_many :subscriptions, as: :subscribable
+  # has_many :subscribers, through: :subscriptions, source: :user
 
   has_and_belongs_to_many :programs
 
-  validates :creator, presence: true
+  # Validations
+  validates :creator,    presence: true
   validates :year_compl, presence: true
 
   STATUSES = [:projected, :planning, :in_construction, :completed]
@@ -30,21 +32,22 @@ class Development < ActiveRecord::Base
 
   alias_attribute :website, :project_url
   alias_attribute :zip, :zip_code
+  alias_attribute :hidden, :private
 
-  scope :close_to, -> (latitude, longitude, distance_in_meters = 2000) {
-    where(%{
-      ST_DWithin(
-        ST_GeographyFromText(
-          'SRID=4326;POINT(' || developments.longitude || ' ' || developments.latitude || ')'
-        ),
-        ST_GeographyFromText('SRID=4326;POINT(%f %f)'),
-        %d
-      )
-    } % [longitude, latitude, distance_in_meters])
-  }
+  # Scopes
+  ranged_scopes :created_at, :updated_at, :height, :stories,
+    :year_compl, :affordable, :prjarea, :singfamhu, :twnhsmmult,
+    :lgmultifam, :tothu, :gqpop, :rptdemp, :emploss, :estemp, :commsf,
+    :hotelrms, :onsitepark, :total_cost, :fa_ret, :fa_ofcmd,
+    :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst, :fa_other, :fa_hotel
+
+  boolean_scopes :rdv, :asofright, :ovr55, :clusteros, :phased,
+    :stalled, :cancelled, :hidden
+
+  scope :close_to, CloseToQuery.new(self).scope
 
   def location
-    # [longitude, latitude]
+    [longitude, latitude]
   end
 
   def zip_code
@@ -96,5 +99,4 @@ class Development < ActiveRecord::Base
     def nine_digit_formatted_zip(code)
       "#{code[0..4]}-#{code[-4..-1]}"
     end
-
 end
