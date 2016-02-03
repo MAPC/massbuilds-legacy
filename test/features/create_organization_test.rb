@@ -1,4 +1,4 @@
-require "test_helper"
+require 'test_helper'
 
 class CreateOrganizationTest < Capybara::Rails::TestCase
 
@@ -28,32 +28,32 @@ class CreateOrganizationTest < Capybara::Rails::TestCase
     click_button 'Submit'
   end
 
-  test "signed out guest, visit organization creation, and be redirected" do
+  test 'signed out guest, visit organization creation, and be redirected' do
     visit new_organization_path
     assert_content page, 'Log in'
   end
 
-  test "signed in user, visit organization creation, and not be redirected" do
+  test 'signed in user, visit organization creation, and not be redirected' do
     sign_in user, visit: true, submit: true
     visit new_organization_path
     assert_content page, 'Create Organization'
   end
 
-  test "signed in user visits new organization path, and successfully creates organization" do
+  test 'signed in user visits new organization path, and successfully creates organization' do
     sign_in user, visit: true, submit: true
     visit new_organization_path
     fill_in_form
     assert_content page, 'Boston Properties'
   end
 
-  test "signed in user visits existing organization, and successfully edits it" do
+  test 'signed in user visits existing organization, and successfully edits it' do
     sign_in user, visit: true, submit: true
     visit edit_organization_path(org)
     fill_in_form
     assert_content page, 'Boston Properties'
   end
 
-  # test "signed in user can only edit organizations she has permission to edit" do
+  # test 'signed in user can only edit organizations she has permission to edit' do
   #   sign_in @unauthorized_user, visit: true, submit: true
   #   visit edit_organization_path(org)
   #   fill_in 'organization_name', :with => 'Boston Properties'

@@ -44,28 +44,28 @@ class FlagTest < ActiveSupport::TestCase
     end
   end
 
-  test "default state is pending" do
+  test 'default state is pending' do
     assert_equal 'pending', Flag.new.state
   end
 
-  test "state predicates" do
-    [:pending?, :open?, :resolved?].each {|method|
+  test 'state predicates' do
+    [:pending?, :open?, :resolved?].each { |method|
       assert_respond_to flag, method
     }
   end
 
-  test "#submitted / flagged" do
+  test '#submitted / flagged' do
     flag.submitted
     assert_equal 'open', flag.state
   end
 
-  test "#resolved" do
+  test '#resolved' do
     flag.resolver = users(:normal)
     assert_nothing_raised { flag.resolved }
     assert_equal 'resolved', flag.state
   end
 
-  test "#resolved requires a resolver" do
+  test '#resolved requires a resolver' do
     flag.resolver = nil
     assert_raises(StandardError) { flag.resolved }
   end

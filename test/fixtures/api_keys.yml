@@ -1,0 +1,9 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: tim
+  token: dd3c99e6b0da1824fb160ccc85a5c4a8
+
+two:
+  user: lower_case
+  token: 9d44eec13045b39adae44155d5630ce9

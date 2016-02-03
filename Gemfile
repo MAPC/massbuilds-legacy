@@ -6,8 +6,9 @@ gem 'rails', '4.2.1'
 
 # Database
 gem 'pg'
-gem 'seed-fu', '~> 2.3'     # Manages fixtures
-gem 'faker', require: false # Fake sample data
+gem 'periscope-activerecord' # Makes filtering simpler
+gem 'seed-fu', '~> 2.3'      # Manages fixtures
+gem 'faker', require: false  # Fake sample data
 
 # Users
 gem 'bcrypt'
@@ -42,6 +43,7 @@ gem 'autoprefixer-rails', '~> 5.2.1.2'
 # API
 gem 'jsonapi-resources' # JSON API standard
 gem 'api-pagination'    # Paginates API in headers
+gem 'versionist'
 
 # Server
 gem 'puma'
@@ -60,7 +62,7 @@ group :development do
   gem 'brakeman', require: false # Assess security
 end
 
-gem 'bullet', group: [:development, :test] # SQL diagnostics
+gem 'bullet', '4.14.10', group: [:development, :test] # SQL diagnostics
 
 group :test do
   gem 'minitest-rails'     # Test library
@@ -72,5 +74,3 @@ group :test do
   gem 'launchy'
   gem 'rake' # Specified for Travis CI
 end
-
-

@@ -3,6 +3,7 @@ sudo: false
 rvm:
   - 2.1.5
 before_script:
+  - export TZ=America/New_York
   - psql -c 'create database ddmodels2_test;' -U postgres
   - bundle exec rake db:create db:schema:load db:migrate
 cache: bundler

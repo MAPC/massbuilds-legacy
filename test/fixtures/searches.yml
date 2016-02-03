@@ -1,0 +1,26 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+exact:
+  query: { commsf: 12 }
+  user: normal
+  saved: false
+
+ranged:
+  query: { estemp: '[900,2000]' }
+  user: normal
+  saved: false
+
+empty_unsaved:
+  query:
+  user:  normal
+  saved: false
+
+saved:
+  query:
+  user:  normal
+  saved: true
+
+saved_for_someone_else:
+  query: { rdv: true }
+  user:  tim
+  saved: true

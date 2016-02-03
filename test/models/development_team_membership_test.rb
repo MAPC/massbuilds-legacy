@@ -7,25 +7,25 @@ class DevelopmentTeamMembershipTest < ActiveSupport::TestCase
 
   alias_method :m, :membership
 
-  test "valid" do
+  test 'valid' do
     assert m.valid?
   end
 
-  test "requires an organization" do
+  test 'requires an organization' do
     m.organization = nil
     assert_not m.valid?
   end
 
-  test "requires a development" do
+  test 'requires a development' do
     m.development = nil
     assert_not m.valid?
   end
 
-  test "response to a role" do
+  test 'response to a role' do
     assert_respond_to m, :role
   end
 
-  test "valid roles" do
+  test 'valid roles' do
     roles = [:developer, :architect, :engineer,
              :contractor, :landlord, :owner]
     roles.each do |role|
@@ -34,22 +34,22 @@ class DevelopmentTeamMembershipTest < ActiveSupport::TestCase
     end
   end
 
-  test "invalid roles" do
+  test 'invalid roles' do
     m.role = "blerg"
     assert_not m.valid?
   end
 
-  test "role predicates" do
+  test 'role predicates' do
     roles = [:developer?, :architect?, :engineer?,
              :contractor?, :landlord?, :owner?]
     roles.each { |role| assert_respond_to m, role }
   end
 
-  test "role order" do
+  test 'role order' do
     skip
   end
 
-  test "requires a role" do
+  test 'requires a role' do
     m.role = nil
     assert_not m.valid?
   end
