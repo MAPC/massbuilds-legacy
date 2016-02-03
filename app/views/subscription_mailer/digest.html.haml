@@ -1,0 +1,49 @@
+.ui.container
+  %h2.ui.header
+    %i.history.icon
+    %div.content
+      Daily Summary of Development Updates
+  %h3.ui.header= Date.yesterday.to_s(:subject)
+
+  .ui.row
+    %p
+      You are presently watching:
+    %p
+      0 places &bull; 1 search &bull; 2 developments
+
+
+  %br
+  %br
+  .ui.row
+    %h3 Places
+    %p  We have not yet implemented places.
+
+  %br
+  %br
+  .ui.row
+    %h3.ui.header Searches
+    %h3.ui.sub.header (1 of 1 updated)
+
+    %p TODO info about a development
+
+    %p
+      %i.plus.icon
+      New Developments
+    %ul
+      %li
+        %a{href: ''}
+          Bowdoin Heights, 99 Address Road, Cambridge &bull; added Feb 1
+        %a{href: ''}
+          by Matt C (MAPC)
+      %li
+        %a{href: ''}
+          Powderhouse Station, 0 Powderhouse Circle, Somerville &bull; added Feb 1 by
+        %a{href: ''}
+          by Tim R (MAPC)
+
+
+  %br
+  %br
+  .ui.row
+    %h3.ui.header Developments
+    %h3.ui.sub.header (1 of 2 updated)

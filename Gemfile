@@ -19,6 +19,7 @@ gem 'enumerize' # Store options in a string field
 gem 'geometry'  # Simple geometry constructor
 gem 'wannabe_bool', '0.3.0' # Convert to boolean
 gem 'paperclip' # File attachments
+gem 'stamp'     # Easier timestamps
 
 # Forms & Presenters
 gem 'virtus'       # Form objects
