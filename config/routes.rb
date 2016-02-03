@@ -10,7 +10,7 @@ Rails.application.routes.draw do
       default: true) do
       jsonapi_resources :developments, only: [:index, :show]
       jsonapi_resources :searches, only: [:index, :show, :create]
-      # jsonapi_resources :subscriptions, only: [:create, :destroy]
+      jsonapi_resources :subscriptions, only: [:create, :destroy]
     end
   end
 

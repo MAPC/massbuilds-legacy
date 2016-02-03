@@ -18,8 +18,8 @@ class Development < ActiveRecord::Base
   has_many :team_memberships, class_name: :DevelopmentTeamMembership,
             counter_cache: :team_membership_count
   has_many :team_members, through: :team_memberships, source: :organization
-  # has_many :subscriptions, as: :subscribable
-  # has_many :subscribers, through: :subscriptions, source: :user
+  has_many :subscriptions, as: :subscribable
+  has_many :subscribers, through: :subscriptions, source: :user
 
   has_and_belongs_to_many :programs
 
