@@ -8,7 +8,7 @@ class DevelopmentsControllerTest < ActionController::TestCase
 
   test 'should get index' do
     get :index
-    assigns(:developments).count > 1
+    assert assigns(:developments).count > 1
     assert_response :success
   end
 

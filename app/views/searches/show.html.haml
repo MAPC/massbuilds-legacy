@@ -1,0 +1,16 @@
+%h1
+  Report on search
+  = @search.id
+
+#map
+
+%table
+  %tr
+    %td
+    - @search.statuses.each do |status|
+      %td= status
+  %tr
+    @search.fields.each do |field|
+      %td= field
+      - @search.statuses.each do |status|
+        %td= status.send(field)

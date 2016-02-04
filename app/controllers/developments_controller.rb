@@ -25,6 +25,9 @@ class DevelopmentsController < ApplicationController
     end
   end
 
+  def search
+  end
+
   private
 
     def load_record
