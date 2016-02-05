@@ -6,6 +6,7 @@ module RangeParser
 
   def self.parse(value)
     @value = value
+    return self.infinity_range if !@value.present?
     if @value.is_a? Array
       return parse_rejoined_string if @value.first.is_a?(String)
       Range.new *@value.map(&:to_f)
@@ -31,6 +32,10 @@ module RangeParser
 
   def self.digits_regex
     /(\d+)/
+  end
+
+  def self.infinity_range
+    (-Float::INFINITY..Float::INFINITY)
   end
 
 end

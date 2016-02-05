@@ -44,13 +44,9 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test 'should handle empty params with grace and poise' do
-    skip """
-      Passing empty params, like ?filter[tothu]=&
-      should not break the controller, and should ignore that filter.
-    """
     get :index, filter: { commsf: '' }
     assert_response :success
-    refute_empty results(response)
+    refute_empty results(response), results(response).inspect
   end
 
   test 'should get show' do

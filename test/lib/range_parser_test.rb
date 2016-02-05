@@ -45,4 +45,14 @@ class RangeParserTest < ActiveSupport::TestCase
     assert_equal (0.1..0.33), RangeParser.parse('["0.1","0.33"]')
   end
 
+  test 'parses empty string' do
+    ['', nil, []].each { |e|
+      assert_equal infinity, RangeParser.parse(e)
+    }
+  end
+
+  def infinity
+    (-Float::INFINITY..Float::INFINITY)
+  end
+
 end
