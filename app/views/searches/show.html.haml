@@ -1,16 +1,65 @@
-%h1
-  Report on search
-  = @search.id
+!!!5
+- %i( reset site header icon list table ).each do |file|
+  = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/#{file}.min.js"
+  = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/#{file}.min.css"
 
-#map
+= stylesheet_link_tag 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css'
+= javascript_include_tag 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'
 
-%table
-  %tr
-    %td
-    - @search.statuses.each do |status|
-      %td= status
-  %tr
-    @search.fields.each do |field|
-      %td= field
-      - @search.statuses.each do |status|
-        %td= status.send(field)
+= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js'
+
+.ui.container
+  %h1.ui.header.page-header
+    = @search.title
+
+  #map{style: 'height: 360px; width: 750px;'}
+
+  %table.ui.celled.table.unstackable
+    %thead
+      %tr
+        %th
+        - @search.status_keys.each do |name|
+          %th= name.titleize
+    %tbody
+      %tr
+        %td Number of projects
+        - @search.status_keys.each do |key|
+          %td= @search.statuses.send(key).fetch(:count)
+      - @search.fields.each do |field|
+        %tr
+          %td= Development.human_attribute_name field
+          - @search.status_keys.each do |key|
+            - stat = @search.statuses.send(key)
+            - if stat.fetch(:count) == 0
+              %td -
+            - else
+              %td= stat.fetch(field) { '-' }
+
+#footer
+%p
+  Generated on
+  = Time.now.to_s(:timestamp)
+
+%p
+  Criteria used:
+
+%ul
+  - @search.criteria.each do |field, v|
+    %li #{Development.human_attribute_name(field)} = #{v}
+
+%p
+  View the latest version of this report at
+  = link_to search_url(@search), @search
+
+:javascript
+
+  var map = L.map('map', { zoomControl:false }).setView([42.359,-71.137], 10);
+
+  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  #{
+    @search.results.map(&:location)
+      .map { |loc| "L.marker(#{loc.reverse.map(&:to_f)}).addTo(map)" }.join("\n")
+  }

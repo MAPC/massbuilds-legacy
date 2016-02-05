@@ -4,10 +4,14 @@ class ReportPresenter < Burgundy::Item
     item.results
   end
 
+  def fields
+    [numeric_fields, boolean_fields].flatten
+  end
+
   def numeric_fields
     %i( tothu  singfamhu twnhsmmult lgmultifam commsf
         fa_ret fa_ofcmd  fa_indmf   fa_whs
-        fa_rnd fa_edinst fa_other fa_hotel )
+        fa_rnd fa_edinst fa_other fa_hotel hotelrms )
   end
 
   def boolean_fields
@@ -31,8 +35,16 @@ class ReportPresenter < Burgundy::Item
     statuses.completed
   end
 
+  def status_keys
+    Development.status.values
+  end
+
   def statuses
     @statuses ||= OpenStruct.new(prepare_statuses)
+  end
+
+  def criteria
+    query
   end
 
   private
@@ -47,9 +59,9 @@ class ReportPresenter < Burgundy::Item
 
     def prepare_values(status)
       devs = developments.where(status: status)
-      attrs = [[:count, devs.size]]
+      attrs = [[:name, status.to_s.titleize], [:count, devs.size]]
       numeric_fields.each do |attribute|
-        attrs << [attribute, devs.pluck(attribute).sum]
+        attrs << [attribute, devs.pluck(attribute).compact.sum]
       end
       boolean_fields.each do |attribute|
         attrs << [attribute, devs.where(attribute => true).count]
