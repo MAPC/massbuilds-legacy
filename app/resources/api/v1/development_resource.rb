@@ -17,6 +17,8 @@ module API
       boolean_filters :rdv, :asofright, :ovr55, :clusteros, :phased,
         :stalled, :cancelled, :hidden
 
+      filter :status
+
       # TODO: Warning, possibility for bloat. May warrant a presenter.
       def redevelopment
         @model.rdv
