@@ -236,7 +236,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   test 'boolean scope definition' do
     assert_equal 1, Development.hidden(true).count
     assert_equal 1, Development.hidden.count
-    assert_equal 1, Development.hidden(false).count
+    assert_equal 3, Development.hidden(false).count
     assert_equal Development.hidden(true), Development.hidden
     refute_equal Development.hidden(true), Development.hidden(false)
   end
