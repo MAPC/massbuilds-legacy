@@ -31,7 +31,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'attribute read is from an indifferent hash' do
-    skip "Moving attributes out of hash."
+    skip 'Moving attributes out of hash.'
     d.name = 'Godfrey Hotel'
     assert_equal d.fields['name'], d.name
     assert_equal d.fields[:name], d.name
@@ -90,7 +90,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#mixed_use?' do
-    skip "Come back to this soon."
+    skip 'Come back to this soon.'
     assert_not Development.new.mixed_use?
     assert_not Development.new(tothu:  1).mixed_use?
     assert_not Development.new(commsf: 1).mixed_use?
@@ -144,7 +144,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test '#crosswalks' do
     org = organizations :mapc
-    d.crosswalks.new(organization: org, internal_id: "1-1")
+    d.crosswalks.new(organization: org, internal_id: '1-1')
     assert_not_empty d.crosswalks
   end
 
@@ -187,7 +187,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'contributors includes creator' do
     creator = users(:normal)
-    # TODO clear out edits on this development.
+    # TODO: clear out edits on this development.
     assert d.creator.present?
     assert_includes d.contributors, creator
   end
@@ -255,13 +255,18 @@ class DevelopmentTest < ActiveSupport::TestCase
   def periscope_params
     hash = Hash.new
     ranged_scopes.each { |key| hash[key] = [0,1] }
-    hash.merge({rdv: true, asofright: false, ovr55: nil, clusteros: 'true', phased: 'false', stalled: 'NULL', cancelled: true, hidden: true})
+    hash.merge(mergeable_hash)
   end
 
   def periscope_params_alt
     hash = Hash.new
     ranged_scopes.each { |key| hash[key] = 1_234 }
-    hash.merge({rdv: true, asofright: false, ovr55: nil, clusteros: 'true', phased: 'false', stalled: 'NULL', cancelled: true, hidden: true})
+    hash.merge(mergeable_hash)
+  end
+
+  def mergeable_hash
+    { rdv:   true, asofright: false,  phased:  'false', cancelled: true,
+      ovr55: nil,  clusteros: 'true', stalled: 'NULL',  hidden: true }
   end
 
   def ranged_scopes
@@ -282,7 +287,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'location' do
-    assert_equal d.location, [71.000001,42.000001]
+    assert_equal d.location, [71.000001, 42.000001]
   end
 
 end

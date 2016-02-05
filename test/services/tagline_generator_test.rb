@@ -15,7 +15,7 @@ class TaglineGeneratorTest < ActiveSupport::TestCase
   end
 
   test 'performed' do
-    assert_match /luxury hotel/i, perform
+    assert_match(/luxury hotel/i, perform)
   end
 
 end

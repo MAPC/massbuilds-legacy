@@ -17,10 +17,10 @@ class DevelopmentsController < ApplicationController
     # the form and not acting on the development itself.
     form = DevelopmentForm.new(current_user)
     if form.submit(@development.id, edit_development_params)
-      flash[:partial] = { path: "developments/proposed_success" }
+      flash[:partial] = { path: 'developments/proposed_success' }
       redirect_to @development
     else
-      flash[:partial] = { path: "developments/proposed_error" }
+      flash[:partial] = { path: 'developments/proposed_error' }
       redirect_to edit_development_path(@development)
     end
   end
@@ -30,24 +30,25 @@ class DevelopmentsController < ApplicationController
 
   private
 
-    def load_record
-      @development = DevelopmentPresenter.new(
-        Development.find(params[:id])
-      )
-    end
+  def load_record
+    @development = DevelopmentPresenter.new(
+      Development.find(params[:id])
+    )
+  end
 
-    def development_params
-      params.require(:development).permit(:name)
-    end
+  def development_params
+    params.require(:development).permit(:name)
+  end
 
-    def edit_development_params
-      params.require(:development).permit(
-        :name, :total_cost, :rdv, :address, :city, :state, :zip_code,
-        :status
-      )
-    end
+  def edit_development_params
+    params.require(:development).permit(
+      :name, :total_cost, :rdv, :address, :city, :state, :zip_code,
+      :status
+    )
+  end
 
-    def search_params
-      params.fetch(:q) { Hash.new }
-    end
+  def search_params
+    params.fetch(:q) { Hash.new }
+  end
+
 end

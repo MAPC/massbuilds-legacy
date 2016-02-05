@@ -103,7 +103,7 @@ end
 #   address     = "#{Faker::Address.street_address}, #{Faker::Address.city} #{Faker::Address.state_abbr} #{Faker::Address.zip}"
 #   status      = [:projected, :planning, :in_construction, :completed].sample
 #   total_cost  = Faker::Number.number([6,7,8,9].sample)
-#   d = Development.new( name: name, address: address, status: status, total_cost: total_cost, creator: User.all.sample )
+#   d = Development.new(name: name, address: address, status: status, total_cost: total_cost, creator: User.all.sample)
 #   assert_creation(d)
 # end
 

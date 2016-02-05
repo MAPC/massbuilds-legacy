@@ -11,11 +11,10 @@ class ClaimsController < ApplicationController
     @claim.assign_attributes(development: @development, claimant: current_user)
     if @claim.save
       flash[:success] = CLAIM_CREATED
-      redirect_to @development
     else
-      flash[:danger] = @claim.errors.full_messages #CLAIM_NOT_CREATED
-      redirect_to @development
+      flash[:danger] = @claim.errors.full_messages # CLAIM_NOT_CREATED
     end
+    redirect_to @development
   end
 
   def index
@@ -24,21 +23,21 @@ class ClaimsController < ApplicationController
 
   private
 
-    def load_parent
-      @development = Development.find params[:development_id]
-    end
+  def load_parent
+    @development = Development.find params[:development_id]
+  end
 
-    def new_claim_params
-      params.require(:claim).permit(:role)
-    end
+  def new_claim_params
+    params.require(:claim).permit(:role)
+  end
 
-    CLAIM_CREATED = """
-      Thanks! We received your claim and will address it within 5-10 business days.
-    """
+  CLAIM_CREATED = '''
+    Thanks! We received your claim and will address it within 5-10 business days.
+  '''
 
-    CLAIM_NOT_CREATED = """
-      Sorry, we were unable to accept your claim. Please contact
-      us if you think this message is in error.
-    """
+  CLAIM_NOT_CREATED = """
+    Sorry, we were unable to accept your claim. Please contact
+    us if you think this message is in error.
+  """
 
 end

@@ -8,6 +8,7 @@ class SearchTest < ActiveSupport::TestCase
   def saved_search
     @_saved_search ||= searches(:saved)
   end
+
   alias_method :saved, :saved_search
 
   test 'valid' do
@@ -42,12 +43,12 @@ class SearchTest < ActiveSupport::TestCase
 
   test '#unsaved?' do
     assert search.unsaved?
-    refute  saved.unsaved?
+    refute saved.unsaved?
   end
 
   test '#saved?' do
     refute search.saved?
-    assert  saved.saved?
+    assert saved.saved?
   end
 
   test 'autogenerates a title if saved:true' do

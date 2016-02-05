@@ -33,31 +33,31 @@ class FieldEditTest < ActiveSupport::TestCase
   end
 
   test 'requires a change that has, at least, :to' do
-    field.change = {from: 100, to: 101}
+    field.change = { from: 100, to: 101 }
     assert field.valid?
-    field.change = {to: true}
+    field.change = { to: true }
     assert field.valid?
   end
 
   test 'change :to a non-nil false value' do
-    field.change = {from: true, to: false}
+    field.change = { from: true, to: false }
     assert field.valid?
-    field.change = {from: nil, to: false}
+    field.change = { from: nil, to: false }
     assert field.valid?
-    field.change = {from: false, to: nil}
+    field.change = { from: false, to: nil }
     assert_not field.valid?
   end
 
   test 'change a string to an empty string' do
-    skip "Not yet sure what to do about this."
-    field.change = {from: "x", to: ""}
+    skip 'Not yet sure what to do about this.'
+    field.change = { from: 'x', to: '' }
     assert_not field.valid?
   end
 
   test 'requires a change that is really a change' do
-    field.change = {from: 100, to: 100}
+    field.change = { from: 100, to: 100 }
     assert_not field.valid?
-    field.change = {from: 100, to: 101}
+    field.change = { from: 100, to: 101 }
     assert field.valid?
   end
 
@@ -76,7 +76,7 @@ class FieldEditTest < ActiveSupport::TestCase
   test '#conflict' do
     assert_nil field.conflict
     field.development.commsf = 13
-    expected = {current: 13, from: 12}
+    expected = { current: 13, from: 12 }
     assert_equal expected, field.conflict
   end
 

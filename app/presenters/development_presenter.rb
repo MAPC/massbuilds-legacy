@@ -34,7 +34,7 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Nearby or similar developments
   def related
-    # TODO make nearby / similar, instead of a simple limit
+    # TODO: make nearby / similar, instead of a simple limit
     DevelopmentPresenter.wrap Development.limit(3)
   end
 
@@ -51,7 +51,7 @@ class DevelopmentPresenter < Burgundy::Item
      [:tothu, :commsf, :prjarea, :stories, :height]
    end
 
-  def display_address(options={})
+  def display_address(options = {})
     options[:short] ? short_address : long_address
   end
 

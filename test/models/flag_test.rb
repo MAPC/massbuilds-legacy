@@ -38,7 +38,7 @@ class FlagTest < ActiveSupport::TestCase
   end
 
   test "changes moderator's inbox count" do
-    skip "This is a tangential collaborator and does not belong here."
+    skip 'This is a tangential collaborator and does not belong here.'
     assert_difference 'flag.development.moderator.first.inbox.count', +1 do
       flag.save
     end

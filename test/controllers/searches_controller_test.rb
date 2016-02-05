@@ -12,7 +12,7 @@ class SearchesControllerTest < ActionController::TestCase
   end
 
   test 'saves searches when reporting on them' do
-    assert_difference "Search.where(saved: true).count", +1 do
+    assert_difference 'Search.where(saved: true).count', +1 do
       get :show, id: search.id
     end
   end

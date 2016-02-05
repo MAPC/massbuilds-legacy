@@ -12,15 +12,15 @@ class SearchesController < ApplicationController
 
   private
 
-    def load_record
-      @search = ReportPresenter.new(Search.find(params[:id]))
-    end
+  def load_record
+    @search = ReportPresenter.new(Search.find(params[:id]))
+  end
 
-    def ensure_saved_search
-      search = @search.item
-      if search.unsaved?
-        search.saved = true
-        search.save!
-      end
+  def ensure_saved_search
+    search = @search.item
+    if search.unsaved?
+      search.saved = true
+      search.save!
     end
+  end
 end

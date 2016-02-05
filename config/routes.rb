@@ -2,7 +2,7 @@ require 'api_constraints'
 Rails.application.routes.draw do
 
   namespace :api, constraints: {subdomain: 'api'}, path: '' do
-    api_version( # TODO Move all this into an APIVersion class
+    api_version( # TODO: Move all this into an APIVersion class
       module: "V1",
       header: {name: "Accept",
         value: "application/vnd.api+json; application/org.dd.v1"},

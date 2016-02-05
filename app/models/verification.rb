@@ -1,6 +1,6 @@
 class Verification < ActiveRecord::Base
   extend Enumerize
-  # TODO Should be polymorph-ish. Basically, while it should belong
+  # TODO: Should be polymorph-ish. Basically, while it should belong
   # to user (because a person must request it), they can also
   # request it on behalf of an organization.
 
@@ -15,7 +15,7 @@ class Verification < ActiveRecord::Base
     default: :pending, predicates: true
 
   def verifiable?
-    # TODO [Code Smell] Multiple calls to valid_verifier?
+    # TODO: [Code Smell] Multiple calls to valid_verifier?
     # are already getting confusing.
     valid? && eligible_user? && valid_verifier?
   end
@@ -51,7 +51,7 @@ class Verification < ActiveRecord::Base
       end
     end
 
-    # TODO [Code Smell] Should these be validations?
+    # TODO: [Code Smell] Should these be validations?
     def eligible_user?
       user.present? # TODO: user.verifiable?
     end

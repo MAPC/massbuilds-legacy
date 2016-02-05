@@ -1,5 +1,5 @@
 class TaglineGenerator
-  def initialize(source, options={})
+  def initialize(source, options = {})
     @source = source
   end
 

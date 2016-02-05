@@ -8,9 +8,9 @@ module API
 
       private
 
-        def search_params
-          params.permit(:api_key)
-        end
+      def search_params
+        params.permit(:api_key)
+      end
 
     end
   end

@@ -107,10 +107,10 @@ class ClaimTest < ActiveSupport::TestCase
   # Needing so many collaboratiors suggests the need for
   # service objects like Claim::Approval and Claim::Denial
   test 'user cannot moderate their own claim unless admin' do
-    skip """
+    skip '''
       Expecting this to fail because we have not yet implemented
       roles like :admin that would help this pass.
-    """
+    '''
     assert_raises(StandardError) {
       claim.approve! moderator: claimant
     }

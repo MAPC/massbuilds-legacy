@@ -1,5 +1,5 @@
 class Development < ActiveRecord::Base
-  # TODO basic geocoding
+  # TODO: basic geocoding
   # geocoded_by :full_street_address   # Implement this method
   # after_validation :geocode          # Auto-fetch coordinates
   has_one :walkscore # TODO

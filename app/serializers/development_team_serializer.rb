@@ -7,7 +7,7 @@ class DevelopmentTeamSerializer
     @row = Array.new(@max_team_size * team_attributes_count)
   end
 
-  # TODO Refactor and clean up
+  # TODO: Refactor and clean up
   def to_row
     # Get attributes from all of the team members
     values = @development.team_memberships.map { |team_membership|

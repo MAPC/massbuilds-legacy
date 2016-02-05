@@ -12,9 +12,9 @@ class ChangePresenter < Burgundy::Item
       template_for(types.first.name.to_sym)
     end
 
-    # TODO Make this return an object, for the template
+    # TODO: Make this return an object, for the template
     # to lay out and interpolate text.
-    # TODO For enumerized statuses, instead of just checking
+    # TODO: For enumerized statuses, instead of just checking
     # that it's String type, titleize values. That is, in_construction,
     # should read In Construction.
     def template_for(type)

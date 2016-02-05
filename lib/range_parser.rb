@@ -6,12 +6,12 @@ module RangeParser
 
   def self.parse(value)
     @value = value
-    return self.infinity_range if !@value.present?
+    return infinity_range unless @value.present?
     if @value.is_a? Array
       return parse_rejoined_string if @value.first.is_a?(String)
       Range.new *@value.map(&:to_f)
     else
-      self.parse_string
+      parse_string
     end
   end
 
@@ -19,7 +19,7 @@ module RangeParser
 
   def self.parse_rejoined_string
     @value = @value.join ','
-    self.parse_string
+    parse_string
   end
 
   def self.parse_string

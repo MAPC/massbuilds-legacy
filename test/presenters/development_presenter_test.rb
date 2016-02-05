@@ -1,12 +1,15 @@
 require 'test_helper'
 
 class DevelopmentPresenterTest < ActiveSupport::TestCase
+
   def presenter
     @_presenter ||= DevelopmentPresenter.new(developments(:one))
   end
+
   def item
     presenter.item
   end
+
   alias_method :pres, :presenter
 
   test '#contributors' do
@@ -74,12 +77,12 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
   end
 
   test 'address' do
-    expected = "505 Washington Street, Boston MA 02111"
+    expected = '505 Washington Street, Boston MA 02111'
     assert_equal expected, pres.display_address
   end
 
   test 'short address' do
-    expected = "505 Washington Street, Boston"
+    expected = '505 Washington Street, Boston'
     assert_equal expected, pres.display_address(short: true)
   end
 
