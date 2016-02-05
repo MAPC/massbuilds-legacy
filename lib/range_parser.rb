@@ -5,27 +5,32 @@
 module RangeParser
 
   def self.parse(value)
-    if value.is_a? Array
-      Range.new *value.map(&:to_f)
+    @value = value
+    if @value.is_a? Array
+      return parse_rejoined_string if @value.first.is_a?(String)
+      Range.new *@value.map(&:to_f)
     else
-      Range.new *value.match(self.regex).captures.map(&:to_f)
+      self.parse_string
     end
   end
 
   private
 
+  def self.parse_rejoined_string
+    @value = @value.join ','
+    self.parse_string
+  end
+
+  def self.parse_string
+    Range.new *@value.match(self.regex).captures.map(&:to_f)
+  end
+
   def self.regex
-    /([\d\.]+)\s*,\s*([\d\.]+)/
+    /([\d\.]+)['"]?\s*,\s*['"]?([\d\.]+)/
+  end
+
+  def self.digits_regex
+    /(\d+)/
   end
 
 end
-
-# def range_parser(value)
-#   (\d+,\d+)
-#   array = value.to_s.delete('[ ]').split(',')
-#   if array.length < 2
-#     array.first
-#   else
-#     array
-#   end
-# end
