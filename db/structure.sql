@@ -623,7 +623,8 @@ CREATE TABLE searches (
     user_id integer,
     saved boolean,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    title character varying(140)
 );
 
 
@@ -644,6 +645,40 @@ CREATE SEQUENCE searches_id_seq
 --
 
 ALTER SEQUENCE searches_id_seq OWNED BY searches.id;
+
+
+--
+-- Name: subscriptions; Type: TABLE; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE TABLE subscriptions (
+    id integer NOT NULL,
+    user_id integer,
+    subscribable_id integer,
+    subscribable_type character varying,
+    last_checked_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: subscriptions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE subscriptions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: subscriptions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE subscriptions_id_seq OWNED BY subscriptions.id;
 
 
 --
@@ -839,6 +874,13 @@ ALTER TABLE ONLY searches ALTER COLUMN id SET DEFAULT nextval('searches_id_seq':
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY subscriptions ALTER COLUMN id SET DEFAULT nextval('subscriptions_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regclass);
 
 
@@ -975,6 +1017,14 @@ ALTER TABLE ONLY programs
 
 ALTER TABLE ONLY searches
     ADD CONSTRAINT searches_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: subscriptions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace:
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT subscriptions_pkey PRIMARY KEY (id);
 
 
 --
@@ -1148,6 +1198,20 @@ CREATE INDEX index_searches_on_user_id ON searches USING btree (user_id);
 
 
 --
+-- Name: index_subscriptions_on_subscribable_type_and_subscribable_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE INDEX index_subscriptions_on_subscribable_type_and_subscribable_id ON subscriptions USING btree (subscribable_type, subscribable_id);
+
+
+--
+-- Name: index_subscriptions_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace:
+--
+
+CREATE INDEX index_subscriptions_on_user_id ON subscriptions USING btree (user_id);
+
+
+--
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace:
 --
 
@@ -1236,6 +1300,14 @@ ALTER TABLE ONLY development_team_memberships
 
 ALTER TABLE ONLY flags
     ADD CONSTRAINT fk_rails_8ce2d558c3 FOREIGN KEY (development_id) REFERENCES developments(id);
+
+
+--
+-- Name: fk_rails_933bdff476; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY subscriptions
+    ADD CONSTRAINT fk_rails_933bdff476 FOREIGN KEY (user_id) REFERENCES users(id);
 
 
 --
@@ -1381,3 +1453,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160122231311');
 INSERT INTO schema_migrations (version) VALUES ('20160126211510');
 
 INSERT INTO schema_migrations (version) VALUES ('20160129171814');
+
+INSERT INTO schema_migrations (version) VALUES ('20160202213848');
+
+INSERT INTO schema_migrations (version) VALUES ('20160204210517');
+

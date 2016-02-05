@@ -27,7 +27,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :searches, only: [:show] #, defaults: { format: :pdf }
+  resources :searches, only: [:show], defaults: { format: :pdf }
 
   resources :organizations, only: [:index, :show, :edit, :create, :update, :new, :join] do
     post :join, to: 'memberships#join', on: :member

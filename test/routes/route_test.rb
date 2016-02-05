@@ -17,8 +17,17 @@ class RouteTest < ActionDispatch::IntegrationTest
   end
 
   test 'api version in header' do
-    ActionDispatch::TestRequest::DEFAULT_ENV['action_dispatch.request.accepts'] = 'application/application/org.dd.v1'
+    ActionDispatch::TestRequest::DEFAULT_ENV['action_dispatch.request.accepts'] = 'application/org.dd.v1'
     assert_routing('http://api.test.host/searches',
       {subdomain: 'api', controller: 'api/v1/searches', action: 'index'})
+  end
+
+  test 'wildcard after search' do
+    assert_routing('http://test.host/developments/search',
+      {controller: 'developments', action: 'search'})
+    assert_routing('http://test.host/developments/search/map',
+      {controller: 'developments', action: 'search', ui: 'map'})
+    assert_routing('http://test.host/developments/search/list',
+      {controller: 'developments', action: 'search', ui: 'list'})
   end
 end

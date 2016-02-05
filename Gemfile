@@ -19,6 +19,7 @@ gem 'enumerize' # Store options in a string field
 gem 'geometry'  # Simple geometry constructor
 gem 'wannabe_bool', '0.3.0' # Convert to boolean
 gem 'paperclip' # File attachments
+gem 'stamp'
 
 # Forms & Presenters
 gem 'virtus'       # Form objects
@@ -34,6 +35,8 @@ gem 'jquery-rails'
 gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0' # Compress JavaScript
 gem 'kaminari'  # Pagination
+gem 'wicked_pdf', '~> 1.0' # PDF generation
+gem 'wkhtmltopdf-binary-edge'   # PDF generation binary
 
 # Semantic UI
 gem 'therubyracer'
