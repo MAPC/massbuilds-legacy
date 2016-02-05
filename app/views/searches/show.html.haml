@@ -25,7 +25,7 @@
         %td Number of projects
         - @search.status_keys.each do |key|
           %td= @search.statuses.send(key).fetch(:count)
-      - @search.fields.each do |field|
+      - @search.numeric_fields.each do |field|
         %tr
           %td= Development.human_attribute_name field
           - @search.status_keys.each do |key|
@@ -35,7 +35,35 @@
             - else
               %td= stat.fetch(field) { '-' }
 
+
+  %table.ui.celled.table.unstackable
+    %thead
+      %tr
+        %th
+        - @search.status_keys.each do |name|
+          %th= name.titleize
+    %tbody
+      %tr
+        %td Number of projects
+        - @search.status_keys.each do |key|
+          %td= @search.statuses.send(key).fetch(:count)
+      - @search.boolean_fields.each do |field|
+        %tr
+          %td= Development.human_attribute_name field
+          - @search.status_keys.each do |key|
+            - stat = @search.statuses.send(key)
+            - if stat.fetch(:count) == 0
+              %td -
+            - else
+              %td
+                = stat.fetch(field)
+                (
+                = stat.fetch(field) / stat.fetch(:count).to_f
+                \%)
+
+
 #footer
+%br
 %p
   Generated on
   = Time.now.to_s(:timestamp)
@@ -50,6 +78,11 @@
 %p
   View the latest version of this report at
   = link_to search_url(@search), @search
+
+-# TODO Above link is to PDF, not to live search results.
+-#   I think we should link to the client with the live HTML results
+-#   from this search (maybe link to developments/search?query=) and/or
+-# TODO Provide a link to DD itself from here.
 
 :javascript
 
