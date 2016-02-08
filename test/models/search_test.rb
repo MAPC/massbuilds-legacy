@@ -54,4 +54,32 @@ class SearchTest < ActiveSupport::TestCase
     assert_respond_to search, :developments
   end
 
+  test '#needs_update?' do
+    development = developments(:one)
+    Time.stub :now, Time.new(2010) do
+      edit = development.pending_edits.first
+      edit.applied
+      edit.save
+    end
+    search.stub :developments, Development.all do
+      assert search.updated_since?(Date.new(2000))
+    end
+  end
+
+  test '#needs_update without history' do
+    search.stub :developments, Development.new.history do
+      refute search.updated_since?(Date.new(2000))
+    end
+  end
+
+  test '#needs_update ignores updated_at' do
+    development = developments(:one)
+    Time.stub :now, Time.new(2010) do
+      development.touch(:updated_at)
+    end
+    search.stub :developments, Development.new.history do
+      refute search.updated_since?(Date.new(2000))
+    end
+  end
+
 end

@@ -47,15 +47,19 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [saved_search.id], user.searches.map(&:id)
   end
 
-  test "#subscriptions" do
+  test '#subscriptions' do
     refute_empty user.subscriptions
   end
 
-  test "#subscription can include all subscribable classes" do
+  # TODO: Add Place to this list.
+  test '#subscription can include all subscribable classes' do
     %w( Development Search ).each do |klass|
       assert_includes user.subscriptions.map(&:subscribable_type), klass
     end
   end
 
+  test 'needing update' do
+    skip
+  end
 
 end

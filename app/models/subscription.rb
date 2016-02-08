@@ -2,13 +2,19 @@ class Subscription < ActiveRecord::Base
   belongs_to :user
   belongs_to :subscribable, polymorphic: true
 
-  validates :user, presence: true, uniqueness: { scope: [:subscribable_id, :subscribable_type] }
+  validates :user, presence: true,
+    uniqueness: { scope: [:subscribable_id, :subscribable_type] }
   validates :subscribable, presence: true
-  validate :requirements
+  validate :valid_subscribable
+
+  def needs_update?
+    # May know too much about user in this implementation.
+    subscribable.updated_since?(user.last_checked_subscriptions)
+  end
 
   private
 
-    def requirements
+    def valid_subscribable
       sub = subscribable
       unless sub.is_a?(Development) || sub.respond_to?(:developments)
         errors.add :subscribable,

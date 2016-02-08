@@ -62,9 +62,17 @@ class Development < ActiveRecord::Base
   # TODO: Cache this in the database, to be used for searches.
   alias_method :mixed_use, :mixed_use?
 
-  def history
-    self.edits.where(applied: true).order(applied_at: :desc)
+  def history(since: nil)
+    scope = self.edits.where(applied: true).order(applied_at: :desc)
+    scope = scope.where('applied_at > ?', since) if since
+    scope
   end
+
+  def most_recent_edit
+    history.first
+  end
+
+  alias_method :last_edit, :most_recent_edit
 
   def pending_edits
     self.edits.where(state: 'pending').order(created_at: :asc)
@@ -84,6 +92,11 @@ class Development < ActiveRecord::Base
 
   def regulatory_programs
     programs.where type: :regulatory
+  end
+
+  def updated_since?(timestamp = Time.now)
+    return false if history.empty?
+    self.last_edit.applied_at > timestamp
   end
 
   private

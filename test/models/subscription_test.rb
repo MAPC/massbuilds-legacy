@@ -17,36 +17,44 @@ class SubscriptionTest < ActiveSupport::TestCase
     def developments ; Array.new ; end
   end
 
-  test "valid?" do
+  test 'valid?' do
     assert subscription.valid?
   end
 
-  test "requires a user" do
+  test 'requires a user' do
     subscription.user = nil
     refute subscription.valid?
   end
 
-  test "requires a subscribable" do
+  test 'requires a subscribable' do
     subscription.subscribable = nil
     refute subscription.valid?
   end
 
-  test "subscribables must be a Development or respond to #developments" do
+  test 'subscribables must be a Development or respond to #developments' do
     subscription.subscribable = BadThing.new
     refute subscription.valid?
     subscription.subscribable = ValidSubscribable.new
     assert subscription.valid?
   end
 
-  test "subscribables can be Development" do
-    [Development.new].each {|watch_me|
+  test 'subscribables can be Development' do
+    [Development.new, Search.new].each {|watch_me|
       subscription.subscribable = watch_me
     }
     assert subscription.valid?
   end
 
-  test "subscribables can be Place, Search" do
-    skip "Add this to above test when ready."
+  test 'subscribables can be Place' do
+    skip 'Add this to above test when ready.'
+  end
+
+  test 'subscription comes to need an update when user has never checked' do
+    skip
+  end
+
+  test 'subscription comes to need an update when user recently checked' do
+    skip
   end
 
 end

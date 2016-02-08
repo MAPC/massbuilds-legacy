@@ -265,6 +265,33 @@ class DevelopmentTest < ActiveSupport::TestCase
     all_scopes.each { |scope| assert_includes sql, scope.to_s }
   end
 
+  test '#needs_update?' do
+    Time.stub :now, Time.new(2001) do
+      edit = d.pending_edits.first
+      edit.applied
+      edit.save
+    end
+    assert d.updated_since?(Date.new(2000))
+  end
+
+  test '#needs_update without history' do
+    refute d.updated_since?(Date.new(2000))
+  end
+
+  test '#last_edit returns most recent history item' do
+    edit = d.pending_edits.first
+    edit.applied
+    edit.save
+    assert_not_empty d.reload.history
+    assert_equal edit, d.last_edit
+  end
+
+  test 'changes since' do
+    skip """
+      Get all history since a certain date
+    """
+  end
+
   def periscope_params
     hash = Hash.new
     ranged_scopes.each { |key| hash[key] = [0,1] }

@@ -19,6 +19,14 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name,  presence: true
 
+  def subscriptions_needing_update
+    subscriptions.select &:needs_update?
+  end
+
+  def contributions
+    Edit.where(editor_id: id, state: "applied")
+  end
+
   def self.null
     @null ||= new(email: "<Null User>")
   end
@@ -26,10 +34,6 @@ class User < ActiveRecord::Base
   def avatar
     user = %w(mark lena lindsay molly eve).sample
     "http://semantic-ui.com/images/avatar2/small/#{user}.png"
-  end
-
-  def contributions
-    Edit.where(editor_id: id, state: "applied")
   end
 
   private
