@@ -44,11 +44,7 @@
           - if stat.fetch(:count) == 0
             %td -
           - else
-            %td
-              = stat.fetch(field)
-              (
-              = stat.fetch(field) / stat.fetch(:count).to_f
-              \%)
+            %td #{stat.fetch(field)} (#{stat.fetch(field) / stat.fetch(:count).to_f}%)
 
 
 #footer
@@ -75,12 +71,20 @@
 :javascript
 
   var map = L.map('map', { zoomControl:false }).setView([42.359,-71.137], 10);
+  const ATTRIBUTION = 'Map tiles by <a href="http://mapc.org">MAPC</a>, ' +
+                  'Data by <a href="http://www.mass.gov/mgis/">MassGIS</a>.';
 
-  L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-      attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  L.tileLayer('http://tiles.mapc.org/basemap/{z}/{x}/{y}.png', {
+    minZoom: 9,
+    maxZoom: 17,
+    attribution: ATTRIBUTION
   }).addTo(map);
 
-  #{
+  var markers = [#{
     @search.results.map(&:location)
-      .map { |loc| "L.marker(#{loc.reverse.map(&:to_f)}).addTo(map)" }.join("\n")
-  }
+      .map { |loc| "L.marker(#{loc.reverse.map(&:to_f)})" }.join(', ')
+  }]
+
+  var group = new L.featureGroup(markers).addTo(map);
+
+  map.fitBounds(group.getBounds());

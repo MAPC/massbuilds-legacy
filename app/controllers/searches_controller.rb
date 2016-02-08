@@ -18,7 +18,15 @@ class SearchesController < ApplicationController
     { pdf:   @search.id.to_s,
       title: @search.title.to_s,
       layout: 'pdf',
-      template: 'searches/show.html.haml' }
+      template: 'searches/show.html.haml',
+      header: { right: '[page] of [topage]', font_size: 9 },
+      footer: {
+        # TODO MAPC Logo
+        left: "Generated on #{Time.now.to_s(:timestamp)}",
+        right: 'mapc.org',
+        font_size: 9
+      }
+    }
   end
 
   def disposition
