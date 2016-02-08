@@ -1,12 +1,15 @@
 require 'test_helper'
 
 class DevelopmentPresenterTest < ActiveSupport::TestCase
+
   def presenter
     @_presenter ||= DevelopmentPresenter.new(developments(:one))
   end
+
   def item
     presenter.item
   end
+
   alias_method :pres, :presenter
 
   test '#contributors' do

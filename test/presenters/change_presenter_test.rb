@@ -1,12 +1,15 @@
 require 'test_helper'
 
 class ChangePresenterTest < ActiveSupport::TestCase
+
   def presenter
     @_presenter ||= ChangePresenter.new(field_edits(:one))
   end
+
   def item
     presenter.item
   end
+
   alias_method :pres, :presenter
 
   test 'numbers' do
@@ -50,8 +53,11 @@ class ChangePresenterTest < ActiveSupport::TestCase
     end
   end
 
+  private
+
   def deletable_attributes
     %w( id city state creator_id fields phased stalled status height
        stories total_cost private latitude longitude )
   end
+
 end

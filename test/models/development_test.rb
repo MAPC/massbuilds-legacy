@@ -287,7 +287,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'changes since' do
-    skip """
+    flunk """
       Get all history since a certain date
     """
   end
