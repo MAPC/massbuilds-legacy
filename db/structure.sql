@@ -570,6 +570,39 @@ ALTER SEQUENCE place_profiles_id_seq OWNED BY place_profiles.id;
 
 
 --
+-- Name: places; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE places (
+    id integer NOT NULL,
+    name character varying,
+    type character varying,
+    place_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: places_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE places_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: places_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE places_id_seq OWNED BY places.id;
+
+
+--
 -- Name: programs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -623,8 +656,7 @@ CREATE TABLE searches (
     user_id integer,
     saved boolean,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    title character varying(140)
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -860,6 +892,13 @@ ALTER TABLE ONLY place_profiles ALTER COLUMN id SET DEFAULT nextval('place_profi
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY places ALTER COLUMN id SET DEFAULT nextval('places_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY programs ALTER COLUMN id SET DEFAULT nextval('programs_id_seq'::regclass);
 
 
@@ -1001,6 +1040,14 @@ ALTER TABLE ONLY organizations
 
 ALTER TABLE ONLY place_profiles
     ADD CONSTRAINT place_profiles_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: places_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY places
+    ADD CONSTRAINT places_pkey PRIMARY KEY (id);
 
 
 --
@@ -1191,6 +1238,13 @@ CREATE INDEX index_organizations_on_creator_id ON organizations USING btree (cre
 
 
 --
+-- Name: index_places_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_places_on_place_id ON places USING btree (place_id);
+
+
+--
 -- Name: index_searches_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1327,6 +1381,14 @@ ALTER TABLE ONLY field_edits
 
 
 --
+-- Name: fk_rails_ab0bf7bd2c; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY places
+    ADD CONSTRAINT fk_rails_ab0bf7bd2c FOREIGN KEY (place_id) REFERENCES places(id);
+
+
+--
 -- Name: fk_rails_b0da45c949; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1456,7 +1518,7 @@ INSERT INTO schema_migrations (version) VALUES ('20160129171814');
 
 INSERT INTO schema_migrations (version) VALUES ('20160202213848');
 
-INSERT INTO schema_migrations (version) VALUES ('20160204210517');
-
 INSERT INTO schema_migrations (version) VALUES ('20160205213705');
+
+INSERT INTO schema_migrations (version) VALUES ('20160208220942');
 

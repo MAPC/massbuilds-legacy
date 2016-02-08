@@ -1,0 +1,13 @@
+boston:
+  name: Boston
+  type: Municipality
+
+back_bay:
+  name: Back Bay
+  type: Neighborhood
+  municipality: boston
+
+roxbury:
+  name: Roxbury
+  type: Neighborhood
+  municipality: boston
