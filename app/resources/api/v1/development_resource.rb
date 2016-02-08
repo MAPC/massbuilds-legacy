@@ -4,7 +4,8 @@ module API
   module V1
     class DevelopmentResource < JSONAPI::Resource
       attributes :name, :status, :description
-      attributes :redevelopment, :as_of_right, :age_restricted, :cluster_or_open_space_development
+      attributes :redevelopment, :as_of_right, :age_restricted
+      attributes :cluster_or_open_space_development
       attributes :description, :address, :city, :state, :zip_code, :full_address
 
       # Filters

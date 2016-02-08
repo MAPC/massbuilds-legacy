@@ -10,10 +10,12 @@ class EditModeration
   end
 
   def performable?
-    raise NotImplementedError, "Override the #performable? method in your service."
+    raise NotImplementedError,
+      'Override the #performable? method in your service.'
   end
 
   def perform!
-    raise NotImplementedError, "Override the #perform! method in your service."
+    raise NotImplementedError,
+      'Override the #perform! method in your service.'
   end
 end

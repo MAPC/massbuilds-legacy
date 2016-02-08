@@ -12,7 +12,7 @@ class Broadcast < ActiveRecord::Base
 
   # This is 'telling'.
   def schedule!
-    raise StandardError, "Not schedulable." unless schedulable?
+    raise StandardError, 'Not schedulable.' unless schedulable?
     # TODO: Scheduling work
     scheduled
   end
@@ -23,7 +23,7 @@ class Broadcast < ActiveRecord::Base
   end
 
   def deliver!
-    raise StandardError, "Not deliverable." unless deliverable?
+    raise StandardError, 'Not deliverable.' unless deliverable?
     # TODO: Delivery work
     # This #delivered call may exist in the background job,
     # but we're writing it here to notify that the 'work', presently
@@ -45,8 +45,9 @@ class Broadcast < ActiveRecord::Base
   end
 
   private
-    def scope_returns_at_least_one_record
-      User.where(scope).any?
-    end
+
+  def scope_returns_at_least_one_record
+    User.where(scope).any?
+  end
 
 end

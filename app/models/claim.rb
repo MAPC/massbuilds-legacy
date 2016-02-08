@@ -12,12 +12,10 @@ class Claim < ActiveRecord::Base
   enumerize :state, in: [:pending, :approved, :denied],
     default: :pending, predicates: true
 
-  enumerize :role, :in => DevelopmentTeamMembership.role.options
+  enumerize :role, in: DevelopmentTeamMembership.role.options
 
   def approve!(options={})
-    if approve(options)
-      self.save
-    end
+    save if approve(options)
   end
 
   def approve(options={})
@@ -32,9 +30,7 @@ class Claim < ActiveRecord::Base
   end
 
   def deny!(options={})
-    if deny(options)
-      self.save
-    end
+    save if deny(options)
   end
 
   def deny(options)
@@ -53,18 +49,18 @@ class Claim < ActiveRecord::Base
 
   private
 
-    def assert_valid_moderator(options)
-      self.moderator ||= options.fetch(:moderator) {
-        raise ArgumentError, "approving a claim requires a :moderator option"
-      }
-      if self.moderator.nil?
-        raise ArgumentError, ":moderator option must be a non-nil"
-      end
+  def assert_valid_moderator(options)
+    self.moderator ||= options.fetch(:moderator) {
+      raise ArgumentError, 'approving a claim requires a :moderator option'
+    }
+    if self.moderator.nil?
+      raise ArgumentError, ':moderator option must be a non-nil'
     end
+  end
 
-    def assert_valid_reason(options)
-      self.reason ||= options.fetch(:reason) {
-        raise ArgumentError, "denying a claim requires a :reason option"
-      }
-    end
+  def assert_valid_reason(options)
+    self.reason ||= options.fetch(:reason) {
+      raise ArgumentError, 'denying a claim requires a :reason option'
+    }
+  end
 end

@@ -7,7 +7,7 @@ class Organization < ActiveRecord::Base
 
   # this should be scoped for unique, but our Postgres version cannot
   # select distinct on tables with JSON data types.
-  has_many :developments, through: :development_team_memberships 
+  has_many :developments, through: :development_team_memberships
   belongs_to :creator,      class_name: :User
 
   validates :name,       presence: true
@@ -36,10 +36,10 @@ class Organization < ActiveRecord::Base
   end
 
   def developments
-    DevelopmentTeamMembership.where(organization_id: id)
-      .includes(:development)
-      .map(&:development)
-      .uniq
+    DevelopmentTeamMembership.where(organization_id: id).
+                              includes(:development).
+                              map(&:development).
+                              uniq
   end
 
   # validates :existence_of_website
@@ -49,13 +49,13 @@ class Organization < ActiveRecord::Base
       addr = Mail::Address.new(email)
       throw StandardError if [addr.local, addr.domain].include?(nil)
     rescue
-      errors.add(:email, "must be a valid email address")
+      errors.add(:email, 'must be a valid email address')
     end
 
     def valid_url_template
       template = URITemplate.new(url_template.to_s)
       url_variables = template.tokens.map(&:variables).flatten
-      if url_variables.exclude? "id"
+      if url_variables.exclude? 'id'
         errors.add(:url_template, "must include '{id}' somewhere")
       end
     end

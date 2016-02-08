@@ -27,8 +27,8 @@ class Development < ActiveRecord::Base
   validates :creator,    presence: true
   validates :year_compl, presence: true
 
-  STATUSES = [:projected, :planning, :in_construction, :completed]
-  enumerize :status, :in => STATUSES, predicates: true
+  STATUSES = [:projected, :planning, :in_construction, :completed].freeze
+  enumerize :status, in: STATUSES, predicates: true
 
   alias_attribute :website, :project_url
   alias_attribute :zip, :zip_code
@@ -101,15 +101,16 @@ class Development < ActiveRecord::Base
 
   private
 
-    def update_tagline
-      self.tagline = TaglineGenerator.new(self).perform!
-    end
+  def update_tagline
+    self.tagline = TaglineGenerator.new(self).perform!
+  end
 
-    def clean_zip_code
-      self.zip_code = self.zip_code.to_s.gsub(/\D*/, '')
-    end
+  def clean_zip_code
+    self.zip_code = self.zip_code.to_s.gsub(/\D*/, '')
+  end
 
-    def nine_digit_formatted_zip(code)
-      "#{code[0..4]}-#{code[-4..-1]}"
-    end
+  def nine_digit_formatted_zip(code)
+    "#{code[0..4]}-#{code[-4..-1]}"
+  end
+
 end

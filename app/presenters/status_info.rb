@@ -29,30 +29,30 @@ class StatusInfo
   end
 
   def prefix
-    status_objects.fetch(@item.status).fetch(:year_prefix, '')
+    status_objects.fetch(@item.status).fetch(:year_prefix) { '' }
   end
 
   private
 
-    def status_objects
-      {
-        completed:       {icon: :checkmark},
-        in_construction: {icon: :configure, year_prefix: 'est. '},
-        projected:       {icon: :find,      year_prefix: 'for ' },
-        planning:        {icon: :calendar,  year_prefix: 'est. '}
-      }.with_indifferent_access
-    end
+  def status_objects
+    {
+      completed:       { icon: :checkmark},
+      in_construction: { icon: :configure, year_prefix: 'est. ' },
+      projected:       { icon: :find,      year_prefix: 'for '  },
+      planning:        { icon: :calendar,  year_prefix: 'est. ' }
+    }.with_indifferent_access
+  end
 
-    def year_gte_10_yrs_from_now
-      @item.year_compl.to_i >= 10.years.from_now.year
-    end
+  def year_gte_10_yrs_from_now
+    @item.year_compl.to_i >= 10.years.from_now.year
+  end
 
-    def bottom_of_range
-      @item.year_compl.round_down(10)
-    end
+  def bottom_of_range
+    @item.year_compl.round_down(10)
+  end
 
-    def top_of_range
-      @item.year_compl.round_down(10) + 10
-    end
+  def top_of_range
+    @item.year_compl.round_down(10) + 10
+  end
 
 end

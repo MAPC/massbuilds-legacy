@@ -24,11 +24,11 @@ class User < ActiveRecord::Base
   end
 
   def contributions
-    Edit.where(editor_id: id, state: "applied")
+    Edit.where(editor_id: id, state: 'applied')
   end
 
   def self.null
-    @null ||= new(email: "<Null User>")
+    @null ||= new(email: '<Null User>')
   end
 
   def avatar
@@ -38,11 +38,12 @@ class User < ActiveRecord::Base
 
   private
 
-    def hash_email
-      self.hashed_email = Digest::MD5::hexdigest(email.downcase)
-    end
+  def hash_email
+    self.hashed_email = Digest::MD5::hexdigest(email.downcase)
+  end
 
-    def assign_api_key
-      APIKey.create!(user: self)
-    end
+  def assign_api_key
+    APIKey.create!(user: self)
+  end
+
 end

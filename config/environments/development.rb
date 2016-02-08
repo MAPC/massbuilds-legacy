@@ -47,6 +47,6 @@ end
 
 DEFAULT_HOST = ENV['HOST'] || 'lvh.me'
 DEFAULT_PORT = ENV['PORT'] || 5000
-DEFAULT_OPTIONS = { host: DEFAULT_HOST, port: DEFAULT_PORT }
+DEFAULT_OPTIONS = { host: DEFAULT_HOST, port: DEFAULT_PORT }.freeze
 
 Rails.application.default_url_options = DEFAULT_OPTIONS

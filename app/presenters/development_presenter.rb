@@ -27,7 +27,9 @@ class DevelopmentPresenter < Burgundy::Item
   def pending_edits
     EditPresenter.wrap item.pending_edits
   end
+
   alias_method :pending, :pending_edits
+
   def pending_edits_count
     item.pending_edits.count
   end
@@ -40,12 +42,10 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Members of the development team
   def team
-    team_memberships.includes(:organization)
-      .order(:role).group_by(&:role)
+    team_memberships.includes(:organization).
+                     order(:role).
+                     group_by(&:role)
   end
-
-
-  # Attributes
 
    def stats
      [:tothu, :commsf, :prjarea, :stories, :height]
@@ -70,7 +70,7 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Neighborhood context (KnowPlace study)
   def neighborhood
-    raise NotImplementedError, "We haven't yet implemented neighborhood context."
+    raise NotImplementedError, 'We have not yet implemented neighborhood context.'
   end
 
   def disable_moderation?
@@ -79,12 +79,12 @@ class DevelopmentPresenter < Burgundy::Item
 
   private
 
-    def long_address
-      "#{item.address}, #{item.city} #{item.state} #{item.zip_code}"
-    end
+  def long_address
+    "#{item.address}, #{item.city} #{item.state} #{item.zip_code}"
+  end
 
-    def short_address
-      "#{item.address}, #{item.city}"
-    end
+  def short_address
+    "#{item.address}, #{item.city}"
+  end
 
 end

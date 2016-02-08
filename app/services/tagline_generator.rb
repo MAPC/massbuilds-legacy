@@ -4,6 +4,6 @@ class TaglineGenerator
   end
 
   def perform!
-    "Luxury hotel with ground-floor retail."
+    'Luxury hotel with ground-floor retail.'
   end
 end

@@ -25,7 +25,7 @@ class OrganizationMembershipTest < Capybara::Rails::TestCase
     sign_in user, visit: true, submit: true
     visit organization_path(org)
     2.times { click_link 'Request to Join' }
-    assert_content page, "You've already asked to join that organization."
+    assert_content page, 'already requested'
   end
 
   test 'signed in user requests to join organization and cancels join request' do

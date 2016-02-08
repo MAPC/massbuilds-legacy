@@ -19,14 +19,14 @@ class ChangePresenter < Burgundy::Item
     # should read In Construction.
     def template_for(type)
       case type
-        when :Fixnum
-          "changed #{name} from #{from.to_i} to #{to.to_i}"
-        when :Float
-          "changed #{name} from #{from.to_f} to #{to.to_f}"
-        when :TrueClass, :FalseClass
-          "set #{name} to #{to.to_b}"
-        when :String
-          "changed #{name} from '#{from}' to '#{to}'"
+      when :Fixnum
+        "changed #{name} from #{from.to_i} to #{to.to_i}"
+      when :Float
+        "changed #{name} from #{from.to_f} to #{to.to_f}"
+      when :TrueClass, :FalseClass
+        "set #{name} to #{to.to_b}"
+      when :String
+        "changed #{name} from '#{from}' to '#{to}'"
       else
         raise ArgumentError, "unexpected type: #{type}"
       end

@@ -6,11 +6,11 @@ class Membership < ActiveRecord::Base
   alias_attribute :member, :user
 
   validates :user, presence: true
-  validates :organization, presence: true, 
-    uniqueness: {
-      scope: [:user_id], 
-      conditions: -> { where.not(state: :inactive) }, 
-      message: "You've already asked to join that organization." }
+  validates :organization, presence: true, uniqueness: {
+    scope: [:user_id],
+    conditions: -> { where.not(state: :inactive) },
+    message: 'You have already requested to join that organization.'
+  }
 
   enumerize :state, in: [:pending, :invited, :active, :inactive],
     default: :pending, predicates: true

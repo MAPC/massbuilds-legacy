@@ -6,13 +6,11 @@ module RangeParser
 
   def self.parse(value)
     if value.is_a? Array
-      Range.new *value.map(&:to_f)
+      Range.new(*value.map(&:to_f))
     else
-      Range.new *value.match(self.regex).captures.map(&:to_f)
+      Range.new(*value.match(self.regex).captures.map(&:to_f))
     end
   end
-
-  private
 
   def self.regex
     /([\d\.]+)\s*,\s*([\d\.]+)/
