@@ -1,83 +1,71 @@
-!!!5
-- %i( reset site header icon list table ).each do |file|
-  = javascript_include_tag "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/#{file}.min.js"
-  = stylesheet_link_tag "https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.1.8/components/#{file}.min.css"
+%h1.ui.header.page-header
+  = @search.title
 
-= stylesheet_link_tag 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.css'
-= javascript_include_tag 'http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js'
+#map{style: 'height: 360px; width: 750px;'}
 
-= javascript_include_tag 'https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js'
-
-.ui.container
-  %h1.ui.header.page-header
-    = @search.title
-
-  #map{style: 'height: 360px; width: 750px;'}
-
-  %table.ui.celled.table.unstackable
-    %thead
+%table.ui.celled.table.unstackable
+  %thead
+    %tr
+      %th
+      - @search.status_keys.each do |name|
+        %th= name.titleize
+  %tbody
+    %tr
+      %td Number of projects
+      - @search.status_keys.each do |key|
+        %td= @search.statuses.send(key).fetch(:count)
+    - @search.numeric_fields.each do |field|
       %tr
-        %th
-        - @search.status_keys.each do |name|
-          %th= name.titleize
-    %tbody
-      %tr
-        %td Number of projects
+        %td= Development.human_attribute_name field
         - @search.status_keys.each do |key|
-          %td= @search.statuses.send(key).fetch(:count)
-      - @search.numeric_fields.each do |field|
-        %tr
-          %td= Development.human_attribute_name field
-          - @search.status_keys.each do |key|
-            - stat = @search.statuses.send(key)
-            - if stat.fetch(:count) == 0
-              %td -
-            - else
-              %td= stat.fetch(field) { '-' }
+          - stat = @search.statuses.send(key)
+          - if stat.fetch(:count) == 0
+            %td -
+          - else
+            %td= stat.fetch(field) { '-' }
 
 
-  %table.ui.celled.table.unstackable
-    %thead
+%table.ui.celled.table.unstackable
+  %thead
+    %tr
+      %th
+      - @search.status_keys.each do |name|
+        %th= name.titleize
+  %tbody
+    %tr
+      %td Number of projects
+      - @search.status_keys.each do |key|
+        %td= @search.statuses.send(key).fetch(:count)
+    - @search.boolean_fields.each do |field|
       %tr
-        %th
-        - @search.status_keys.each do |name|
-          %th= name.titleize
-    %tbody
-      %tr
-        %td Number of projects
+        %td= Development.human_attribute_name field
         - @search.status_keys.each do |key|
-          %td= @search.statuses.send(key).fetch(:count)
-      - @search.boolean_fields.each do |field|
-        %tr
-          %td= Development.human_attribute_name field
-          - @search.status_keys.each do |key|
-            - stat = @search.statuses.send(key)
-            - if stat.fetch(:count) == 0
-              %td -
-            - else
-              %td
-                = stat.fetch(field)
-                (
-                = stat.fetch(field) / stat.fetch(:count).to_f
-                \%)
+          - stat = @search.statuses.send(key)
+          - if stat.fetch(:count) == 0
+            %td -
+          - else
+            %td
+              = stat.fetch(field)
+              (
+              = stat.fetch(field) / stat.fetch(:count).to_f
+              \%)
 
 
 #footer
-%br
-%p
-  Generated on
-  = Time.now.to_s(:timestamp)
+  %p
+    Generated on
+    = Time.now.to_s(:timestamp)
 
-%p
-  Criteria used:
+  %p
+    Criteria used:
 
-%ul
-  - @search.criteria.each do |field, v|
-    %li #{Development.human_attribute_name(field)} = #{v}
+  %ul
+    - @search.criteria.each do |field, v|
+      %li #{Development.human_attribute_name(field)} = #{v}
 
-%p
-  View the latest version of this report at
-  = link_to search_url(@search), @search
+  %p
+    View the latest version of this report at
+    = link_to search_url(@search), @search
 
 -# TODO: Above link is to PDF, not to live search results.
 -#   I think we should link to the client with the live HTML results

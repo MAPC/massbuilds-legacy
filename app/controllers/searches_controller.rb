@@ -17,6 +17,7 @@ class SearchesController < ApplicationController
   def pdf_options
     { pdf:   @search.id.to_s,
       title: @search.title.to_s,
+      layout: 'pdf',
       template: 'searches/show.html.haml' }
   end
 
