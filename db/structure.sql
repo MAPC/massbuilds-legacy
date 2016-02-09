@@ -268,7 +268,8 @@ CREATE TABLE developments (
     other_rate double precision,
     affordable double precision,
     latitude numeric(12,9),
-    longitude numeric(12,9)
+    longitude numeric(12,9),
+    place_id integer
 );
 
 
@@ -1161,6 +1162,13 @@ CREATE INDEX index_developments_on_creator_id ON developments USING btree (creat
 
 
 --
+-- Name: index_developments_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_developments_on_place_id ON developments USING btree (place_id);
+
+
+--
 -- Name: index_developments_programs_on_development_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1413,6 +1421,14 @@ ALTER TABLE ONLY claims
 
 
 --
+-- Name: fk_rails_d95949fd60; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY developments
+    ADD CONSTRAINT fk_rails_d95949fd60 FOREIGN KEY (place_id) REFERENCES places(id);
+
+
+--
 -- Name: fk_rails_e192b86393; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1521,4 +1537,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160202213848');
 INSERT INTO schema_migrations (version) VALUES ('20160205213705');
 
 INSERT INTO schema_migrations (version) VALUES ('20160208220942');
+
+INSERT INTO schema_migrations (version) VALUES ('20160208231004');
 

@@ -44,8 +44,8 @@ class ChangePresenterTest < ActiveSupport::TestCase
 
   test 'changeable attributes have human names' do
     development = developments(:one)
-    attributes = development.attributes.select{ |_k,v| !v.is_a? String }
-    deletable_attributes.each{ |key| attributes.delete(key) }
+    attributes = development.attributes.select{ |_k, v| !v.is_a? String }
+    deletable_attributes.each { |key| attributes.delete(key) }
     attributes.each_pair do |key, value|
       expected = key.to_s.titleize
       actual = Development.human_attribute_name(key)
@@ -57,7 +57,7 @@ class ChangePresenterTest < ActiveSupport::TestCase
 
   def deletable_attributes
     %w( id city state creator_id fields phased stalled status height
-       stories total_cost private latitude longitude )
+       stories total_cost private latitude longitude place_id )
   end
 
 end

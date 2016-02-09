@@ -86,7 +86,7 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
      '505 Washington Street', 'Boston', 'MA', '02111', nil, nil, 2016, nil,
      nil, nil, nil, nil, nil, nil, nil, 75, 12, nil, nil, nil, nil, false,
      true, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
-     'Metropolitan Area Planning Council', 'http://mapc.org', nil,
+     nil, 'Metropolitan Area Planning Council', 'http://mapc.org', nil,
      'Boston, MA', nil, 'MAPC', 'MAPC', 'landlord']
   end
 
@@ -99,7 +99,7 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
         onsitepark total_cost team_membership_count cancelled
         private fa_ret fa_ofcmd fa_indmf fa_whs fa_rnd fa_edinst
         fa_other fa_hotel other_rate affordable latitude longitude
-        team_member_1_name team_member_1_website
+        place_id team_member_1_name team_member_1_website
         team_member_1_url_template team_member_1_location
         team_member_1_email team_member_1_abbv
         team_member_1_short_name team_member_1_role )

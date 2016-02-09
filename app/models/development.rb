@@ -12,6 +12,8 @@ class Development < ActiveRecord::Base
 
   # Relationships
   belongs_to :creator, class_name: :User
+  belongs_to :place
+
   has_many :edits
   has_many :flags
   has_many :crosswalks
@@ -53,6 +55,21 @@ class Development < ActiveRecord::Base
   def zip_code
     code = read_attribute(:zip_code).to_s
     code.length == 9 ? nine_digit_formatted_zip(code) : code
+  end
+
+  def municipality
+    case place.type
+    when 'Municipality' then place
+    when 'Neighborhood' then place.municipality
+    else raise NotImplementedError, "type not defined in #{__FILE__}"
+    end
+  end
+
+  def neighborhood
+    case place.type
+    when 'Neighborhood' then place
+    when 'Municipality' then nil
+    end
   end
 
   def mixed_use?
@@ -97,6 +114,10 @@ class Development < ActiveRecord::Base
   def updated_since?(timestamp = Time.now)
     return false if history.empty?
     self.last_edit.applied_at > timestamp
+  end
+
+  def changes_since(timestamp = Time.now)
+    history.where('applied_at > ?', timestamp)
   end
 
   private

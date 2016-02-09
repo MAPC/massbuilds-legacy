@@ -8,7 +8,6 @@ class Subscription < ActiveRecord::Base
   validate :valid_subscribable
 
   def needs_update?
-    # May know too much about user in this implementation.
     subscribable.updated_since?(user.last_checked_subscriptions)
   end
 

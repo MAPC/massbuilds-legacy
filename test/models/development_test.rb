@@ -30,13 +30,6 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_raises(NoMethodError) { d.blerg }
   end
 
-  test 'attribute read is from an indifferent hash' do
-    skip "Moving attributes out of hash."
-    d.name = 'Godfrey Hotel'
-    assert_equal d.fields['name'], d.name
-    assert_equal d.fields[:name], d.name
-  end
-
   test 'raises when attribute absent' do
     assert_raises(NoMethodError) {
       d.assign_attributes ov_hupipe_not: 10
@@ -265,7 +258,7 @@ class DevelopmentTest < ActiveSupport::TestCase
     all_scopes.each { |scope| assert_includes sql, scope.to_s }
   end
 
-  test '#needs_update?' do
+  test '#updated_since?' do
     Time.stub :now, Time.new(2001) do
       edit = d.pending_edits.first
       edit.applied
@@ -274,7 +267,7 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert d.updated_since?(Date.new(2000))
   end
 
-  test '#needs_update without history' do
+  test '#updated_since? without history' do
     refute d.updated_since?(Date.new(2000))
   end
 
@@ -286,10 +279,51 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal edit, d.last_edit
   end
 
-  test 'changes since' do
-    flunk """
-      Get all history since a certain date
-    """
+  test '#changes_since' do
+    edit = d.pending_edits.first
+    Time.stub :now, Time.new(2000, 1, 2) do
+      edit.applied
+      edit.save
+    end
+    assert_equal [edit], d.changes_since(Time.new(2000, 1, 1))
+  end
+
+  test '#changes_since without history' do
+    assert_equal [], d.changes_since(Time.new(2000, 1, 2))
+  end
+
+  test '#place' do
+    assert_respond_to d, :place
+    city = places(:boston)
+    refute d.place
+    d.place = city
+    assert d.place
+  end
+
+  test '#municipality if assigned a municipality' do
+    assert_respond_to d, :municipality
+    muni = places(:boston)
+    d.place = muni
+    assert_equal muni, d.municipality
+  end
+
+  test '#municipality if assigned a neighborhood' do
+    hood = places(:back_bay)
+    d.place = hood
+    assert_equal hood.municipality, d.municipality
+  end
+
+  test '#neighborhood if assigned a neighborhood' do
+    assert_respond_to d, :neighborhood
+    hood = places(:back_bay)
+    d.place = hood
+    assert_equal hood, d.neighborhood
+  end
+
+  test '#neighborhood if assigned a municipality' do
+    muni = places(:boston)
+    d.place = muni
+    assert_equal nil, d.neighborhood
   end
 
   def periscope_params

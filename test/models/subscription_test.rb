@@ -39,22 +39,10 @@ class SubscriptionTest < ActiveSupport::TestCase
   end
 
   test 'subscribables can be Development' do
-    [Development.new, Search.new].each {|watch_me|
+    [Development.new, Search.new, Place.new].each {|watch_me|
       subscription.subscribable = watch_me
     }
     assert subscription.valid?
-  end
-
-  test 'subscribables can be Place' do
-    skip 'Add this to above test when ready.'
-  end
-
-  test 'subscription comes to need an update when user has never checked' do
-    skip
-  end
-
-  test 'subscription comes to need an update when user recently checked' do
-    skip
   end
 
 end
