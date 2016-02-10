@@ -235,7 +235,6 @@ CREATE TABLE developments (
     mapc_notes character varying,
     tagline character varying(85),
     address character varying(140),
-    city character varying(46),
     state character varying(2) DEFAULT 'MA'::character varying,
     zip_code character varying(9),
     height integer,
@@ -1539,4 +1538,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160205213705');
 INSERT INTO schema_migrations (version) VALUES ('20160208220942');
 
 INSERT INTO schema_migrations (version) VALUES ('20160208231004');
+
+INSERT INTO schema_migrations (version) VALUES ('20160209214001');
 

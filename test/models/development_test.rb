@@ -295,9 +295,9 @@ class DevelopmentTest < ActiveSupport::TestCase
   test '#place' do
     assert_respond_to d, :place
     city = places(:boston)
-    refute d.place
     d.place = city
     assert d.place
+    assert_equal d.city, d.place
   end
 
   test '#municipality if assigned a municipality' do

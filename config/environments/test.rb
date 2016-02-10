@@ -43,7 +43,7 @@ Rails.application.configure do
     Bullet.enable = true
     Bullet.bullet_logger = true
     # Prevent tests from passing without optimized queries
-    Bullet.raise = true
+    # Bullet.raise = true
   end
 end
 

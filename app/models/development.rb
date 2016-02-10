@@ -49,7 +49,11 @@ class Development < ActiveRecord::Base
   scope :close_to, CloseToQuery.new(self).scope
 
   def location
-    [longitude, latitude]
+    [latitude, longitude].map(&:to_f)
+  end
+
+  def rlocation
+    location.reverse
   end
 
   def zip_code
@@ -58,6 +62,7 @@ class Development < ActiveRecord::Base
   end
 
   def municipality
+    return nil unless place
     case place.type
     when 'Municipality' then place
     when 'Neighborhood' then place.municipality
@@ -65,7 +70,10 @@ class Development < ActiveRecord::Base
     end
   end
 
+  alias_method :city, :municipality
+
   def neighborhood
+    return nil unless place
     case place.type
     when 'Neighborhood' then place
     when 'Municipality' then nil

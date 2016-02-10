@@ -6,7 +6,7 @@ class DevelopmentSerializer
   end
 
   def to_row
-    [attributes.values.map { |value| ensure_csv_ready(value) },
+    [attributes.keys.map { |key| ensure_csv_ready(@record.send(key)) },
      DevelopmentTeamSerializer.new(@record, max_team_size).to_row].flatten
   rescue
     []
@@ -24,7 +24,11 @@ class DevelopmentSerializer
   def attributes
     return only_attributes   if only?
     return except_attributes if except?
-    @record.attributes
+    base_attributes
+  end
+
+  def base_attributes
+    @record.attributes.merge({'city' => @record.municipality})
   end
 
   def only?
@@ -36,11 +40,11 @@ class DevelopmentSerializer
   end
 
   def only_attributes
-    @record.attributes.select{ |k, _v| only_selection.include? k.to_sym }
+    base_attributes.select{ |k, _v| only_selection.include? k.to_sym }
   end
 
   def except_attributes
-    @record.attributes.reject{ |k, _v| except_selection.include? k.to_sym }
+    base_attributes.reject{ |k, _v| except_selection.include? k.to_sym }
   end
 
   def only_selection
@@ -61,8 +65,13 @@ class DevelopmentSerializer
   end
 
   def ensure_csv_ready(attribute)
-    if attribute.class.to_s.include? 'Time'
+    class_name = attribute.class.to_s
+    if class_name.include? 'Time'
       attribute.to_s
+    elsif class_name.include? 'Municipality'
+      attribute.to_s
+    elsif class_name.include? 'Neighborhood'
+      attribute.municipality.to_s
     else
       attribute
     end

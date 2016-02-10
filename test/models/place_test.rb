@@ -15,8 +15,9 @@ class PlaceTest < ActiveSupport::TestCase
   end
 
   test '#updated_since? without developments' do
-    assert_empty place.developments
-    refute place.updated_since?
+    new_place = Place.new
+    assert_empty new_place.developments
+    refute new_place.updated_since?
   end
 
   test '#updated_since? with developments' do
