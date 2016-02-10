@@ -77,6 +77,14 @@ class DevelopmentPresenter < Burgundy::Item
     pending_edits.empty?
   end
 
+  def street_view
+    url = "https://maps.googleapis.com/maps/api/streetview?"
+    url << "size=600x600"
+    url << "&location=#{location.join(',')}"
+    url << "&fov=100&heading=235&pitch=35"
+    url << "&key=AIzaSyA-kZB6mH1kp-uXBrp5v8luDiPzKYh_nfQ"
+  end
+
   private
 
   def long_address

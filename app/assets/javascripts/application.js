@@ -12,6 +12,9 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require leaflet
+//= depend_on_asset "layers.png"
+//= depend_on_asset "layers-2x.png"
 //= require semantic_ui/semantic_ui
 //= require_tree .
 //= require turbolinks
