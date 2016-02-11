@@ -3,7 +3,7 @@
   %br
   .ui.dropdown.icon.button#subscribe
     %i.unhide.icon
-    -# TODO Add label for # of watchers
+    -# TODO: Add label for # of watchers
     %span.text Watch
     .menu
       .item
@@ -19,7 +19,7 @@
 
   -# Consider making this a partial, passing the path, icon, and text
 
-  -# TODO Can edit if ... ?
+  -# TODO: Can edit if ... ?
   =link_to edit_development_path(@development) do
     .ui.vertical.animated.button{:tabindex => "0"}
       .visible.content
@@ -27,7 +27,7 @@
       .hidden.content
         Edit
 
-  -# TODO Can flag if you are signed in.
+  -# TODO: Can flag if you are signed in.
   =link_to new_development_flag_path(@development) do
     .ui.vertical.animated.button{:tabindex => "0"}
       .visible.content
@@ -35,7 +35,7 @@
       .hidden.content
         Flag
 
-  -# TODO Can claim if you belong to at least one organization.
+  -# TODO: Can claim if you belong to at least one organization.
   =link_to new_development_claim_path(@development) do
     .ui.vertical.animated.button{:tabindex => "0"}
       .visible.content

@@ -213,7 +213,8 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'location' do
-    assert_equal d.location, [71.000001,42.000001]
+    assert_equal [42.000001, 71.000001], d.location
+    assert_equal [71.000001, 42.000001], d.rlocation
   end
 
   test "#subscriptions" do

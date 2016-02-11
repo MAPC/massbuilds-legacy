@@ -13,8 +13,7 @@
       = render partial: 'developments/show/tags'
     .ui.horizontal.divider
     #images
-      %img.ui.image{src: @development.street_view, style: 'width: 600px; height: 600px;'}
-        Alt Text
+      %img.ui.image{src: @development.street_view, style: 'width: 600px; height: 600px;', alt: @development.name}
     #data
       .ui.horizontal.divider Details
       = render partial: 'developments/show/physical'

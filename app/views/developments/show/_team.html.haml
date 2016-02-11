@@ -5,6 +5,14 @@
 %h4 Development Team
 %table.ui.very.basic.collapsing.celled.table
   %tbody
+    - if @development.team.empty?
+
+      %p There's no development team listed yet.
+      %p
+        = succeed '.' do
+          If your organization is on the development team,
+          = link_to 'add it', new_development_claim_path(@development)
+
     - @development.team.each do |role, members|
       %tr
         %td
