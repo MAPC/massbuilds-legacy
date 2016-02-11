@@ -5,26 +5,41 @@
     %button.ui.right.floated.primary.button
       %i.edit.icon
       Edit Organization
-  = if current_user
-    - link_to join_organization_path(@organization, current_user), method: :post do
-      %button.ui.right.floated.green.button 
-        %i.edit.icon
-        Request to Join
-  %h1   
+  = link_to join_organization_path(@organization), method: :post do
+    %button.ui.right.floated.green.button
+      %i.users.icon
+      Request Membership
+  %h1
     = @organization.name
   #organization
     #stats
-      #location= @organization.location
-      #website=  @organization.website
+      %span#location
+        %i.icon.marker
+        = @organization.location
+      %span#website
+        %i.icon.linkify
+        =link_to @organization.website
       #email=    @organization.email
+    %br
+    %br
     #tabs
       .ui.top.attached.tabular.menu
-        %a.item.active{"data-tab" => "developments"} Developments
-        %a.item{"data-tab" => "people"} People
-        %a.item{"data-tab" => "settings"} Settings
-      .ui.bottom.attached.tab.segment.active{"data-tab" => "developments"}
+        %a.item.active{'data-tab' => 'developments'} Developments
+        %a.item{'data-tab' => 'people'} People
+        %a.item{'data-tab' => 'settings'} Settings
+      .ui.bottom.attached.tab.segment.active{'data-tab' => 'developments'}
         = render @organization.developments
-      .ui.bottom.attached.tab.segment{"data-tab" => "people"}
-        = render partial: 'users/contributor', collection: @organization.members, as: :contributor
-      .ui.bottom.attached.tab.segment{"data-tab" => "settings"}
+      .ui.bottom.attached.tab.segment{'data-tab' => 'people'}
+        - if @organization.members.empty?
+          %p
+            This organization doesn't yet have any members.
+          %p
+            You can
+            = link_to join_organization_path(@organization), method: :post do
+              %button.ui.green.button
+                request membership
+            in this organization.
+        .ui.middle.aligned.relaxed.selection.list
+          = render partial: 'users/contributor_item', collection: @organization.members, as: :contributor
+      .ui.bottom.attached.tab.segment{'data-tab' => 'settings'}
         Settings

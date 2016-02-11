@@ -45,6 +45,10 @@ class Organization < ActiveRecord::Base
                               uniq
   end
 
+  def to_s
+    name
+  end
+
   # validates :existence_of_website
   private
 

@@ -1,4 +1,5 @@
 class MembershipsController < ApplicationController
+  before_action :authenticate_user, only: [:join, :deactivate]
 
   def join
     @organization = Organization.find membership_params[:id]
