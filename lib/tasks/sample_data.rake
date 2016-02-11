@@ -141,7 +141,7 @@ namespace :db do
       total_cost: 10_020_300,
       latitude:   42.3547661,
       longitude: -71.0615689,
-      creator:    User.all.sample
+      creator:    User.order('RANDOM()').first
     )
 
     millennium = Development.create!(
@@ -155,7 +155,7 @@ namespace :db do
       total_cost: 100_000_000,
       latitude:   42.355777,
       longitude: -71.0597007,
-      creator: User.all.sample
+      creator: User.order('RANDOM()').first
     )
 
     opera = Development.create!(
@@ -168,7 +168,7 @@ namespace :db do
       total_cost: 3_029_101,
       latitude: 42.3539817,
       longitude: -71.0623373,
-      creator: User.all.sample
+      creator: User.order('RANDOM()').first
     )
 
     residences = Development.create!(
@@ -181,7 +181,7 @@ namespace :db do
       total_cost: 5_000_100,
       latitude: 42.3554185,
       longitude: -71.0613328,
-      creator: User.all.sample
+      creator: User.order('RANDOM()').first
     )
 
     # A ton of fake ones.
@@ -222,6 +222,28 @@ namespace :db do
       puts percent_log(i, count)
     end
 
+    #     Development Teams
+    #===========================
+
+
+    Development.find_each do |development|
+      (1..6).to_a.sample.times do
+        organization = Organization.order('RANDOM()').first
+        role = DevelopmentTeamMembership.role.values.sample
+        begin
+          DevelopmentTeamMembership.create!(
+            development: development,
+            organization: organization,
+            role: role
+          )
+        rescue => e
+          puts "----> #{e.inspect}"
+          next
+        end
+      end
+    end
+
+
     #  A few new developments
     #===========================
 
@@ -231,9 +253,12 @@ namespace :db do
     #  Searches
     #===========================
 
+    five_years_time = Search.create!(
+      query: { year_compl: [2000, 2005] },
+      user: matt_c
+    )
     # TODO: That return most developments
     # Searches that return all developments
-
 
 
     #  Places
@@ -247,14 +272,44 @@ namespace :db do
     #   place and search
     #============================
 
-    # TODO Subscribe user to searches, places so we'll have
-    # some unique developments, but not 100% unique developments
+    Subscription.create!(
+      user: matt_c,
+      subscribable: Place.find_by(name: 'Boston')
+    )
 
+    Subscription.create!(
+      user: matt_c,
+      subscribable: five_years_time
+    )
 
+    2.times { subscribe_to_unsubscribed_developments }
 
+    # Subscribe random people to random things
+
+    20.times do
+      class_name = %w( Place Search Development ).sample
+      subscribable = class_name.constantize.order('RANDOM()').first
+      begin
+        Subscription.create!(
+          user: User.order('RANDOM()').first,
+          subscribable: subscribable
+        )
+      rescue
+        next
+      end
+    end
 
   end
 end
+
+def subscribe_to_unsubscribed_developments
+  eligible = (1..Development.count).to_a - Search.first.results.pluck(:id) - Place.find_by(name: 'Boston').developments.pluck(:id)
+  Subscription.create!(
+    user: User.first,
+    subscribable: Development.find(eligible.sample)
+  )
+end
+
 
 def percent_log(num, denom)
   num = num + 1
@@ -264,8 +319,8 @@ end
 
 def random_edit
   edit = Edit.create!(
-    development: Development.all.sample,
-    editor: User.all.sample
+    development: Development.order('RANDOM()').first,
+    editor: User.order('RANDOM()').first
   )
   (0..20).to_a.sample.times { random_field_edit(edit) }
   edit.send(make_state)
@@ -273,7 +328,7 @@ def random_edit
     date = (0..100).to_a.sample.days.ago
     edit.applied_at = date
     edit.moderator = loop do
-      mod = User.all.sample
+      mod = User.order('RANDOM()').first
       break mod unless edit.editor == mod
     end
   end
@@ -344,12 +399,12 @@ def create_development
     name: name,
     address: address,
     year_compl: year_compl,
-    place: Place.all.sample,
+    place: Place.order('RANDOM()').first,
     status: status,
     total_cost: total_cost,
     latitude: latitude,
     longitude: longitude,
-    creator: User.all.sample
+    creator: User.order('RANDOM()').first
   )
   assert_creation(d)
 end
