@@ -6,7 +6,7 @@ class SubscriptionMailer < ApplicationMailer
   #   en.subscription_mailer.digest.subject
   #
   def digest(user)
-    @greeting = "Hi"
+    @digest = DigestPresenter.new(user)
 
     mail to: user.email, subject: subject
   end

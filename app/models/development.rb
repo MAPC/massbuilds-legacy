@@ -120,8 +120,11 @@ class Development < ActiveRecord::Base
   end
 
   def updated_since?(timestamp = Time.now)
-    return false if history.empty?
-    self.last_edit.applied_at > timestamp
+    if history.any?
+      self.last_edit.applied_at > timestamp
+    else
+      self.created_at > timestamp
+    end
   end
 
   def changes_since(timestamp = Time.now)

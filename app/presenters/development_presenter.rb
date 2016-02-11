@@ -28,6 +28,16 @@ class DevelopmentPresenter < Burgundy::Item
     EditPresenter.wrap item.pending_edits
   end
 
+  CHANGES_TO_SHOW = 3.freeze
+
+  def changes_since(timestamp = Time.now)
+    EditPresenter.wrap item.changes_since(timestamp).first(CHANGES_TO_SHOW)
+  end
+
+  def undisplayed_changes_since(timestamp = Time.now)
+    item.changes_since(timestamp).count - CHANGES_TO_SHOW
+  end
+
   alias_method :pending, :pending_edits
 
   def pending_edits_count
@@ -36,8 +46,9 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Nearby or similar developments
   def related
-    # TODO make nearby / similar, instead of a simple limit
-    DevelopmentPresenter.wrap Development.limit(3)
+    DevelopmentPresenter.wrap(
+      Development.close_to(*item.location).where.not(id: item.id).limit(3)
+    )
   end
 
   # Members of the development team
@@ -77,9 +88,12 @@ class DevelopmentPresenter < Burgundy::Item
     pending_edits.empty?
   end
 
-  def street_view
+  def street_view(*args)
+    return nil if Rails.env == 'test'
+    w,h = 600, 600
+    w,h = 80, 70 if args.include? :tiny
     url = "https://maps.googleapis.com/maps/api/streetview?"
-    url << "size=600x600"
+    url << "size=#{w}x#{h}"
     url << "&location=#{location.join(',')}"
     url << "&fov=100&heading=235&pitch=35"
     url << "&key=AIzaSyA-kZB6mH1kp-uXBrp5v8luDiPzKYh_nfQ"

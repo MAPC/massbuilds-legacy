@@ -20,7 +20,7 @@ class User < ActiveRecord::Base
   validates :last_name,  presence: true
 
   def subscriptions_needing_update
-    subscriptions.select &:needs_update?
+    Subscription.where(id: subscriptions.select(&:needs_update?).map(&:id))
   end
 
   def contributions

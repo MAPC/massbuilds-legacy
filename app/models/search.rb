@@ -11,6 +11,10 @@ class Search < ActiveRecord::Base
 
   alias_method :developments, :results
 
+  def name
+    "Fake Search Name #{id}"
+  end
+
   def unsaved?
     !saved?
   end

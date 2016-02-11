@@ -733,7 +733,7 @@ CREATE TABLE users (
     first_name character varying,
     last_name character varying,
     hashed_email character varying,
-    last_checked_subscriptions timestamp without time zone
+    last_checked_subscriptions timestamp without time zone DEFAULT '2016-02-10 18:45:24.823483'::timestamp without time zone NOT NULL
 );
 
 
@@ -1540,4 +1540,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160208220942');
 INSERT INTO schema_migrations (version) VALUES ('20160208231004');
 
 INSERT INTO schema_migrations (version) VALUES ('20160209214001');
+
+INSERT INTO schema_migrations (version) VALUES ('20160210184025');
 

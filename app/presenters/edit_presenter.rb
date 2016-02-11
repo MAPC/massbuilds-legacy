@@ -22,6 +22,14 @@ class EditPresenter < Burgundy::Item
     changes.count > 1
   end
 
+  def single_change?
+    changes.count == 1
+  end
+
+  def no_change?
+    changes.count == 0
+  end
+
   private
 
     def field_to_time
