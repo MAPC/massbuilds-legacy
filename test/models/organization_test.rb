@@ -15,6 +15,12 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not org.valid?
   end
 
+  test 'when created, builds a membership' do
+    assert_difference 'Membership.count', +1 do
+      Organization.new(creator: users(:tim)).save(validate: false)
+    end
+  end
+
   test 'requires a name' do
     org.name = nil
     assert_not org.valid?

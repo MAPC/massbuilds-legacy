@@ -1,4 +1,7 @@
 class Organization < ActiveRecord::Base
+
+  after_create :create_membership
+
   has_many :memberships
   has_many :members, through: :memberships, source: :user
   has_many :administrators, class_name: :User
@@ -59,4 +62,9 @@ class Organization < ActiveRecord::Base
         errors.add(:url_template, "must include '{id}' somewhere")
       end
     end
+
+    def create_membership
+      Membership.create(organization: self, user: self.creator)
+    end
+
 end
