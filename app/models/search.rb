@@ -12,6 +12,7 @@ class Search < ActiveRecord::Base
   end
 
   alias_method :developments, :results
+  alias_attribute :name, :title
 
   def unsaved?
     !saved?
