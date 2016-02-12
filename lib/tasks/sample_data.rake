@@ -124,6 +124,19 @@ namespace :db do
       creator:    clara_c
     )
 
+    [matt_c, matt_g, tim_r, jessie_p].each do |user|
+      mapc.memberships.create!(user: user, state: :active)
+    end
+
+    10.times do
+      org = Organization.order('RANDOM()').first
+      mem = org.memberships.new(
+        user: User.order('RANDOM()').first
+        state: Membership.state.values.sample
+      )
+      mem.save! if mem.valid?
+    end
+
 
     #  Developments
     #=================
