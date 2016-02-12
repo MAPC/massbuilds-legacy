@@ -2,7 +2,7 @@ require 'test_helper'
 
 class EditApplicationTest < ActiveSupport::TestCase
   def application
-    @_application ||= EditApplication.new( edits(:one) )
+    @_application ||= EditApplication.new(edits(:one))
   end
 
   def edit
@@ -45,14 +45,14 @@ class EditApplicationTest < ActiveSupport::TestCase
   end
 
   test 'perform! when conflict returns false' do
-    conflict = EditApplication.new( edits(:conflict) )
+    conflict = EditApplication.new(edits(:conflict))
     refute conflict.perform! # Should not change anything
     assert_equal 'pending', conflict.edit.state
     assert_equal 12, conflict.development.commsf
   end
 
   test 'ignore conflict and apply edit' do
-    conflict = EditApplication.new( edits(:conflict) )
+    conflict = EditApplication.new(edits(:conflict))
     refute conflict.perform!
     conflict.edit.ignore_conflicts = true
     conflict.perform!

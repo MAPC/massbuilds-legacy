@@ -1,6 +1,6 @@
 class DevelopmentSerializer
 
-  def initialize(record, options={})
+  def initialize(record, options = {})
     @record  = record
     @options = options
   end

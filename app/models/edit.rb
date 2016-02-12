@@ -15,7 +15,7 @@ class Edit < ActiveRecord::Base
   enumerize :state, in: [:pending, :approved, :declined],
     default: :pending, predicates: true
 
-  # TODO Do these belong here, if the service is handling
+  # TODO: Do these belong here, if the service is handling
   # the alteration of state?
   def approved
     assign_attributes(moderated_at: Time.now, state: :approved)

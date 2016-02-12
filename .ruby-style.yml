@@ -6,6 +6,20 @@ AllCops:
     - "db/"
     - "config/**/*"
   UseCache: false
+    - 'vendor/**/*'
+    - 'db/schema.rb'
+    - 'Guardfile'
+  UseCache: false
+Style/EmptyLinesAroundClassBody:
+  Enabled: false
+Style/EmptyLinesAroundModuleBody:
+  Enabled: false
+Style/ExtraSpacing:
+  Enabled: true
+  Exclude: ['Gemfile']
+Style/ClassAndModuleChildren:
+  EnforcedStyle: nested
+  Exclude: ['test/test_helper.rb']
 Style/CollectionMethods:
   Description: Preferred collection methods.
   StyleGuide: https://github.com/bbatsov/ruby-style-guide#map-find-select-reduce-size

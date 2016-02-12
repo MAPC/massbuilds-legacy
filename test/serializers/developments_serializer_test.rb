@@ -3,13 +3,13 @@ require 'test_helper'
 class DevelopmentsSerializerTest < ActiveSupport::TestCase
   def development_one
     @_d1 ||= Development.create!(
-      id: 101010, name: 'Gadfly Hotel',
+      id: 101_010, name: 'Gadfly Hotel',
       address: '505 Washington Street', place: places(:boston), state: 'MA',
       zip_code: '02111', status: 'in_construction', commsf: 12,
       estemp: 75, private: true,
       created_at: Time.new('1969-12-31 19:00:00 -0500'),
       updated_at: Time.new('1969-12-31 19:00:00 -0500'),
-      year_compl: 2016, creator: users(:normal)
+      year_compl: '2016', creator: users(:normal)
     )
     @_d1.team_memberships = [DevelopmentTeamMembership.create(
       development: @_d1, role: 'landlord', organization: organizations(:mapc)
@@ -20,7 +20,7 @@ class DevelopmentsSerializerTest < ActiveSupport::TestCase
 
   def development_two
     @_d2 ||= Development.create!(
-      id: 101011, name: 'Hello',
+      id: 101_011, name: 'Hello',
       address: "It's me / I was wondering if after all these years",
       place: places(:roxbury), state: 'ET', zip_code: '02118',
       status: 'completed', commsf: 200, estemp: 1000, private: false,
@@ -55,7 +55,6 @@ class DevelopmentsSerializerTest < ActiveSupport::TestCase
       assert_equal expected_csv, base.to_csv
     end
   end
-
 
   private
 

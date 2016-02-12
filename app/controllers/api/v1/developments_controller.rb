@@ -6,16 +6,16 @@ module API
 
       private
 
-        def log_search
-          if filter_params.keys.any?
-            user = current_user || User.null
-            Search.create!(query: filter_params, user: user)
-          end
+      def log_search
+        if filter_params.keys.any?
+          user = current_user || User.null
+          Search.create!(query: filter_params, user: user)
         end
+      end
 
-        def filter_params
-          params.fetch(:filter) { Hash.new }
-        end
+      def filter_params
+        params.fetch(:filter) { Hash.new }
+      end
 
     end
   end

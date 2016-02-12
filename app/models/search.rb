@@ -3,17 +3,15 @@ class Search < ActiveRecord::Base
   has_many :subscriptions, as: :subscribable
   has_many :subscribers, through: :subscriptions, source: :user
 
+  before_save :ensure_title
+
   validates :user, presence: true
 
   def results
-    Development.periscope(query)
+    Development.periscope(Array(query))
   end
 
   alias_method :developments, :results
-
-  def name
-    "Fake Search Name #{id}"
-  end
 
   def unsaved?
     !saved?
@@ -24,4 +22,14 @@ class Search < ActiveRecord::Base
     developments.order(updated_at: :desc).first.updated_since?(timestamp)
   end
 
+  private
+
+  def ensure_title
+    return if (title || unsaved?)
+    self.title = "Saved Search #{next_search_count(user)}"
+  end
+
+  def next_search_count(user)
+    user.searches.where(saved: true).count + 1
+  end
 end

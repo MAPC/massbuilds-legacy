@@ -47,8 +47,8 @@ class DevelopmentPresenter < Burgundy::Item
   # Nearby or similar developments
   def related
     DevelopmentPresenter.wrap(
-      Development.close_to(*item.location).where.not(id: item.id).limit(3)
-    )
+      Development.close_to(*item.location).
+                  where.not(id: item.id).limit(3))
   end
 
   # Members of the development team
@@ -62,7 +62,7 @@ class DevelopmentPresenter < Burgundy::Item
      [:tothu, :commsf, :prjarea, :stories, :height]
    end
 
-  def display_address(options={})
+  def display_address(options = {})
     options[:short] ? short_address : long_address
   end
 

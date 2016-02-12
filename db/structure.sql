@@ -656,7 +656,8 @@ CREATE TABLE searches (
     user_id integer,
     saved boolean,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    title character varying(140)
 );
 
 
@@ -733,7 +734,7 @@ CREATE TABLE users (
     first_name character varying,
     last_name character varying,
     hashed_email character varying,
-    last_checked_subscriptions timestamp without time zone DEFAULT '2016-02-10 18:45:24.823483'::timestamp without time zone NOT NULL
+    last_checked_subscriptions timestamp without time zone DEFAULT '2016-02-12 16:39:06.664379'::timestamp without time zone NOT NULL
 );
 
 
@@ -1532,6 +1533,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160126211510');
 INSERT INTO schema_migrations (version) VALUES ('20160129171814');
 
 INSERT INTO schema_migrations (version) VALUES ('20160202213848');
+
+INSERT INTO schema_migrations (version) VALUES ('20160204210517');
 
 INSERT INTO schema_migrations (version) VALUES ('20160205213705');
 

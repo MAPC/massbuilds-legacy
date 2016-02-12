@@ -2,19 +2,24 @@ require 'api_constraints'
 Rails.application.routes.draw do
 
   namespace :api, constraints: {subdomain: 'api'}, path: '' do
-    api_version(
+    api_version( # TODO: Move all this into an APIVersion class
       module: "V1",
       header: {name: "Accept",
         value: "application/vnd.api+json; application/org.dd.v1"},
       parameter: {name: "version", value: "1"},
       default: true) do
-      jsonapi_resources :developments, only: [:index, :show]
-      jsonapi_resources :searches, only: [:index, :show, :create]
+
+      jsonapi_resources :developments,  only: [:index, :show]
+      jsonapi_resources :searches,      only: [:index, :show, :create]
       jsonapi_resources :subscriptions, only: [:create, :destroy]
     end
   end
 
   resources :developments, only: [:index, :show, :edit, :update] do
+    collection do
+      get 'search', to: 'developments#search'
+      get 'search/*ui', to: 'developments#search'
+    end
     resources :claims, only: [:new, :create]
     resources :flags,  only: [:new, :create]
     resources :edits,  only: [:index, :show] do
@@ -23,6 +28,8 @@ Rails.application.routes.draw do
       get  :pending, on: :collection
     end
   end
+
+  resources :searches, only: [:show], defaults: { format: :pdf }
 
   resources :organizations, only: [:index, :show, :edit, :create, :update, :new, :join] do
     post :join, to: 'memberships#join', on: :member

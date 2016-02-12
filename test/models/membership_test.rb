@@ -45,7 +45,7 @@ class MembershipTest < ActiveSupport::TestCase
 
   # I think this belongs in a controller test
   test 'member can leave an organization' do
-    skip "For now"
+    skip 'For now'
     user = m.user
     org  = m.organization
 
@@ -57,14 +57,14 @@ class MembershipTest < ActiveSupport::TestCase
   end
 
   # test 'only administrators can promote members' do
-  #   skip "Roles not yet implemented"
+  #   skip 'Roles not yet implemented'
   # end
 
   # test 'administrators are notified when someone leaves the org' do
-  #   skip "Roles and notifications not yet implemented"
+  #   skip 'Roles and notifications not yet implemented'
   # end
 
   # test 'administrators are notified when someone wants in' do
-  #   skip "email, notification / inbox"
+  #   skip 'email, notification / inbox'
   # end
 end

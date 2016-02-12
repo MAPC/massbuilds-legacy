@@ -25,26 +25,28 @@ class DevelopmentsController < ApplicationController
     end
   end
 
+  def search
+  end
+
   private
 
-    def load_record
-      @development = DevelopmentPresenter.new(
-        Development.find(params[:id])
-      )
-    end
+  def load_record
+    @development = DevelopmentPresenter.new(
+      Development.find(params[:id])
+    )
+  end
 
-    def development_params
-      params.require(:development).permit(:name)
-    end
+  def development_params
+    params.require(:development).permit(:name)
+  end
 
-    def edit_development_params
-      params.require(:development).permit(
-        :name, :total_cost, :rdv, :address, :city, :state, :zip_code,
-        :status
-      )
-    end
+  def edit_development_params
+    params.require(:development).permit(:name, :total_cost, :rdv,
+      :address, :city, :state, :zip_code, :status)
+  end
 
-    def search_params
-      params.fetch(:q) { Hash.new }
-    end
+  def search_params
+    params.fetch(:q) { Hash.new }
+  end
+
 end

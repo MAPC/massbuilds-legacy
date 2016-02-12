@@ -40,15 +40,14 @@ class OrganizationsController < ApplicationController
 
   private
 
-    def org_params
-      params.require(:organization)
-        .permit(:name, :email, :location, :short_name, :website, :abbv)
-    end
+  def org_params
+    params.require(:organization).
+           permit(:name, :email, :location, :short_name, :website, :abbv)
+  end
 
-    def load_presented_record
-      @organization = OrganizationPresenter.new(
-        Organization.find(params[:id])
-      )
-    end
-
+  def load_presented_record
+    @organization = OrganizationPresenter.new(
+      Organization.find(params[:id])
+    )
+  end
 end

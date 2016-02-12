@@ -2,7 +2,7 @@ require 'test_helper'
 
 class EditApprovalTest < ActiveSupport::TestCase
   def approval
-    @_approval ||= EditApproval.new( edits(:one) )
+    @_approval ||= EditApproval.new(edits(:one))
   end
 
   def edit
@@ -19,7 +19,7 @@ class EditApprovalTest < ActiveSupport::TestCase
 
   test 'raises with invalid edit' do
     assert_raises(StandardError) do
-      EditApproval.new( Edit.new )
+      EditApproval.new(Edit.new)
     end
   end
 

@@ -83,7 +83,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#mixed_use?' do
-    skip "Come back to this soon."
+    skip 'Come back to this soon.'
     assert_not Development.new.mixed_use?
     assert_not Development.new(tothu:  1).mixed_use?
     assert_not Development.new(commsf: 1).mixed_use?
@@ -137,7 +137,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test '#crosswalks' do
     org = organizations :mapc
-    d.crosswalks.new(organization: org, internal_id: "1-1")
+    d.crosswalks.new(organization: org, internal_id: '1-1')
     assert_not_empty d.crosswalks
   end
 
@@ -180,7 +180,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'contributors includes creator' do
     creator = users(:normal)
-    # TODO clear out edits on this development.
+    # TODO: clear out edits on this development.
     assert d.creator.present?
     assert_includes d.contributors, creator
   end
@@ -217,11 +217,11 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal [71.000001, 42.000001], d.rlocation
   end
 
-  test "#subscriptions" do
+  test '#subscriptions' do
     refute_empty d.subscriptions
   end
 
-  test "#subscribers" do
+  test '#subscribers' do
     refute_empty d.subscribers
     assert_includes d.subscribers, users(:normal)
   end
@@ -243,7 +243,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   test 'boolean scope definition' do
     assert_equal 1, Development.hidden(true).count
     assert_equal 1, Development.hidden.count
-    assert_equal 1, Development.hidden(false).count
+    assert_equal 3, Development.hidden(false).count
     assert_equal Development.hidden(true), Development.hidden
     refute_equal Development.hidden(true), Development.hidden(false)
   end
@@ -330,13 +330,18 @@ class DevelopmentTest < ActiveSupport::TestCase
   def periscope_params
     hash = Hash.new
     ranged_scopes.each { |key| hash[key] = [0,1] }
-    hash.merge({rdv: true, asofright: false, ovr55: nil, clusteros: 'true', phased: 'false', stalled: 'NULL', cancelled: true, hidden: true})
+    hash.merge(mergeable_hash)
   end
 
   def periscope_params_alt
     hash = Hash.new
     ranged_scopes.each { |key| hash[key] = 1_234 }
-    hash.merge({rdv: true, asofright: false, ovr55: nil, clusteros: 'true', phased: 'false', stalled: 'NULL', cancelled: true, hidden: true})
+    hash.merge(mergeable_hash)
+  end
+
+  def mergeable_hash
+    { rdv:   true, asofright: false,  phased:  'false', cancelled: true,
+      ovr55: nil,  clusteros: 'true', stalled: 'NULL',  hidden: true }
   end
 
   def ranged_scopes
@@ -355,6 +360,5 @@ class DevelopmentTest < ActiveSupport::TestCase
     array.delete(:hidden) # Ignores hidden because of the alias, for now.
     array
   end
-
 
 end

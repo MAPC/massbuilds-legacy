@@ -45,5 +45,4 @@ class User < ActiveRecord::Base
   def assign_api_key
     APIKey.create!(user: self)
   end
-
 end

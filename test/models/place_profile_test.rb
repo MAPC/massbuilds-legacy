@@ -9,16 +9,16 @@ class PlaceProfileTest < ActiveSupport::TestCase
 
   def geojson
     {
-      "type" => "Polygon",
-      "coordinates" => [
+      'type' => 'Polygon',
+      'coordinates' => [
         [
-          [1.0, 0.0],
-          [0.5000000000000001, 0.8660254037844386],
-          [-0.4999999999999998, 0.8660254037844388],
-          [-1.0, 1.224646799147353e-16],
+          [1.0,                  0.0],
+          [0.5000000000000001,   0.8660254037844386],
+          [-0.4999999999999998,  0.8660254037844388],
+          [-1.0,                 1.224646799147353e-16],
           [-0.5000000000000004, -0.8660254037844384],
-          [0.4999999999999993, -0.866025403784439],
-          [1.0, 0.0]
+          [0.4999999999999993,  -0.866025403784439],
+          [1.0,                  0.0]
         ]
       ]
     }
@@ -59,7 +59,7 @@ class PlaceProfileTest < ActiveSupport::TestCase
   test '#to_point' do
     profile.longitude = 10
     profile.latitude  = 20
-    assert_equal [10,20], profile.to_point
+    assert_equal [10, 20], profile.to_point
   end
 
   test 'coordinates equal named attributes' do

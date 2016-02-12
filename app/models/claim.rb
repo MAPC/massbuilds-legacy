@@ -14,11 +14,11 @@ class Claim < ActiveRecord::Base
 
   enumerize :role, in: DevelopmentTeamMembership.role.options
 
-  def approve!(options={})
+  def approve!(options = {})
     save if approve(options)
   end
 
-  def approve(options={})
+  def approve(options = {})
     self.reason = options.fetch(:reason) { nil }
     assert_valid_moderator(options)
     # TODO: Assign claimant as desired role on project.
@@ -29,7 +29,7 @@ class Claim < ActiveRecord::Base
     self.state = :approved
   end
 
-  def deny!(options={})
+  def deny!(options = {})
     save if deny(options)
   end
 

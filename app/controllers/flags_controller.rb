@@ -25,24 +25,20 @@ class FlagsController < ApplicationController
 
   private
 
-    def load_parent
-      @development = Development.find params[:development_id]
-    end
+  def load_parent
+    @development = Development.find params[:development_id]
+  end
 
-    def new_flag_params
-      params.require(:flag).permit(:reason)
-    end
+  def new_flag_params
+    params.require(:flag).permit(:reason)
+  end
 
-    FLAG_CREATED = """
-      Thanks! We received your flag and will address it shortly.
-    """.freeze
+  FLAG_CREATED = 'Thanks! We received your flag and will address it shortly.'
 
-    FLAG_NOT_CREATED = """
-      Sorry, we were unable to accept your flag.
-    """.freeze
+  FLAG_NOT_CREATED = 'Sorry, we were unable to accept your flag.'
 
-    DEFAULT_REASON = "Why are you flagging this development?
-      A quick explanation (23-450 characters) will
-      help us address it much more quickly.".gsub(/\s{2,}/, ' ').freeze
+  DEFAULT_REASON = "Why are you flagging this development?
+    A quick explanation (23-450 characters) will
+    help us address it much more quickly.".gsub(/\s{2,}/, ' ')
 
 end

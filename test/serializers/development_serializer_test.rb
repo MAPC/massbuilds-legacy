@@ -3,7 +3,7 @@ require 'test_helper'
 class DevelopmentSerializerTest < ActiveSupport::TestCase
   def development
     @_d ||= Development.create!(
-      id: 101010, name: 'Gadfly Hotel', address: '505 Washington Street',
+      id: 101_010, name: 'Gadfly Hotel', address: '505 Washington Street',
       place: places(:boston), state: 'MA', zip_code: '02111', status: 'in_construction',
       commsf: 12, estemp: 75, private: true,
       created_at: Time.new('1969-12-31 19:00:00 -0500'),
@@ -48,7 +48,7 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   end
 
   test '#to_row includes development team' do
-    assert_includes dev.to_row, "landlord"
+    assert_includes dev.to_row, 'landlord'
   end
 
   test '#to_header with an #attribute-less object' do
@@ -61,8 +61,8 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   end
 
   test '#to_header shows development team' do
-    assert_includes dev.to_header, "team_member_1_name"
-    assert_includes dev.to_header, "team_member_1_role"
+    assert_includes dev.to_header, 'team_member_1_name'
+    assert_includes dev.to_header, 'team_member_1_role'
   end
 
   test 'can allow (only) certain attributes' do
@@ -80,7 +80,7 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   private
 
   def expected_row
-    [101010, 562391268, '1969-01-01 05:00:00 UTC', '1969-01-01 05:00:00 UTC',
+    [101_010, 562391268, '1969-01-01 05:00:00 UTC', '1969-01-01 05:00:00 UTC',
      nil, nil, nil, nil, nil, nil, 'Gadfly Hotel', 'in_construction', nil,
      nil, nil, 'Luxury hotel with ground-floor retail.',
      '505 Washington Street', 'MA', '02111', nil, nil, 2016, nil,

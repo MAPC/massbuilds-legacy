@@ -1,0 +1,90 @@
+%h1.ui.header.page-header
+  = @search.title
+
+#map{style: 'height: 360px; width: 750px;'}
+
+%table.ui.celled.table.unstackable
+  %thead
+    %tr
+      %th
+      - @search.status_keys.each do |name|
+        %th= name.titleize
+  %tbody
+    %tr
+      %td Number of projects
+      - @search.status_keys.each do |key|
+        %td= @search.statuses.send(key).fetch(:count)
+    - @search.numeric_fields.each do |field|
+      %tr
+        %td= Development.human_attribute_name field
+        - @search.status_keys.each do |key|
+          - stat = @search.statuses.send(key)
+          - if stat.fetch(:count) == 0
+            %td -
+          - else
+            %td= stat.fetch(field) { '-' }
+
+
+%table.ui.celled.table.unstackable
+  %thead
+    %tr
+      %th
+      - @search.status_keys.each do |name|
+        %th= name.titleize
+  %tbody
+    %tr
+      %td Number of projects
+      - @search.status_keys.each do |key|
+        %td= @search.statuses.send(key).fetch(:count)
+    - @search.boolean_fields.each do |field|
+      %tr
+        %td= Development.human_attribute_name field
+        - @search.status_keys.each do |key|
+          - stat = @search.statuses.send(key)
+          - if stat.fetch(:count) == 0
+            %td -
+          - else
+            %td #{stat.fetch(field)} (#{stat.fetch(field) / stat.fetch(:count).to_f}%)
+
+
+#footer
+  %p
+    Generated on
+    = Time.now.to_s(:timestamp)
+
+  %p
+    Criteria used:
+
+  %ul
+    - @search.criteria.each do |field, v|
+      %li #{Development.human_attribute_name(field)} = #{v}
+
+  %p
+    View the latest version of this report at
+    = link_to search_url(@search), @search
+
+-# TODO: Above link is to PDF, not to live search results.
+-#   I think we should link to the client with the live HTML results
+-#   from this search (maybe link to developments/search?query=) and/or
+-# TODO: Provide a link to DD itself from here.
+
+:javascript
+
+  var map = L.map('map', { zoomControl:false }).setView([42.359,-71.137], 10);
+  const ATTRIBUTION = 'Map tiles by <a href="http://mapc.org">MAPC</a>, ' +
+                  'Data by <a href="http://www.mass.gov/mgis/">MassGIS</a>.';
+
+  L.tileLayer('http://tiles.mapc.org/basemap/{z}/{x}/{y}.png', {
+    minZoom: 9,
+    maxZoom: 17,
+    attribution: ATTRIBUTION
+  }).addTo(map);
+
+  var markers = [#{
+    @search.results.map(&:location)
+      .map { |loc| "L.marker(#{loc.reverse.map(&:to_f)})" }.join(', ')
+  }]
+
+  var group = new L.featureGroup(markers).addTo(map);
+
+  map.fitBounds(group.getBounds());

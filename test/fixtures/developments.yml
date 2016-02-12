@@ -31,3 +31,37 @@ two:
   year_compl: 2012
   latitude:  43.000001
   longitude: 70.000001
+
+stable_one:
+  status: projected
+  tothu:      1
+  singfamhu:  2
+  twnhsmmult: 3
+  lgmultifam: 4
+  commsf:     5
+  fa_ret:     6
+  fa_ofcmd:   7
+  fa_indmf:   8
+  fa_whs:     9
+  fa_rnd:     10
+  fa_edinst:  11
+  fa_other:   12
+  fa_hotel:   13
+  rdv: true
+
+stable_two:
+  status: projected
+  tothu:      13
+  singfamhu:  12
+  twnhsmmult: 11
+  lgmultifam: 10
+  commsf:     9
+  fa_ret:     8
+  fa_ofcmd:   7
+  fa_indmf:   6
+  fa_whs:     5
+  fa_rnd:     4
+  fa_edinst:  3
+  fa_other:   2
+  fa_hotel:   1
+  rdv: true
