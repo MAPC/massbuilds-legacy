@@ -1,6 +1,7 @@
-%h5.ui.header
-  %img.ui.mini.rounded.image{:src => "#{member.organization.logo}"}
-    .content
-      = member.organization.short_name
-      .sub.header
-        = member.organization.location
+= link_to member.organization, class: "team-member item" do
+  %h5.ui.header
+    %img.ui.mini.rounded.image{:src => "#{member.organization.logo}"}
+      .content
+        = member.organization.short_name
+        .sub.header
+          = member.organization.location

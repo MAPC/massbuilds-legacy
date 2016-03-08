@@ -1,6 +1,3 @@
--# TODO: In #team, set .ui.image.header top margin to 0 or 2
--# and float the text in the first table column toward the top
--# Maybe remove gridlines
 .ui.horizontal.divider
 %h4 Development Team
 %table.ui.very.basic.collapsing.celled.table
@@ -18,4 +15,5 @@
         %td
           = role.titleize
         %td
-          = render partial: 'developments/show/team_member', collection: members, as: :member
+          .ui.items
+            = render partial: 'developments/show/team_member', collection: members, as: :member

@@ -1,5 +1,6 @@
 class Organization < ActiveRecord::Base
 
+  before_save :hash_email
   after_create :create_membership
 
   has_many :memberships
@@ -8,8 +9,8 @@ class Organization < ActiveRecord::Base
   has_many :crosswalks
   has_many :development_team_memberships
 
-  # this should be scoped for unique, but our Postgres version cannot
-  # select distinct on tables with JSON data types.
+  # This should be scoped for unique, but our Postgres version (9.3)
+  # cannot SELECT DISTINCT on tables with JSON data types.
   has_many :developments, through: :development_team_memberships
   belongs_to :creator,      class_name: :User
 
@@ -20,6 +21,8 @@ class Organization < ActiveRecord::Base
   validates :creator, presence: true
   validate  :valid_email, if: 'email.present?'
   validate  :valid_url_template, if: 'url_template.present?'
+
+  # TODO validates :existence_of_website
 
   def active_members
     memberships.where(state: 'active').map(&:user).uniq
@@ -33,42 +36,45 @@ class Organization < ActiveRecord::Base
     url_template.present?
   end
 
-  def logo
-    user = %w(mark lena lindsay molly eve).sample
-    "http://semantic-ui.com/images/avatar2/small/#{user}.png"
-  end
-
   def developments
     DevelopmentTeamMembership.where(organization_id: id).
-                              includes(:development).
-                              map(&:development).
-                              uniq
+      includes(:development).map(&:development).uniq
   end
+
+  def gravatar_url
+    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{hashed_email}"
+  end
+
+  alias_method :logo, :gravatar_url
 
   def to_s
     name
   end
 
-  # validates :existence_of_website
   private
 
-    def valid_email
-      addr = Mail::Address.new(email)
-      throw StandardError if [addr.local, addr.domain].include?(nil)
-    rescue
-      errors.add(:email, 'must be a valid email address')
-    end
+  def valid_email
+    addr = Mail::Address.new(email)
+    throw StandardError if [addr.local, addr.domain].include?(nil)
+  rescue
+    errors.add(:email, 'must be a valid email address')
+  end
 
-    def valid_url_template
-      template = URITemplate.new(url_template.to_s)
-      url_variables = template.tokens.map(&:variables).flatten
-      if url_variables.exclude? 'id'
-        errors.add(:url_template, "must include '{id}' somewhere")
-      end
+  def valid_url_template
+    template = URITemplate.new(url_template.to_s)
+    url_variables = template.tokens.map(&:variables).flatten
+    if url_variables.exclude? 'id'
+      errors.add(:url_template, "must include '{id}' somewhere")
     end
+  end
 
-    def create_membership
-      Membership.create(organization: self, user: self.creator)
-    end
+  def hash_email
+    email_to_hash = (gravatar_email || email).to_s.downcase
+    self.hashed_email = Digest::MD5::hexdigest(email_to_hash)
+  end
+
+  def create_membership
+    Membership.create(organization: self, user: self.creator)
+  end
 
 end

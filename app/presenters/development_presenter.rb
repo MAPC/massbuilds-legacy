@@ -89,6 +89,7 @@ class DevelopmentPresenter < Burgundy::Item
   end
 
   def street_view(*args)
+    # TODO Move this into its own class.
     return nil if Rails.env == 'test'
     w,h = 600, 600
     w,h = 80, 70 if args.include? :tiny

@@ -133,6 +133,23 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_respond_to(org, :developments)
   end
 
+  test 'hashes an email before saving' do
+    org.save!
+    assert_not_empty org.hashed_email
+  end
+
+  test 'tries to hash gravatar_email, then other email' do
+    org.email = 'base_email@example.com'
+    org.gravatar_email = 'gravatar_email@example.com'
+    base_hash = Digest::MD5::hexdigest(org.email.dup)
+    grav_hash  = Digest::MD5::hexdigest(org.gravatar_email.dup)
+    org.save!
+    assert_equal grav_hash, org.hashed_email
+    org.gravatar_email = nil
+    org.save!
+    assert_equal base_hash, org.hashed_email
+  end
+
   private
 
   def webster

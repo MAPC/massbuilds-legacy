@@ -510,7 +510,9 @@ CREATE TABLE organizations (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     abbv character varying,
-    short_name character varying
+    short_name character varying,
+    gravatar_email character varying,
+    hashed_email character varying
 );
 
 
@@ -1545,4 +1547,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160208231004');
 INSERT INTO schema_migrations (version) VALUES ('20160209214001');
 
 INSERT INTO schema_migrations (version) VALUES ('20160210184025');
+
+INSERT INTO schema_migrations (version) VALUES ('20160308203038');
 

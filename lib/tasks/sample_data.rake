@@ -72,6 +72,7 @@ namespace :db do
       abbv:       "MAPC",
       location:   'Boston, MA',
       website:    'http://mapc.org',
+      gravatar_email: 'sbrunton@mapc.org',
       creator:    tim_r
     )
 
