@@ -1,6 +1,7 @@
 class DevelopmentPresenter < Burgundy::Item
 
   delegate :status_with_year, :status_icon, to: :status_info
+  CHANGES_TO_SHOW = 3.freeze
 
   # Relationships
 
@@ -13,22 +14,14 @@ class DevelopmentPresenter < Burgundy::Item
     UserPresenter.wrap item.contributors.sort_by(&:last_name)
   end
 
-  # Internal IDs for the current_user's organizations. Presented as
-  # a link if the organization has a URL template; plain ID if not.
-  def crosswalk_links
-    # crosswalks_for(current_user)
-  end
-
   # Last several changes, for a feed
   def recent_history
-    EditPresenter.wrap history.includes(:fields).limit(3)
+    EditPresenter.wrap history.includes(:fields).limit(CHANGES_TO_SHOW)
   end
 
   def pending_edits
     EditPresenter.wrap item.pending_edits
   end
-
-  CHANGES_TO_SHOW = 3.freeze
 
   def changes_since(timestamp = Time.now)
     EditPresenter.wrap item.changes_since(timestamp).first(CHANGES_TO_SHOW)
@@ -53,9 +46,10 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Members of the development team
   def team
-    team_memberships.includes(:organization).
-                     order(:role).
-                     group_by(&:role)
+    team_memberships.
+      includes(:organization).
+      order(:role).
+      group_by(&:role)
   end
 
    def stats
