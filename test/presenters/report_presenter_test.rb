@@ -53,6 +53,13 @@ class ReportPresenterTest < ActiveSupport::TestCase
       assert_equal report.statuses.send(status), report.send(status)
     end
   end
+
+  test 'to CSV' do
+    csv = report.to_csv
+    assert_equal 'id,', csv[0..2]
+    assert_equal 5, csv.lines.count
+  end
+
 end
 
 # # booleans

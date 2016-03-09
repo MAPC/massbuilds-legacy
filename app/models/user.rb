@@ -14,11 +14,21 @@ class User < ActiveRecord::Base
   has_many :memberships
   has_many :organizations, through: :memberships
 
+  has_many :subscriptions
+
   validates :first_name, presence: true
   validates :last_name,  presence: true
 
+  def subscriptions_needing_update
+    Subscription.where(id: subscriptions.select(&:needs_update?).map(&:id))
+  end
+
+  def contributions
+    Edit.where(editor_id: id, state: 'applied')
+  end
+
   def self.null
-    @null ||= new(email: "<Null User>")
+    @null ||= new(email: '<Null User>')
   end
 
   def avatar
@@ -26,17 +36,13 @@ class User < ActiveRecord::Base
     "http://semantic-ui.com/images/avatar2/small/#{user}.png"
   end
 
-  def contributions
-    Edit.where(editor_id: id, state: "applied")
-  end
-
   private
 
-    def hash_email
-      self.hashed_email = Digest::MD5::hexdigest(email.downcase)
-    end
+  def hash_email
+    self.hashed_email = Digest::MD5::hexdigest(email.downcase)
+  end
 
-    def assign_api_key
-      APIKey.create!(user: self)
-    end
+  def assign_api_key
+    APIKey.create!(user: self)
+  end
 end

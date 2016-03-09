@@ -1,4 +1,11 @@
-%img.ui.medium.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
-  = @development.address
-  %br
-  %a= link_to "Parcel #{@development.parcel.id}", '#'
+- markers = [ { latlng: @development.location } ]
+- center = { latlng: @development.location, zoom: 16 }
+#map{style: 'height:240px;'}= map(center: center, markers: markers)
+
+= @development.display_address(short: true)
+&bull;
+=link_to "Parcel #{@development.parcel.id}", '#'
+
+:javascript
+
+  map.scrollWheelZoom.disable();

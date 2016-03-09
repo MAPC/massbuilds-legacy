@@ -32,4 +32,8 @@ class UserPresenter < Burgundy::Item
   def pending_memberships
     item.memberships.where(state: :pending)
   end
+
+  def primary_organization
+    item.organizations.first
+  end
 end

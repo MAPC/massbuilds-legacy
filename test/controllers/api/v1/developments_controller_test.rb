@@ -11,7 +11,7 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test 'should get index, filtering on range' do
-    get :index, filter: { commsf: "[11,13]" }
+    get :index, filter: { commsf: '[11,13]' }
     assert_equal 1, results(response).count, results(response).inspect
     assert_response :success
   end

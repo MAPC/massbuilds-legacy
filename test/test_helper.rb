@@ -1,20 +1,20 @@
-ENV["RAILS_ENV"] = "test"
+ENV['RAILS_ENV'] = 'test'
 if ENV['CODECLIMATE_REPO_TOKEN']
-  require "codeclimate-test-reporter"
+  require 'codeclimate-test-reporter'
   CodeClimate::TestReporter.start
 end
 
-require File.expand_path("../../config/environment", __FILE__)
+require File.expand_path('../../config/environment', __FILE__)
 
-require "rails/test_help"
+require 'rails/test_help'
 %w( rails rails/capybara hell reporters focus ).each { |lib|
   require "minitest/#{lib}"
 }
-require "minitest/benchmark" if ENV["BENCH"]
-require "minitest/fail_fast" if ENV["FAST"]
+require 'minitest/benchmark' if ENV['BENCH']
+require 'minitest/fail_fast' if ENV['FAST']
 
 # Require entire support tree
-Dir[File.expand_path("test/support/**/*")].each { |file| require file }
+Dir[File.expand_path('test/support/**/*')].each { |file| require file }
 
 Minitest::Reporters.use!(
   # Progress bar

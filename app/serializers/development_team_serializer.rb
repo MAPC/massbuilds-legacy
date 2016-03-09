@@ -7,7 +7,7 @@ class DevelopmentTeamSerializer
     @row = Array.new(@max_team_size * team_attributes_count)
   end
 
-  # TODO Refactor and clean up
+  # TODO: Refactor and clean up
   def to_row
     # Get attributes from all of the team members
     values = @development.team_memberships.map { |team_membership|
@@ -24,29 +24,32 @@ class DevelopmentTeamSerializer
 
   def to_header
     @max_team_size.times.map{ |id|
-      header_template(id+1) # #times is 0-index, we want 1-index
+      header_template(id + 1) # #times is 0-index, we want 1-index
     }.flatten
   end
 
   private
 
-    def header_template(id)
-      team_attributes.map{ |attrib| "team_member_#{id}_#{attrib}"}
-    end
+  def header_template(id)
+    team_attributes.map{ |attrib| "team_member_#{id}_#{attrib}" }
+  end
 
-    def member_attributes
-      Organization.attribute_names - %w(id creator_id created_at updated_at)
-    end
+  def member_attributes
+    Organization.attribute_names - %w(
+      id gravatar_email hashed_email creator_id created_at updated_at
+    )
+  end
 
-    def membership_attributes
-      %w( role )
-    end
+  def membership_attributes
+    %w( role )
+  end
 
-    def team_attributes
-      member_attributes + membership_attributes
-    end
+  def team_attributes
+    member_attributes + membership_attributes
+  end
 
-    def team_attributes_count
-      team_attributes.count
-    end
+  def team_attributes_count
+    team_attributes.count
+  end
+
 end

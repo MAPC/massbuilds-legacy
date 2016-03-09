@@ -10,14 +10,14 @@ module Periscope
         end
       }
     end
-    scope_accessible *scope_names, parser: periscope_range_parser
+    scope_accessible(*scope_names, parser: periscope_range_parser)
   end
 
   def boolean_scopes(*scope_names)
     scope_names.each do |name|
       scope name.to_sym, Proc.new { |*bool| where(name.to_sym => (bool.first.to_s.presence || :true)) }
     end
-    scope_accessible *scope_names
+    scope_accessible(*scope_names)
   end
 
   alias_method :ranged_scope,  :ranged_scopes
@@ -25,16 +25,16 @@ module Periscope
 
   private
 
-    def periscope_range_parser
-      # Expects a numeric array [min,max] or a string '[min,max]'
-      Proc.new do |range|
-        array = range.to_s.delete('[ ]').split(',')
-        if array.length < 2
-          array.first
-        else
-          array
-        end
+  def periscope_range_parser
+    # Expects a numeric array [min,max] or a string '[min,max]'
+    Proc.new do |range|
+      array = range.to_s.delete('[ ]').split(',')
+      if array.length < 2
+        array.first
+      else
+        array
       end
     end
+  end
 
 end

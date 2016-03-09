@@ -75,7 +75,7 @@ class BroadcastTest < ActiveSupport::TestCase
   end
 
   test 'deliver' do
-    skip "No mail yet."
+    skip 'No mail yet.'
     assert_difference 'ActionMailer::Base.deliveries.size', +1 do
       broadcast.deliver!
     end
@@ -83,13 +83,13 @@ class BroadcastTest < ActiveSupport::TestCase
   end
 
   test '#schedule!' do
-    # TODO assert_no_difference in the background job queue count
+    # TODO: assert_no_difference in the background job queue count
     broadcast.scheduled_for = 10.days.from_now
     broadcast.schedule!
     assert_equal 'scheduled', broadcast.state
   end
 
   test "can't reschedule a delivered message" do
-    skip "Not yet implemented."
+    skip 'Not yet implemented.'
   end
 end

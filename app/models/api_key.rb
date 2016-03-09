@@ -14,9 +14,10 @@ class APIKey < ActiveRecord::Base
   private
 
   def generate_token
-    begin
-      self.token = SecureRandom.hex.to_s
-    end while self.class.exists?(token: token)
+    self.token = loop do
+      random_token = SecureRandom.hex.to_s
+      break random_token unless self.class.exists?(token: random_token)
+    end
   end
 
 end

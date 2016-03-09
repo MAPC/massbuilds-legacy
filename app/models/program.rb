@@ -6,7 +6,7 @@ class Program < ActiveRecord::Base
   validates :description, presence: true
   validates :type, presence: true
 
-  enumerize :type, :in => {regulatory: 1, incentive: 2}, predicates: true
+  enumerize :type, in: { regulatory: 1, incentive: 2 }, predicates: true
 
   default_scope { order(:type).order(:sort_order) }
 end

@@ -28,18 +28,18 @@ class PlaceProfile < ActiveRecord::Base
 
   private
 
-    def update_polygon
-      hex = Geometry::RegularPolygon.new(
-        edge_count: 6,
-        radius: radius,
-        center: Geometry::Point[x,y]
-      )
-      points = hex.points.map{ |pt| [pt.x.to_f,pt.y.to_f] }
-      self.polygon = { type: "Polygon", coordinates: [points << points.first] }
-    end
+  def update_polygon
+    hex = Geometry::RegularPolygon.new(
+      edge_count: 6,
+      radius: radius,
+      center: Geometry::Point[x,y]
+    )
+    points = hex.points.map{ |pt| [pt.x.to_f,pt.y.to_f] }
+    self.polygon = { type: 'Polygon', coordinates: [points << points.first] }
+  end
 
-    def set_response_expiration
-      self.expires_at = RESPONSE_EXPIRES.from_now if response_changed?
-    end
+  def set_response_expiration
+    self.expires_at = RESPONSE_EXPIRES.from_now if response_changed?
+  end
 
 end

@@ -1,12 +1,15 @@
 require 'test_helper'
 
 class UserPresenterTest < ActiveSupport::TestCase
+
   def presenter
     @_presenter ||= UserPresenter.new(users(:lower_case))
   end
+
   def item
     presenter.item
   end
+
   alias_method :pres, :presenter
 
   test 'first name and last name' do

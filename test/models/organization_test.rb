@@ -15,6 +15,12 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not org.valid?
   end
 
+  test 'when created, builds a membership' do
+    assert_difference 'Membership.count', +1 do
+      Organization.new(creator: users(:tim)).save(validate: false)
+    end
+  end
+
   test 'requires a name' do
     org.name = nil
     assert_not org.valid?
@@ -41,7 +47,7 @@ class OrganizationTest < ActiveSupport::TestCase
     assert org.valid?
     org.location = 'Boston, MA'
     assert org.valid?
-    org.location = 'Lake Char­gogg­a­gogg­man­chaugg­a­gogg­chau­bun­a­gung­a­maugg / Webster Lake, Webster, Massachusetts, United States of America'
+    org.location =
     assert org.valid?
   end
 
@@ -58,10 +64,9 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test 'requires a URL that exists' do
-    skip """
-      Read https://www.igvita.com/2006/09/07/validating-url-in-ruby-on-rails/
-      and http://stackoverflow.com/questions/5908017/check-if-url-exists-in-ruby
-    """
+    msg =  'Read https://www.igvita.com/2006/09/07/validating-url-in-ruby-on-rails/'
+    msg << 'and http://stackoverflow.com/questions/5908017/check-if-url-exists-in-ruby'
+    skip msg
     org.website = 'https://lo.lllll'
     assert_not org.valid?
     org.website = 'http://homestarrunner.com'
@@ -69,13 +74,13 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test 'has a log' do
-    skip """
+    skip "
       Tracks when:
         - A member invites another member.
         - An invited member accepts.
         - A member leaves.
         - A member is kicked out.
-    """
+    "
   end
 
   test 'can have many members through memberships' do
@@ -99,14 +104,14 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test 'URL template' do
-    org.url_template = "http://www.bostonredevelopmentauthority.org/document-center?project={id}"
+    org.url_template = template('?project={id}')
     expanded = org.url_parser.expand(id: 45)
-    expected = "http://www.bostonredevelopmentauthority.org/document-center?project=45"
+    expected = template('?project=45')
     assert_equal expanded, expected
   end
 
   test 'requires valid URL template' do
-    org.url_template = "http://www.bostonredevelopmentauthority.org/document-center?project="
+    org.url_template = template('?project=')
     assert_not org.valid?
   end
 
@@ -125,5 +130,35 @@ class OrganizationTest < ActiveSupport::TestCase
 
   test 'related developments custom method responds correctly' do
     assert_respond_to(org, :developments)
+  end
+
+  test 'hashes an email before saving' do
+    org.save!
+    assert_not_empty org.hashed_email
+  end
+
+  test 'tries to hash gravatar_email, then other email' do
+    org.email = 'base_email@example.com'
+    org.gravatar_email = 'gravatar_email@example.com'
+    base_hash = Digest::MD5.hexdigest(org.email.dup)
+    grav_hash = Digest::MD5.hexdigest(org.gravatar_email.dup)
+    org.save!
+    assert_equal grav_hash, org.hashed_email
+    org.gravatar_email = nil
+    org.save!
+    assert_equal base_hash, org.hashed_email
+  end
+
+  private
+
+  def webster
+    "
+      Lake Char­gogg­a­gogg­man­chaugg­a­gogg­chau­bun­a­gung­a­maugg
+      / Webster Lake, Webster, Massachusetts, United States of America
+    ".strip.gsub(/\s+/, ' ')
+  end
+
+  def template(part)
+    "http://www.bostonredevelopmentauthority.org/document-center#{part}"
   end
 end

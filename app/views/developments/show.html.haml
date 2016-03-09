@@ -13,8 +13,7 @@
       = render partial: 'developments/show/tags'
     .ui.horizontal.divider
     #images
-      %img.ui.large.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
-        Alt Text
+      %img.ui.image{src: @development.street_view, style: 'width: 600px; height: 600px;', alt: @development.name}
     #data
       .ui.horizontal.divider Details
       = render partial: 'developments/show/physical'
@@ -23,7 +22,7 @@
       = render partial: 'developments/show/transportation'
 
   .six.wide.column#sidebar
-    #map=     render partial: 'developments/show/map'
+    #mapr=     render partial: 'developments/show/map'
     #team=    render partial: 'developments/show/team'
     #contrib= render partial: 'developments/show/contributors'
     #related= render partial: 'developments/show/related'

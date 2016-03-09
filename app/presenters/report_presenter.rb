@@ -47,6 +47,10 @@ class ReportPresenter < Burgundy::Item
     query
   end
 
+  def to_csv
+    DevelopmentsSerializer.new(developments).to_csv
+  end
+
   private
 
     def prepare_statuses

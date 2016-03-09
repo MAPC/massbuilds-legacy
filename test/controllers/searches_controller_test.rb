@@ -6,15 +6,22 @@ class SearchesControllerTest < ActionController::TestCase
   end
 
   test 'should get show' do
-    get :show, id: search.id
+    get :show, id: search.id, format: :html
     assert_response :success
     assert assigns(:search)
   end
 
   test 'saves searches when reporting on them' do
-    assert_difference "Search.where(saved: true).count", +1 do
-      get :show, id: search.id
+    assert_difference 'Search.where(saved: true).count', +1 do
+      get :show, id: search.id, format: :html
     end
+  end
+
+  test 'renders CSV' do
+    get :show, id: search.id, format: :csv
+    assert_response :success
+    content_type = response.headers["Content-Transfer-Encoding"]
+    assert_equal 'binary', content_type
   end
 
 end

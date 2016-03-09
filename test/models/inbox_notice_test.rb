@@ -12,19 +12,22 @@ class InboxNoticeTest < ActiveSupport::TestCase
   end
 
   test 'requires a level' do
-    skip "One of: :info, :warn, :success, :danger"
+    skip 'One of: :info, :warn, :success, :danger'
   end
 
   test 'requires a state' do
-    skip "One of: :pending, :sent, :delivered, :unread, :read"
+    skip 'One of: :pending, :sent, :delivered, :unread, :read'
   end
 
   test 'notifications' do
-    skip "Notification event log, like NotificationEvent :sms, :number, :sent_at"
+    skip """
+      Notification event log, like NotificationEvent
+      :sms, :number, :sent_at
+    """
   end
 
   test 'notified' do
-    skip "If there are any notification events."
+    skip 'If there are any notification events.'
   end
 
   test 'requires a subject line between 15 and 40 characters' do

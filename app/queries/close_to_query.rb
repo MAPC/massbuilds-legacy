@@ -5,8 +5,7 @@ class CloseToQuery
   end
 
   def scope
-    return Proc.new { |latitude, longitude, distance_in_meters = 2000|
-
+    proc do |latitude, longitude, distance_in_meters = 2000|
       @relation.where(%{
         ST_DWithin(
           ST_GeographyFromText(
@@ -16,7 +15,7 @@ class CloseToQuery
           %d
         )
       } % [longitude, latitude, distance_in_meters])
-
-    }
+    end
   end
+
 end

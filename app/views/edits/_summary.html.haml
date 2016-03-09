@@ -1,6 +1,9 @@
 .summary
+  -# TODO: Make editor information a partial.
   = link_to edit.editor.short_name, 'edit.editor'
-  %a (MAPC)
+  - org = edit.editor.organizations.first
+  - if org.present?
+    =link_to "(#{org.short_name})", org
   made several edits.
   .date= edit.time_ago
 %ul

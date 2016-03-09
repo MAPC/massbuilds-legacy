@@ -2,6 +2,7 @@ module API
   module V1
     class SearchResource < JSONAPI::Resource
       include Rails.application.routes.url_helpers
+
       attributes :title, :query, :saved, :url
 
       def url

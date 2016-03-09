@@ -18,8 +18,8 @@ class DevelopmentTeamSerializerTest < ActiveSupport::TestCase
   test '#to_header with more projects' do
     header = niner.to_header
     assert_equal 72, header.compact.count # to avoid nils
-    assert_equal "team_member_1_name", header.first
-    assert_equal "team_member_9_role", header.last
+    assert_equal 'team_member_1_name', header.first
+    assert_equal 'team_member_9_role', header.last
   end
 
   test '#to_row' do
@@ -37,14 +37,15 @@ class DevelopmentTeamSerializerTest < ActiveSupport::TestCase
   private
 
     def csv_row
-      ["Metropolitan Area Planning Council", "http://mapc.org", nil, "Boston, MA", nil, "MAPC", "MAPC", "landlord"]
+      ['Metropolitan Area Planning Council', 'http://mapc.org', nil,
+        'Boston, MA', nil, 'MAPC', 'MAPC', 'landlord']
     end
 
     def one_team_member_csv_header
-      ["team_member_1_name", "team_member_1_website",
-       "team_member_1_url_template", "team_member_1_location",
-       "team_member_1_email", "team_member_1_abbv",
-       "team_member_1_short_name", "team_member_1_role"]
+      %w( team_member_1_name         team_member_1_website
+          team_member_1_url_template team_member_1_location
+          team_member_1_email        team_member_1_abbv
+          team_member_1_short_name   team_member_1_role )
     end
 
 end

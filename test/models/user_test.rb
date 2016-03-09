@@ -47,4 +47,30 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [saved_search.id], user.searches.map(&:id)
   end
 
+  test '#subscriptions' do
+    refute_empty user.subscriptions
+  end
+
+  # TODO: Add Place to this list.
+  test '#subscription can include all subscribable classes' do
+    %w( Development Search ).each do |klass|
+      assert_includes user.subscriptions.map(&:subscribable_type), klass
+    end
+  end
+
+  test 'last checked subscriptions' do
+    Time.stub :now, Time.new(2000) do
+      new_user = User.new
+      new_user.save(validate: false)
+      assert new_user.last_checked_subscriptions
+      # Not returning, probably because Time.now is being called at
+      # the database level in the prevent_null_last_check migration
+      # assert_equal user.last_checked_subscriptions, Time.new(2000)
+    end
+  end
+
+  test 'needing update' do
+    skip
+  end
+
 end

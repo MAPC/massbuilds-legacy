@@ -36,7 +36,7 @@ class DevelopmentForm
   # validates :total_cost, numericality: { only_integer: true, greater_than: 0 }
 
   def self.model_name
-    ActiveModel::Name.new(self, nil, "Development")
+    ActiveModel::Name.new(self, nil, 'Development')
   end
 
   def submit(id, params)

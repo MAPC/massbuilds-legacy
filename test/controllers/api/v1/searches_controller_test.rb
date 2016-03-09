@@ -69,7 +69,7 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
     assert_response :created, response.body
   end
 
-  test 'create with user authorized through URL param' do
+  test 'create with user authorized through data param' do
     set_content_type_header!
     post :create, {
       data: {type: 'searches', attributes: {query: {}, saved: true}},

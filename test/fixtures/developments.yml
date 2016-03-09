@@ -1,7 +1,7 @@
 one:
   name: Godfrey Hotel
   address: 505 Washington Street
-  city: Boston
+  place: boston
   state: MA
   zip_code: '02111'
   status: in_construction
@@ -18,7 +18,7 @@ one:
 two:
   name: Hello
   address: It's me / I was wondering if after all the years
-  city: you'd like to me
+  place: roxbury
   state: ET
   zip_code: '02118'
   status: completed
@@ -31,8 +31,6 @@ two:
   year_compl: 2012
   latitude:  43.000001
   longitude: 70.000001
-
-
 
 stable_one:
   status: projected

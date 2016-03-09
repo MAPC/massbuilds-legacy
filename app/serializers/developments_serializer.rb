@@ -17,10 +17,6 @@ class DevelopmentsSerializer
     end
   end
 
-  # def file
-  #   to_csv, but in a file perhaps?
-  # end
-
   def to_header
     DevelopmentSerializer.new(@max_team_dev, max_team_size: max).to_header
   end

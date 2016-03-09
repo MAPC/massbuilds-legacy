@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user: normal
+  subscribable_id: 980190962 # ID of developments(:one)
+  subscribable_type: Development
+
+two:
+  user: normal
+  subscribable_id: 131746201 # ID of Search.first
+  subscribable_type: Search

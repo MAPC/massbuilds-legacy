@@ -10,12 +10,12 @@ class Edit < ActiveRecord::Base
   validates :development, presence: true
   validates :editor, presence: true
   validates :state,  presence: true
-  validates :moderated_at, presence: true, if: -> { self.approved? || self.declined? }
+  validates :moderated_at, presence: true, if: -> { approved? || declined? }
 
   enumerize :state, in: [:pending, :approved, :declined],
     default: :pending, predicates: true
 
-  # TODO Do these belong here, if the service is handling
+  # TODO: Do these belong here, if the service is handling
   # the alteration of state?
   def approved
     assign_attributes(moderated_at: Time.now, state: :approved)
@@ -61,10 +61,10 @@ class Edit < ActiveRecord::Base
 
   private
 
-    # Returns true if there is a conflict,
-    # and we aren't explicitly ignoring it.
-    def unignored_conflict?
-      conflict? && !ignore_conflicts?
-    end
+  # Returns true if there is a conflict,
+  # and we aren't explicitly ignoring it.
+  def unignored_conflict?
+    conflict? && !ignore_conflicts?
+  end
 
 end

@@ -1,15 +1,12 @@
-require 'api_constraints'
+require 'api_version'
+
 Rails.application.routes.draw do
 
   namespace :api, constraints: {subdomain: 'api'}, path: '' do
-    api_version( # TODO Move all this into an APIVersion class
-      module: "V1",
-      header: {name: "Accept",
-        value: "application/vnd.api+json; application/org.dd.v1"},
-      parameter: {name: "version", value: "1"},
-      default: true) do
-      jsonapi_resources :searches, only: [:index, :show, :create]
-      jsonapi_resources :developments, only: [:index, :show]
+    api_version(APIVersion.new(version: 1, default: true).params) do
+      jsonapi_resources :developments,  only: [:index, :show]
+      jsonapi_resources :searches,      only: [:index, :show, :create]
+      jsonapi_resources :subscriptions, only: [:create, :destroy]
     end
   end
 

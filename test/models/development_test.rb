@@ -30,13 +30,6 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_raises(NoMethodError) { d.blerg }
   end
 
-  test 'attribute read is from an indifferent hash' do
-    skip "Moving attributes out of hash."
-    d.name = 'Godfrey Hotel'
-    assert_equal d.fields['name'], d.name
-    assert_equal d.fields[:name], d.name
-  end
-
   test 'raises when attribute absent' do
     assert_raises(NoMethodError) {
       d.assign_attributes ov_hupipe_not: 10
@@ -90,7 +83,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#mixed_use?' do
-    skip "Come back to this soon."
+    skip 'Come back to this soon.'
     assert_not Development.new.mixed_use?
     assert_not Development.new(tothu:  1).mixed_use?
     assert_not Development.new(commsf: 1).mixed_use?
@@ -144,7 +137,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test '#crosswalks' do
     org = organizations :mapc
-    d.crosswalks.new(organization: org, internal_id: "1-1")
+    d.crosswalks.new(organization: org, internal_id: '1-1')
     assert_not_empty d.crosswalks
   end
 
@@ -187,7 +180,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'contributors includes creator' do
     creator = users(:normal)
-    # TODO clear out edits on this development.
+    # TODO: clear out edits on this development.
     assert d.creator.present?
     assert_includes d.contributors, creator
   end
@@ -217,6 +210,20 @@ class DevelopmentTest < ActiveSupport::TestCase
 
     assert_equal 1,         close_devs.size
     assert_equal close_dev, close_devs.first
+  end
+
+  test 'location' do
+    assert_equal [42.000001, 71.000001], d.location
+    assert_equal [71.000001, 42.000001], d.rlocation
+  end
+
+  test '#subscriptions' do
+    refute_empty d.subscriptions
+  end
+
+  test '#subscribers' do
+    refute_empty d.subscribers
+    assert_includes d.subscribers, users(:normal)
   end
 
   test 'range scopes, dates' do
@@ -252,16 +259,89 @@ class DevelopmentTest < ActiveSupport::TestCase
     all_scopes.each { |scope| assert_includes sql, scope.to_s }
   end
 
+  test '#updated_since?' do
+    Time.stub :now, Time.new(2001) do
+      edit = d.pending_edits.first
+      edit.applied
+      edit.save
+    end
+    assert d.updated_since?(Date.new(2000))
+  end
+
+  test '#updated_since? without history' do
+    refute d.updated_since?(Date.new(2000))
+  end
+
+  test '#last_edit returns most recent history item' do
+    edit = d.pending_edits.first
+    edit.applied
+    edit.save
+    assert_not_empty d.reload.history
+    assert_equal edit, d.last_edit
+  end
+
+  test '#changes_since' do
+    edit = d.pending_edits.first
+    Time.stub :now, Time.new(2000, 1, 2) do
+      edit.applied
+      edit.save
+    end
+    assert_equal [edit], d.changes_since(Time.new(2000, 1, 1))
+  end
+
+  test '#changes_since without history' do
+    assert_equal [], d.changes_since(Time.new(2000, 1, 2))
+  end
+
+  test '#place' do
+    assert_respond_to d, :place
+    city = places(:boston)
+    d.place = city
+    assert d.place
+    assert_equal d.city, d.place
+  end
+
+  test '#municipality if assigned a municipality' do
+    assert_respond_to d, :municipality
+    muni = places(:boston)
+    d.place = muni
+    assert_equal muni, d.municipality
+  end
+
+  test '#municipality if assigned a neighborhood' do
+    hood = places(:back_bay)
+    d.place = hood
+    assert_equal hood.municipality, d.municipality
+  end
+
+  test '#neighborhood if assigned a neighborhood' do
+    assert_respond_to d, :neighborhood
+    hood = places(:back_bay)
+    d.place = hood
+    assert_equal hood, d.neighborhood
+  end
+
+  test '#neighborhood if assigned a municipality' do
+    muni = places(:boston)
+    d.place = muni
+    assert_equal nil, d.neighborhood
+  end
+
   def periscope_params
     hash = Hash.new
     ranged_scopes.each { |key| hash[key] = [0,1] }
-    hash.merge({rdv: true, asofright: false, ovr55: nil, clusteros: 'true', phased: 'false', stalled: 'NULL', cancelled: true, hidden: true})
+    hash.merge(mergeable_hash)
   end
 
   def periscope_params_alt
     hash = Hash.new
     ranged_scopes.each { |key| hash[key] = 1_234 }
-    hash.merge({rdv: true, asofright: false, ovr55: nil, clusteros: 'true', phased: 'false', stalled: 'NULL', cancelled: true, hidden: true})
+    hash.merge(mergeable_hash)
+  end
+
+  def mergeable_hash
+    { rdv:   true, asofright: false,  phased:  'false', cancelled: true,
+      ovr55: nil,  clusteros: 'true', stalled: 'NULL',  hidden: true }
   end
 
   def ranged_scopes
@@ -279,10 +359,6 @@ class DevelopmentTest < ActiveSupport::TestCase
     array = [ranged_scopes, boolean_scopes].flatten
     array.delete(:hidden) # Ignores hidden because of the alias, for now.
     array
-  end
-
-  test 'location' do
-    assert_equal d.location, [71.000001,42.000001]
   end
 
 end

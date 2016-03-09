@@ -1,14 +1,15 @@
 require 'test_helper'
-require 'api_constraints'
 
-class ApiConstraintsTest < ActiveSupport::TestCase
+require 'api_version'
+
+class APIVersionTest < ActiveSupport::TestCase
 
   def v1
-    @_v1 ||= ApiConstraints.new(version: 1)
+    @_v1 ||= APIVersion.new(version: 1)
   end
 
   def v2
-    @_v2 ||= ApiConstraints.new(version: 2, default: true)
+    @_v2 ||= APIVersion.new(version: 2, default: true)
   end
 
   def request_v1
@@ -40,19 +41,20 @@ class ApiConstraintsTest < ActiveSupport::TestCase
   end
 
   test 'matches v1' do
-    assert v1.matches?(request_v1)
+    expected_v1 = { module: "V1",
+      header: {name: "Accept",
+       value: "application/vnd.api+json; application/org.dd.v1"},
+      parameter: {name: "version", value: "1"}, default: false
+    }
+    assert_equal expected_v1, v1.params
   end
 
   test 'matches v2' do
-    assert v2.matches?(request_v2)
-  end
-
-  test 'matches v2 by default' do
-    assert v2.matches?(request_no_version)
-  end
-
-  test 'does not match the wrong version' do
-    refute v1.matches?(request_v2), "v1 matched v2"
-    refute v2.matches?(request_v1), "v2 matched v1"
+    expected_v2 = { module: "V2",
+    header: {name: "Accept",
+      value: "application/vnd.api+json; application/org.dd.v2"},
+    parameter: {name: "version", value: "2"},
+    default: true }
+    assert_equal expected_v2, v2.params
   end
 end

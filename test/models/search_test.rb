@@ -8,6 +8,7 @@ class SearchTest < ActiveSupport::TestCase
   def saved_search
     @_saved_search ||= searches(:saved)
   end
+
   alias_method :saved, :saved_search
 
   test 'valid' do
@@ -40,14 +41,46 @@ class SearchTest < ActiveSupport::TestCase
     assert_equal 1, ranged_search.results.count
   end
 
+  test 'responds to #developments' do
+    assert_respond_to search, :developments
+  end
+
+  test '#updated_since?' do
+    development = developments(:one)
+    Time.stub :now, Time.new(2010) do
+      edit = development.pending_edits.first
+      edit.applied
+      edit.save
+    end
+    search.stub :developments, Development.all do
+      assert search.updated_since?(Date.new(2000))
+    end
+  end
+
+  test '#updated_since? without history' do
+    search.stub :developments, Development.new.history do
+      refute search.updated_since?(Date.new(2000))
+    end
+  end
+
+  test '#updated_since? ignores updated_at' do
+    development = developments(:one)
+    Time.stub :now, Time.new(2010) do
+      development.touch(:updated_at)
+    end
+    search.stub :developments, Development.new.history do
+      refute search.updated_since?(Date.new(2000))
+    end
+  end
+
   test '#unsaved?' do
     assert search.unsaved?
-    refute  saved.unsaved?
+    refute saved.unsaved?
   end
 
   test '#saved?' do
     refute search.saved?
-    assert  saved.saved?
+    assert saved.saved?
   end
 
   test 'autogenerates a title if saved:true' do
