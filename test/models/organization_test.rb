@@ -64,10 +64,9 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test 'requires a URL that exists' do
-    skip '''
-      Read https://www.igvita.com/2006/09/07/validating-url-in-ruby-on-rails/
-      and http://stackoverflow.com/questions/5908017/check-if-url-exists-in-ruby
-    '''
+    msg =  'Read https://www.igvita.com/2006/09/07/validating-url-in-ruby-on-rails/'
+    msg << 'and http://stackoverflow.com/questions/5908017/check-if-url-exists-in-ruby'
+    skip msg
     org.website = 'https://lo.lllll'
     assert_not org.valid?
     org.website = 'http://homestarrunner.com'
@@ -75,13 +74,13 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test 'has a log' do
-    skip '''
+    skip "
       Tracks when:
         - A member invites another member.
         - An invited member accepts.
         - A member leaves.
         - A member is kicked out.
-    '''
+    "
   end
 
   test 'can have many members through memberships' do
@@ -141,8 +140,8 @@ class OrganizationTest < ActiveSupport::TestCase
   test 'tries to hash gravatar_email, then other email' do
     org.email = 'base_email@example.com'
     org.gravatar_email = 'gravatar_email@example.com'
-    base_hash = Digest::MD5::hexdigest(org.email.dup)
-    grav_hash  = Digest::MD5::hexdigest(org.gravatar_email.dup)
+    base_hash = Digest::MD5.hexdigest(org.email.dup)
+    grav_hash = Digest::MD5.hexdigest(org.gravatar_email.dup)
     org.save!
     assert_equal grav_hash, org.hashed_email
     org.gravatar_email = nil
@@ -153,10 +152,10 @@ class OrganizationTest < ActiveSupport::TestCase
   private
 
   def webster
-    """
+    "
       Lake Char­gogg­a­gogg­man­chaugg­a­gogg­chau­bun­a­gung­a­maugg
       / Webster Lake, Webster, Massachusetts, United States of America
-    """.strip.gsub(/\s+/, ' ')
+    ".strip.gsub(/\s+/, ' ')
   end
 
   def template(part)

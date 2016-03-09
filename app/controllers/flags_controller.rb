@@ -33,12 +33,13 @@ class FlagsController < ApplicationController
     params.require(:flag).permit(:reason)
   end
 
-  FLAG_CREATED = 'Thanks! We received your flag and will address it shortly.'
+  FLAG_CREATED = "Thanks! We received your flag
+    and will address it shortly.".gsub(/\s{2,}/, ' ').freeze
 
-  FLAG_NOT_CREATED = 'Sorry, we were unable to accept your flag.'
+  FLAG_NOT_CREATED = 'Sorry, we were unable to accept your flag.'.freeze
 
   DEFAULT_REASON = "Why are you flagging this development?
     A quick explanation (23-450 characters) will
-    help us address it much more quickly.".gsub(/\s{2,}/, ' ')
+    help us address it much more quickly.".gsub(/\s{2,}/, ' ').freeze
 
 end

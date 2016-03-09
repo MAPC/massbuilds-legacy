@@ -50,17 +50,17 @@ class Claim < ActiveRecord::Base
   private
 
   def assert_valid_moderator(options)
-    self.moderator ||= options.fetch(:moderator) {
+    self.moderator ||= options.fetch(:moderator) do
       raise ArgumentError, 'approving a claim requires a :moderator option'
-    }
+    end
     if self.moderator.nil?
       raise ArgumentError, ':moderator option must be a non-nil'
     end
   end
 
   def assert_valid_reason(options)
-    self.reason ||= options.fetch(:reason) {
+    self.reason ||= options.fetch(:reason) do
       raise ArgumentError, 'denying a claim requires a :reason option'
-    }
+    end
   end
 end

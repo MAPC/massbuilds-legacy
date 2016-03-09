@@ -70,7 +70,7 @@ class Organization < ActiveRecord::Base
 
   def hash_email
     email_to_hash = (gravatar_email || email).to_s.downcase
-    self.hashed_email = Digest::MD5::hexdigest(email_to_hash)
+    self.hashed_email = Digest::MD5.hexdigest(email_to_hash)
   end
 
   def create_membership

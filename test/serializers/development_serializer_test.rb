@@ -80,14 +80,15 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   private
 
   def expected_row
-    [101_010, 562391268, '1969-01-01 05:00:00 UTC', '1969-01-01 05:00:00 UTC',
-     nil, nil, nil, nil, nil, nil, 'Gadfly Hotel', 'in_construction', nil,
-     nil, nil, 'Luxury hotel with ground-floor retail.',
+    [101_010, 562_391_268, '1969-01-01 05:00:00 UTC',
+     '1969-01-01 05:00:00 UTC', nil, nil, nil, nil, nil, nil, 'Gadfly Hotel',
+     'in_construction', nil, nil, nil,
+     'Luxury hotel with ground-floor retail.',
      '505 Washington Street', 'MA', '02111', nil, nil, 2016, nil,
      nil, nil, nil, nil, nil, nil, nil, 75, 12, nil, nil, nil, nil, false,
      true, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil, nil,
-     226565033, 'Boston', 'Metropolitan Area Planning Council', 'http://mapc.org', nil,
-     'Boston, MA', nil, 'MAPC', 'MAPC', 'landlord']
+     226565033, 'Boston', 'Metropolitan Area Planning Council',
+     'http://mapc.org', nil, 'Boston, MA', nil, 'MAPC', 'MAPC', 'landlord']
   end
 
   def expected_header

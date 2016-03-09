@@ -88,7 +88,7 @@ class Development < ActiveRecord::Base
   alias_method :mixed_use, :mixed_use?
 
   def history(since: nil)
-    scope = self.edits.where(applied: true).order(applied_at: :desc)
+    scope = edits.where(applied: true).order(applied_at: :desc)
     scope = scope.where('applied_at > ?', since) if since
     scope
   end
@@ -100,7 +100,7 @@ class Development < ActiveRecord::Base
   alias_method :last_edit, :most_recent_edit
 
   def pending_edits
-    self.edits.where(state: 'pending').order(created_at: :asc)
+    edits.where(state: 'pending').order(created_at: :asc)
   end
 
   def contributors
@@ -120,11 +120,7 @@ class Development < ActiveRecord::Base
   end
 
   def updated_since?(timestamp = Time.now)
-    if history.any?
-      self.last_edit.applied_at > timestamp
-    else
-      self.created_at > timestamp
-    end
+    history.any? ? last_edit.applied_at > timestamp : created_at > timestamp
   end
 
   def changes_since(timestamp = Time.now)
@@ -138,7 +134,7 @@ class Development < ActiveRecord::Base
   end
 
   def clean_zip_code
-    self.zip_code = self.zip_code.to_s.gsub(/\D*/, '')
+    zip_code.to_s.gsub!(/\D*/, '')
   end
 
   def nine_digit_formatted_zip(code)

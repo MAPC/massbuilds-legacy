@@ -13,7 +13,8 @@ class SubscriptionMailer < ApplicationMailer
 
   private
 
-    def subject
-      "Development Updates for #{Date.yesterday.to_s(:subject)}"
-    end
+  def subject
+    "Development Updates for #{Date.yesterday.to_s(:subject)}"
+  end
+
 end

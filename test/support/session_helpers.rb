@@ -41,10 +41,10 @@ module SessionHelpers
 
   private
 
-    def check_remember_box(options = {})
-      box = 'Remember me'
-      checked = options.fetch(:remember) { true }
-      checked ? check(box) : uncheck(box)
-    end
+  def check_remember_box(options = {})
+    box = 'Remember me'
+    checked = options.fetch(:remember) { true }
+    checked ? check(box) : uncheck(box)
+  end
 
 end

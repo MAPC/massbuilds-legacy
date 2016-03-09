@@ -1,7 +1,7 @@
 class DevelopmentPresenter < Burgundy::Item
 
   delegate :status_with_year, :status_icon, to: :status_info
-  CHANGES_TO_SHOW = 3.freeze
+  CHANGES_TO_SHOW = 3
 
   # Relationships
 
@@ -41,7 +41,7 @@ class DevelopmentPresenter < Burgundy::Item
   def related
     DevelopmentPresenter.wrap(
       Development.close_to(*item.location).
-                  where.not(id: item.id).limit(3))
+        where.not(id: item.id).limit(3))
   end
 
   # Members of the development team
@@ -75,7 +75,8 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Neighborhood context (KnowPlace study)
   def neighborhood
-    raise NotImplementedError, 'We have not yet implemented neighborhood context.'
+    raise NotImplementedError,
+      'We have not yet implemented neighborhood context.'
   end
 
   def disable_moderation?
@@ -83,15 +84,15 @@ class DevelopmentPresenter < Burgundy::Item
   end
 
   def street_view(*args)
-    # TODO Move this into its own class.
+    # TODO: Move this into its own class.
     return nil if Rails.env == 'test'
-    w,h = 600, 600
-    w,h = 80, 70 if args.include? :tiny
-    url = "https://maps.googleapis.com/maps/api/streetview?"
+    w, h = 600, 600
+    w, h = 80, 70 if args.include? :tiny
+    url = 'https://maps.googleapis.com/maps/api/streetview?'
     url << "size=#{w}x#{h}"
     url << "&location=#{location.join(',')}"
-    url << "&fov=100&heading=235&pitch=35"
-    url << "&key=AIzaSyA-kZB6mH1kp-uXBrp5v8luDiPzKYh_nfQ"
+    url << '&fov=100&heading=235&pitch=35'
+    url << '&key=AIzaSyA-kZB6mH1kp-uXBrp5v8luDiPzKYh_nfQ'
   end
 
   private

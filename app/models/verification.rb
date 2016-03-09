@@ -9,7 +9,8 @@ class Verification < ActiveRecord::Base
 
   validates :user, presence: true
   validates :reason, allow_blank: true, length: { minimum: 30, maximum: 1000 }
-  validates :reason, presence: true, length: { minimum: 30, maximum: 1000 }, if: :valid_verifier?
+  validates :reason, presence: true, length: { minimum: 30, maximum: 1000 },
+    if: :valid_verifier?
 
   enumerize :state, in: [:pending, :requested, :verified, :rejected],
     default: :pending, predicates: true
@@ -52,7 +53,7 @@ class Verification < ActiveRecord::Base
     end
   end
 
-  # TODO [Code Smell] Should these be validations?
+  # TODO: [Code Smell] Should these be validations?
   def eligible_user?
     user.present? # TODO: user.verifiable?
   end

@@ -23,14 +23,10 @@ class MunicipalityTest < ActiveSupport::TestCase
   end
 
   test 'geometry' do
-    skip """
-      Add geometry
-    """
+    skip 'Add geometry'
   end
 
   test 'crosswalks / muni id' do
-    skip """
-      Add a way to have muni_id crosswalk
-    """
+    skip 'Add a way to have muni_id crosswalk'
   end
 end

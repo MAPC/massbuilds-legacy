@@ -37,14 +37,15 @@ class DevelopmentTeamSerializerTest < ActiveSupport::TestCase
   private
 
     def csv_row
-      ['Metropolitan Area Planning Council', 'http://mapc.org', nil, 'Boston, MA', nil, 'MAPC', 'MAPC', 'landlord']
+      ['Metropolitan Area Planning Council', 'http://mapc.org', nil,
+        'Boston, MA', nil, 'MAPC', 'MAPC', 'landlord']
     end
 
     def one_team_member_csv_header
-      ['team_member_1_name', 'team_member_1_website',
-       'team_member_1_url_template', 'team_member_1_location',
-       'team_member_1_email', 'team_member_1_abbv',
-       'team_member_1_short_name', 'team_member_1_role']
+      %w( team_member_1_name         team_member_1_website
+          team_member_1_url_template team_member_1_location
+          team_member_1_email        team_member_1_abbv
+          team_member_1_short_name   team_member_1_role )
     end
 
 end

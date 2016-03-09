@@ -34,14 +34,17 @@ class DigestPresenter < Burgundy::Item
 
   private
 
-    def subscribed(class_name)
-      subs = subscriptions.where(subscribable_type: class_name).map(&:subscribable)
-      return DevelopmentPresenter.wrap(subs) if class_name == 'Development'
-      subs.map do |item|
-        OpenStruct.new(
-          name: item.name,
-          developments: DevelopmentPresenter.wrap(item.developments)
-        )
-      end
+  def subscribed(class_name)
+    subs = subscriptions.where(
+      subscribable_type: class_name
+    ).map(&:subscribable)
+    return DevelopmentPresenter.wrap(subs) if class_name == 'Development'
+    subs.map do |item|
+      OpenStruct.new(
+        name: item.name,
+        developments: DevelopmentPresenter.wrap(item.developments)
+      )
     end
+  end
+
 end

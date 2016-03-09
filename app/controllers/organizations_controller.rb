@@ -42,7 +42,7 @@ class OrganizationsController < ApplicationController
 
   def org_params
     params.require(:organization).
-           permit(:name, :email, :location, :short_name, :website, :abbv)
+      permit(:name, :email, :location, :short_name, :website, :abbv)
   end
 
   def load_presented_record
