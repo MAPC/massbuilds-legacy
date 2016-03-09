@@ -35,7 +35,9 @@ class DevelopmentTeamSerializer
   end
 
   def member_attributes
-    Organization.attribute_names - %w(id creator_id created_at updated_at)
+    Organization.attribute_names - %w(
+      id gravatar_email hashed_email creator_id created_at updated_at
+    )
   end
 
   def membership_attributes
