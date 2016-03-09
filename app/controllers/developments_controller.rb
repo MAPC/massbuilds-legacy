@@ -29,6 +29,7 @@ class DevelopmentsController < ApplicationController
   end
 
   def search
+    @limits = Development.ranged_column_bounds.to_json
   end
 
   private
@@ -51,5 +52,6 @@ class DevelopmentsController < ApplicationController
   def search_params
     params.fetch(:q) { Hash.new }
   end
+
 
 end

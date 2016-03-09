@@ -127,6 +127,14 @@ class Development < ActiveRecord::Base
     history.where('applied_at > ?', timestamp)
   end
 
+  def self.ranged_column_bounds
+    Hash[
+      columns.map { |c|
+        column_range(c) unless exclude_from_ranges?(c)
+      }.compact
+    ]
+  end
+
   private
 
   def update_tagline
@@ -139,6 +147,20 @@ class Development < ActiveRecord::Base
 
   def nine_digit_formatted_zip(code)
     "#{code[0..4]}-#{code[-4..-1]}"
+  end
+
+  def self.column_range(col)
+    minmax = {
+      max: Development.maximum(col.name),
+      min: Development.minimum(col.name)
+    }
+    [col.name.to_sym, minmax]
+  end
+
+  def self.exclude_from_ranges?(col)
+    id_regex = /^id$|_id$/
+    type_regex = /(integer|double|timestamp|numeric)/i
+    id_regex.match(col.name.to_s) || !type_regex.match(col.sql_type.to_s)
   end
 
 end

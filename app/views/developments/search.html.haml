@@ -1,1 +1,12 @@
 Ember Search Application goes here
+
+:javascript
+
+  // Namespace
+  var Search = {
+    current_user: #{current_user.present?},
+    api_key: '#{current_user.try(:api_key)}',
+    limits: #{@limits}
+  }
+
+  window.search = Search;
