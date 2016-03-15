@@ -128,11 +128,7 @@ class Development < ActiveRecord::Base
   end
 
   def self.ranged_column_bounds
-    Hash[
-      columns.map { |c|
-        column_range(c) unless exclude_from_ranges?(c)
-      }.compact
-    ]
+    Hash[ranged_column_array]
   end
 
   private
@@ -149,7 +145,11 @@ class Development < ActiveRecord::Base
     "#{code[0..4]}-#{code[-4..-1]}"
   end
 
-  def self.column_range(col)
+  private_class_method def self.ranged_column_array
+    columns.map { |c| column_range(c) unless exclude_from_ranges?(c) }.compact
+  end
+
+  private_class_method def self.column_range(col)
     minmax = {
       max: Development.maximum(col.name),
       min: Development.minimum(col.name)
@@ -157,10 +157,11 @@ class Development < ActiveRecord::Base
     [col.name.to_sym, minmax]
   end
 
-  def self.exclude_from_ranges?(col)
+  private_class_method def self.exclude_from_ranges?(col)
     id_regex = /^id$|_id$/
     type_regex = /(integer|double|timestamp|numeric)/i
     id_regex.match(col.name.to_s) || !type_regex.match(col.sql_type.to_s)
   end
+
 
 end
