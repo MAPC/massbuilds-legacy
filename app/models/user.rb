@@ -23,6 +23,10 @@ class User < ActiveRecord::Base
     Edit.where(editor_id: id, state: 'applied')
   end
 
+  def member_of?(organization)
+    self.organizations.include? organization
+  end
+
   def subscribe(subscribable)
     subscriptions.create(subscribable: subscribable)
   end

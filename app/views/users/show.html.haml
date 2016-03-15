@@ -16,10 +16,10 @@
                 = pluralize(@user.contributions.count, "contribution")
 
       -# TODO: Handle nil current_user with an anonymous NullUser
-      -# - if current_user.id == @user.id
-      = link_to edit_user_registration_path(@user), class: 'ui basic orange button' do
-        %i.pencil.icon
-        Edit
+      - if current_user && current_user == @user.item
+        = link_to edit_user_registration_path(@user), class: 'ui basic orange button' do
+          %i.pencil.icon
+          Edit
 
     .ten.wide.column
 
@@ -30,7 +30,7 @@
           = render @user.active_memberships
 
       -# TODO: [Code Smell] NilCheck
-      - if current_user && current_user.pending_memberships.any?
+      - if current_user == @user.item && @user.pending_memberships.any?
 
         %h3 Pending Requests
         .ui.middle.aligned.relaxed.selection.list

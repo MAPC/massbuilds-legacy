@@ -35,9 +35,10 @@
     .ui.top.attached.tabular.menu
       %a.item.active{'data-tab' => 'developments'} Developments
       %a.item{'data-tab' => 'people'} People
-      -# TODO : This isn't working at all.
-      -# - if current_user.member_of? @organization
-      %a.item{'data-tab' => 'settings'} Settings
+
+      -# Requires the item itself, not the presented item.
+      - if current_user && current_user.member_of?(@organization.item)
+        %a.item{'data-tab' => 'settings'} Settings
     .ui.bottom.attached.tab.segment.active{'data-tab' => 'developments'}
       .ui.divided.items
         = render partial: 'developments/related', collection: DevelopmentPresenter.wrap(@organization.developments), as: :development

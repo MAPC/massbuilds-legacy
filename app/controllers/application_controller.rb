@@ -13,4 +13,10 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  alias_method :devise_current_user, :current_user
+
+  def current_user
+    UserPresenter.new(devise_current_user)
+  end
+
 end
