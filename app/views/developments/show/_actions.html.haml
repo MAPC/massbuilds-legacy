@@ -1,47 +1,36 @@
 .row
   .column
-  %br
-  .ui.dropdown.icon.button#subscribe
-    %i.unhide.icon
-    -# TODO: Add label for # of watchers
-    %span.text Watch
-    .menu
-      .item
-        .ui.unhide.icon
-        Watching
-        -# %span.description
-        -#   Receiving notifications
-      .item
-        .ui.hide.icon
-        Not Watching
-        -# %span.description
-        -#   Not receiving notifications about updates
+    .ui.labeled.button{tabindex: '0'}
+      %button#watch.ui.button
+        %i.unhide.icon
+        Watch
+      %a.ui.basic.left.pointing.label#watchers
+        #{@development.subscribers.count}
 
-  -# Consider making this a partial, passing the path, icon, and text
+    -# Consider making this a partial, passing the path, icon, and text
+    -# TODO: Can edit if ... ?
+    = link_to edit_development_path(@development) do
+      .ui.vertical.animated.button{tabindex: '1'}
+        .visible.content
+          %i.pencil.icon
+        .hidden.content
+          Edit
 
-  -# TODO: Can edit if ... ?
-  =link_to edit_development_path(@development) do
-    .ui.vertical.animated.button{:tabindex => "0"}
-      .visible.content
-        %i.pencil.icon
-      .hidden.content
-        Edit
+    -# TODO: Can flag if you are signed in.
+    = link_to new_development_flag_path(@development) do
+      .ui.vertical.animated.button{tabindex: '2'}
+        .visible.content
+          %i.flag.icon
+        .hidden.content
+          Flag
 
-  -# TODO: Can flag if you are signed in.
-  =link_to new_development_flag_path(@development) do
-    .ui.vertical.animated.button{:tabindex => "0"}
-      .visible.content
-        %i.flag.icon
-      .hidden.content
-        Flag
-
-  -# TODO: Can claim if you belong to at least one organization.
-  =link_to new_development_claim_path(@development) do
-    .ui.vertical.animated.button{:tabindex => "0"}
-      .visible.content
-        %i.university.icon
-      .hidden.content
-        Claim
+    -# TODO: Can claim if you belong to at least one organization.
+    = link_to new_development_claim_path(@development) do
+      .ui.vertical.animated.button{tabindex: '3'}
+        .visible.content
+          %i.university.icon
+        .hidden.content
+          Claim
 
 .row
   .column
@@ -49,8 +38,8 @@
     - disabled = "disabled" if @development.disable_moderation?
     - color = @development.disable_moderation? ? "" : "green"
 
-    .ui.labeled.button{class: disabled}
-      = link_to pending_development_edits_path(@development) do
+    = link_to pending_development_edits_path(@development) do
+      .ui.labeled.button{class: disabled}
         .ui.button{class: color}
           %i.filter.icon
           Moderate

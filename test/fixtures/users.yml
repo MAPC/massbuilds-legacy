@@ -1,23 +1,23 @@
 normal:
   email: mcloyd@mapc.org
-  encrypted_password: <%= BCrypt::Password.create("password", cost: 1) %>
+  encrypted_password: <%= BCrypt::Password.create("password", cost: BCrypt::Engine::MIN_COST) %>
   first_name: Matt
   last_name: Cloyd
 
 moderator:
   email: planner@boston.ma
-  encrypted_password: <%= BCrypt::Password.create("secretplans", cost: 1) %>
+  encrypted_password: <%= BCrypt::Password.create('secretplans', cost: BCrypt::Engine::MIN_COST) %>
   first_name: Ken
   last_name: Reardon
 
 tim:
   email: tim@mapc.ma
-  encrypted_password: <%= BCrypt::Password.create("administrator", cost: 1) %>
+  encrypted_password: <%= BCrypt::Password.create('administrator', cost: BCrypt::Engine::MIN_COST) %>
   first_name: Tim
   last_name: Reardon
 
 lower_case:
   email: mgardner@mapc.org
-  encrypted_password: <%= BCrypt::Password.create("drowssap", cost: 1) %>
+  encrypted_password: <%= BCrypt::Password.create('drowssap', cost: BCrypt::Engine::MIN_COST) %>
   first_name: matt
   last_name:  gardner
