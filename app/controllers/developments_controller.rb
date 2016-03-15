@@ -53,5 +53,4 @@ class DevelopmentsController < ApplicationController
     params.fetch(:q) { Hash.new }
   end
 
-
 end
