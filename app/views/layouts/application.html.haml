@@ -8,9 +8,7 @@
 
   %body
     #main.ui.main.grid.container
-      .row
-        .column
-          #flash= render 'shared/flash'
+      #flash= render 'shared/flash'
       = render 'layouts/header'
       = yield
       = render 'layouts/footer'
