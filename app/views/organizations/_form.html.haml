@@ -1,14 +1,46 @@
-= form_for @organization, html:{ class: "ui form" } do |f|
-  = label :name, "Name"
-  = f.text_field :name
-  = label :email, "E-mail"
-  = f.text_field :email
-  = label :location, "Location"
-  = f.text_field :location
-  = label :short_name, "Short Name"
-  = f.text_field :short_name
-  = label :abbv, "Abbreviation"
-  = f.text_field :abbv
-  = label :website, "Website"
-  = f.text_field :website
-  = f.submit "Submit", class: "ui primary button"
+.row
+  .ui.six.column.grid
+    .six.wide.column
+      = form_for @organization, html:{ class: 'ui form' } do |f|
+
+        .field
+          = f.label :name
+          = f.text_field :name
+
+        .field
+          = f.label :location
+          = f.text_field :location
+
+        .field
+          = f.label :website
+          = f.text_field :website
+
+        .field
+          = f.label :email
+          = f.text_field :email
+          .ui.pointing.basic.grey.label
+            This email address will be made public.
+
+        .field
+          = f.label :gravatar_email
+          = f.text_field :gravatar_email
+          .ui.pointing.basic.grey.label
+            If you use a Gravatar email, it will be used for your
+            organization's profile photo across the site.
+
+        .field
+          = f.label :short_name
+          = f.text_field :short_name
+          .ui.pointing.basic.grey.label
+            Used across the site where your organization's full name
+            is too long.
+
+        .field
+          = f.label :abbv, 'Abbreviation'
+          = f.text_field :abbv
+          .ui.pointing.basic.grey.label
+            Used in icons and avatars.
+
+
+
+        = f.submit 'Submit', class: 'ui green button'

@@ -1,45 +1,58 @@
 -# Organization logo
 -#  alt: "#{@org.name} Logo"
 #main.ui.main.container
-  =link_to edit_organization_path do
-    %button.ui.right.floated.primary.button
-      %i.edit.icon
-      Edit Organization
-  = link_to join_organization_path(@organization), method: :post do
-    %button.ui.right.floated.green.button
-      %i.users.icon
-      Request Membership
-  %h1
-    = @organization.name
-  #organization
-    #stats
-      %span#location
-        %i.icon.marker
-        = @organization.location
-      %span#website
-        %i.icon.linkify
-        =link_to @organization.website
-      #email=    @organization.email
-    %br
-    %br
-    #tabs
-      .ui.top.attached.tabular.menu
-        %a.item.active{'data-tab' => 'developments'} Developments
-        %a.item{'data-tab' => 'people'} People
-        %a.item{'data-tab' => 'settings'} Settings
-      .ui.bottom.attached.tab.segment.active{'data-tab' => 'developments'}
-        = render @organization.developments
-      .ui.bottom.attached.tab.segment{'data-tab' => 'people'}
-        - if @organization.members.empty?
-          %p
-            This organization doesn't yet have any members.
-          %p
-            You can
-            = link_to join_organization_path(@organization), method: :post do
-              %button.ui.green.button
-                request membership
-            in this organization.
-        .ui.middle.aligned.relaxed.selection.list
-          = render partial: 'users/contributor_item', collection: @organization.members, as: :contributor
-      .ui.bottom.attached.tab.segment{'data-tab' => 'settings'}
-        Settings
+  .ui.two.column.stackable.grid
+    .three.column.row
+      .two.wide.column
+        .ui.fluid.card
+          %a.image{href: 'https://en.gravatar.com/site/login', target: '_blank'}
+            %img{src: @organization.gravatar_url}
+
+      .ten.wide.column
+        %h1#name
+          = @organization.name
+        #organization
+          #stats
+            %span#location
+              %i.icon.marker
+              = @organization.location
+            %span#website
+              %i.icon.linkify
+              = link_to @organization.website
+            %span#email= @organization.email
+
+      .four.wide.column
+        -# TODO: If current_user not already a member.
+        = link_to join_organization_path(@organization), method: :post do
+          %button.ui.right.floated.green.button
+            %i.users.icon
+            Request Membership
+
+  %br
+  %br
+
+  #tabs
+    .ui.top.attached.tabular.menu
+      %a.item.active{'data-tab' => 'developments'} Developments
+      %a.item{'data-tab' => 'people'} People
+      -# TODO : This isn't working at all.
+      -# - if current_user.member_of? @organization
+      %a.item{'data-tab' => 'settings'} Settings
+    .ui.bottom.attached.tab.segment.active{'data-tab' => 'developments'}
+      .ui.divided.items
+        = render partial: 'developments/related', collection: DevelopmentPresenter.wrap(@organization.developments), as: :development
+    .ui.bottom.attached.tab.segment{'data-tab' => 'people'}
+      - if @organization.members.empty?
+        %p
+          This organization doesn't yet have any members.
+        %p
+          You can
+          = link_to join_organization_path(@organization), method: :post do
+            %button.ui.green.button
+              request membership
+          in this organization.
+      .ui.middle.aligned.relaxed.selection.list
+        = render partial: 'users/contributor_item', collection: @organization.members, as: :contributor
+
+    .ui.bottom.attached.tab.segment{'data-tab' => 'settings'}
+      = render partial: 'form'

@@ -1,9 +1,8 @@
-/Small Gravatar with alt user name will go here
-.ui.right.floated.dropdown.item
-  / TODO Move to presentation helper
-  = current_user.email.split('@').first
-  %i.dropdown.icon
+- user = UserPresenter.new(current_user)
+
+.ui.right.floated.dropdown.item#profile
+  %img.contributor.ui.mini.avatar.image{src: user.gravatar_url}
   .menu
-    = link_to current_user.first_name, user_path(current_user), class: "item"
-    = link_to "Edit Profile", edit_user_registration_path, class: "item"
-    = link_to 'Logout', destroy_user_session_path, method: :delete, class: "item"
+    = link_to 'My Profile', user_path(current_user), class: 'item'
+    = link_to 'Edit Profile', edit_user_registration_path, class: 'item'
+    = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'item'
