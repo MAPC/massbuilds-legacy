@@ -64,6 +64,7 @@ group :development do
   # Watch Mac filesystem events
   gem 'rb-fsevent', require: RUBY_PLATFORM.include?('darwin') && 'rb-fsevent'
   gem 'brakeman', require: false # Assess security
+  gem 'rubocop'
 end
 
 gem 'bullet', '4.14.10', group: [:development, :test] # SQL diagnostics
