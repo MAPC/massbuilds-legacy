@@ -163,5 +163,4 @@ class Development < ActiveRecord::Base
     id_regex.match(col.name.to_s) || !type_regex.match(col.sql_type.to_s)
   end
 
-
 end

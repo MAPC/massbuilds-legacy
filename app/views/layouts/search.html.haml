@@ -2,7 +2,8 @@
 %html
   %head
     %title DD
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    - style_opts = { media: 'all', 'data-turbolinks-track' => true }
+    = stylesheet_link_tag 'application', style_opts
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
 
