@@ -23,9 +23,9 @@ class SubscribeToSubscribablesTest < Capybara::Rails::TestCase
   end
 
   test 'subscribe' do
-    assert_content find("#watchers"), '0'
+    assert_content find('#watchers'), '0'
     click_button 'Watch'
-    assert_content find("#watchers"), '1'
+    assert_content find('#watchers'), '1'
     # visit user page, see subscription
   end
 

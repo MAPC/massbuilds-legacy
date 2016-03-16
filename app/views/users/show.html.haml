@@ -2,10 +2,13 @@
   .ui.twelve.column.grid
     .four.wide.column
       .ui.fluid.card
-        %a.image{href: 'https://en.gravatar.com/site/login', target: '_blank'}
-          %img{src: "https://secure.gravatar.com/avatar/#{@user.hashed_email}?s=250"}
+        %a.image{ href: 'https://en.gravatar.com/site/login',
+          target: '_blank' }
+          %img{ src: @user.gravatar_url(size: 250) }
         .content
-          %a.header{href: 'https://en.gravatar.com/site/login', target: '_blank'} #{@user.first_name} #{@user.last_name}
+          %a.header{ href: 'https://en.gravatar.com/site/login',
+            target: '_blank'}
+            #{@user.first_name} #{@user.last_name}
           .meta
             .ui.list
               .item= @user.email

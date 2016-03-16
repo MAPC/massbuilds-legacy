@@ -1,8 +1,9 @@
 - user = UserPresenter.new(current_user)
 
 .ui.right.floated.dropdown.item#profile
-  %img.contributor.ui.mini.avatar.image{src: user.gravatar_url}
+  %img.contributor.ui.mini.avatar.image{ src: user.gravatar_url(size: 50) }
   .menu
     = link_to 'My Profile', user_path(current_user), class: 'item'
     = link_to 'Edit Profile', edit_user_registration_path, class: 'item'
-    = link_to 'Logout', destroy_user_session_path, method: :delete, class: 'item'
+    = link_to 'Logout', destroy_user_session_path, method: :delete,
+      class: 'item'

@@ -32,17 +32,24 @@
   %br
 
   #tabs
-    .ui.top.attached.tabular.menu
-      %a.item.active{'data-tab' => 'developments'} Developments
-      %a.item{'data-tab' => 'people'} People
 
+    .ui.top.attached.tabular.menu
+
+      %a.item.active{ data: { tab: 'developments' } }
+        Developments
+      %a.item{ data: { tab: 'people' } } People
       -# Requires the item itself, not the presented item.
       - if current_user && current_user.member_of?(@organization.item)
-        %a.item{'data-tab' => 'settings'} Settings
-    .ui.bottom.attached.tab.segment.active{'data-tab' => 'developments'}
+        %a.item{ data: { tab: 'settings' } }
+          Settings
+
+    .ui.bottom.attached.tab.segment.active{ data: { tab: 'developments' } }
       .ui.divided.items
-        = render partial: 'developments/related', collection: DevelopmentPresenter.wrap(@organization.developments), as: :development
-    .ui.bottom.attached.tab.segment{'data-tab' => 'people'}
+        = render partial: 'developments/related',
+            collection: DevelopmentPresenter.wrap(@organization.developments),
+            as: :development
+
+    .ui.bottom.attached.tab.segment{ data: { tab: 'people' } }
       - if @organization.members.empty?
         %p
           This organization doesn't yet have any members.
@@ -55,5 +62,5 @@
       .ui.middle.aligned.relaxed.selection.list
         = render partial: 'users/contributor_item', collection: @organization.members, as: :contributor
 
-    .ui.bottom.attached.tab.segment{'data-tab' => 'settings'}
+    .ui.bottom.attached.tab.segment{ data: { tab: 'settings' } }
       = render partial: 'form'
