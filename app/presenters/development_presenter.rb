@@ -94,9 +94,11 @@ class DevelopmentPresenter < Burgundy::Item
   def physical_attributes
     category_attributes :physical
   end
+
   def housing_attributes
     category_attributes :housing
   end
+
   def commercial_attributes
     category_attributes :commercial
   end
@@ -112,9 +114,9 @@ class DevelopmentPresenter < Burgundy::Item
   end
 
   def category_attributes(category)
-    item.attributes.select { |k, v|
+    item.attributes.select do |k, v|
       categorized_attributes.fetch(category, {}).include?(k.to_sym) && !v.nil?
-    }
+    end
   end
 
   def categorized_attributes
@@ -123,6 +125,5 @@ class DevelopmentPresenter < Burgundy::Item
       commercial: [:fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs, :fa_rnd,
         :fa_edinst, :fa_other, :fa_hotel] }
   end
-
 
 end

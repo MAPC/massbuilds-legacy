@@ -24,7 +24,7 @@ class User < ActiveRecord::Base
   end
 
   def member_of?(organization)
-    self.organizations.include? organization
+    organizations.include? organization
   end
 
   def subscribe(subscribable)

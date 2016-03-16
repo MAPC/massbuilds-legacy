@@ -1,7 +1,7 @@
 .row
   .column
-    .ui.labeled.button{tabindex: '0'}
-      %button#watch.ui.button
+    .ui.labeled.button{ tabindex: '0' }
+      %button.ui.button#watch
         %i.unhide.icon
         Watch
       %a.ui.basic.left.pointing.label#watchers
@@ -10,7 +10,7 @@
     -# Consider making this a partial, passing the path, icon, and text
     -# TODO: Can edit if ... ?
     = link_to edit_development_path(@development) do
-      .ui.vertical.animated.button{tabindex: '1'}
+      .ui.vertical.animated.button{ tabindex: '1' }
         .visible.content
           %i.pencil.icon
         .hidden.content
@@ -18,7 +18,7 @@
 
     -# TODO: Can flag if you are signed in.
     = link_to new_development_flag_path(@development) do
-      .ui.vertical.animated.button{tabindex: '2'}
+      .ui.vertical.animated.button{ tabindex: '2' }
         .visible.content
           %i.flag.icon
         .hidden.content
@@ -26,7 +26,7 @@
 
     -# TODO: Can claim if you belong to at least one organization.
     = link_to new_development_claim_path(@development) do
-      .ui.vertical.animated.button{tabindex: '3'}
+      .ui.vertical.animated.button{ tabindex: '3' }
         .visible.content
           %i.university.icon
         .hidden.content
@@ -39,10 +39,10 @@
     - color = @development.disable_moderation? ? "" : "green"
 
     = link_to pending_development_edits_path(@development) do
-      .ui.labeled.button{class: disabled}
-        .ui.button{class: color}
+      .ui.labeled.button{ class: disabled }
+        .ui.button{ class: color }
           %i.filter.icon
           Moderate
-        %a.ui.basic.left.pointing.label{class: color}
+        %a.ui.basic.left.pointing.label{ class: color }
           = @development.pending_edits_count
           edits
