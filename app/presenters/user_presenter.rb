@@ -26,11 +26,11 @@ class UserPresenter < Burgundy::Item
   end
 
   def active_memberships
-    item.memberships.where(state: :active)
+    item.memberships.where(state: :active).includes(:organization)
   end
 
   def pending_memberships
-    item.memberships.where(state: :pending)
+    item.memberships.where(state: :pending).includes(:organization)
   end
 
   def primary_organization

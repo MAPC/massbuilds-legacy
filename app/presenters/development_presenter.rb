@@ -41,7 +41,7 @@ class DevelopmentPresenter < Burgundy::Item
   def related
     DevelopmentPresenter.wrap(
       Development.close_to(*item.location).
-        where.not(id: item.id).limit(3))
+        where.not(id: item.id).limit(3).includes(:place))
   end
 
   # Members of the development team
@@ -52,9 +52,23 @@ class DevelopmentPresenter < Burgundy::Item
       group_by(&:role)
   end
 
-   def stats
-     [:tothu, :commsf, :prjarea, :stories, :height]
-   end
+  def physical_attributes
+    item.attributes.select { |k, v|
+      physical_field_names.include?(k.to_sym) && !v.nil?
+    }
+  end
+
+  def housing_attributes
+    item.attributes.select { |k, v|
+      housing_field_names.include?(k.to_sym) && !v.nil?
+    }
+  end
+
+  def commercial_attributes
+    item.attributes.select { |k, v|
+      commercial_field_names.include?(k.to_sym) && !v.nil?
+    }
+  end
 
   def display_address(options = {})
     options[:short] ? short_address : long_address
@@ -103,6 +117,18 @@ class DevelopmentPresenter < Burgundy::Item
 
   def short_address
     "#{item.address}, #{item.city}"
+  end
+
+  def commercial_field_names
+    [:singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop]
+  end
+
+  def housing_field_names
+    [:singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop]
+  end
+
+  def physical_field_names
+    [:tothu, :commsf, :prjarea, :stories, :height]
   end
 
 end

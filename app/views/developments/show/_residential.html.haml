@@ -1,13 +1,18 @@
-- if @development.any_residential_fields?
-  %h3.ui.header
-    Residential
-    .sub.header
-      Housing
+%h3.ui.header
+  Residential
+  .sub.header
+    Housing
 
+- if @development.housing_attributes.empty?
+  = link_to edit_development_path(@development) do
+    %button.ui.green.button
+      Contribute information
+    about housing for this development.
+
+- if @development.housing_attributes.any?
   %table.ui.very.basic.celled.table
     %thead
       %th
-        / Only display rows with non-zero numbers
         %h4.ui.header
           .content
             Housing Type
@@ -16,7 +21,7 @@
           .content
             Number of Units
     %tbody
-      - @development.housing_table_fields.each do |field|
+      - housing.each do |field|
         - if value = @development.send(field)
           %tr
             %td

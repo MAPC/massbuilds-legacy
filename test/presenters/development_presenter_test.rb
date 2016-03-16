@@ -68,11 +68,6 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
     refute_equal 0,   pres.employment
   end
 
-  test 'crosswalks' do
-    skip 'Not implementing crosswalks for a while.'
-    assert_respond_to pres, :crosswalk_links
-  end
-
   test 'tagline' do
     assert_respond_to pres, :tagline
   end
@@ -96,6 +91,14 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
 
   test '#pending' do
     assert_equal item.pending_edits, pres.pending
+  end
+
+  test '#housing_attributes' do
+    assert_empty pres.housing_attributes
+    item.tothu = 1
+    refute_empty pres.housing_attributes
+    assert_includes pres.housing_attributes.keys, 'tothu'
+    assert_includes pres.housing_attributes.values, 1
   end
 
 end

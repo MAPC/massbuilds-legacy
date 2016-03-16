@@ -1,55 +1,60 @@
-- if @development.any_commercial_fields?
-  %h3.ui.header
-    Commercial
-    .sub.header
-      Non-residential attributes
+%h3.ui.header
+  Commercial
+  .sub.header
+    Non-residential attributes
 
-  - if @development.any_commercial_table_fields?
-    %table.ui.very.basic.celled.table
-      %thead
-        %th
+- if @development.commercial_attributes.empty?
+  = link_to edit_development_path(@development) do
+    %button.ui.green.button
+      Contribute information
+    about business and commerce at this development.
+
+- if @development.commercial_attributes.any?
+  %table.ui.very.basic.celled.table
+    %thead
+      %th
+        %h4.ui.header
+          .content
+            Use Type
+      %th
+        %h4.ui.header
+          .content
+            Floor Area
+            .sub.header
+              square feet
+      %th
+        %h4.ui.header
+          .content
+            Percent
+            .sub.header
+              of total floor area
+    %tbody
+      - @development.commercial_table_fields.each do |field|
+        - if use_value = @development.send(field)
+          %tr
+            %td
+              %h4.ui.header
+                .content
+                  -# Metadata reference does not belong on instance
+                  = @development.human_name_for(field)
+                  .sub.header
+                    = @development.description_for(field)
+            %td
+              = use_value
+              sq. ft.
+            %td 10%
+      %tr
+        %td
           %h4.ui.header
             .content
-              Use Type
-        %th
-          %h4.ui.header
-            .content
-              Floor Area
+              -# Metadata reference does not belong on instance
+              = @development.human_name_for(:commsf)
               .sub.header
-                square feet
-        %th
-          %h4.ui.header
-            .content
-              Percent
-              .sub.header
-                of total floor area
-      %tbody
-        - @development.commercial_table_fields.each do |field|
-          - if use_value = @development.send(field)
-            %tr
-              %td
-                %h4.ui.header
-                  .content
-                    -# Metadata reference does not belong on instance
-                    = @development.human_name_for(field)
-                    .sub.header
-                      = @development.description_for(field)
-              %td
-                = use_value
-                sq. ft.
-              %td 10%
-        %tr
-          %td
-            %h4.ui.header
-              .content
-                -# Metadata reference does not belong on instance
-                = @development.human_name_for(:commsf)
-                .sub.header
-                  = @development.description_for(:commsf)
-          %td
-            = @development.commsf
-            sq. ft.
-          %td 100%
+                = @development.description_for(:commsf)
+        %td
+          = @development.commsf
+          sq. ft.
+        %td 100%
 
   %table.ui.very.basic.celled.table
     %tbody
@@ -57,9 +62,9 @@
         %td
           %h4.ui.header
             .content
-              = @development.human_name_for(:hotelrms)
+              -# = @development.human_name_for(:hotelrms)
               .sub.header
-                = @development.description_for(:hotelrms)
+                -# = @development.description_for(:hotelrms)
         %td= @development.hotelrms
       %tr
         %td
