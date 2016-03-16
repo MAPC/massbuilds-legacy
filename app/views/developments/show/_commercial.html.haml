@@ -1,7 +1,9 @@
+%br
+.ui.horizontal.divider Commercial
 %h3.ui.header
-  Commercial
+  Commercial Uses
   .sub.header
-    Non-residential attributes
+    Floor area by use type
 
 - if @development.commercial_attributes.empty?
   = link_to edit_development_path(@development) do
@@ -10,7 +12,7 @@
     about business and commerce at this development.
 
 - if @development.commercial_attributes.any?
-  %table.ui.very.basic.celled.table
+  %table.ui.basic.selectable.celled.table
     %thead
       %th
         %h4.ui.header
@@ -29,49 +31,29 @@
             .sub.header
               of total floor area
     %tbody
-      - @development.commercial_table_fields.each do |field|
-        - if use_value = @development.send(field)
-          %tr
-            %td
-              %h4.ui.header
-                .content
-                  -# Metadata reference does not belong on instance
-                  = @development.human_name_for(field)
-                  .sub.header
-                    = @development.description_for(field)
-            %td
-              = use_value
-              sq. ft.
-            %td 10%
-      %tr
-        %td
-          %h4.ui.header
-            .content
-              -# Metadata reference does not belong on instance
-              = @development.human_name_for(:commsf)
-              .sub.header
-                = @development.description_for(:commsf)
-        %td
-          = @development.commsf
-          sq. ft.
-        %td 100%
+      - if @development.commsf.to_i > 0
+        - @development.commercial_attributes.each_pair do |field, value|
+          = render partial: 'developments/show/row', locals: { field: field,
+            value: value, conditional: true,
+            extra: number_to_percentage(value/@development.commsf.to_i * 100,
+              precision: 0) }
 
-  %table.ui.very.basic.celled.table
+      = render partial: 'developments/show/row', locals: { field: :commsf,
+          value: @development.commsf, conditional: false, unit: 'sqft',
+          extra: '100%' }
+
+  %table.ui.very.basic.selectable.celled.table
     %tbody
-      %tr
-        %td
-          %h4.ui.header
-            .content
-              -# = @development.human_name_for(:hotelrms)
-              .sub.header
-                -# = @development.description_for(:hotelrms)
-        %td= @development.hotelrms
-      %tr
-        %td
-          %h4.ui.header
-            .content
-              Employment
-              .sub.header
-                = @development.employment_type
+      = render partial: 'developments/show/row',
+          locals: { field: :hotelrms, conditional: true,
+            subheader: 'Number of rooms' }
 
-        %td= @development.employment
+  %h3.ui.header
+    Employment
+
+  %table.ui.very.basic.selectable.celled.table
+    %tbody
+      = render partial: 'developments/show/row', locals: { field: :employment,
+          conditional: true, subheader: @development.employment_type }
+      = render partial: 'developments/show/row', locals: { field: :emploss,
+          conditional: true }

@@ -12,10 +12,10 @@
 
 - if @development.physical_attributes.any?
 
-  .ui.tiny.statistics
-    - @development.physical_attributes.each do |field|
+  .ui.mini.statistics
+    - @development.physical_attributes.each_pair do |field, value|
       - if value = @development.send(field)
         .ui.statistic
           .value= value
           .label
-            = @development.human_name_for(field)
+            = Development.human_attribute_name(field)

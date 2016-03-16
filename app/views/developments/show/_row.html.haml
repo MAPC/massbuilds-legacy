@@ -1,0 +1,26 @@
+- conditional = local_assigns.fetch(:conditional, false)
+- subheader = local_assigns.fetch(:subheader, nil)
+- content = local_assigns.fetch(:content, nil)
+- extra = local_assigns.fetch(:extra, nil)
+- value = local_assigns.fetch(:value, @development.send(field))
+- unit = local_assigns.fetch(:unit, nil)
+
+- widths = extra ? %w(six five five) : %w(ten six)
+
+- if conditional && value.nil?
+  -# NO OP
+- else
+  %tr
+    %td.wide{class: widths.pop}
+      %h4.ui.header
+        .content
+          - if content
+            = content
+          - else
+            = Development.human_attribute_name(field.to_sym)
+          .sub.header= subheader if subheader
+    %td.wide{class: widths.pop}
+      = number_with_delimiter(value.to_i)
+      = unit if unit
+    - if extra
+      %td.wide{class: widths.pop}= extra

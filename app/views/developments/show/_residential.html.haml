@@ -1,7 +1,9 @@
+%br
+.ui.horizontal.divider Residential
 %h3.ui.header
-  Residential
+  Housing
   .sub.header
-    Housing
+    Units by use type
 
 - if @development.housing_attributes.empty?
   = link_to edit_development_path(@development) do
@@ -10,7 +12,7 @@
     about housing for this development.
 
 - if @development.housing_attributes.any?
-  %table.ui.very.basic.celled.table
+  %table.ui.basic.selectable.celled.table
     %thead
       %th
         %h4.ui.header
@@ -21,24 +23,11 @@
           .content
             Number of Units
     %tbody
-      - housing.each do |field|
-        - if value = @development.send(field)
-          %tr
-            %td
-              %h4.ui.header
-                .content
-                  = @development.human_name_for(field)
-            %td= value
-      - if @development.gqpop
-        %tr
-          %td
-            %h4.ui.header
-              .content
-                = @development.human_name_for(:gqpop)
-                %a{href: '#what-are-group-quarters'}
-                  %i.help.circle.icon
-                  -# Modal with:
-                  -# Estimated new population in group quarters (dorms, nursing homes, military barracks, etc)
-                .sub.header
-                  Number of Beds
-          %td= @development.gqpop
+      - @development.housing_attributes.each_pair do |field, value|
+        = render partial: 'developments/show/row', locals: { field: field,
+            value: value, conditional: true }
+
+  %table.ui.very.basic.selectable.celled.table
+    %tbody
+      = render partial: 'developments/show/row', locals: { field: :gqpop,
+        conditional: true, subheader: 'i.e. dorms, barracks, etc.' }

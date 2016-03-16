@@ -119,11 +119,9 @@ class DevelopmentPresenter < Burgundy::Item
 
   def categorized_attributes
     { physical:   [:tothu, :commsf, :prjarea, :stories, :height],
-      housing:    [:singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop],
-      commercial: [:rptdemp, :emploss, :estemp, :commsf, :hotelrms,
-        :onsitepark, :total_cost, :team_membership_count, :cancelled,
-        :private, :fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs, :fa_rnd,
-        :fa_edinst, :fa_other, :fa_hotel, :other_rate] }
+      housing:    [:singfamhu, :twnhsmmult, :lgmultifam, :tothu],
+      commercial: [:fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs, :fa_rnd,
+        :fa_edinst, :fa_other, :fa_hotel] }
   end
 
 
