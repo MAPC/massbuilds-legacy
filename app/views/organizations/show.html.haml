@@ -5,8 +5,9 @@
     .three.column.row
       .two.wide.column
         .ui.fluid.card
-          %a.image{href: 'https://en.gravatar.com/site/login', target: '_blank'}
-            %img{src: @organization.gravatar_url}
+          %a.image{ href: 'https://en.gravatar.com/site/login',
+            target: '_blank' }
+            %img{ src: @organization.gravatar_url }
 
       .ten.wide.column
         %h1#name
@@ -46,8 +47,8 @@
     .ui.bottom.attached.tab.segment.active{ data: { tab: 'developments' } }
       .ui.divided.items
         = render partial: 'developments/related',
-            collection: DevelopmentPresenter.wrap(@organization.developments),
-            as: :development
+          collection: DevelopmentPresenter.wrap(@organization.developments),
+          as: :development
 
     .ui.bottom.attached.tab.segment{ data: { tab: 'people' } }
       - if @organization.members.empty?
@@ -60,7 +61,8 @@
               request membership
           in this organization.
       .ui.middle.aligned.relaxed.selection.list
-        = render partial: 'users/contributor_item', collection: @organization.members, as: :contributor
+        = render partial: 'users/contributor_item',
+            collection: @organization.members, as: :contributor
 
     .ui.bottom.attached.tab.segment{ data: { tab: 'settings' } }
       = render partial: 'form'

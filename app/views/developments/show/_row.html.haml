@@ -11,7 +11,7 @@
   -# NO OP
 - else
   %tr
-    %td.wide{class: widths.pop}
+    %td.wide{ class: widths.pop }
       %h4.ui.header
         .content
           - if content
@@ -19,8 +19,8 @@
           - else
             = Development.human_attribute_name(field.to_sym)
           .sub.header= subheader if subheader
-    %td.wide{class: widths.pop}
+    %td.wide{ class: widths.pop }
       = number_with_delimiter(value.to_i)
       = unit if unit
     - if extra
-      %td.wide{class: widths.pop}= extra
+      %td.wide{ class: widths.pop}= extr a

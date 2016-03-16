@@ -7,14 +7,20 @@
   .ui.six.column.grid
     .column
       .ui.fluid.card
-        %a.image{href: 'https://en.gravatar.com/site/login', target: '_blank'}
-          %img{src: "https://secure.gravatar.com/avatar/#{resource.hashed_email}?s=250"}
+        %a.image{ href: 'https://en.gravatar.com/site/login',
+          target: '_blank' }
+          %img{ src: resource.gravatar_url(size: 250) }
         .content
-          %a.header{href: 'https://en.gravatar.com/site/login', target: '_blank'} #{resource.first_name} #{resource.last_name}
+          %a.header{ href: 'https://en.gravatar.com/site/login',
+            target: '_blank' }
+            #{resource.first_name} #{resource.last_name}
           .meta
-            = link_to "Update your photo via Gravatar", 'https://en.gravatar.com/site/login', target: '_blank'
+            = link_to "Update your photo via Gravatar",
+              'https://en.gravatar.com/site/login', target: '_blank'
     .five.wide.column
-      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put, class: 'ui form' }) do |f|
+      = form_for(resource, as: resource_name,
+        url: registration_path(resource_name),
+        html: { method: :put, class: 'ui form' }) do |f|
 
         = devise_error_messages!
 
@@ -29,6 +35,7 @@
         .field
           = f.label :email
           = f.email_field :email
+
         - if devise_mapping.confirmable? && resource.pending_reconfirmation?
           %div
             Currently waiting confirmation for: #{resource.unconfirmed_email}
@@ -36,13 +43,15 @@
         %hr
 
         .field
-          .ui.ignored.message Leave blank if you don't want to change your password.
+          .ui.ignored.message
+            Leave blank if you don't want to change your password.
           = f.label :password
           = f.password_field :password, autocomplete: 'off'
 
         .field
           = f.label :password_confirmation
           = f.password_field :password_confirmation, autocomplete: 'off'
+
         .actions
-          = link_to 'Cancel', :back, class: 'ui basic button'
+          = link_to 'Cancel', resource, class: 'ui basic button'
           = f.submit 'Update Profile', class: 'ui green button'

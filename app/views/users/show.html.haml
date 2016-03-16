@@ -7,7 +7,7 @@
           %img{ src: @user.gravatar_url(size: 250) }
         .content
           %a.header{ href: 'https://en.gravatar.com/site/login',
-            target: '_blank'}
+            target: '_blank' }
             #{@user.first_name} #{@user.last_name}
           .meta
             .ui.list
@@ -20,7 +20,8 @@
 
       -# TODO: Handle nil current_user with an anonymous NullUser
       - if current_user && current_user == @user.item
-        = link_to edit_user_registration_path(@user), class: 'ui basic orange button' do
+        = link_to edit_user_registration_path,
+            class: 'ui basic orange button' do
           %i.pencil.icon
           Edit
 
