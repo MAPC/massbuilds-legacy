@@ -52,24 +52,6 @@ class DevelopmentPresenter < Burgundy::Item
       group_by(&:role)
   end
 
-  def physical_attributes
-    item.attributes.select { |k, v|
-      physical_field_names.include?(k.to_sym) && !v.nil?
-    }
-  end
-
-  def housing_attributes
-    item.attributes.select { |k, v|
-      housing_field_names.include?(k.to_sym) && !v.nil?
-    }
-  end
-
-  def commercial_attributes
-    item.attributes.select { |k, v|
-      commercial_field_names.include?(k.to_sym) && !v.nil?
-    }
-  end
-
   def display_address(options = {})
     options[:short] ? short_address : long_address
   end
@@ -109,6 +91,16 @@ class DevelopmentPresenter < Burgundy::Item
     url << '&key=AIzaSyA-kZB6mH1kp-uXBrp5v8luDiPzKYh_nfQ'
   end
 
+  def physical_attributes
+    category_attributes :physical
+  end
+  def housing_attributes
+    category_attributes :housing
+  end
+  def commercial_attributes
+    category_attributes :commercial
+  end
+
   private
 
   def long_address
@@ -119,16 +111,20 @@ class DevelopmentPresenter < Burgundy::Item
     "#{item.address}, #{item.city}"
   end
 
-  def commercial_field_names
-    [:singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop]
+  def category_attributes(category)
+    item.attributes.select { |k, v|
+      categorized_attributes.fetch(category, {}).include?(k.to_sym) && !v.nil?
+    }
   end
 
-  def housing_field_names
-    [:singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop]
+  def categorized_attributes
+    { physical:   [:tothu, :commsf, :prjarea, :stories, :height],
+      housing:    [:singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop],
+      commercial: [:rptdemp, :emploss, :estemp, :commsf, :hotelrms,
+        :onsitepark, :total_cost, :team_membership_count, :cancelled,
+        :private, :fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs, :fa_rnd,
+        :fa_edinst, :fa_other, :fa_hotel, :other_rate] }
   end
 
-  def physical_field_names
-    [:tothu, :commsf, :prjarea, :stories, :height]
-  end
 
 end
