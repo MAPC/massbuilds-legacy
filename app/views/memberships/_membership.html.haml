@@ -1,8 +1,6 @@
-.item
-  %i.large.users.middle.aligned.icon
-  .content
-    %a.header 
-      = link_to membership.organization.name, membership.organization
-    .description 
-      = link_to membership.organization.website, target: "_blank"
-      = link_to "Cancel", user_membership_deactivate_path(current_user,membership), method: :put, class: "button mini ui button active"
+= render membership.organization
+- if membership.pending?
+  = link_to 'Cancel request',
+    user_membership_deactivate_path(current_user, membership),
+    method: :put, class: 'ui small red basic right floated button',
+    style: 'bottom: 40px; right: 8px; position: relative;'

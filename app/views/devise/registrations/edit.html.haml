@@ -1,36 +1,57 @@
-#main.ui.main.container
-  %h2
-    Update Profile
-  .image
-    %img{src: "https://secure.gravatar.com/avatar/#{resource.hashed_email}"}
-    = link_to "Update your Gravatar", "https://en.gravatar.com/site/login", target: "_blank"
-  .content
-    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f|
-      = devise_error_messages!
-      .field
-        = f.label :first_name
-        %br/
-        = f.text_field :first_name
-      .field
-        = f.label :last_name
-        %br/
-        = f.text_field :last_name
-      .field
-        = f.label :email
-        %br/
-        = f.email_field :email, autofocus: true
-      - if devise_mapping.confirmable? && resource.pending_reconfirmation?
-        %div
-          Currently waiting confirmation for: #{resource.unconfirmed_email}
-      .field
-        = f.label :password
-        %i (leave blank if you don't want to change it)
-        %br/
-        = f.password_field :password, autocomplete: "off"
-      .field
-        = f.label :password_confirmation
-        %br/
-        = f.password_field :password_confirmation, autocomplete: "off"
-      .actions
-        = f.submit "Update"
-  = link_to "Back", :back
+.row
+  .ten.wide.column#title-area
+    %h2
+      Update your profile
+
+.row
+  .ui.six.column.grid
+    .column
+      .ui.fluid.card
+        %a.image{ href: 'https://en.gravatar.com/site/login',
+          target: '_blank' }
+          %img{ src: resource.gravatar_url(size: 250) }
+        .content
+          %a.header{ href: 'https://en.gravatar.com/site/login',
+            target: '_blank' }
+            #{resource.first_name} #{resource.last_name}
+          .meta
+            = link_to "Update your photo via Gravatar",
+              'https://en.gravatar.com/site/login', target: '_blank'
+    .five.wide.column
+      = form_for(resource, as: resource_name,
+        url: registration_path(resource_name),
+        html: { method: :put, class: 'ui form' }) do |f|
+
+        = devise_error_messages!
+
+        .field
+          = f.label :first_name, autofocus: true
+          = f.text_field :first_name
+
+        .field
+          = f.label :last_name
+          = f.text_field :last_name
+
+        .field
+          = f.label :email
+          = f.email_field :email
+
+        - if devise_mapping.confirmable? && resource.pending_reconfirmation?
+          %div
+            Currently waiting confirmation for: #{resource.unconfirmed_email}
+
+        %hr
+
+        .field
+          .ui.ignored.message
+            Leave blank if you don't want to change your password.
+          = f.label :password
+          = f.password_field :password, autocomplete: 'off'
+
+        .field
+          = f.label :password_confirmation
+          = f.password_field :password_confirmation, autocomplete: 'off'
+
+        .actions
+          = link_to 'Cancel', resource, class: 'ui basic button'
+          = f.submit 'Update Profile', class: 'ui green button'

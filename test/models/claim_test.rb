@@ -11,7 +11,6 @@ class ClaimTest < ActiveSupport::TestCase
     @development ||= developments :one
   end
 
-  # TODO: Clearly this is not just a unit test.
   def moderator
     @moderator ||= users :moderator
   end

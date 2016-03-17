@@ -21,16 +21,17 @@ class UserPresenter < Burgundy::Item
     "#{time_ago_in_words item.created_at} ago"
   end
 
-  def gravatar_url
-    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{hashed_email}"
+  def gravatar_url(size: 120)
+    @gravatar_url ||=
+      "https://secure.gravatar.com/avatar/#{hashed_email}?s=#{size}"
   end
 
   def active_memberships
-    item.memberships.where(state: :active)
+    item.memberships.where(state: :active).includes(:organization)
   end
 
   def pending_memberships
-    item.memberships.where(state: :pending)
+    item.memberships.where(state: :pending).includes(:organization)
   end
 
   def primary_organization

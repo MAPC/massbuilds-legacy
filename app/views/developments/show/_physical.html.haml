@@ -3,10 +3,19 @@
   .sub.header
     Physical Attributes
 
-.ui.tiny.statistics
-  - @development.stats.each do |stat|
-    - if value = @development.send(stat)
-      .ui.statistic
-        .value= value
-        .label
-          -# = @development.human_name_for(stat)
+- if @development.physical_attributes.empty?
+  -# TODO: Contribution button partial
+  = link_to edit_development_path(@development) do
+    %button.ui.green.button
+      Contribute information
+    about the physical characteristics of this development.
+
+- if @development.physical_attributes.any?
+
+  .ui.mini.statistics
+    - @development.physical_attributes.each_pair do |field, value|
+      - if value = @development.send(field)
+        .ui.statistic
+          .value= value
+          .label
+            = Development.human_attribute_name(field)

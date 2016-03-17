@@ -1,8 +1,15 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+
   def user
     @user ||= users :normal
+  end
+
+  def mock_subscribable
+    mock = Minitest::Mock.new
+    mock.expect :developments, []
+    mock
   end
 
   test 'requires a first name' do
@@ -71,6 +78,45 @@ class UserTest < ActiveSupport::TestCase
 
   test 'needing update' do
     skip
+  end
+
+  # TODO: Fix the duplicated logic and the overuse of database
+  #   interaction in these tests.
+
+  test '#subscribe_to' do
+    assert_respond_to user, :subscribe_to
+    assert_respond_to user, :subscribe
+
+    subscribable = developments(:one)
+    user.subscriptions = []
+    user.save
+
+    assert_difference 'Subscription.count', +1 do
+      user.subscribe(subscribable)
+    end
+  end
+
+  test '#unsubscribe_from' do
+    assert_respond_to user, :unsubscribe_from
+    assert_respond_to user, :unsubscribe
+    subscribable = developments(:one)
+    user.subscribe(subscribable)
+    assert_difference 'Subscription.count', -1 do
+      user.unsubscribe(subscribable)
+    end
+  end
+
+  test '#subscribed_to?' do
+    assert_respond_to user, :subscribed_to?
+    assert_respond_to user, :subscribed?
+
+    subscribable = developments(:one)
+    user.subscriptions = []
+    user.save
+
+    refute user.subscribed_to?(subscribable)
+    user.subscriptions.create(subscribable: subscribable)
+    assert user.subscribed_to?(subscribable)
   end
 
 end

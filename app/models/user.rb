@@ -19,21 +19,36 @@ class User < ActiveRecord::Base
   validates :first_name, presence: true
   validates :last_name,  presence: true
 
-  def subscriptions_needing_update
-    Subscription.where(id: subscriptions.select(&:needs_update?).map(&:id))
-  end
-
   def contributions
     Edit.where(editor_id: id, state: 'applied')
   end
 
-  def self.null
-    @null ||= new(email: '<Null User>')
+  def member_of?(organization)
+    organizations.include? organization
   end
 
-  def avatar
-    user = %w(mark lena lindsay molly eve).sample
-    "http://semantic-ui.com/images/avatar2/small/#{user}.png"
+  def subscribe(subscribable)
+    subscriptions.create(subscribable: subscribable)
+  end
+
+  def unsubscribe(subscribable)
+    subscriptions.where(subscribable: subscribable).first.destroy
+  end
+
+  def subscribed?(subscribable)
+    subscriptions.where(subscribable: subscribable).present?
+  end
+
+  alias_method :subscribe_to, :subscribe
+  alias_method :unsubscribe_from, :unsubscribe
+  alias_method :subscribed_to?, :subscribed?
+
+  def subscriptions_needing_update
+    Subscription.where(id: subscriptions.select(&:needs_update?).map(&:id))
+  end
+
+  def self.null
+    @null ||= new(email: '<Null User>')
   end
 
   private

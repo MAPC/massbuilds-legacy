@@ -1,19 +1,42 @@
-#main.ui.main.container
-  .image
-    %img{src: @user.gravatar_url}
-  .content
-    %a.header 
-      = @user.full_name
-    .meta
-      %span.date
-        = @user.joined
-  .extra.content
-    %i.edit.icon
-    = pluralize(@user.contributions.count, "contribution")
-  .content
-    Active Memberships:
-    .ui.relaxed.divided.list
-      = render @user.active_memberships
-    Pending Memberships:
-    .ui.relaxed.divided.list
-      = render @user.pending_memberships
+.row
+  .ui.twelve.column.grid
+    .four.wide.column
+      .ui.fluid.card
+        %a.image{ href: 'https://en.gravatar.com/site/login',
+          target: '_blank' }
+          %img{ src: @user.gravatar_url(size: 250) }
+        .content
+          %a.header{ href: 'https://en.gravatar.com/site/login',
+            target: '_blank' }
+            #{@user.first_name} #{@user.last_name}
+          .meta
+            .ui.list
+              .item= @user.email
+              .item.date
+                Joined
+                = @user.joined
+              .item.contributions
+                = pluralize(@user.contributions.count, "contribution")
+
+      -# TODO: Handle nil current_user with an anonymous NullUser
+      - if current_user && current_user == @user.item
+        = link_to edit_user_registration_path,
+            class: 'ui basic orange button' do
+          %i.pencil.icon
+          Edit
+
+    .ten.wide.column
+
+      - if @user.active_memberships.any?
+
+        %h3 Member of
+        .ui.middle.aligned.relaxed.selection.list
+          = render @user.active_memberships
+
+      -# TODO: [Code Smell] NilCheck
+      - if current_user == @user.item && @user.pending_memberships.any?
+
+        %h3 Pending Requests
+        .ui.middle.aligned.relaxed.selection.list
+          = render @user.pending_memberships
+

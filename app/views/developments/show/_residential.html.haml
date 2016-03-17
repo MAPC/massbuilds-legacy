@@ -1,13 +1,20 @@
-- if @development.any_residential_fields?
-  %h3.ui.header
-    Residential
-    .sub.header
-      Housing
+%br
+.ui.horizontal.divider Residential
+%h3.ui.header
+  Housing
+  .sub.header
+    Units by use type
 
-  %table.ui.very.basic.celled.table
+- if @development.housing_attributes.empty?
+  = link_to edit_development_path(@development) do
+    %button.ui.green.button
+      Contribute information
+    about housing for this development.
+
+- if @development.housing_attributes.any?
+  %table.ui.basic.selectable.celled.table
     %thead
       %th
-        / Only display rows with non-zero numbers
         %h4.ui.header
           .content
             Housing Type
@@ -16,24 +23,11 @@
           .content
             Number of Units
     %tbody
-      - @development.housing_table_fields.each do |field|
-        - if value = @development.send(field)
-          %tr
-            %td
-              %h4.ui.header
-                .content
-                  = @development.human_name_for(field)
-            %td= value
-      - if @development.gqpop
-        %tr
-          %td
-            %h4.ui.header
-              .content
-                = @development.human_name_for(:gqpop)
-                %a{href: '#what-are-group-quarters'}
-                  %i.help.circle.icon
-                  -# Modal with:
-                  -# Estimated new population in group quarters (dorms, nursing homes, military barracks, etc)
-                .sub.header
-                  Number of Beds
-          %td= @development.gqpop
+      - @development.housing_attributes.each_pair do |field, value|
+        = render partial: 'developments/show/row', locals: { field: field,
+            value: value, conditional: true }
+
+  %table.ui.very.basic.selectable.celled.table
+    %tbody
+      = render partial: 'developments/show/row', locals: { field: :gqpop,
+        conditional: true, subheader: 'i.e. dorms, barracks, etc.' }

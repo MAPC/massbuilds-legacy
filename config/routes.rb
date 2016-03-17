@@ -30,7 +30,7 @@ Rails.application.routes.draw do
     post :join, to: 'memberships#join', on: :member
   end
 
-  devise_for :users, :controllers => { registrations: 'registrations' }
+  devise_for :users, controllers: { registrations: 'registrations' }
   devise_scope :user do
     get    'signup',  to: 'devise/registrations#new'
     get    'signin',  to: 'devise/sessions#new'

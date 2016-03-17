@@ -1,6 +1,6 @@
 #header.ui.borderless.fixed.menu
   .ui.container
-    %a.header.item{:href => "#"}
+    %a.header.item{ href: "#" }
       -# %img.logo{:src => "assets/images/logo.png"}
       DD
 
@@ -15,11 +15,12 @@
       = link_to '#static/pricing', class: 'item' do
         Pricing
 
-      = link_to '#signin_path',    class: 'item' do
+      = link_to signin_path, class: 'item' do
         Sign in
 
-      = link_to '#signup_path',    class: 'item' do
+      = link_to signup_path, class: 'item' do
         Sign up
 
     - if signed_in?
+
       = render 'users/header'

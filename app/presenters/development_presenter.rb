@@ -41,7 +41,7 @@ class DevelopmentPresenter < Burgundy::Item
   def related
     DevelopmentPresenter.wrap(
       Development.close_to(*item.location).
-        where.not(id: item.id).limit(3))
+        where.not(id: item.id).limit(3).includes(:place))
   end
 
   # Members of the development team
@@ -51,10 +51,6 @@ class DevelopmentPresenter < Burgundy::Item
       order(:role).
       group_by(&:role)
   end
-
-   def stats
-     [:tothu, :commsf, :prjarea, :stories, :height]
-   end
 
   def display_address(options = {})
     options[:short] ? short_address : long_address
@@ -95,6 +91,18 @@ class DevelopmentPresenter < Burgundy::Item
     url << '&key=AIzaSyA-kZB6mH1kp-uXBrp5v8luDiPzKYh_nfQ'
   end
 
+  def physical_attributes
+    category_attributes :physical
+  end
+
+  def housing_attributes
+    category_attributes :housing
+  end
+
+  def commercial_attributes
+    category_attributes :commercial
+  end
+
   private
 
   def long_address
@@ -103,6 +111,19 @@ class DevelopmentPresenter < Burgundy::Item
 
   def short_address
     "#{item.address}, #{item.city}"
+  end
+
+  def category_attributes(category)
+    item.attributes.select do |k, v|
+      categorized_attributes.fetch(category, {}).include?(k.to_sym) && !v.nil?
+    end
+  end
+
+  def categorized_attributes
+    { physical:   [:tothu, :commsf, :prjarea, :stories, :height],
+      housing:    [:singfamhu, :twnhsmmult, :lgmultifam, :tothu],
+      commercial: [:fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs, :fa_rnd,
+        :fa_edinst, :fa_other, :fa_hotel] }
   end
 
 end

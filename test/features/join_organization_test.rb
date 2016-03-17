@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class OrganizationMembershipTest < Capybara::Rails::TestCase
+class JoinOrganizationTest < Capybara::Rails::TestCase
 
   def user
     @user ||= users :normal

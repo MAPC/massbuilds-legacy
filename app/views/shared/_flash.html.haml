@@ -1,9 +1,11 @@
-%br
-%br
-- flash.each do |key, value|
-  - if flash[:partial]
-    = render partial: "flashes/#{value['path']}", locals: {key: key, object: value['object']}
-  - else
-    .ui.message{:class => key}
-      %i.close.icon
-      .p= value
+- if flash
+  .row
+    .column
+      - flash.each do |key, value|
+        - if flash[:partial]
+          = render partial: "flashes/#{value['path']}",
+              locals: { key: key, object: value['object'] }
+        - else
+          .ui.message{ class: key }
+            %i.close.icon
+            .p= value

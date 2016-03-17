@@ -1,5 +1,9 @@
-.item
-  .content
-    .header
-      =link_to organization.name, organization, :class => 'item organization'
-    =organization.location
+= link_to organization, class: 'item' do
+  .ui.tiny.image
+    %img{ src: organization.gravatar_url }
+  .middle.aligned.content
+    .header= organization.name
+    .meta
+      = organization.location
+      &bull;
+      = pluralize(organization.active_members.count, 'member')
