@@ -52,6 +52,7 @@ gem 'versionist'
 # Server
 gem 'puma'
 gem 'foreman', require: false
+gem 'rack-cors', require: 'rack/cors' # CORS Headers
 
 group :development do
   gem 'spring'            # Keeps environment in background
