@@ -3,10 +3,13 @@ require 'range_parser'
 module API
   module V1
     class DevelopmentResource < JSONAPI::Resource
+
       attributes :name, :status, :description
       attributes :redevelopment, :as_of_right, :age_restricted
       attributes :cluster_or_open_space_development
       attributes :description, :address, :city, :state, :zip_code, :full_address
+
+      has_many :team_memberships
 
       # Filters
       range_filters :created_at, :updated_at, :height, :stories,
@@ -45,6 +48,7 @@ module API
       def full_address
         "#{@model.address}, #{@model.city} #{@model.state} #{@model.zip_code}"
       end
+
     end
   end
 end

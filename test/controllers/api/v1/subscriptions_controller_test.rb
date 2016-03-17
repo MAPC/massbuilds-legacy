@@ -62,7 +62,9 @@ class API::V1::SubscriptionsControllerTest < ActionController::TestCase
         type: 'subscriptions',
         attributes: { },
         relationships: {
-          subscribable: {data: { type: 'developments', id: development.id }},
+          subscribable: {
+            data: { type: 'developments', id: development.id }
+          },
         }
       }
     }
