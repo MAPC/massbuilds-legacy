@@ -1,6 +1,7 @@
 require 'test_helper'
 
 class API::V1::OrganizationsControllerTest < ActionController::TestCase
+
   def organization
     @_organization ||= organizations(:mapc)
   end
@@ -23,8 +24,8 @@ class API::V1::OrganizationsControllerTest < ActionController::TestCase
 
   private
 
-    def results(response)
-      JSON.parse(response.body)['data']
-    end
+  def results(response)
+    JSON.parse(response.body)['data']
+  end
 
 end

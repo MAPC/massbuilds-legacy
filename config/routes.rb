@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       jsonapi_resources :searches,      only: [:index, :show, :create]
       jsonapi_resources :subscriptions, only: [:create, :destroy]
       jsonapi_resources :organizations, only: [:index, :show]
+      jsonapi_resources :development_team_memberships, only: [:index, :show]
     end
   end
 
