@@ -1,0 +1,14 @@
+!!! 5
+%html
+  %head
+    %title DD
+    - style_opts = { media: 'all', 'data-turbolinks-track' => true }
+    = stylesheet_link_tag 'application', style_opts
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+
+  %body
+    #flash= render 'shared/flash'
+    = render 'shared/header'
+    = yield
+    = render 'shared/footer'

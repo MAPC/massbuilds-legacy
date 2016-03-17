@@ -1,0 +1,26 @@
+#header.ui.borderless.fixed.menu
+  .ui.container
+    %a.header.item{ href: "#" }
+      -# %img.logo{:src => "assets/images/logo.png"}
+      DD
+
+    = link_to developments_path,  class: 'item' do
+      Developments
+
+    = link_to organizations_path, class: 'item' do
+      Organizations
+
+    - unless signed_in?
+
+      = link_to '#static/pricing', class: 'item' do
+        Pricing
+
+      = link_to signin_path, class: 'item' do
+        Sign in
+
+      = link_to signup_path, class: 'item' do
+        Sign up
+
+    - if signed_in?
+
+      = render 'users/header'

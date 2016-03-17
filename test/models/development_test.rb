@@ -327,6 +327,21 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal nil, d.neighborhood
   end
 
+  test 'column bounds' do
+    expected = column_bound_keys
+    actual = Development.ranged_column_bounds.keys
+    assert_equal expected, actual
+  end
+
+  def column_bound_keys
+    [:created_at, :updated_at, :height, :stories, :year_compl, :prjarea,
+     :singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop, :rptdemp,
+     :emploss, :estemp, :commsf, :hotelrms, :onsitepark, :total_cost,
+     :team_membership_count, :fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs,
+     :fa_rnd, :fa_edinst, :fa_other, :fa_hotel, :other_rate, :affordable,
+     :latitude, :longitude]
+  end
+
   def periscope_params
     hash = Hash.new
     ranged_scopes.each { |key| hash[key] = [0,1] }
