@@ -28,7 +28,7 @@ module API
 
       def restrict_access_by_params
         return true if @api_key
-        @api_key = APIKey.find_by(token: params[:api_key])
+        @api_key = APIKey.find_by(token: params['api_key'])
       end
 
     end
