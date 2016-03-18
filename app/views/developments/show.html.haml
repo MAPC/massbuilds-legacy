@@ -7,10 +7,10 @@
   .six.wide.column#actions
     = render partial: 'developments/show/actions'
 
+= render partial: 'developments/show/tags'
+
 .row
   .ten.wide.column
-    #tags
-      = render partial: 'developments/show/tags'
     #images
       %img.ui.image{src: @development.street_view, style: 'width: 600px; height: 600px;', alt: @development.name}
     #data
