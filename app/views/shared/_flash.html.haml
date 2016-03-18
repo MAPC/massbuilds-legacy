@@ -1,6 +1,6 @@
 - if flash
-  .row
-    .column
+  .row#flash
+    .sixteen.wide.column
       - flash.each do |key, value|
         - if flash[:partial]
           = render partial: "flashes/#{value['path']}",
