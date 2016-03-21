@@ -28,6 +28,10 @@ class DigestPresenter < Burgundy::Item
     item
   end
 
+  def frequency
+    user.mail_frequency
+  end
+
   def user_last_checked
     user.last_checked_subscriptions
   end
@@ -35,16 +39,19 @@ class DigestPresenter < Burgundy::Item
   private
 
   def subscribed(class_name)
-    subs = subscriptions.where(
-      subscribable_type: class_name
-    ).map(&:subscribable)
-    return DevelopmentPresenter.wrap(subs) if class_name == 'Development'
-    subs.map do |item|
-      OpenStruct.new(
-        name: item.name,
-        developments: DevelopmentPresenter.wrap(item.developments)
-      )
+    if class_name == 'Development'
+      wrapped_developments
+    else
+      raw_subscriptions
     end
+  end
+
+  def raw_subscriptions(class_name)
+    subscriptions.where(subscribable_type: class_name).map(&:subscribable)
+  end
+
+  def wrapped_developments
+    DevelopmentPresenter.wrap(raw_subscriptions)
   end
 
 end

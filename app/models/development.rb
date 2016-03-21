@@ -132,6 +132,10 @@ class Development < ActiveRecord::Base
     Hash[ranged_column_array]
   end
 
+  def to_s
+    name
+  end
+
   private
 
   def update_tagline

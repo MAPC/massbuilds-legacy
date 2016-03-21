@@ -736,7 +736,8 @@ CREATE TABLE users (
     first_name character varying,
     last_name character varying,
     hashed_email character varying,
-    last_checked_subscriptions timestamp without time zone DEFAULT '2016-02-12 16:39:06.664379'::timestamp without time zone NOT NULL
+    last_checked_subscriptions timestamp without time zone DEFAULT '2016-02-12 16:39:06.664379'::timestamp without time zone NOT NULL,
+    mail_frequency character varying(8) DEFAULT 'weekly'::character varying
 );
 
 
@@ -1549,4 +1550,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160209214001');
 INSERT INTO schema_migrations (version) VALUES ('20160210184025');
 
 INSERT INTO schema_migrations (version) VALUES ('20160308203038');
+
+INSERT INTO schema_migrations (version) VALUES ('20160321203100');
 

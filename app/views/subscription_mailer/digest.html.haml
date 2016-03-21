@@ -1,81 +1,71 @@
 -# TODO:
--#   - mailer layout that takes care of a lot of this
--#   - how many of each section were updated
 -#   - new developments that appear in a place or search
 
-#main.ui.container
-  %h2.ui.header
+- user = @digest.user
+
+%h3.ui.header
+  %div.content
+    = @digest.frequency.titleize
+    Summary of Development Updates
     %i.history.icon
-    %div.content
-      Daily Summary of Development Updates
-  %h3.ui.header= Date.yesterday.to_s(:subject)
+%h2.ui.header
+  Changes since
+  = user.last_checked_subscriptions.to_s(:subject)
 
+.ui.row
+  .column
+    .ui.horizontal.list
+      .item
+        %h4 What's been updated?
+      .item
+        %i.blue.marker.icon
+        .content
+          = @digest.places.count
+          places
+      .item
+        %i.green.search.icon
+        .content
+          = @digest.searches.count
+          searches
+      .item
+        %i.orange.building.outline.icon
+        .content
+          = @digest.developments.count
+          developments
+
+%br
+%br
+
+- if @digest.places.any?
   .ui.row
-    %p
-      You are presently watching:
-    %p
-      = @digest.places.count
-      places
-      &bull;
-      = @digest.searches.count
-      searches
-      &bull;
-      = @digest.developments.count
-      developments
-
-  %br
-  %br
-  %br
-  - if @digest.places.any?
-    .ui.row
-      %h2 Places
+    .column
+      .ui.horizontal.divider.header
+        %i.marker.icon
+        Places
       - @digest.places.each do |place|
         %h3= place.name
-        - place.developments.each do |item|
-          %h4.ui.header
-            = item.name
-            %h5.ui.sub.header= item.display_address
-          - changes = item.changes_since(@digest.user_last_checked)
-          - undisplayed = item.undisplayed_changes_since(@digest.user_last_checked)
-          = render partial: 'edits/edit', collection: changes
-          - if undisplayed > 0
-            =link_to "See remaining #{undisplayed} changes.", item
+        .ui.divided.items
+          = render partial: 'developments/digest', collection: place.developments,
+              as: :development
 
-  %br
-  %br
-  %br
+- if @digest.searches.any?
+  .ui.row
+    .ui.horizontal.divider.header
+      %i.search.icon
+      Searches
+    - @digest.searches.each do |search|
+      %h3
+        Search
+        = search.id
+      .ui.divided.items
+        = render partial: 'developments/digest', collection: search.developments,
+            as: :development
 
-  - if @digest.searches.any?
-    .ui.row
-      %h2 Searches
-      - @digest.searches.each do |search|
-        %h3= search.name
-        - search.developments.each do |item|
-          %h4.ui.header
-            = item.name
-            %h5.ui.sub.header= item.display_address
-          - changes = item.changes_since(@digest.user_last_checked)
-          - undisplayed = item.undisplayed_changes_since(@digest.user_last_checked)
-          = render partial: 'edits/edit', collection: changes
-          - if undisplayed > 0
-            =link_to "See remaining #{undisplayed} changes.", item
-
-
-  %br
-  %br
-  %br
-
-  - if @digest.developments.any?
-    .ui.row
-      %h2 Developments
-      - @digest.developments.each do |item|
-        %h4.ui.header
-          = item.name
-          %h5.ui.sub.header= item.display_address
-        - changes = item.changes_since(@digest.user_last_checked)
-        - undisplayed = item.undisplayed_changes_since(@digest.user_last_checked)
-        = render partial: 'edits/edit', collection: changes
-        - if undisplayed > 0
-          =link_to "See remaining #{undisplayed} changes.", item
-
-
+- if @digest.developments.any?
+  .ui.row
+    .ui.horizontal.divider.header
+      %i.building.outline.icon
+      Developments
+    .ui.divided.items
+      = render partial: 'developments/digest', collection: @digest.developments,
+          as: :development

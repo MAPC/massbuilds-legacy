@@ -30,6 +30,10 @@ class EditPresenter < Burgundy::Item
     changes.count == 0
   end
 
+  def more  ; 0 ; end
+  def more? ; false ; end
+  def more_than(*args) ; false ; end
+
   private
 
     def field_to_time

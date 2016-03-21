@@ -14,7 +14,8 @@ class SubscriptionMailer < ApplicationMailer
   private
 
   def subject
-    "Development Updates for #{Date.yesterday.to_s(:subject)}"
+    timestamp = @digest.user.last_checked_subscriptions.to_s(:subject)
+    "Development updates since #{timestamp}"
   end
 
 end

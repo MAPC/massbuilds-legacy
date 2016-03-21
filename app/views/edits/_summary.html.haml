@@ -1,10 +1,12 @@
 .summary
-  -# TODO: Make editor information a partial.
-  = link_to edit.editor.short_name, 'edit.editor'
-  - org = edit.editor.organizations.first
-  - if org.present?
-    =link_to "(#{org.short_name})", org
+  = render partial: 'users/feed_editor', object: edit.editor, as: :editor
   made several edits.
   .date= edit.time_ago
 %ul
   = render partial: 'changes/change', collection: edit.changes
+  - if edit.more?
+    .item
+      .content
+        %i.blue.right.triangle.icon
+        = link_to "View #{edit.more} more changes", edit.development
+

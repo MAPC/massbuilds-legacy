@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  extend Enumerize
+
   before_save :hash_email
   after_create :assign_api_key
 
@@ -18,6 +20,9 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: true
   validates :last_name,  presence: true
+
+  enumerize :mail_frequency, in: [:never, :daily, :weekly],
+    predicates: true, default: :weekly
 
   def contributions
     Edit.where(editor_id: id, state: 'applied')
