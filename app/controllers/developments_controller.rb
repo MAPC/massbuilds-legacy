@@ -30,6 +30,7 @@ class DevelopmentsController < ApplicationController
 
   def search
     @limits = Development.ranged_column_bounds.to_json
+    render layout: "search"
   end
 
   private

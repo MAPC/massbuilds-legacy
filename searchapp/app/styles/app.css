@@ -1,0 +1,65 @@
+#mega-map {
+	height: 500px;
+}
+
+.search-grid {
+  background-color: #2196F3;
+  overflow-y: scroll;
+}
+
+.masthead{
+  top: 45px;
+}
+
+.results {
+  padding-left: 0 !important;
+}
+
+.ui.button {
+  border-radius: 0 !important;
+}
+
+#map {
+  height: 500px;
+}
+
+.map-list-results {
+  max-height: calc(45vh) !important;
+  overflow-y: scroll;
+  padding-top: 0 !important;
+}
+
+.master-grid {
+  height: calc(100vh + 15px) !important;
+}
+
+#emberapp {
+  max-height: calc(100vh);
+}
+
+.map-container {
+  padding-bottom: 0 !important;
+}
+
+.results-table {
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.ui.attached.buttons {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.mapboxgl-popup {
+    max-width: 400px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+.marker-title {
+    font-weight: 700;
+}
+
+#sidebar {
+  background-color: #1b1c1d;
+}

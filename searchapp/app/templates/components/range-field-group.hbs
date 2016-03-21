@@ -1,0 +1,23 @@
+{{label}}
+<div class="two fields">
+  <div class="ui field fluid labeled input">
+    <div class="ui label">From</div>
+    {{input type="text" value=from}}
+  </div>
+  <div class="ui field fluid labeled input">
+    <div class="ui label">To</div>
+    {{input type="text" value=to}}
+  </div>
+</div>
+{{ember-ion-rangeslider
+  type="integer"
+  min=min
+  max=max
+  to_max=max
+  from_max=from_max
+  from_min=0
+  step=1
+  from=from
+  to=to
+  updateTrigger='finish'
+  }}
