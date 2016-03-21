@@ -69,3 +69,9 @@
     .ui.divided.items
       = render partial: 'developments/digest', collection: @digest.developments,
           as: :development
+
+#footer
+  %p
+    = link_to edit_user_registration_path do
+      Edit your email preferences to unsubscribe or change
+      how often you receive emails.
