@@ -40,9 +40,9 @@ class DigestPresenter < Burgundy::Item
 
   def subscribed(class_name)
     if class_name == 'Development'
-      wrapped_developments
+      wrapped_developments(class_name)
     else
-      raw_subscriptions
+      raw_subscriptions(class_name)
     end
   end
 
@@ -50,8 +50,8 @@ class DigestPresenter < Burgundy::Item
     subscriptions.where(subscribable_type: class_name).map(&:subscribable)
   end
 
-  def wrapped_developments
-    DevelopmentPresenter.wrap(raw_subscriptions)
+  def wrapped_developments(class_name)
+    DevelopmentPresenter.wrap(raw_subscriptions(class_name))
   end
 
 end

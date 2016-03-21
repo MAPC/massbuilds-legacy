@@ -18,7 +18,9 @@ class DigestJob
   end
 
   def perform
-    users.find_each { |user| send_email_and_update(user) }
+    users.find_each do |user|
+      send_email_and_update(user)
+    end
   end
 
   def users
@@ -30,7 +32,9 @@ class DigestJob
   private
 
   def send_email_and_update(user)
-    SubscriptionMailer.digest(user).deliver_later
+    if user.subscriptions_needing_update.any?
+      SubscriptionMailer.digest(user).deliver_later
+    end
     user.touch :last_checked_subscriptions
   rescue => e
     log_error(e)
