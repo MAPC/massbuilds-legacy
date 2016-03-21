@@ -7,6 +7,7 @@ class User < ActiveRecord::Base
   extend Enumerize
 
   before_save :hash_email
+  before_save :ensure_reasonable_last_checked
   after_create :assign_api_key
 
   attr_readonly :api_key
@@ -60,6 +61,12 @@ class User < ActiveRecord::Base
 
   def hash_email
     self.hashed_email = Digest::MD5::hexdigest(email.downcase)
+  end
+
+  def ensure_reasonable_last_checked
+    if mail_frequency_was == "never" && mail_frequency_change.last != "never"
+      self.last_checked_subscriptions = 1.week.ago
+    end
   end
 
   def assign_api_key
