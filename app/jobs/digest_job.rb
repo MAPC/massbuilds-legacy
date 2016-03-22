@@ -8,7 +8,9 @@ class DigestJob
   TIME_LOOKUP = {
     daily:  1.day.ago  + BUFFER,
     weekly: 1.week.ago + BUFFER,
-    never:  Time.now # Don't want this to be nil, but even though nil returns 0 users
+    # To be more explicit and avoid checking, I don't want :never to
+    # return nil, even though nil returns 0 users and is kind of useful.
+    never:  Time.now
   }.freeze
 
   def initialize(frequency = :weekly)
@@ -26,7 +28,7 @@ class DigestJob
   def users
     return [] if @frequency == :never
     User.where(mail_frequency: frequency).
-         where('last_checked_subscriptions < ?', @time)
+      where('last_checked_subscriptions < ?', @time)
   end
 
   private
@@ -48,9 +50,12 @@ class DigestJob
   def assert_frequency_in_options
     opts = User.mail_frequency.options.map { |o| o.last.to_sym }
     unless opts.include?(@frequency)
-      raise ArgumentError,
-        "Frequency must be one of #{opts}, but was #{@frequency.inspect}"
+      raise ArgumentError, error_message
     end
+  end
+
+  def error_message
+    "Frequency must be one of #{opts}, but was #{@frequency.inspect}"
   end
 
 end
