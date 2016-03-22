@@ -5,7 +5,17 @@
        
         <div class="sub header" id="address">
           <i class="icon marker"></i>
-         
+          <div class="ui form">
+            {{place-autocomplete-field
+              class="field"
+              value= model.address
+              disable=false
+              handlerController= this
+              inputClass= 'place-autocomplete--input'
+              placeChangedCallback='placeChanged'
+              types="address"
+            }}
+          </div>
         </div>
       </h1>
       <p class="tagline">
@@ -13,6 +23,8 @@
           <i class="icon linkify"><a href="{{model.website}}" target="_blank">{{model.website}}</a></i>
         {{/if}}
 
+        
+        {{!--         <img src="https://maps.googleapis.com/maps/api/streetview?size=200x200&location=42.359133,-71.0589965&key=AIzaSyA-kZB6mH1kp-uXBrp5v8luDiPzKYh_nfQ" />  --}}
       </p>
 
       <div id="status">
@@ -29,15 +41,19 @@
         
       </div>
       <div id="images">
-        <img alt="600px;"/>
+        {{#if model.latitude}}
+          {{street-view povChanged='povChanged' positionChanged='positionChanged' addressControl=false pov=this.pointOfView lat=model.latitude lng=model.longitude}}
+        {{/if}}
       </div>
       <div id="data">
         <div class="ui horizontal divider">Details</div>
       </div>
     </div>
-    <div class="six wide column" id="sidebar">
-      <div id="map">
-        
+    <div class="six wide column">
+      <div>
+        {{#if model.latitude}}
+          {{development-map model=model}}
+        {{/if}}
       </div>
       <div id="team">
         
