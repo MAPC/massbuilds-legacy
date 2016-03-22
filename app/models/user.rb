@@ -4,7 +4,10 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  extend Enumerize
+
   before_save :hash_email
+  before_save :ensure_reasonable_last_checked
   after_create :assign_api_key
 
   attr_readonly :api_key
@@ -18,6 +21,9 @@ class User < ActiveRecord::Base
 
   validates :first_name, presence: true
   validates :last_name,  presence: true
+
+  enumerize :mail_frequency, in: [:never, :daily, :weekly],
+    predicates: true, default: :weekly
 
   def contributions
     Edit.where(editor_id: id, state: 'applied')
@@ -55,6 +61,12 @@ class User < ActiveRecord::Base
 
   def hash_email
     self.hashed_email = Digest::MD5::hexdigest(email.downcase)
+  end
+
+  def ensure_reasonable_last_checked
+    if mail_frequency_change && mail_frequency_change.last != 'never'
+      self.last_checked_subscriptions = 1.week.ago
+    end
   end
 
   def assign_api_key
