@@ -21,7 +21,8 @@ class InboxNotice < ActiveRecord::Base
 
   def deliver_to(user)
     if user.inbox << self
-    mark_as :delivered
+      mark_as :delivered
+    end
   end
 
   private
