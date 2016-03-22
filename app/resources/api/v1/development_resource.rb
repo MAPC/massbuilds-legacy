@@ -49,7 +49,7 @@ module API
       end
 
       def city
-        { name: @model.city.name } # TODO Add muni_id
+        { name: @model.city.name } # TODO: Add muni_id
       end
 
       # TODO: This is duplicated from the presenter.

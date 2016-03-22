@@ -64,7 +64,7 @@ class User < ActiveRecord::Base
   end
 
   def ensure_reasonable_last_checked
-    if mail_frequency_change && mail_frequency_change.last != "never"
+    if mail_frequency_change && mail_frequency_change.last != 'never'
       self.last_checked_subscriptions = 1.week.ago
     end
   end

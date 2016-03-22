@@ -1,10 +1,10 @@
 -# TODO:
--#   - new developments that appear in a place or search
+-#   - call out new developments that appear in a place or search
 
 - user = @digest.user
 
 %h3.ui.header
-  %div.content
+  .content
     = @digest.frequency.titleize
     Summary of Development Updates
     %i.history.icon
@@ -45,8 +45,8 @@
       - @digest.places.each do |place|
         %h3= place.name
         .ui.divided.items
-          = render partial: 'developments/digest', collection: place.developments,
-              as: :development
+          = render partial: 'developments/digest',
+              collection: place.developments, as: :development
 
 - if @digest.searches.any?
   .ui.row
@@ -58,8 +58,8 @@
         Search
         = search.id
       .ui.divided.items
-        = render partial: 'developments/digest', collection: search.developments,
-            as: :development
+        = render partial: 'developments/digest',
+            collection: search.developments, as: :development
 
 - if @digest.developments.any?
   .ui.row
@@ -67,8 +67,8 @@
       %i.building.outline.icon
       Developments
     .ui.divided.items
-      = render partial: 'developments/digest', collection: @digest.developments,
-          as: :development
+      = render partial: 'developments/digest',
+          collection: @digest.developments, as: :development
 
 #footer
   %p

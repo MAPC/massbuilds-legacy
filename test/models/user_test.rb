@@ -134,7 +134,7 @@ class UserTest < ActiveSupport::TestCase
   test 'no change if going between nevers' do
     peter = users(:peter_pan)
     assert_no_difference 'peter.last_checked_subscriptions' do
-      user.update_attribute(:mail_frequency, :never)
+      peter.update_attribute(:mail_frequency, :never)
     end
   end
 

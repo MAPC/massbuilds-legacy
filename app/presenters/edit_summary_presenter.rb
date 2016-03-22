@@ -7,8 +7,8 @@ class EditSummaryPresenter < EditPresenter
     ChangePresenter.wrap item.fields.first(FIELD_COUNT)
   end
 
-  def more_than(count=FIELD_COUNT)
-    item.fields.count - FIELD_COUNT
+  def more_than(count = FIELD_COUNT)
+    item.fields.count - count
   end
 
   alias_method :more, :more_than

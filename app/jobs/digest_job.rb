@@ -11,7 +11,7 @@ class DigestJob
     never:  Time.now # Don't want this to be nil, but even though nil returns 0 users
   }.freeze
 
-  def initialize(frequency=:weekly)
+  def initialize(frequency = :weekly)
     @frequency = frequency
     assert_frequency_in_options
     @time = TIME_LOOKUP[frequency]
