@@ -4,6 +4,12 @@ class InboxNotice < ActiveRecord::Base
   # enumerize :status
   # enumerize :level
 
+  # Notification = in-app message
+  # Server-side events push them, also Hackpad- or Slack-style notices
+  # But "Notification" could mean SMS, email, robocall etc.
+  # So "notiication" isn't the right concept here, but rather "inbox message"
+  # or something like that.
+
   def initialize
     @state = :pending
     super # ?
@@ -20,13 +26,7 @@ class InboxNotice < ActiveRecord::Base
 
   private
 
-    def mark_as(state)
-      self.state = :read
-    end
-
-  # Notification = in-app message
-  # Server-side events push them, also Hackpad- or Slack-style notices
-  # But "Notification" could mean SMS, email, robocall etc.
-  # So "notiication" isn't the right concept here, but rather "inbox message"
-  # or something like that.
+  def mark_as(state)
+    self.state = :read
+  end
 end
