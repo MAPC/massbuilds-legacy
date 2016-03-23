@@ -79,4 +79,7 @@ Rails.application.configure do
 
   DEFAULT_HOST = ENV.fetch 'HOST', 'dd.mapc.org'
   Rails.application.default_url_options[:host] = DEFAULT_HOST
+
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.default_url_options = { host: DEFAULT_HOST }
 end

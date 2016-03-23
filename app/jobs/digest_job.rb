@@ -39,10 +39,10 @@ class DigestJob
     end
     user.touch :last_checked_subscriptions
   rescue => e
-    log_error(e)
+    log_error(e, user)
   end
 
-  def log_error(e)
+  def log_error(e, user)
     Rails.logger.error "Could not email user #{user}"
     Rails.logger.error "#{e.message}\n#{e.backtrace}"
   end
