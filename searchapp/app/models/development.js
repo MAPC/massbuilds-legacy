@@ -13,6 +13,12 @@ export default DS.Model.extend({
   description: DS.attr("string"),
   walkscore: DS.attr("number"),
   location: function() {
-    return [this.get("longitude"), this.get("latitude")];
-  }.property("latitude", "longitude")
+    var longitude = this.get("longitude"),
+    latitude = this.get("latitude");
+
+     if (longitude && latitude) { return [longitude, latitude]; } else 
+                                { return undefined; }
+  }.property("latitude", "longitude"),
+  refinedLat: DS.attr("string"),
+  refinedLng: DS.attr("string")
 });
