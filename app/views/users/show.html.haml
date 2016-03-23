@@ -1,3 +1,19 @@
+:ruby
+  set_meta_tags title: @user.full_name
+  set_meta_tags og: {
+    title:       @user.full_name,
+    url:         user_url(@user),
+    description: "Joined #{@user.joined}",
+    image:       @user.gravatar_url(size: 125).html_safe,
+    type:        'person'
+  }
+  set_meta_tags twitter: {
+    label1: 'Contributions',
+    data1: @user.contributions,
+    label2: 'Member of',
+    data2: @user.primary_organization || 'no organizations'
+  }
+
 .row
   .ui.twelve.column.grid
     .four.wide.column
@@ -8,7 +24,7 @@
         .content
           %a.header{ href: 'https://en.gravatar.com/site/login',
             target: '_blank' }
-            #{@user.first_name} #{@user.last_name}
+            = @user.full_name
           .meta
             .ui.list
               .item= @user.email
