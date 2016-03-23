@@ -10,8 +10,6 @@ export default Ember.Controller.extend({
       model.set("latitude", location.lat())
       model.set("longitude", location.lng())
       console.log("Changing place to: ", model.get("latitude"), model.get("longitude"));
-      // model.save(); not yet
-
     },
 
     // Google Street View
@@ -27,9 +25,21 @@ export default Ember.Controller.extend({
       model.set("longitude", state.lng)
     }
   },
-  // proof of concept for now
-  pointOfView: {
-    heading: 34,
-    pitch: 4
-  }
+  // sets defaults in case undefined. defaults should be set on the model.
+  pointOfView: function() {
+    var model = this.get("model");
+    return {
+      heading: model.get("heading") || 30,
+      pitch: model.get("pitch") || 5
+    } 
+  }.property("this.model"),
+
+  // private
+
+  resetRefinements: function() {
+    console.log("Observer fired");
+    var model = this.get("model");
+    model.set("refinedLat", model.get("latitude"));
+    model.set("refinedLng", model.get("longitude"));
+  }.observes("this.model.location")
 });

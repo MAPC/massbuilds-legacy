@@ -23,8 +23,6 @@
           <i class="icon linkify"><a href="{{model.website}}" target="_blank">{{model.website}}</a></i>
         {{/if}}
 
-        
-        {{!--         <img src="https://maps.googleapis.com/maps/api/streetview?size=200x200&location=42.359133,-71.0589965&key=AIzaSyA-kZB6mH1kp-uXBrp5v8luDiPzKYh_nfQ" />  --}}
       </p>
 
       <div id="status">
@@ -51,6 +49,7 @@
     </div>
     <div class="six wide column">
       <div>
+        
         {{#if model.latitude}}
           {{development-map model=model}}
         {{/if}}

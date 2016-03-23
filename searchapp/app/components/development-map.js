@@ -5,36 +5,47 @@ export default Ember.Component.extend({
     var model = this.get("model");
     // access token
     mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsYnVybmZvcmNlIiwiYSI6ImNpaHAzNzZuZzAxZ2N0NG00dnJvNWhpbG0ifQ.wenPCGfbuhofj2g4kkTJGw';
-
+    L.mapbox.accessToken = mapboxgl.accessToken
     // map configuration
     this.map = new mapboxgl.Map({
         container: 'development-map', // container id
-        style: 'mapbox://styles/wilburnforce/cihp1v6cq00c392jatjumz95p',
+        style: 'mapbox://styles/mapbox/light-v8',
 
         // this must get called at least once before observers can fire
         center: model.get("location"),
         zoom: 18
     });
+    //mapbox://styles/wilburnforce/cihp1v6cq00c392jatjumz95p
+
+    // need the full tileset
+    this.map.on('style.load', () => {
+      this.map.addSource('parcels', {
+          type: 'vector',
+          url: 'mapbox://wilburnforce.8xh71ri6'
+      });
+
+      this.map.addLayer({
+          "id": "parcelsStyle",
+          "type": "fill",
+          "source": "parcels",
+          "source-layer": "parcels10"
+      });
+    });
+
+    this.map.on("dragend", () => {
+      console.log("dragged");
+      var center = this.map.getCenter();
+      model.set("refinedLat", center.lat);
+      model.set("refinedLng", center.lng);
+    });
 
     this.map.scrollZoom.disable();
     this.map.addControl(new mapboxgl.Navigation());
 
-    // this.map.on("style.load", () => {
-    //   alert("Loaded");
-    //   var crosshairIcon = L.icon({
-    //       iconUrl: 'images/crosshair.png',
-    //       iconSize:     [20, 20], // size of the icon
-    //       iconAnchor:   [10, 10], // point of the icon which will correspond to marker's location
-    //   });
-    //   var crosshair = new L.marker(this.map.getCenter(), {icon: crosshairIcon, clickable:false});
-    //   crosshair.addTo(this.map);
 
-    //   // Move the crosshair to the center of the map when the user pans
-    //   this.map.on('move', function(e) {
-    //     console.log("TesT")
-    //       crosshair.setLatLng(map.getCenter());
-    //   });
-    // });
+
+
+
   },
   modelChange: function() {
 
