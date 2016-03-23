@@ -1,3 +1,12 @@
+:ruby
+  set_meta_tags og: {
+    title:       @development.name,
+    url:         development_url(@development),
+    description: @development.tagline,
+    image:       @development.street_view.html_safe,
+    type:        'development'
+  }
+
 .row
   .ten.wide.column#title-area
     = render partial: 'developments/show/title'

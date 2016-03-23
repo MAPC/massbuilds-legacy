@@ -38,6 +38,7 @@ gem 'kaminari'  # Pagination
 gem 'leaflet-rails' # Maps
 gem 'wicked_pdf', '~> 1.0'    # PDF generation
 gem 'wkhtmltopdf-binary-edge' # PDF generation binary
+gem 'meta-tags' # SEO, Open Graph tags
 
 # Semantic UI
 gem 'therubyracer'
