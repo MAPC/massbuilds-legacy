@@ -18,7 +18,7 @@ class DevelopmentsController < ApplicationController
   def update
     # Initialize the form, since we're capturing changes through
     # the form and not acting on the development itself.
-    form = DevelopmentForm.new(current_user)
+    form = DevelopmentForm.new(devise_current_user)
     if form.submit(@development.id, edit_development_params)
       flash[:partial] = { path: 'developments/proposed_success' }
       redirect_to @development

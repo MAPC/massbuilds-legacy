@@ -4,7 +4,7 @@
     title:       @development.name,
     url:         development_url(@development),
     description: @development.tagline,
-    image:       @development.street_view.html_safe,
+    image:       @development.street_view.to_s.html_safe,
     type:        'development'
   }
   set_meta_tags twitter: { card: 'summary_large_image' }

@@ -49,7 +49,9 @@ module API
       end
 
       def city
-        { name: @model.city.name } # TODO: Add muni_id
+        # TODO: Add muni_id
+        # TODO: Fix NilCheck smell
+        { name: @model.city.name } if @model.city
       end
 
       # TODO: This is duplicated from the presenter.
