@@ -1,5 +1,5 @@
 class Place < ActiveRecord::Base
-  has_many :developments
+  has_many :developments, dependent: :restrict_with_error
   validates :name, presence: true, length: { maximum: 65 }
 
   def updated_since?(timestamp = Time.now)

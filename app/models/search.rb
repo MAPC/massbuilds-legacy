@@ -1,7 +1,8 @@
 class Search < ActiveRecord::Base
   belongs_to :user
   has_many :subscriptions, as: :subscribable
-  has_many :subscribers, through: :subscriptions, source: :user
+  has_many :subscribers, through: :subscriptions, source: :user,
+    dependent: :nullify
 
   before_save :ensure_title
 

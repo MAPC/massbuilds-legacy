@@ -3,11 +3,11 @@ class Organization < ActiveRecord::Base
   before_save :hash_email
   after_create :create_membership
 
-  has_many :memberships
+  has_many :memberships, dependent: :destroy
   has_many :members, through: :memberships, source: :user
-  has_many :administrators, class_name: :User
-  has_many :crosswalks
-  has_many :development_team_memberships
+  has_many :administrators, class_name: :User, dependent: :nullify
+  has_many :crosswalks, dependent: :nullify
+  has_many :development_team_memberships, dependent: :destroy
 
   # This should be scoped for unique, but our Postgres version (9.3)
   # cannot SELECT DISTINCT on tables with JSON data types.

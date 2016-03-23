@@ -14,14 +14,17 @@ class Development < ActiveRecord::Base
   belongs_to :creator, class_name: :User
   belongs_to :place
 
-  has_many :edits
-  has_many :flags
-  has_many :crosswalks
+  has_many :edits, dependent: :nullify
+  has_many :flags, dependent: :nullify
+  has_many :crosswalks, dependent: :nullify
   has_many :team_memberships, class_name: :DevelopmentTeamMembership,
-            counter_cache: :team_membership_count
-  has_many :team_members, through: :team_memberships, source: :organization
-  has_many :subscriptions, as: :subscribable
-  has_many :subscribers, through: :subscriptions, source: :user
+    counter_cache: :team_membership_count, dependent: :destroy
+  has_many :team_members, through: :team_memberships, source: :organization,
+    dependent: :nullify
+  has_many :subscriptions, as: :subscribable,
+    dependent: :nullify
+  has_many :subscribers, through: :subscriptions, source: :user,
+    dependent: :nullify
 
   has_and_belongs_to_many :programs
 
