@@ -3,7 +3,7 @@ require 'test_helper'
 class RouteTest < ActionDispatch::IntegrationTest
   test 'root' do
     skip
-    assert_routing '/', { controller: 'developments', action: 'index' }
+    assert_routing '/', controller: 'developments', action: 'index'
   end
 
   test 'default api version' do

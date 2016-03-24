@@ -15,7 +15,7 @@ class DevelopmentTeamSerializer
         # Need to get around Enumerize here -> the attribute is technically
         # serialized as an integer, so we need to #send instead.
         # Should we also test saving it? Test didn't catch this.
-        membership_attributes.map{ |a| team_membership.send(a)}]
+        membership_attributes.map { |a| team_membership.send(a) }]
     }.flatten
     # then apply them to the nil-filled row
     values.each_with_index { |v, i| @row[i] = v }
@@ -23,21 +23,19 @@ class DevelopmentTeamSerializer
   end
 
   def to_header
-    @max_team_size.times.map{ |id|
-      header_template(id + 1) # #times is 0-index, we want 1-index
-    }.flatten
+    # #times is 0-index, we want 1-index
+    @max_team_size.times.map { |id| header_template(id + 1) }.flatten
   end
 
   private
 
   def header_template(id)
-    team_attributes.map{ |attrib| "team_member_#{id}_#{attrib}" }
+    team_attributes.map { |attrib| "team_member_#{id}_#{attrib}" }
   end
 
   def member_attributes
-    Organization.attribute_names - %w(
-      id gravatar_email hashed_email creator_id created_at updated_at
-    )
+    Organization.attribute_names - %w( id gravatar_email hashed_email
+      creator_id created_at updated_at)
   end
 
   def membership_attributes

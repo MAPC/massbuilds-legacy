@@ -58,18 +58,17 @@ class DevelopmentForm
 
   private
 
-    def persist!
-      # Without a transaction, this becomes a dangling edit with
-      # no changes, which causes an error in our timid pending
-      # edits template.
-      ActiveRecord::Base.transaction do
-        edit = @development.edits.create!(editor: @current_user)
-        @development.changes.each_pair do |name, diff|
-          edit.fields.create!(
-            name: name, change: { from: diff.first, to: diff.last }
-          )
-        end
+  def persist!
+    # Without a transaction, this becomes a dangling edit with
+    # no changes, which causes an error in our timid pending
+    # edits template.
+    ActiveRecord::Base.transaction do
+      edit = @development.edits.create!(editor: @current_user)
+      @development.changes.each_pair do |name, diff|
+        edit.fields.create!(name: name,
+          change: { from: diff.first, to: diff.last })
       end
     end
+  end
 
 end

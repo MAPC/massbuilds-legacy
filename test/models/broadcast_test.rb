@@ -31,7 +31,7 @@ class BroadcastTest < ActiveSupport::TestCase
   test 'does not require a scope to save' do
     # is there a Rails query building GUI engine?
     # or are we just doing SQL inside a "where" bucket?
-    cast.scope = "manager IS NOT NULL"
+    cast.scope = 'manager IS NOT NULL'
     assert cast.valid?
   end
 
@@ -52,7 +52,7 @@ class BroadcastTest < ActiveSupport::TestCase
   end
 
   test 'requires a scope that returns > 0 records' do
-    cast.scope = "id IS NULL"
+    cast.scope = 'id IS NULL'
     assert_not cast.deliverable?
     assert_not cast.schedulable?
   end
@@ -65,10 +65,9 @@ class BroadcastTest < ActiveSupport::TestCase
 
   test 'requires a scope that does not unscope' do
     # i.e. builds off of default scope
-    skip """
-      I don't think they can unscope if we're throwing this
-      in a where clause.
-    """
+    # I don't think they can unscope if we're throwing this
+    # in a where clause.
+    skip
   end
 
   test 'calculates count of affected users' do
@@ -89,7 +88,7 @@ class BroadcastTest < ActiveSupport::TestCase
     assert_equal 'scheduled', broadcast.state
   end
 
-  test "can't reschedule a delivered message" do
+  test 'cannot reschedule a delivered message' do
     skip 'Not yet implemented.'
   end
 end

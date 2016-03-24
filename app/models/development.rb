@@ -33,6 +33,17 @@ class Development < ActiveRecord::Base
   validates :creator,    presence: true
   validates :year_compl, presence: true
 
+  validates :latitude,  presence: true,
+    numericality: { less_than_or_equal_to: 90, greater_than_or_equal_to: -90 }
+  validates :longitude, presence: true,
+    numericality: { less_than_or_equal_to: 180, greater_than_or_equal_to: -180 }
+
+  validates :street_view_latitude,  allow_blank: true,
+    numericality: { less_than_or_equal_to: 90, greater_than_or_equal_to: -90 }
+  validates :street_view_longitude, allow_blank: true,
+    numericality: { less_than_or_equal_to: 180, greater_than_or_equal_to: -180 }
+
+
   STATUSES = [:projected, :planning, :in_construction, :completed].freeze
   enumerize :status, in: STATUSES, predicates: true
 
@@ -117,7 +128,7 @@ class Development < ActiveRecord::Base
   end
 
   def parcel
-    OpenStruct.new(id: 12345)
+    OpenStruct.new(id: 123)
   end
 
   def incentive_programs
@@ -148,7 +159,7 @@ class Development < ActiveRecord::Base
 
   def cache_street_view
     if street_view_fields_changed?
-      self.street_view_image = self.street_view.image(cached: false)
+      self.street_view_image = street_view.image(cached: false)
     end
   end
 

@@ -6,7 +6,8 @@ class DevelopmentTeamMembership < ActiveRecord::Base
 
   validates :development,  presence: true
   validates :organization, presence: true
-  validates :role, presence: true, uniqueness: { scope: [:development_id, :organization_id] }
+  validates :role, presence: true,
+    uniqueness: { scope: [:development_id, :organization_id] }
 
   ROLES = { developer: 1, architect: 2, engineer: 3, contractor: 4,
             landlord:  5, owner:     6, designer: 7 }.freeze

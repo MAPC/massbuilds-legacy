@@ -27,7 +27,7 @@ class Search < ActiveRecord::Base
   private
 
   def ensure_title
-    return if (title || unsaved?)
+    return if title || unsaved?
     self.title = "Saved Search #{next_search_count(user)}"
   end
 

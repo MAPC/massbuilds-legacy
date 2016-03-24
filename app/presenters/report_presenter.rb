@@ -53,24 +53,24 @@ class ReportPresenter < Burgundy::Item
 
   private
 
-    def prepare_statuses
-      statuses = {}
-      Development.status.values.each {|status|
-        statuses[status.to_sym] = prepare_values(status)
-      }
-      statuses
-    end
+  def prepare_statuses
+    statuses = {}
+    Development.status.values.each {|status|
+      statuses[status.to_sym] = prepare_values(status)
+    }
+    statuses
+  end
 
-    def prepare_values(status)
-      devs = developments.where(status: status)
-      attrs = [[:name, status.to_s.titleize], [:count, devs.size]]
-      numeric_fields.each do |attribute|
-        attrs << [attribute, devs.pluck(attribute).compact.sum]
-      end
-      boolean_fields.each do |attribute|
-        attrs << [attribute, devs.where(attribute => true).count]
-      end
-      Hash[attrs]
+  def prepare_values(status)
+    devs = developments.where(status: status)
+    attrs = [[:name, status.to_s.titleize], [:count, devs.size]]
+    numeric_fields.each do |attribute|
+      attrs << [attribute, devs.pluck(attribute).compact.sum]
     end
+    boolean_fields.each do |attribute|
+      attrs << [attribute, devs.where(attribute => true).count]
+    end
+    Hash[attrs]
+  end
 
 end

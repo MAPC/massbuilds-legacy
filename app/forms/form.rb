@@ -17,7 +17,8 @@ class Form
 
   private
 
-    def persist!
-      raise NotImplementedError, "must implement private method #persist!. Find me in #{__FILE__}"
-    end
+  def persist!
+    raise NotImplementedError,
+      "must implement private method #persist!. Find me in #{__FILE__}"
+  end
 end

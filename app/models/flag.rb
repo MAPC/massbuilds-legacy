@@ -30,16 +30,16 @@ class Flag < ActiveRecord::Base
 
   private
 
-    def valid_flagger
-      if self.flagger == User.null
-        errors.add :flagger, 'must not be an anonymous user'
-      end
+  def valid_flagger
+    if flagger == User.null
+      errors.add :flagger, 'must not be an anonymous user'
     end
+  end
 
-    def assert_resolvable
-      unless resolvable?
-        raise StandardError, "Flag #{id} is not resolvable"
-      end
+  def assert_resolvable
+    unless resolvable?
+      raise StandardError, "Flag #{id} is not resolvable"
     end
+  end
 
 end

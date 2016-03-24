@@ -4,12 +4,23 @@ AllCops:
     - "Guardfile"
     - "Gemfile"
     - "db/"
+    - "bin/"
     - "config/**/*"
   UseCache: false
     - 'vendor/**/*'
     - 'db/schema.rb'
     - 'Guardfile'
   UseCache: false
+# Sometimes, hash & parameter alignment is too much work to be worth it.
+Style/AlignHash:
+  Enabled: false
+Style/AlignParameters:
+  Enabled: false
+# It's acceptable to use { } for a single line block that is too long
+# to fit one one line, and looks better when chaining. Would love a
+# parameter that says you can have one line between braces, but no more.
+Style/BlockDelimiters:
+  Enabled: false
 Style/EmptyLinesAroundClassBody:
   Enabled: false
 Style/EmptyLinesAroundModuleBody:

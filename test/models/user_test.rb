@@ -28,7 +28,8 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'assigns API key upon creation' do
-    new_user = User.new(first_name: 'm', last_name: 'c', email: 'e@ma.il', password: 'password')
+    new_user = User.new(first_name: 'm', last_name: 'c', email: 'e@ma.il',
+      password: 'password')
     refute new_user.api_key
     new_user.save!
     assert new_user.reload.api_key, user.inspect

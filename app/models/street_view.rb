@@ -24,7 +24,7 @@ class StreetView
   end
 
   def build_url
-    u =  "https://maps.googleapis.com/maps/api/streetview?size=#{@size}x#{@size}"
+    u = "https://maps.googleapis.com/maps/api/streetview?size=#{@size}x#{@size}"
     u << "&location=#{latitude},#{longitude}"
     u << "&fov=#{field_of_view}"
     u << "&heading=#{heading}"

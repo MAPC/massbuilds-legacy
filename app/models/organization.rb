@@ -22,7 +22,7 @@ class Organization < ActiveRecord::Base
   validate  :valid_email, if: 'email.present?'
   validate  :valid_url_template, if: 'url_template.present?'
 
-  # TODO validates :existence_of_website
+  # TODO: validates :existence_of_website
 
   def active_members
     memberships.where(state: 'active').map(&:user).uniq
@@ -74,7 +74,7 @@ class Organization < ActiveRecord::Base
   end
 
   def create_membership
-    Membership.create(organization: self, user: self.creator)
+    Membership.create(organization: self, user: creator)
   end
 
 end
