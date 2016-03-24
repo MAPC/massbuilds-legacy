@@ -29,6 +29,11 @@ class StreetViewTest < ActiveSupport::TestCase
     refute StreetView.new(developments(:two)).image.present?
   end
 
+  test 'width and height' do
+    actual = StreetView.new(developments(:two), width: 70, height: 80).url
+    assert width_height_url
+  end
+
   def expected_default_url
     expected = 'https://maps.googleapis.com/maps/api/streetview?size=600x600'
     expected << '&location=42.3547661,-71.0615689&fov=100&heading=35&pitch=28'
@@ -43,6 +48,12 @@ class StreetViewTest < ActiveSupport::TestCase
 
   def sized_url
     expected = 'https://maps.googleapis.com/maps/api/streetview?size=300x300'
+    expected << '&location=42.000001,71.000001&fov=100&heading=235&pitch=35'
+    expected << '&key=loLOLol'
+  end
+
+  def width_height_url
+    expected = 'https://maps.googleapis.com/maps/api/streetview?size=70x'
     expected << '&location=42.000001,71.000001&fov=100&heading=235&pitch=35'
     expected << '&key=loLOLol'
   end

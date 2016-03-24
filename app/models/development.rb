@@ -29,6 +29,8 @@ class Development < ActiveRecord::Base
 
   has_and_belongs_to_many :programs
 
+  default_scope { includes(:place) }
+
   # Validations
   validates :creator,    presence: true
   validates :year_compl, presence: true

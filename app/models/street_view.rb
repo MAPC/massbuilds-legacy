@@ -2,9 +2,10 @@ class StreetView
 
   attr_reader :url
 
-  def initialize(source, size: 600)
+  def initialize(source, width: nil, height: nil, size: 600)
     @source = source
-    @size   = size || defaults.size
+    @width  = width || height || size
+    @height = height || width || size
     @url    = build_url
   end
 
@@ -24,7 +25,8 @@ class StreetView
   end
 
   def build_url
-    u =  "https://maps.googleapis.com/maps/api/streetview?size=#{@size}x#{@size}"
+    u =  "http://maps.googleapis.com/maps/api/streetview?"
+    u << "size=#{@width}x#{@height}"
     u << "&location=#{latitude},#{longitude}"
     u << "&fov=#{field_of_view}"
     u << "&heading=#{heading}"

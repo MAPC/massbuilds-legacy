@@ -2,4 +2,6 @@
   %h1 Developments
 
   #developments
-    = render @developments
+    .ui.divided.items
+      = render partial: 'developments/related', collection: @developments,
+          as: :development
