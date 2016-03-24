@@ -24,17 +24,26 @@ class DigestJobTest < ActiveSupport::TestCase
     assert_equal :daily, daily_job.frequency
   end
 
-  test 'not included in users when checked just now' do
-    user.update_attribute(:last_checked_subscriptions, Time.now)
+  test 'not included in weekly users when checked just now' do
+    user.update_attribute(:last_checked_subscriptions, Time.zone.now)
     user.update_attribute(:mail_frequency, :weekly)
-    refute_includes weekly_job.users, user
+    refute_includes weekly_job.users, user,
+      "#{user.id} should not be in wk #{weekly_job.users.map(&:id)}"
+  end
+
+  test 'not included in daily users when checked just now' do
+    puts 'test'
+    user.update_attribute(:last_checked_subscriptions, Time.zone.now)
     user.update_attribute(:mail_frequency, :daily)
-    refute_includes daily_job.users, user
+    expected = daily_job.users
+    refute_includes expected, user,
+      "#{user.id} should not be in daily #{expected.map(&:id)}"
   end
 
   test 'included in weekly, with buffer' do
     user.update_attribute :mail_frequency, :weekly
-    user.update_attribute :last_checked_subscriptions, 1.week.ago + 4.hours
+    user.update_attribute :last_checked_subscriptions,
+      1.week.ago + 4.hours
     assert_includes weekly_job.users, user
   end
 

@@ -9,7 +9,8 @@ class FlagsController < ApplicationController
 
   def create
     @flag = Flag.new new_flag_params
-    @flag.assign_attributes(development: @development, flagger: current_user)
+    @flag.assign_attributes(development: @development,
+      flagger: devise_current_user)
     if @flag.save
       flash[:success] = FLAG_CREATED
       redirect_to @development

@@ -16,7 +16,7 @@ class ApplicationController < ActionController::Base
   alias_method :devise_current_user, :current_user
 
   def current_user
-    UserPresenter.new(devise_current_user)
+    UserPresenter.new(devise_current_user || User.null)
   end
 
 end

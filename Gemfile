@@ -38,7 +38,9 @@ gem 'kaminari'  # Pagination
 gem 'leaflet-rails' # Maps
 gem 'wicked_pdf', '~> 1.0'    # PDF generation
 gem 'wkhtmltopdf-binary-edge' # PDF generation binary
-gem "ember-cli-rails", :git => "git://github.com/allthesignals/ember-cli-rails.git"
+gem 'ember-cli-rails',
+  git: 'git://github.com/allthesignals/ember-cli-rails.git'
+gem 'meta-tags' # SEO, Open Graph tags
 
 # Semantic UI
 gem 'therubyracer'
@@ -52,10 +54,15 @@ gem 'versionist'
 
 # Server
 gem 'puma'
-gem 'foreman', require: false
 gem 'rack-cors', require: 'rack/cors' # CORS Headers
 
+group :production do
+  gem 'rails_12factor'
+  gem 'newrelic_rpm'
+end
+
 group :development do
+  gem 'foreman', require: false
   gem 'spring'            # Keeps environment in background
   gem 'better_errors'     # Clearer error messages
   gem 'binding_of_caller' # REPL & more in error page
@@ -69,7 +76,9 @@ group :development do
   gem 'rubocop'
 end
 
-gem 'bullet', '4.14.10', group: [:development, :test] # SQL diagnostics
+group :development, :test do
+  gem 'bullet', '4.14.10' # SQL diagnostics
+end
 
 group :test do
   gem 'minitest-rails'     # Test library
@@ -80,4 +89,5 @@ group :test do
   gem 'codeclimate-test-reporter', require: nil
   gem 'launchy'
   gem 'rake' # Specified for Travis CI
+  gem 'webmock' # Disable network connections
 end

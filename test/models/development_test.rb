@@ -376,4 +376,23 @@ class DevelopmentTest < ActiveSupport::TestCase
     array
   end
 
+  test 'street view' do
+    assert_respond_to development, :street_view
+    assert_respond_to development.street_view, :url
+    assert_respond_to development.street_view, :image
+  end
+
+  test 'cache street view' do
+    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
+    stub_request(:get, "https://maps.googleapis.com/maps/api/streetview?fov=100&heading=0&key=loLOLol&location=42.000001,71.000001&pitch=11&size=600x600").
+      to_return(status: 200, body: file)
+    assert_difference 'development.street_view_image.size', 21904 do
+      development.update_attributes street_view_attrs
+    end
+  end
+
+  def street_view_attrs
+    { street_view_heading: 0, street_view_pitch: 11 }
+  end
+
 end

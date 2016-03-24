@@ -1,3 +1,15 @@
+:ruby
+  set_meta_tags title: @development.name
+  set_meta_tags og: {
+    title:       @development.name,
+    url:         development_url(@development),
+    description: @development.tagline,
+    image:       @development.street_view.to_s.html_safe,
+    type:        'development'
+  }
+  set_meta_tags twitter: { card: 'summary_large_image' }
+
+
 .row
   .ten.wide.column#title-area
     = render partial: 'developments/show/title'
@@ -12,7 +24,8 @@
 .row
   .ten.wide.column
     #images
-      %img.ui.image{src: @development.street_view, style: 'width: 600px; height: 600px;', alt: @development.name}
+      %img.ui.image{ src: @development.street_view,
+        style: 'width: 600px; height: 600px;', alt: @development.name }
     #data
       .ui.horizontal.divider Details
       = render partial: 'developments/show/physical'

@@ -268,7 +268,12 @@ CREATE TABLE developments (
     affordable double precision,
     latitude numeric(12,9),
     longitude numeric(12,9),
-    place_id integer
+    place_id integer,
+    street_view_heading integer,
+    street_view_pitch smallint,
+    street_view_latitude numeric(12,9),
+    street_view_longitude numeric(12,9),
+    street_view_image bytea
 );
 
 
@@ -1552,4 +1557,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160210184025');
 INSERT INTO schema_migrations (version) VALUES ('20160308203038');
 
 INSERT INTO schema_migrations (version) VALUES ('20160321203100');
+
+INSERT INTO schema_migrations (version) VALUES ('20160323213936');
 

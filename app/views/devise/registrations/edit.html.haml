@@ -55,7 +55,8 @@
           .field
             .ui.radio.checkbox
               = f.radio_button :mail_frequency, :weekly
-              = f.label :mail_frequency, 'Weekly (recommended)', value: 'weekly'
+              = f.label :mail_frequency, 'Weekly (recommended)',
+                  value: 'weekly'
 
         - if devise_mapping.confirmable? && resource.pending_reconfirmation?
           %div

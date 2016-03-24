@@ -1,4 +1,5 @@
 class UserPresenter < Burgundy::Item
+  include Rails.application.routes.url_helpers
   include ActionView::Helpers
 
   def first_name
@@ -37,4 +38,13 @@ class UserPresenter < Burgundy::Item
   def primary_organization
     item.organizations.first
   end
+
+  def second_label_data
+    if primary_organization
+      { label2: 'Member of', data2: organization_url(primary_organization) }
+    else
+      { label2: 'Joined', data2: joined }
+    end
+  end
+
 end

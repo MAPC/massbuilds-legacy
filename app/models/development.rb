@@ -9,21 +9,27 @@ class Development < ActiveRecord::Base
   # Callbacks
   before_save :update_tagline
   before_save :clean_zip_code
+  before_save :cache_street_view
 
   # Relationships
   belongs_to :creator, class_name: :User
   belongs_to :place
 
-  has_many :edits
-  has_many :flags
-  has_many :crosswalks
+  has_many :edits, dependent: :nullify
+  has_many :flags, dependent: :nullify
+  has_many :crosswalks, dependent: :nullify
   has_many :team_memberships, class_name: :DevelopmentTeamMembership,
-            counter_cache: :team_membership_count
-  has_many :team_members, through: :team_memberships, source: :organization
-  has_many :subscriptions, as: :subscribable
-  has_many :subscribers, through: :subscriptions, source: :user
+    counter_cache: :team_membership_count, dependent: :destroy
+  has_many :team_members, through: :team_memberships, source: :organization,
+    dependent: :nullify
+  has_many :subscriptions, as: :subscribable,
+    dependent: :nullify
+  has_many :subscribers, through: :subscriptions, source: :user,
+    dependent: :nullify
 
   has_and_belongs_to_many :programs
+
+  default_scope { includes(:place) }
 
   # Validations
   validates :creator,    presence: true
@@ -108,6 +114,10 @@ class Development < ActiveRecord::Base
     ContributorQuery.new(self).find.map(&:editor).push(creator).uniq
   end
 
+  def street_view
+    @street_view ||= StreetView.new(self)
+  end
+
   def parcel
     OpenStruct.new(id: 12345)
   end
@@ -138,6 +148,18 @@ class Development < ActiveRecord::Base
 
   private
 
+  def cache_street_view
+    if street_view_fields_changed?
+      self.street_view_image = self.street_view.image(cached: false)
+    end
+  end
+
+  def street_view_fields_changed?
+    [:latitude, :longitude, :pitch, :heading].select { |field|
+      send("street_view_#{field}_changed?")
+    }.any?
+  end
+
   def update_tagline
     self.tagline = TaglineGenerator.new(self).perform!
   end
@@ -163,9 +185,9 @@ class Development < ActiveRecord::Base
   end
 
   private_class_method def self.exclude_from_ranges?(col)
-    id_regex = /^id$|_id$/
-    type_regex = /(integer|double|timestamp|numeric)/i
-    id_regex.match(col.name.to_s) || !type_regex.match(col.sql_type.to_s)
+    exclude_reg = /^street_view_|^id$|_id$/
+    include_reg = /(integer|double|timestamp|numeric)/i
+    exclude_reg.match(col.name.to_s) || !include_reg.match(col.sql_type.to_s)
   end
 
 end

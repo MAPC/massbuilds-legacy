@@ -1,11 +1,11 @@
 !!! 5
 %html
   %head
-    %title DD
     = stylesheet_link_tag 'application', media: 'all',
         'data-turbolinks-track' => true
     = javascript_include_tag 'application', 'data-turbolinks-track' => true
     = csrf_meta_tags
+    = display_meta_tags site: 'DD', reverse: true
 
   %body
     #main.ui.main.grid.container
@@ -13,3 +13,12 @@
       = render 'shared/header'
       = yield
       = render 'shared/footer'
+
+:ruby
+
+  set_meta_tags og: { site_name: 'Development Database' }
+  set_meta_tags fb: { page_id: 'MAPCMetroBoston' }
+  set_meta_tags twitter: {
+    site:       '@MAPCMetroBoston',
+    creator:    '@MAPCMetroBoston',
+  }
