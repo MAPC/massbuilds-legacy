@@ -3,7 +3,7 @@ class MembershipsController < ApplicationController
 
   def join
     @organization = Organization.find membership_params[:id]
-    membership = @organization.memberships.new(user: current_user)
+    membership = @organization.memberships.new(user: devise_current_user)
 
     if membership.save
       flash[:success] = 'Membership request sent.'

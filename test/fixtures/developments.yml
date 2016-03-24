@@ -14,6 +14,9 @@ one:
   year_compl: 2016
   latitude:  42.000001
   longitude: 71.000001
+  street_view_pitch: 35
+  street_view_heading: 235
+  street_view_image: <%= ActiveRecord::FixtureSet.file('street_view/godfrey.jpg') %>
 
 two:
   name: Hello

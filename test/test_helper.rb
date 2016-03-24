@@ -1,4 +1,5 @@
 ENV['RAILS_ENV'] = 'test'
+ENV['GOOGLE_API_KEY'] = 'loLOLol'
 if ENV['CODECLIMATE_REPO_TOKEN']
   require 'codeclimate-test-reporter'
   CodeClimate::TestReporter.start
@@ -12,6 +13,7 @@ require 'rails/test_help'
 }
 require 'minitest/benchmark' if ENV['BENCH']
 require 'minitest/fail_fast' if ENV['FAST']
+require 'webmock/minitest'
 
 # Require entire support tree
 Dir[File.expand_path('test/support/**/*')].each { |file| require file }
@@ -20,6 +22,10 @@ Minitest::Reporters.use!(
   # Progress bar
   Minitest::Reporters::ProgressReporter.new, ENV, Minitest.backtrace_filter
 )
+
+MiniTest.after_run do
+  WebMock.disable_net_connect! allow: %w{ codeclimate.com }
+end
 
 class ActionController::TestCase
   include Devise::TestHelpers

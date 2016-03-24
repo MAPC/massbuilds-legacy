@@ -28,7 +28,7 @@ class OrganizationsController < ApplicationController
 
   def create
     @organization = Organization.new(org_params)
-    @organization.creator = current_user
+    @organization.creator = devise_current_user
 
     if @organization.save
       flash[:success] = 'Organization successfully created.'

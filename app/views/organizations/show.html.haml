@@ -1,5 +1,19 @@
--# Organization logo
--#  alt: "#{@org.name} Logo"
+:ruby
+  set_meta_tags title: @organization.name
+  set_meta_tags og: {
+    title: @organization.name,
+    url:   organization_url(@organization),
+    image: @organization.gravatar_url,
+    type:  'organization'
+  }
+
+  set_meta_tags twitter: {
+    label1: 'Developments',
+    data1: @organization.developments.count,
+    label2: 'Members',
+    data2: @organization.members.count
+  }
+
 #main.ui.main.container
   .ui.two.column.stackable.grid
     .three.column.row

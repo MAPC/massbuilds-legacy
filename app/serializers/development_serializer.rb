@@ -28,7 +28,9 @@ class DevelopmentSerializer
   end
 
   def base_attributes
-    @record.attributes.merge({'city' => @record.municipality})
+    base = @record.attributes
+    base['city'] = @record.municipality
+    base.reject { |k, _v| k.include?('street_view_') }
   end
 
   def only?

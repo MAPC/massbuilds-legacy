@@ -1,7 +1,7 @@
 class Edit < ActiveRecord::Base
   extend Enumerize
 
-  has_many :fields, class_name: :FieldEdit, dependent: :nullify
+  has_many :fields, class_name: :FieldEdit, dependent: :destroy
 
   belongs_to :editor,    class_name: :User
   belongs_to :moderator, class_name: :User

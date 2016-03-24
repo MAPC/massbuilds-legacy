@@ -10,7 +10,7 @@ class DigestJob
     weekly: 1.week.ago + BUFFER,
     # To be more explicit and avoid checking, I don't want :never to
     # return nil, even though nil returns 0 users and is kind of useful.
-    never:  Time.now
+    never:  Time.zone.now
   }.freeze
 
   def initialize(frequency = :weekly)
@@ -27,8 +27,8 @@ class DigestJob
 
   def users
     return [] if @frequency == :never
-    User.where(mail_frequency: frequency).
-      where('last_checked_subscriptions < ?', @time)
+    User.where('last_checked_subscriptions < ?', @time).
+      where(mail_frequency: @frequency)
   end
 
   private
@@ -39,10 +39,10 @@ class DigestJob
     end
     user.touch :last_checked_subscriptions
   rescue => e
-    log_error(e)
+    log_error(e, user)
   end
 
-  def log_error(e)
+  def log_error(e, user)
     Rails.logger.error "Could not email user #{user}"
     Rails.logger.error "#{e.message}\n#{e.backtrace}"
   end
