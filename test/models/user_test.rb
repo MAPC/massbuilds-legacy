@@ -119,4 +119,23 @@ class UserTest < ActiveSupport::TestCase
     assert user.subscribed_to?(subscribable)
   end
 
+  test 'changes last subscription date frequency changes to non-never' do
+    peter = users(:peter_pan)
+    peter.update_attribute(:mail_frequency, :weekly)
+    assert peter.last_checked_subscriptions > 2.weeks.ago
+  end
+
+  test 'no change if going between non-nevers' do
+    assert_no_difference 'user.last_checked_subscriptions' do
+      user.update_attribute(:mail_frequency, :weekly)
+    end
+  end
+
+  test 'no change if going between nevers' do
+    peter = users(:peter_pan)
+    assert_no_difference 'peter.last_checked_subscriptions' do
+      peter.update_attribute(:mail_frequency, :never)
+    end
+  end
+
 end

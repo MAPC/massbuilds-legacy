@@ -32,6 +32,7 @@ class Development < ActiveRecord::Base
   STATUSES = [:projected, :planning, :in_construction, :completed].freeze
   enumerize :status, in: STATUSES, predicates: true
 
+  alias_attribute :description, :desc
   alias_attribute :website, :project_url
   alias_attribute :zip, :zip_code
   alias_attribute :hidden, :private
@@ -129,6 +130,10 @@ class Development < ActiveRecord::Base
 
   def self.ranged_column_bounds
     Hash[ranged_column_array]
+  end
+
+  def to_s
+    name
   end
 
   private

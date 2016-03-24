@@ -159,7 +159,11 @@ namespace :db do
       total_cost: 10_020_300,
       latitude:   42.3547661,
       longitude: -71.0615689,
-      creator:    User.order('RANDOM()').first
+      creator:    User.order('RANDOM()').first,
+      stories: 9, prjarea: 225, singfamhu: 0, twnhsmmult: 0, tothu: 5,
+      gqpop: 10, rptdemp: 100, emploss: 10, commsf: 2000, hotelrms: 240,
+      onsitepark: 35, fa_ret: 1000.0, fa_ofcmd: 200.0, fa_edinst: 400.0,
+      fa_hotel: 1000.0,
     )
 
     millennium = Development.create!(
@@ -407,7 +411,7 @@ end
 
 def create_development
   name        = "#{Faker::Name.last_name} #{Faker::Address.street_suffix}"
-  address     = "#{Faker::Address.street_address}, #{Faker::Address.city} #{Faker::Address.state_abbr} #{Faker::Address.zip}"
+  address     = "#{Faker::Address.street_address}"
   year_compl  = (1990..2027).to_a.sample
   status      = [:projected, :planning, :in_construction, :completed].sample
   total_cost  = Faker::Number.number([6,7,8,9].sample)
