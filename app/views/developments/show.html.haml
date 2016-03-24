@@ -24,7 +24,8 @@
 .row
   .ten.wide.column
     #images
-      %img.ui.image{src: @development.street_view, style: 'width: 600px; height: 600px;', alt: @development.name}
+      %img.ui.image{ src: @development.street_view,
+        style: 'width: 600px; height: 600px;', alt: @development.name }
     #data
       .ui.horizontal.divider Details
       = render partial: 'developments/show/physical'

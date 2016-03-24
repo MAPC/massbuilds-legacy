@@ -87,4 +87,5 @@ group :test do
   gem 'codeclimate-test-reporter', require: nil
   gem 'launchy'
   gem 'rake' # Specified for Travis CI
+  gem 'webmock' # Disable network connections
 end
