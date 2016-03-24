@@ -2,9 +2,7 @@
   <div class="row">
     <div class="ten wide column" id="title-area">
       <h1 class="ui header" id="title">
-       
         <div class="sub header" id="address">
-          <i class="icon marker"></i>
           <div class="ui form">
             {{place-autocomplete-field
               class="field"
@@ -52,6 +50,9 @@
         
         {{#if model.latitude}}
           {{development-map model=model}}
+        {{/if}}
+        {{#if model.parcel_id}}
+          Parcel ID: {{model.parcel_id}}
         {{/if}}
       </div>
       <div id="team">

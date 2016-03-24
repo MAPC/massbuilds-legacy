@@ -10,7 +10,6 @@ export default Ember.Component.extend({
     this.map = new mapboxgl.Map({
         container: 'development-map', // container id
         style: 'mapbox://styles/mapbox/light-v8',
-
         // this must get called at least once before observers can fire
         center: model.get("location"),
         zoom: 18
@@ -28,32 +27,44 @@ export default Ember.Component.extend({
           "id": "parcelsStyle",
           "type": "fill",
           "source": "parcels",
-          "source-layer": "parcels10"
+          "source-layer": "parcels10",
+          "interactive": true,
+          "layout": {},
+          "paint": {
+              "fill-color": "#627BC1",
+              "fill-opacity": 0.5
+          }
       });
     });
 
     this.map.on("dragend", () => {
-      console.log("dragged");
       var center = this.map.getCenter();
       model.set("refinedLat", center.lat);
       model.set("refinedLng", center.lng);
+      this.parcelID();
     });
 
     this.map.scrollZoom.disable();
     this.map.addControl(new mapboxgl.Navigation());
-
-
-
-
-
   },
   modelChange: function() {
-
     var model = this.get("model");
     console.log("Changing to: ", [model.get("longitude"), model.get("latitude")]);
     this.map.flyTo({
       center: model.get("location"),
       zoom: 17
     });
-  }.observes("this.model.location")
+  }.observes("this.model.location"),
+  parcelID: function() {
+    var model = this.get("model");
+    var centerObj = this.map.getCenter();
+    var center = [150, 250];
+    
+    this.map.featuresAt(center, { radius: 1 }, function(err, features) {
+      if(features[0]) {
+        model.set("parcel_id", features[0].properties.parloc_id)
+      }
+      
+    });
+  }
 });
