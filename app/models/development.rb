@@ -9,6 +9,7 @@ class Development < ActiveRecord::Base
   # Callbacks
   before_save :update_tagline
   before_save :clean_zip_code
+  before_save :cache_street_view
 
   # Relationships
   belongs_to :creator, class_name: :User
@@ -111,6 +112,10 @@ class Development < ActiveRecord::Base
     ContributorQuery.new(self).find.map(&:editor).push(creator).uniq
   end
 
+  def street_view
+    @street_view ||= StreetView.new(self)
+  end
+
   def parcel
     OpenStruct.new(id: 12345)
   end
@@ -141,6 +146,18 @@ class Development < ActiveRecord::Base
 
   private
 
+  def cache_street_view
+    if street_view_fields_changed?
+      self.street_view_image = self.street_view.image(cached: false)
+    end
+  end
+
+  def street_view_fields_changed?
+    [:latitude, :longitude, :pitch, :heading].select { |field|
+      send("street_view_#{field}_changed?")
+    }.any?
+  end
+
   def update_tagline
     self.tagline = TaglineGenerator.new(self).perform!
   end
@@ -166,9 +183,9 @@ class Development < ActiveRecord::Base
   end
 
   private_class_method def self.exclude_from_ranges?(col)
-    id_regex = /^id$|_id$/
-    type_regex = /(integer|double|timestamp|numeric)/i
-    id_regex.match(col.name.to_s) || !type_regex.match(col.sql_type.to_s)
+    exclude_reg = /^street_view_|^id$|_id$/
+    include_reg = /(integer|double|timestamp|numeric)/i
+    exclude_reg.match(col.name.to_s) || !include_reg.match(col.sql_type.to_s)
   end
 
 end
