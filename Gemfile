@@ -38,6 +38,8 @@ gem 'kaminari'  # Pagination
 gem 'leaflet-rails' # Maps
 gem 'wicked_pdf', '~> 1.0'    # PDF generation
 gem 'wkhtmltopdf-binary-edge' # PDF generation binary
+gem 'ember-cli-rails',
+  git: 'git://github.com/allthesignals/ember-cli-rails.git'
 gem 'meta-tags' # SEO, Open Graph tags
 
 # Semantic UI

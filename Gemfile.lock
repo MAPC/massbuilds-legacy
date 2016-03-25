@@ -1,3 +1,13 @@
+GIT
+  remote: git://github.com/allthesignals/ember-cli-rails.git
+  revision: 95299d73262a6ab2e73517cb8874833f0d05eb4c
+  specs:
+    ember-cli-rails (0.7.2)
+      cocaine (~> 0.5.8)
+      ember-cli-rails-assets (>= 0.6.1)
+      html_page (~> 0.1.0)
+      railties (>= 3.2, < 5)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -109,6 +119,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     docile (1.1.5)
+    ember-cli-rails-assets (0.6.1)
     enumerize (1.1.1)
       activesupport (>= 3.2)
     equalizer (0.0.11)
@@ -152,6 +163,7 @@ GEM
       haml (~> 4.0.0)
       nokogiri (~> 1.6.0)
       ruby_parser (~> 3.5)
+    html_page (0.1.0)
     i18n (0.7.0)
     ice_nine (0.11.2)
     jquery-rails (4.1.1)
@@ -388,6 +400,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   coffee-rails
   devise
+  ember-cli-rails!
   enumerize
   escape_utils
   faker

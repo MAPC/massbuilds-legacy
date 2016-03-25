@@ -6,7 +6,9 @@ class DevelopmentsController < ApplicationController
   before_action :authenticate_user!, only: [:edit, :update]
   def index
     # Falls back to Development.all
-    @developments = Development.periscope(search_params)
+    @developments = DevelopmentPresenter.wrap(
+      Development.periscope(search_params).order(updated_at: :desc)
+    )
   end
 
   def show
@@ -30,6 +32,7 @@ class DevelopmentsController < ApplicationController
 
   def search
     @limits = Development.ranged_column_bounds.to_json
+    render layout: "search"
   end
 
   private

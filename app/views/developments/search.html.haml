@@ -1,12 +1,16 @@
-Ember Search Application goes here
+= render_ember_app :searchapp do |head|
+  :javascript
 
-:javascript
+    // Namespace
+    var Search = {
+      current_user: #{current_user.present?},
+      api_key: '#{current_user.try(:api_key)}',
+      limits: #{@limits}
+    }
 
-  // Namespace
-  var Search = {
-    current_user: #{current_user.present?},
-    api_key: '#{current_user.try(:api_key)}',
-    limits: #{@limits}
-  }
+    document.API_KEY = '#{current_user.try(:api_key)}'
 
-  window.search = Search;
+    window.search = Search;
+
+  = head.append do
+    = csrf_meta_tags

@@ -1,0 +1,20 @@
+<table class="ui padded selectable table">
+  <thead>
+    <tr><th>Name</th>
+    <th>Completion Year</th>
+    <th>Total Housing Units</th>
+    <th>Commercial Square Feet</th>
+    <th>Municipality</th>
+  </tr></thead>
+  <tbody>
+    {{#each development in model}}
+    <tr {{action "mouseover" development on='mouseEnter'}}>
+      <td>{{development.name}}</td>
+      <td>{{development.year}}</td>
+      <td>{{development.tothu}}</td>
+      <td>{{development.commsf}}</td>
+      <td>{{development.municipality}}</td>
+    </tr>
+    {{/each}}
+  </tbody>
+</table>
