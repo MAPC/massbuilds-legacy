@@ -20,7 +20,8 @@ class RouteTest < ActionDispatch::IntegrationTest
   end
 
   test 'wildcard after search' do
-    rte = { ember_app: :searchapp, controller: 'developments', action: 'search' }
+    rte = { ember_app: :searchapp, controller: 'developments',
+            action: 'search' }
     assert_routing('http://test.host/developments/search', rte)
     map_rte = { ember_app: :searchapp, controller: 'developments',
       action: 'search', rest: '/map' }
