@@ -741,7 +741,7 @@ CREATE TABLE users (
     first_name character varying,
     last_name character varying,
     hashed_email character varying,
-    last_checked_subscriptions timestamp without time zone DEFAULT '2016-03-24 17:33:04.726522'::timestamp without time zone NOT NULL,
+    last_checked_subscriptions timestamp without time zone DEFAULT now() NOT NULL,
     mail_frequency character varying(8) DEFAULT 'weekly'::character varying
 );
 

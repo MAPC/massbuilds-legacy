@@ -238,11 +238,13 @@ namespace :db do
     #  Development Histories
     #===========================
 
+    puts "Adding edits and changes to developments..."
     count = Development.count * 15
     count.times do |i|
       random_edit
-      puts percent_log(i, count)
+      percent_log(i, count)
     end
+    puts "done adding edits!"
 
     #     Development Teams
     #===========================
@@ -335,7 +337,7 @@ end
 
 def percent_log(num, denom)
   num = num + 1
-  puts "#{((num / denom) * 100).to_f.round(2)}% complete (#{num}/#{denom})"
+  print "#{((num / denom) * 100).to_f.round(2)}% complete (#{num}/#{denom})\r"
 end
 
 

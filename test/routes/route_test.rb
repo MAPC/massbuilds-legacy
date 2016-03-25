@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class RouteTest < ActionDispatch::IntegrationTest
-  test 'root' do
-    skip
-    assert_routing '/', { controller: 'developments', action: 'index' }
-  end
 
   test 'default api version' do
     rte = { subdomain: 'api', controller: 'api/v1/searches', action: 'index' }
@@ -24,11 +20,13 @@ class RouteTest < ActionDispatch::IntegrationTest
   end
 
   test 'wildcard after search' do
-    rte = { controller: 'developments', action: 'search' }
+    rte = { ember_app: :searchapp, controller: 'developments', action: 'search' }
     assert_routing('http://test.host/developments/search', rte)
-    map_rte = { controller: 'developments', action: 'search', ui: 'map' }
+    map_rte = { ember_app: :searchapp, controller: 'developments',
+      action: 'search', rest: '/map' }
     assert_routing('http://test.host/developments/search/map', map_rte)
-    list_rte = { controller: 'developments', action: 'search', ui: 'list' }
+    list_rte = { ember_app: :searchapp, controller: 'developments',
+      action: 'search', rest: '/list' }
     assert_routing('http://test.host/developments/search/list', list_rte)
   end
 end
