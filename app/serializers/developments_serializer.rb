@@ -10,7 +10,7 @@ class DevelopmentsSerializer
 
   def to_csv
     CSV.generate do |csv|
-      csv << self.to_header
+      csv << to_header
       @developments.each { |d|
         csv << DevelopmentSerializer.new(d, max_team_size: max).to_row
       }
@@ -23,13 +23,13 @@ class DevelopmentsSerializer
 
   private
 
-    def max
-      # Trigger the count if it's not already cached
-      @max_team_dev.team_membership_count ||=
-        @max_team_dev.team_memberships.count
-    end
+  def max
+    # Trigger the count if it's not already cached
+    @max_team_dev.team_membership_count ||=
+      @max_team_dev.team_memberships.count
+  end
 
-    def development_with_largest_team
-      @developments.max_by(&:team_membership_count)
-    end
+  def development_with_largest_team
+    @developments.max_by(&:team_membership_count)
+  end
 end

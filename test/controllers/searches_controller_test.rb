@@ -20,7 +20,7 @@ class SearchesControllerTest < ActionController::TestCase
   test 'renders CSV' do
     get :show, id: search.id, format: :csv
     assert_response :success
-    content_type = response.headers["Content-Transfer-Encoding"]
+    content_type = response.headers['Content-Transfer-Encoding']
     assert_equal 'binary', content_type
   end
 

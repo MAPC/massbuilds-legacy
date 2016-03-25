@@ -47,8 +47,6 @@ class OrganizationTest < ActiveSupport::TestCase
     assert org.valid?
     org.location = 'Boston, MA'
     assert org.valid?
-    org.location =
-    assert org.valid?
   end
 
   test 'can accept an abbreviation' do
@@ -64,9 +62,9 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test 'requires a URL that exists' do
-    msg =  'Read https://www.igvita.com/2006/09/07/validating-url-in-ruby-on-rails/'
-    msg << 'and http://stackoverflow.com/questions/5908017/check-if-url-exists-in-ruby'
-    skip msg
+    # Read https://www.igvita.com/2006/09/07/validating-url-in-ruby-on-rails/
+    # and http://stackoverflow.com/questions/5908017/check-if-url-exists-in-ruby
+    skip
     org.website = 'https://lo.lllll'
     assert_not org.valid?
     org.website = 'http://homestarrunner.com'
