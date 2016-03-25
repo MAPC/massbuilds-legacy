@@ -3,7 +3,7 @@ module API
     class OrganizationResource < JSONAPI::Resource
 
       attributes :name, :website, :location, :email, :short_name, :abbv
-      attribute :member_count
+      attributes :logo, :member_count
 
       def member_count
         @model.active_members.count

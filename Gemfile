@@ -9,17 +9,18 @@ gem 'pg'
 gem 'periscope-activerecord' # Makes filtering simpler
 gem 'seed-fu', '~> 2.3'      # Manages fixtures
 gem 'faker', require: false  # Fake sample data
+gem 'enumerize' # Store options in a string field
+# gem 'paperclip' # File attachments
 
 # Users
 gem 'bcrypt'
 gem 'devise'
+gem 'authority'
 
 # Utilities
-gem 'enumerize' # Store options in a string field
-gem 'geometry'  # Simple geometry constructor
+gem 'geometry' # Simple geometry constructor
 gem 'wannabe_bool', '0.3.0' # Convert to boolean
-gem 'paperclip' # File attachments
-gem 'stamp'     # Easier timestamps
+gem 'stamp' # Easier timestamps
 
 # Forms & Presenters
 gem 'virtus'       # Form objects
@@ -56,11 +57,6 @@ gem 'versionist'
 gem 'puma'
 gem 'rack-cors', require: 'rack/cors' # CORS Headers
 
-group :production do
-  gem 'rails_12factor'
-  gem 'newrelic_rpm'
-end
-
 group :development do
   gem 'foreman', require: false
   gem 'spring'            # Keeps environment in background
@@ -90,4 +86,9 @@ group :test do
   gem 'launchy'
   gem 'rake' # Specified for Travis CI
   gem 'webmock' # Disable network connections
+end
+
+group :production do
+  gem 'rails_12factor'
+  gem 'newrelic_rpm'
 end
