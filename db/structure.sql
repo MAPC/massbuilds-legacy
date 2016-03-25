@@ -273,7 +273,8 @@ CREATE TABLE developments (
     street_view_pitch smallint,
     street_view_latitude numeric(12,9),
     street_view_longitude numeric(12,9),
-    street_view_image bytea
+    street_view_image bytea,
+    parcel_id character varying(25)
 );
 
 
@@ -1559,4 +1560,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160308203038');
 INSERT INTO schema_migrations (version) VALUES ('20160321203100');
 
 INSERT INTO schema_migrations (version) VALUES ('20160323213936');
+
+INSERT INTO schema_migrations (version) VALUES ('20160325150216');
 
