@@ -64,7 +64,6 @@ export default Ember.Component.extend({
       if(features[0]) {
         model.set("parcel_id", features[0].properties.parloc_id)
       }
-      
     });
   }
 });

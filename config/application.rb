@@ -36,7 +36,7 @@ module Ddmodels2
     config.middleware.insert_before 0, "Rack::Cors", debug: DEBUG_CORS, logger: (-> { Rails.logger }) do
       allow do
         origins  KNOWN_HOSTS.split(',')
-        resource '*', headers: :any, methods: [:get, :post, :put, :patch]
+        resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete]
       end
     end
   end
