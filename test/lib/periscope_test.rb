@@ -13,9 +13,7 @@ class PeriscopeTest < ActiveSupport::TestCase
     refute_respond_to klass, :attr_to_scope
     Development.ranged_scopes(:attr_to_scope)
     assert_respond_to klass, :attr_to_scope
-    assert_nothing_raised {
-      klass.periscope(attr_to_scope: [0,100])
-    }
+    assert_nothing_raised { klass.periscope(attr_to_scope: [0, 100]) }
   end
 
   test 'boolean scopes' do

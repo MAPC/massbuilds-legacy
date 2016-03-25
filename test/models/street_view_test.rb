@@ -16,15 +16,14 @@ class StreetViewTest < ActiveSupport::TestCase
 
   test 'fresh image' do
     file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
-    stub_request(:get, "https://maps.googleapis.com/maps/api/streetview?fov=100&heading=35&key=loLOLol&location=43.000001,70.000001&pitch=28&size=600x600").
+    stub_request(:get, 'https://maps.googleapis.com/maps/api/streetview?fov=100&heading=35&key=loLOLol&location=43.000001,70.000001&pitch=28&size=600x600').
       to_return(status: 200, body: file)
     assert StreetView.new(developments(:two)).image.present?
   end
 
   test 'no fresh image' do
     # This may not be a useful test.
-    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
-    stub_request(:get, "https://maps.googleapis.com/maps/api/streetview?fov=100&heading=35&key=loLOLol&location=43.000001,70.000001&pitch=28&size=600x600").
+    stub_request(:get, 'https://maps.googleapis.com/maps/api/streetview?fov=100&heading=35&key=loLOLol&location=43.000001,70.000001&pitch=28&size=600x600').
       to_return(status: 200, body: '')
     refute StreetView.new(developments(:two)).image.present?
   end

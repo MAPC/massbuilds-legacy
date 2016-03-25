@@ -36,12 +36,8 @@ class EditPresenter < Burgundy::Item
 
   private
 
-    def field_to_time
-      if applied?
-        applied_at
-      else
-        created_at
-      end
-    end
+  def field_to_time
+    applied? ? applied_at : created_at
+  end
 
 end

@@ -5,21 +5,18 @@ class PlaceProfile < ActiveRecord::Base
 
   RESPONSE_EXPIRES = 30.days
 
-  validates :latitude,  presence: true, numericality: {
-    less_than_or_equal_to:     90,
-    greater_than_or_equal_to: -90
-  }
-  validates :longitude, presence: true, numericality: {
-    less_than_or_equal_to:     180,
-    greater_than_or_equal_to: -180
-  }
+  validates :latitude,  presence: true,
+    numericality: { less_than_or_equal_to: 90, greater_than_or_equal_to: -90 }
+  validates :longitude, presence: true,
+    numericality: { less_than_or_equal_to: 180, greater_than_or_equal_to: -180 }
+
   validates :radius,    presence: true
 
   alias_attribute :x, :longitude
   alias_attribute :y, :latitude
 
   def to_point
-    [x,y]
+    [x, y]
   end
 
   def expired?
@@ -32,9 +29,9 @@ class PlaceProfile < ActiveRecord::Base
     hex = Geometry::RegularPolygon.new(
       edge_count: 6,
       radius: radius,
-      center: Geometry::Point[x,y]
+      center: Geometry::Point[x, y]
     )
-    points = hex.points.map{ |pt| [pt.x.to_f,pt.y.to_f] }
+    points = hex.points.map { |pt| [pt.x.to_f, pt.y.to_f] }
     self.polygon = { type: 'Polygon', coordinates: [points << points.first] }
   end
 

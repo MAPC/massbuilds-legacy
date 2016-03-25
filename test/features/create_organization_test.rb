@@ -14,17 +14,17 @@ class CreateOrganizationTest < Capybara::Rails::TestCase
   end
 
   def unauthorized_user
-    @unauthorized_user = users :lower_case
+    @unauthorized_user ||= users :lower_case
     @unauthorized_user.password = 'drowssap'
     @unauthorized_user
   end
 
   def fill_in_form
-    fill_in 'organization_name', :with => 'Boston Properties'
-    fill_in 'organization_email', :with => 'brauser@bra.org'
-    fill_in 'organization_location', :with => 'brauser@bra.org'
-    fill_in 'organization_short_name', :with => 'BRA'
-    fill_in 'organization_website', :with => 'bra.org'
+    fill_in :organization_name,       with: 'Boston Properties'
+    fill_in :organization_email,      with: 'brauser@bra.org'
+    fill_in :organization_location,   with: 'brauser@bra.org'
+    fill_in :organization_short_name, with: 'BRA'
+    fill_in :organization_website,    with: 'bra.org'
     click_button 'Submit'
   end
 
@@ -33,20 +33,20 @@ class CreateOrganizationTest < Capybara::Rails::TestCase
     assert_content page, 'Log in'
   end
 
-  test 'signed in user, visit organization creation, and not be redirected' do
+  test 'visit organization creation, and not be redirected' do
     sign_in user, visit: true, submit: true
     visit new_organization_path
     assert_content page, 'Create Organization'
   end
 
-  test 'signed in user visits new organization path, and successfully creates organization' do
+  test 'visits new organization path, and successfully creates organization' do
     sign_in user, visit: true, submit: true
     visit new_organization_path
     fill_in_form
     assert_content page, 'Boston Properties'
   end
 
-  test 'signed in user visits existing organization, and successfully edits it' do
+  test 'visits existing organization, and successfully edits it' do
     sign_in user, visit: true, submit: true
     visit edit_organization_path(org)
     fill_in_form

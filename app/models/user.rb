@@ -60,7 +60,7 @@ class User < ActiveRecord::Base
   private
 
   def hash_email
-    self.hashed_email = Digest::MD5::hexdigest(email.downcase)
+    self.hashed_email = Digest::MD5.hexdigest(email.downcase)
   end
 
   def ensure_reasonable_last_checked

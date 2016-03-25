@@ -41,20 +41,26 @@ class APIVersionTest < ActiveSupport::TestCase
   end
 
   test 'matches v1' do
-    expected_v1 = { module: "V1",
-      header: {name: "Accept",
-       value: "application/vnd.api+json; application/org.dd.v1"},
-      parameter: {name: "version", value: "1"}, default: false
+    expected_v1 = { module: 'V1',
+      header: {
+        name: 'Accept',
+        value: 'application/vnd.api+json; application/org.dd.v1'
+      },
+      parameter: { name: 'version', value: '1' },
+      default: false
     }
     assert_equal expected_v1, v1.params
   end
 
   test 'matches v2' do
-    expected_v2 = { module: "V2",
-    header: {name: "Accept",
-      value: "application/vnd.api+json; application/org.dd.v2"},
-    parameter: {name: "version", value: "2"},
-    default: true }
+    expected_v2 = { module: 'V2',
+      header: {
+        name: 'Accept',
+        value: 'application/vnd.api+json; application/org.dd.v2'
+      },
+      parameter: { name: 'version', value: '2' },
+      default: true
+    }
     assert_equal expected_v2, v2.params
   end
 end
