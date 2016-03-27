@@ -1,4 +1,5 @@
 class Membership < ActiveRecord::Base
+  include Authority::Abilities
   extend Enumerize
 
   belongs_to :user
