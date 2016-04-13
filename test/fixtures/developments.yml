@@ -34,6 +34,7 @@ two:
   year_compl: 2012
   latitude:  43.000001
   longitude: 70.000001
+  street_view_image: <%= ActiveRecord::FixtureSet.file('street_view/default.jpg') %>
 
 stable_one:
   status: projected
@@ -51,6 +52,7 @@ stable_one:
   fa_other:   12
   fa_hotel:   13
   rdv: true
+  street_view_image: <%= ActiveRecord::FixtureSet.file('street_view/default.jpg') %>
 
 stable_two:
   status: projected
@@ -68,3 +70,4 @@ stable_two:
   fa_other:   2
   fa_hotel:   1
   rdv: true
+  street_view_image: <%= ActiveRecord::FixtureSet.file('street_view/default.jpg') %>

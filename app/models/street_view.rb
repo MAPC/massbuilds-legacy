@@ -22,6 +22,8 @@ class StreetView
   def fresh_image
     # TODO: Handle timeouts or errors
     Net::HTTP.get_response(URI(@url)).body
+  rescue
+    ""
   end
 
   def build_url
