@@ -151,6 +151,12 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_equal base_hash, org.hashed_email
   end
 
+  test 'municipal?' do
+    assert_respond_to organization, :municipal
+    assert_respond_to organization, :municipal?
+    refute Organization.new.municipal?
+  end
+
   private
 
   def webster

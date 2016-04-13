@@ -20,8 +20,8 @@ class Development < ActiveRecord::Base
   has_many :crosswalks, dependent: :nullify
   has_many :team_memberships, class_name: :DevelopmentTeamMembership,
     counter_cache: :team_membership_count, dependent: :destroy
-  has_many :team_members, through: :team_memberships, source: :organization,
-    dependent: :nullify
+  has_many :team_members, through: :team_memberships, source: :organization
+  has_many :moderators, through: :team_members, source: :members
   has_many :subscriptions, as: :subscribable,
     dependent: :nullify
   has_many :subscribers, through: :subscriptions, source: :user,

@@ -518,7 +518,8 @@ CREATE TABLE organizations (
     abbv character varying,
     short_name character varying,
     gravatar_email character varying,
-    hashed_email character varying
+    hashed_email character varying,
+    municipal boolean
 );
 
 
@@ -1562,4 +1563,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160321203100');
 INSERT INTO schema_migrations (version) VALUES ('20160323213936');
 
 INSERT INTO schema_migrations (version) VALUES ('20160325150216');
+
+INSERT INTO schema_migrations (version) VALUES ('20160327210952');
 

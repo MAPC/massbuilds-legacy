@@ -13,11 +13,16 @@ class Membership < ActiveRecord::Base
     message: 'You have already requested to join that organization.'
   }
 
-  enumerize :state, in: [:pending, :invited, :active, :inactive],
+  enumerize :state, in: [:pending, :invited, :active, :inactive, :declined],
     default: :pending, predicates: true
 
   def invited
     self.state = :invited
+    self
+  end
+
+  def declined
+    self.state = :declined
     self
   end
 
