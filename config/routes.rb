@@ -21,7 +21,9 @@ Rails.application.routes.draw do
     #   get 'search/*ui', to: 'developments#search'
     # end
     resources :claims, only: [:new, :create]
-    resources :flags,  only: [:new, :create]
+    resources :flags,  only: [:new, :create] do
+      post :close, on: :member
+    end
     resources :edits,  only: [:index, :show] do
       post :approve, on: :member
       post :decline, on: :member

@@ -55,7 +55,11 @@ class User < ActiveRecord::Base
   end
 
   def known?
-    true
+    !anonymous?
+  end
+
+  def anonymous?
+    self == User.null
   end
 
   def self.null

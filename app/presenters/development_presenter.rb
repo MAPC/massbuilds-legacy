@@ -23,6 +23,10 @@ class DevelopmentPresenter < Burgundy::Item
     EditPresenter.wrap item.pending_edits
   end
 
+  def pending_flags
+    FlagPresenter.wrap item.flags.where(state: :open)
+  end
+
   def changes_since(timestamp = Time.now)
     EditPresenter.wrap item.changes_since(timestamp).first(CHANGES_TO_SHOW)
   end
