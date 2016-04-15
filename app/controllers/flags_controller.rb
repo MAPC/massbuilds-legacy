@@ -3,8 +3,7 @@ class FlagsController < ApplicationController
   before_action :load_parent, only: [:new, :create, :close]
 
   def new
-    @flag = Flag.new(development: @development,
-                     reason: DEFAULT_REASON)
+    @flag = Flag.new(development: @development)
   end
 
   def create
@@ -42,9 +41,5 @@ class FlagsController < ApplicationController
     and will address it shortly.".gsub(/\s{2,}/, ' ').freeze
 
   FLAG_NOT_CREATED = 'Sorry, we were unable to accept your flag.'.freeze
-
-  DEFAULT_REASON = "Why are you flagging this development?
-    A quick explanation (23-450 characters) will
-    help us address it much more quickly.".gsub(/\s{2,}/, ' ').freeze
 
 end
