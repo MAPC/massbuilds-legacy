@@ -6,6 +6,8 @@ class Development < ActiveRecord::Base
 
   extend Enumerize
 
+  # include Development::Callbacks
+  # include Development::Relationships
   # include Development::Validations
   # include Development::Scopes
 
@@ -18,21 +20,22 @@ class Development < ActiveRecord::Base
   belongs_to :creator, class_name: :User
   belongs_to :place
 
-  has_many :edits, dependent: :nullify
-  has_many :flags, dependent: :nullify
-  has_many :crosswalks, dependent: :nullify
-  has_many :team_memberships, class_name: :DevelopmentTeamMembership,
-    counter_cache: :team_membership_count, dependent: :destroy
+  has_many :edits
+  has_many :flags
+  has_many :crosswalks
+
+  has_many :team_memberships,
+    class_name:    :DevelopmentTeamMembership,
+    counter_cache: :team_membership_count,
+    dependent:     :destroy
+
   has_many :team_members, through: :team_memberships, source: :organization
-  has_many :moderators, through: :team_members, source: :members
-  has_many :subscriptions, as: :subscribable,
-    dependent: :nullify
-  has_many :subscribers, through: :subscriptions, source: :user,
-    dependent: :nullify
+  has_many :moderators,   through: :team_members,     source: :members
+
+  has_many :subscriptions, as: :subscribable
+  has_many :subscribers,   through: :subscriptions, source: :user
 
   has_and_belongs_to_many :programs
-
-  default_scope { includes(:place) }
 
   # Validations
   validates :creator,    presence: true
@@ -56,6 +59,8 @@ class Development < ActiveRecord::Base
   alias_attribute :hidden,      :private
 
   # Scopes
+  default_scope { includes(:place) }
+
   ranged_scopes :created_at, :updated_at, :height, :stories,
     :year_compl, :affordable, :prjarea, :singfamhu, :twnhsmmult,
     :lgmultifam, :tothu, :gqpop, :rptdemp, :emploss, :estemp, :commsf,
