@@ -1,9 +1,13 @@
 <div class="ui grid container">
   <div class="row">
     <div class="ten wide column" id="title-area">
+
       <h1 class="ui header" id="title">
         <div class="sub header" id="address">
           <div class="ui form">
+            <div class="field">
+              {{input value=model.name}}
+            </div>
             {{place-autocomplete-field
               class="field"
               value= model.address
@@ -13,6 +17,11 @@
               placeChangedCallback='placeChanged'
               types="address"
             }}
+
+            <div class="field">
+              <label>Description</label>
+              {{textarea value=descriptions cols="80" rows="6"}}
+            </div>
           </div>
         </div>
       </h1>
@@ -44,6 +53,18 @@
       <div id="data">
         <div class="ui horizontal divider">Data</div>
       </div>
+      Construction status:
+      {{#ui-dropdown class="selection" onChange=(action 'update_selected')}}
+        <div class="default text">Select an Option</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+        {{#each itemActions as |itemAction|}}
+          <div class="item" data-id="{{itemAction}}">
+            {{itemAction}}
+          </div>
+        {{/each}}
+        </div>
+      {{/ui-dropdown}}
     </div>
     <div class="six wide column">
       <div>

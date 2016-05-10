@@ -12,7 +12,7 @@ export default Ember.Controller.extend({
       { name: "designer", id: 7 }];
   }.property(),
   role: null,
-
+  itemActions: ["Complete", "Construction", "Projected", "Planned"],
   actions: {
     // Google Place AutoFill
     placeChanged(response) {
@@ -47,6 +47,9 @@ export default Ember.Controller.extend({
         teamMember.save().catch((reason) => { teamMember.deleteRecord(); });
       });
 
+    },
+    update_selected(component, id, value) {
+      this.set('status', id);
     }
   },
 
