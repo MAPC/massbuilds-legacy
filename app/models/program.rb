@@ -9,4 +9,12 @@ class Program < ActiveRecord::Base
   enumerize :type, in: { regulatory: 1, incentive: 2 }, predicates: true
 
   default_scope { order(:type).order(:sort_order) }
+
+  def self.incentive
+    where type: :incentive
+  end
+
+  def self.regulatory
+    where type: :regulatory
+  end
 end

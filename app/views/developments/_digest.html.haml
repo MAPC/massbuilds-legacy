@@ -1,6 +1,6 @@
 :ruby
   edits = EditSummaryPresenter.wrap(
-    development.changes_since(@digest.user_last_checked))
+    development.history.since(@digest.user_last_checked))
 
 
 = render partial: 'developments/related',

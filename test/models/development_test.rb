@@ -145,8 +145,8 @@ class DevelopmentTest < ActiveSupport::TestCase
     d.programs << programs(:massworks)
     d.programs << programs(:forty_b)
     assert_equal 2, d.programs.count
-    assert_equal 1, d.incentive_programs.count
-    assert_equal 1, d.regulatory_programs.count
+    assert_equal 1, d.programs.incentive.count
+    assert_equal 1, d.programs.regulatory.count
   end
 
   test '#status' do
@@ -273,6 +273,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#last_edit returns most recent history item' do
+    skip 'we really do not need this'
     edit = d.pending_edits.first
     edit.applied
     edit.save
@@ -280,17 +281,17 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal edit, d.last_edit
   end
 
-  test '#changes_since' do
+  test '#history.since' do
     edit = d.pending_edits.first
     Time.stub :now, Time.new(2000, 1, 2) do
       edit.applied
       edit.save
     end
-    assert_equal [edit], d.changes_since(Time.new(2000, 1, 1))
+    assert_equal [edit], d.history.since(Time.new(2000, 1, 1))
   end
 
-  test '#changes_since without history' do
-    assert_equal [], d.changes_since(Time.new(2000, 1, 2))
+  test '#history.since without history' do
+    assert_equal [], d.history.since(Time.new(2000, 1, 2))
   end
 
   test '#place' do

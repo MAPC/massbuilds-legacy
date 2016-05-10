@@ -12,6 +12,10 @@ class Search < ActiveRecord::Base
     Development.periscope(Array(query))
   end
 
+  def self.saved
+    where saved: true
+  end
+
   alias_method :developments, :results
   alias_attribute :name, :title
 
@@ -32,6 +36,6 @@ class Search < ActiveRecord::Base
   end
 
   def next_search_count(user)
-    user.searches.where(saved: true).count + 1
+    user.searches.saved.count + 1
   end
 end
