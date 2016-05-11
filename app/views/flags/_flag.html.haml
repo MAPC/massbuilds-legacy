@@ -1,0 +1,10 @@
+.event
+  .label
+    %img{ src: flag.flagger.gravatar_url }
+  .content
+    .summary
+      = render partial: 'users/feed_editor', object: flag.flagger, as: :editor
+      submitted a flag.
+      .date= flag.time_ago
+    .content
+      = flag.reason

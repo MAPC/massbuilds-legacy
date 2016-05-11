@@ -59,30 +59,29 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
   test 'create with user authorized through header' do
     set_content_type_header!
     set_auth_header_for_user!(user)
-    post :create,
-         {
-           data: {
-             type: 'searches',
-             attributes: { query: {}, saved: true }
-           }
-         }
+    post :create, empty_saved_search
     assert_response :created, response.body
   end
 
   test 'create with user authorized through data param' do
     set_content_type_header!
-    post :create, {
-      data: {type: 'searches', attributes: {query: {}, saved: true}},
-      api_key: user.api_key.token
-    }
+    post :create, empty_saved_search.merge({ api_key: user.api_key.token })
     assert_response :created, response.body
   end
 
   test 'create with no user' do
     set_content_type_header!
-    post :create, {
-      data: { type: 'searches', attributes: { query: {} } }
-    }
+    post :create, empty_unsaved_search
     assert_response :unauthorized, response.body
+  end
+
+  private
+
+  def empty_saved_search
+    { data: { type: 'searches', attributes: { query: {}, saved: true } } }
+  end
+
+  def empty_unsaved_search
+    { data: { type: 'searches', attributes: { query: {} } } }
   end
 end

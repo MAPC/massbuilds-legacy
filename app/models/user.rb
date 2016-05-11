@@ -4,6 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  include Authority::UserAbilities
   extend Enumerize
 
   before_save :hash_email
@@ -51,6 +52,14 @@ class User < ActiveRecord::Base
 
   def subscriptions_needing_update
     Subscription.where(id: subscriptions.select(&:needs_update?).map(&:id))
+  end
+
+  def known?
+    !anonymous?
+  end
+
+  def anonymous?
+    self == User.null
   end
 
   def self.null

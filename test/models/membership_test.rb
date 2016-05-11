@@ -26,7 +26,7 @@ class MembershipTest < ActiveSupport::TestCase
   end
 
   test 'state predicates' do
-    [:pending?, :invited?, :active?, :inactive?].each { |method|
+    [:pending?, :invited?, :active?, :inactive?, :declined?].each { |method|
       assert_respond_to membership, method
     }
   end
@@ -41,6 +41,10 @@ class MembershipTest < ActiveSupport::TestCase
 
   test '#deactivated' do
     assert_equal 'inactive', m.deactivated.state
+  end
+
+  test '#declined' do
+    assert_equal 'declined', m.declined.state
   end
 
   # I think this belongs in a controller test

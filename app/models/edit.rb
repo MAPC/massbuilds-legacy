@@ -15,6 +15,14 @@ class Edit < ActiveRecord::Base
   enumerize :state, in: [:pending, :approved, :declined],
     default: :pending, predicates: true
 
+  def self.applied
+    where(applied: true).order(applied_at: :desc)
+  end
+
+  def self.since(time = Time.now)
+    where 'applied_at > ?', time
+  end
+
   # TODO: Do these belong here, if the service is handling
   # the alteration of state?
   def approved

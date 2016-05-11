@@ -24,6 +24,8 @@ class Organization < ActiveRecord::Base
 
   # TODO: validates :existence_of_website
 
+  alias_attribute :admin, :creator
+
   def active_members
     memberships.where(state: 'active').map(&:user).uniq
   end

@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.3.1'
 
-gem 'rails', '4.2.1'
+gem 'rails', '4.2.5.1'
 
 # Database
 gem 'pg'
@@ -39,8 +39,7 @@ gem 'kaminari'  # Pagination
 gem 'leaflet-rails' # Maps
 gem 'wicked_pdf', '~> 1.0'    # PDF generation
 gem 'wkhtmltopdf-binary-edge' # PDF generation binary
-gem 'ember-cli-rails',
-  git: 'git://github.com/allthesignals/ember-cli-rails.git'
+gem 'ember-cli-rails', git: 'https://github.com/allthesignals/ember-cli-rails'
 gem 'meta-tags' # SEO, Open Graph tags
 
 # Semantic UI

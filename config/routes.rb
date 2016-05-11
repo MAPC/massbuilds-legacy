@@ -2,8 +2,10 @@ require 'api_version'
 
 Rails.application.routes.draw do
 
-  mount_ember_app :searchapp, to: 'developments/search',
-    controller: 'developments', action: 'search'
+  mount_ember_app :searchapp,
+    to:         'developments/search',
+    controller: 'developments',
+    action:     'search'
 
   namespace :api, constraints: { subdomain: 'api' }, path: '' do
     api_version(APIVersion.new(version: 1, default: true).params) do
@@ -16,12 +18,10 @@ Rails.application.routes.draw do
   end
 
   resources :developments, only: [:index, :show, :edit, :update] do
-    # collection do
-    #   get 'search', to: 'developments#search'
-    #   get 'search/*ui', to: 'developments#search'
-    # end
     resources :claims, only: [:new, :create]
-    resources :flags,  only: [:new, :create]
+    resources :flags,  only: [:new, :create] do
+      post :close, on: :member
+    end
     resources :edits,  only: [:index, :show] do
       post :approve, on: :member
       post :decline, on: :member

@@ -44,5 +44,10 @@
           %i.filter.icon
           Moderate
         %a.ui.basic.left.pointing.label{ class: color }
-          = @development.pending_edits_count
-          edits
+          - if @development.pending_edits.any?
+            = @development.pending_edits_count
+            = 'edits'.pluralize @development.pending_edits_count
+          - if @development.pending_edits.any?
+            = ', '
+            = @development.pending_flags.count
+            = 'flag'.pluralize @development.pending_flags.count

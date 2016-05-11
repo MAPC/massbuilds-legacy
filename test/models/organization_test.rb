@@ -15,6 +15,10 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not org.valid?
   end
 
+  test 'creator is an admin' do
+    assert_equal org.creator, org.admin
+  end
+
   test 'when created, builds a membership' do
     assert_difference 'Membership.count', +1 do
       Organization.new(creator: users(:tim)).save(validate: false)
@@ -145,6 +149,12 @@ class OrganizationTest < ActiveSupport::TestCase
     org.gravatar_email = nil
     org.save!
     assert_equal base_hash, org.hashed_email
+  end
+
+  test 'municipal?' do
+    assert_respond_to organization, :municipal
+    assert_respond_to organization, :municipal?
+    refute Organization.new.municipal?
   end
 
   private

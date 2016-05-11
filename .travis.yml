@@ -1,7 +1,7 @@
 language: ruby
 sudo: false
 rvm:
-  - 2.1.5
+  - 2.3.1
 before_script:
   - export TZ=America/New_York
   - psql -c 'create database ddmodels2_test;' -U postgres
