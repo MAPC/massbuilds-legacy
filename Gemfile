@@ -54,6 +54,7 @@ gem 'versionist'
 
 # Server
 gem 'puma'
+gem 'airbrake', '~> 5.2'              # Error reporting
 gem 'rack-cors', require: 'rack/cors' # CORS Headers
 
 group :development do
