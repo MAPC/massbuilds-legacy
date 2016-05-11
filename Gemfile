@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
-gem 'bundler', '~> 1.12'
+gem 'bundler', '1.11.2'
 
 gem 'rails', '4.2.5.1'
 
