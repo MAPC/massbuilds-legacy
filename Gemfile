@@ -2,6 +2,8 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
+gem 'bundler', '~> 1.12'
+
 gem 'rails', '4.2.5.1'
 
 # Database
@@ -88,7 +90,7 @@ group :test do
   gem 'webmock' # Disable network connections
 end
 
-group :production do
+group :staging, :production do
   gem 'rails_12factor'
   gem 'newrelic_rpm'
 end

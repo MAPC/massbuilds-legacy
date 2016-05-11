@@ -379,6 +379,7 @@ DEPENDENCIES
   binding_of_caller
   brakeman
   bullet (= 4.14.10)
+  bundler (~> 1.12)
   burgundy
   byebug
   codeclimate-test-reporter
