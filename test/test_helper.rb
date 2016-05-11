@@ -1,5 +1,8 @@
 ENV['RAILS_ENV'] = 'test'
 ENV['GOOGLE_API_KEY'] = 'loLOLol'
+ENV['AIRBRAKE_PROJECT_ID'] = '1234'
+ENV['AIRBRAKE_PROJECT_KEY'] = 'test'
+
 if ENV['CODECLIMATE_REPO_TOKEN']
   require 'codeclimate-test-reporter'
   CodeClimate::TestReporter.start
