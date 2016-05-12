@@ -21,6 +21,6 @@ export default DS.Model.extend({
   }.property("latitude", "longitude"),
   refinedLat: DS.attr("string"),
   refinedLng: DS.attr("string"),
-  teamMemberships: DS.hasMany("team-membership", { async: true }),
-  developmentTeamMemberships: DS.hasMany("development-team-membership", { async: true })
+  teamMemberships: DS.hasMany("team-membership", { async: true, defaultValue: function() { return []; } }),
+  developmentTeamMemberships: DS.hasMany("development-team-membership", { async: true, defaultValue: function() { return []; } })
 });

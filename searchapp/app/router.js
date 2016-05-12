@@ -12,6 +12,7 @@ Router.map(function() {
         this.route('map');
         this.route('table');
       });
+      this.route('new');
     });
 });
 

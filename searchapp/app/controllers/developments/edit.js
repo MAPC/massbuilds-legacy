@@ -18,8 +18,9 @@ export default Ember.Controller.extend({
     placeChanged(response) {
       var location = response.geometry.location;
       var model = this.get("model");
-      model.set("latitude", location.lat())
-      model.set("longitude", location.lng())
+      model.set("latitude", location.lat());
+      model.set("longitude", location.lng());
+      model.set("city", response.vicinity);
     },
 
     // Google Street View
@@ -67,9 +68,9 @@ export default Ember.Controller.extend({
      // weird rule with computed properties:
      // they must be called at least once before
      // they trigger updates.
-     console.log("called");
      this.get("model.teamMemberships");
-     this.get('model.developmentTeamMemberships')
+
+     (this.get('model.developmentTeamMemberships') || [])
       // filtering out records that are not dirty doesn't solve this because grouped Results
       // is only triggered when something is pushed to the array. createRecord pushes something
       // to the array, but the update needs to happen when the record is saved. Hence, even if a
