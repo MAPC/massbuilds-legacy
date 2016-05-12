@@ -1,0 +1,13 @@
+{
+    "status": 1,
+    "walkscore": 98,
+    "description": "Walker's Paradise",
+    "updated": "2016-05-08 03:52:19.029650",
+    "logo_url": "https://cdn.walk.sc/images/api-logo.png",
+    "more_info_icon": "https://cdn.walk.sc/images/api-more-info.gif",
+    "more_info_link": "https://www.redfin.com/how-walk-score-works",
+    "ws_link": "https://www.walkscore.com/score/loc/lat=42.3547661/lng=-71.0615689/?utm_source=mapc.org&utm_medium=ws_api&utm_campaign=ws_api",
+    "help_link": "https://www.redfin.com/how-walk-score-works",
+    "snapped_lat": 42.3555,
+    "snapped_lon": -71.0610
+}

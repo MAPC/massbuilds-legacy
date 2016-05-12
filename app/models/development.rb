@@ -1,8 +1,5 @@
+require 'walk_score'
 class Development < ActiveRecord::Base
-  # TODO: basic geocoding
-  # geocoded_by :full_street_address   # Implement this method
-  # after_validation :geocode          # Auto-fetch coordinates
-  has_one :walkscore # TODO
 
   extend Enumerize
 
@@ -15,6 +12,7 @@ class Development < ActiveRecord::Base
   before_save :update_tagline
   before_save :clean_zip_code
   before_save :cache_street_view
+  before_save :update_walk_score
 
   # Relationships
   belongs_to :creator, class_name: :User
@@ -153,6 +151,18 @@ class Development < ActiveRecord::Base
     if street_view_fields_changed?
       self.street_view_image = street_view.image(cached: false)
     end
+  end
+
+  def update_walk_score
+    if location_fields_changed? || new_record?
+      self.walkscore = WalkScore.new(lat: latitude, lon: longitude).to_h
+    end
+  end
+
+  def location_fields_changed?
+    [:latitude, :longitude, :street_view_latitude, :street_view_longitude].select { |f|
+      send("#{f}_changed?")
+    }.any?
   end
 
   def street_view_fields_changed?

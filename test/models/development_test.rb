@@ -1,6 +1,12 @@
 require 'test_helper'
 
 class DevelopmentTest < ActiveSupport::TestCase
+
+  def setup
+    stub_street_view
+    stub_walkscore
+  end
+
   def development
     @development ||= developments :one
   end
@@ -199,11 +205,13 @@ class DevelopmentTest < ActiveSupport::TestCase
     far_dev = developments(:one)
     far_dev.latitude  =  40.000000
     far_dev.longitude = -77.000000
+    stub_walkscore(lat: far_dev.latitude, lon: far_dev.longitude)
     far_dev.save
 
     close_dev = developments(:two)
     close_dev.latitude  =  39.010000
     close_dev.longitude = -75.990000
+    stub_walkscore(lat: close_dev.latitude, lon: close_dev.longitude)
     close_dev.save
 
     close_devs = Development.close_to(39.000000, -76.000000).load
@@ -384,9 +392,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'cache street view' do
-    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
-    stub_request(:get, 'http://maps.googleapis.com/maps/api/streetview?fov=100&heading=0&key=loLOLol&location=42.000001,71.000001&pitch=11&size=600x600').
-      to_return(status: 200, body: file)
+    stub_street_view
     assert_difference 'development.street_view_image.size', 21904 do
       development.update_attributes street_view_attrs
     end
@@ -394,6 +400,32 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   def street_view_attrs
     { street_view_heading: 0, street_view_pitch: 11 }
+  end
+
+  test 'cache walk score' do
+    assert_respond_to development, :walkscore
+    attrs = {'id' => nil, street_view_heading: 0, street_view_pitch: 11 }
+    dev = Development.new(d.attributes.merge(attrs))
+    assert_empty dev.walkscore
+    dev.save
+    assert dev.walkscore
+    assert_equal 98, dev.walkscore['walkscore'], d.walkscore.inspect
+    assert_equal "Walker's Paradise", dev.walkscore['description']
+  end
+
+  private
+
+  def stub_street_view
+    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
+    stub_request(:get, 'http://maps.googleapis.com/maps/api/streetview?fov=100&heading=0&key=loLOLol&location=42.000001,71.000001&pitch=11&size=600x600').
+      to_return(status: 200, body: file)
+  end
+
+  def stub_walkscore(lat: 42.000001, lon: 71.000001)
+    file = File.read('test/fixtures/walkscore/200.json')
+    stub_request(:get, "http://api.walkscore.com/score?format=json&lat=#{lat}&lon=#{lon}&wsapikey=").
+          with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'api.walkscore.com', 'User-Agent'=>'Ruby'}).
+          to_return(:status => 200, :body => file)
   end
 
 end
