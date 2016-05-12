@@ -1,7 +1,7 @@
 module API
   module V1
     class DevelopmentsController < APIController
-      # before_action :restrict_access, only: [:index]
+      before_action :restrict_access, only: [:create]
       after_action :log_search, only: [:index]
 
       private

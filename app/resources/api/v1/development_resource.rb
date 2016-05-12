@@ -4,18 +4,33 @@ module API
   module V1
     class DevelopmentResource < JSONAPI::Resource
 
-      attributes :name, :status, :description
-      attributes :redevelopment, :as_of_right, :age_restricted,
+      attributes :name, :status, :description, :year_compl,
+
+                 :redevelopment, :as_of_right, :age_restricted,
                  :cluster_or_open_space_development, :phased, :stalled,
-                 :cancelled, :private
-      attributes :description, :address, :neighborhood, :city, :state,
+                 :cancelled, :private,
+
+                 :description, :address, :neighborhood, :city, :state,
                  :zip_code, :full_address, :project_url, :tagline,
-                 :location
-      attributes :height, :stories, :year_compl, :prjarea, :total_cost
-      attributes :singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop
-      attributes :commsf, :rptdemp, :emploss, :estemp, :fa_ret, :fa_ofcmd,
+                 :location,
+
+                 :height, :stories, :prjarea, :total_cost,
+
+                 :singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop,
+
+                 :commsf, :rptdemp, :emploss, :estemp, :fa_ret, :fa_ofcmd,
                  :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst, :fa_other, :fa_hotel,
-                 :affordable, :hotelrms, :onsitepark, :other_rate
+                 :affordable, :hotelrms, :onsitepark, :other_rate,
+
+                 :latitude, :longitude,
+                 :street_view_latitude,
+                 :street_view_longitude,
+                 :street_view_heading,
+                 :street_view_pitch
+
+      before_save do
+        @model.creator_id = context[:current_user].id if @model.new_record?
+      end
 
       has_many :team_memberships
 
