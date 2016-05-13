@@ -6,7 +6,9 @@ class DevelopmentsController < ApplicationController
   before_action :authenticate_user!, only: [:edit, :update]
   def index
     # Falls back to Development.all
-    @developments = Development.periscope(search_params)
+    # @developments = Development.periscope(search_params)
+    @limits = Development.ranged_column_bounds.to_json
+    # render layout: "search"
   end
 
   def show
