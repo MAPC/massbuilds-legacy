@@ -6,9 +6,7 @@ class DevelopmentsController < ApplicationController
   before_action :authenticate_user!, only: [:edit, :update]
   def index
     # Falls back to Development.all
-    @developments = DevelopmentPresenter.wrap(
-      Development.periscope(search_params).order(updated_at: :desc)
-    )
+    @limits = Development.ranged_column_bounds.to_json
   end
 
   def show

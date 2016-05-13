@@ -7,6 +7,10 @@
   overflow-y: scroll;
 }
 
+.street-view-container {
+  height: 500px;
+}
+
 .masthead{
   top: 45px;
 }
@@ -62,4 +66,18 @@
 
 #sidebar {
   background-color: #1b1c1d;
+}
+
+.circle {
+  border-radius: 50%;
+  width: 10px;
+  height: 10px; 
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+  -webkit-transform: translate(-50%, -50%);
+  background: red;
+
+  /* width and height can be anything, as long as they're equal */
 }

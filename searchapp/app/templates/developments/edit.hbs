@@ -1,0 +1,347 @@
+<div class="ui grid container">
+  <div class="row">
+    <div class="ten wide column" id="title-area">
+
+      <h1 class="ui header" id="title">
+        <div class="sub header" id="address">
+          <div class="ui form">
+            <div class="field">
+              {{input value=model.name}}
+            </div>
+            {{place-autocomplete-field
+              class="field"
+              value= model.address
+              disable=false
+              handlerController= this
+              inputClass= 'place-autocomplete--input'
+              placeChangedCallback='placeChanged'
+              types="address"
+            }}
+
+            <div class="field">
+              <label>Description</label>
+              {{textarea value=descriptions cols="80" rows="6"}}
+            </div>
+
+            Construction status:
+            {{#ui-dropdown class="selection" onChange=(action 'update_selected')}}
+              <div class="default text">Select an Option</div>
+              <i class="dropdown icon"></i>
+              <div class="menu">
+              {{#each itemActions as |itemAction|}}
+                <div class="item" data-id="{{itemAction}}">
+                  {{itemAction}}
+                </div>
+              {{/each}}
+              </div>
+            {{/ui-dropdown}}
+          </div>
+        </div>
+      </h1>
+      <p class="tagline">
+        {{#if model.website}}
+          <i class="icon linkify"><a href="{{model.website}}" target="_blank">{{model.website}}</a></i>
+        {{/if}}
+
+      </p>
+
+      <div id="status">
+        
+      </div>
+    </div>
+    <div class="six wide column" id="actions">
+      
+    </div>
+  </div>
+  <div class="row">
+    <div class="ten wide column">
+      <div id="tags">
+        
+      </div>
+      <div id="images">
+        {{#if model.latitude}}
+          {{street-view povChanged='povChanged' positionChanged='positionChanged' addressControl=false pov=this.pointOfView lat=model.latitude lng=model.longitude}}
+        {{/if}}
+      </div>
+
+      <div id="data">
+        <div class="ui horizontal divider">Details</div>
+      </div>
+
+      <h2>
+      Building & Site
+      </h2>
+
+      <div class="ui labeled input">
+        <div class="ui label">
+          Stories
+        </div>
+        
+        <div class="ui input">
+          {{input type="text" value=this.stories}}
+        </div>
+      </div>
+
+      <div class="ui labeled input">
+        <div class="ui label">
+          Project Area (SQFT)
+        </div>
+        
+        <div class="ui input">
+          {{input type="text" value=this.project-area}}
+        </div>
+      </div>
+
+      <div class="ui labeled input">
+        <div class="ui label">
+          Total Housing Units
+        </div>
+        
+        <div class="ui input">
+          {{input type="text" value=this.tothu}}
+        </div>
+      </div>
+
+      <div class="ui labeled input">
+        <div class="ui label">
+          Commercial Square Feet
+        </div>
+        
+        <div class="ui input">
+          {{input type="text" value=this.comm-sq-feet}}
+        </div>
+      </div>
+
+      <div id="data">
+        <div class="ui horizontal divider">Residential</div>
+      </div>
+
+      <table class="ui celled table">
+        <thead>
+          <tr>
+            <th>Housing Type</th>
+            <th>Number of Units</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Single family homes</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.single-family-homes}}
+              </div>
+            </td>
+          </tr>
+          <tr class="positive">
+            <td>Small Multi-Family</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.small-multi-family}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Total Housing Units</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.tothu}}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="ui very basic collapsing celled table">
+        <tbody>
+          <tr>
+            <td>Group Quarters (i.e. dorms, barracks, etc.)</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.group-quarters}}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div id="data">
+        <div class="ui horizontal divider">Commercial</div>
+      </div>
+
+      <table class="ui celled table">
+        <thead>
+          <tr>
+            <th>Housing Type</th>
+            <th>Floor Area (square feet)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Retail</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.retail}}
+              </div>
+            </td>
+          </tr>
+          <tr class="positive">
+            <td>Office or Medical</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.office}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Educational and Institutional</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.edu}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Commercial Square Feet</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.comm-sq-feet}}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <table class="ui very basic collapsing celled table">
+        <tbody>
+          <tr>
+            <td>Hotel Rooms</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.hotel-rooms}}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div id="data">
+        <div class="ui horizontal divider">Employment</div>
+      </div>
+
+
+      <table class="ui very basic collapsing celled table">
+        <tbody>
+          <tr>
+            <td>Employment (reported)</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.employment}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Employment Losses</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.employment-losses}}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button class="ui primary button" {{action "save" model}}>
+        Save
+      </button>
+    </div>
+    <div class="six wide column">
+      <div>
+        Refine Development location:
+        {{#if model.latitude}}
+          {{development-map model=model}}
+        {{/if}}
+        {{#if model.parcel_id}}
+          Parcel ID: {{model.parcel_id}}
+        {{/if}}
+      </div>
+      {{#if groupedResults}}
+        <div id="team">
+          <div class="ui horizontal divider">
+            <h4>Development Team</h4>
+            <table class="ui very basic collapsing celled table">
+              <tbody>
+                {{#each this.groupedResults}}
+                  <tr>
+                    <td>
+                      {{role}}
+                    </td>
+                    <td>
+                      <div class="ui items">
+                        {{#each contents as |content|}}
+                          <h5 class="ui header">
+                            <img class="ui mini rounded image" src="{{content.organization.logo}}"/>
+                            <div class="content">
+                              {{content.organization.name}} <p {{action "removeMembership" content}}>(Remove Member)</p> {{content.teamMembership}}
+
+                              <div class="sub header">
+                                {{#if content.isDirty}}
+                                  This has been flagged for deletion
+                                {{/if}}
+                                {{content.organization.location}}
+                              </div>
+                            </div>
+                          </h5>
+                        {{/each}}
+                      </div>
+                    </td>
+                  </tr>
+                {{/each}}
+              </tbody>
+              <tfoot>
+                <tr><th colspan="2">
+                  <div class="ui horizontal divider">Add Team member</div>
+                  <div class="ui form">
+                    <div class="three fields">
+                      <div class="field">
+                        <label>Role</label>
+                        <select class="ui dropdown" onChange={{action (mut role) value="target.value"}}>
+                          <option value="" selected="true">Select below</option>
+                          {{#each roles key="@index" as |roleChoice|}}
+                            <option value="{{roleChoice.name}}" selected={{eq role roleChoice.name}}>{{roleChoice.name}}</option>
+                          {{/each}}
+                        </select>
+                      </div>
+                      <div class="field">
+                        <label>Organization</label>                
+                        <select class="ui dropdown" onChange={{action (mut organization) value="target.value"}}>
+                          <option value="" selected="true">Select below</option>
+                          {{#each organizations key="@index" as |organizationChoice|}}
+                            <option value="{{organizationChoice}}" selected={{eq organization organizationChoice}}>{{organizationChoice.name}}</option>
+                          {{/each}}
+                          <option value="{{organizations.firstObject}}" selected={{eq organization organizationChoice}}>{{organizations.firstObject.name}}</option>
+                        </select>
+                      </div>
+                      <div class="field">
+                        <div class="ui submit button" {{action "saveNewTeamMember"}}>Add Member</div>
+                      </div>
+                    </div>
+                  </div>
+                </th></tr>
+              </tfoot>
+            </table>
+          </div>
+        </div>
+      {{/if}}
+
+      <div id="contrib">
+        
+      </div>
+      <div id="related">
+        
+      </div>
+      <div id="history">
+        
+      </div>
+    </div>
+  </div>
+</div>

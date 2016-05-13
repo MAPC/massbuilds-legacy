@@ -2,9 +2,17 @@
 
 module.exports = function(environment) {
   var ENV = {
+    contentSecurityPolicy: {
+        'img-src': "'self' blob:* data: *.mapbox.com *.googleapis.com maps.gstatic.com *.gstatic.com",
+        'child-src': "blob:",
+        'connect-src': "'self' api.lvh.me:5000 localhost:4200 *.mapbox.com *.mockable.io",
+        'font-src': "'self' *.cloudflare.com fonts.gstatic.com data:application/*",
+        'style-src': "'self' 'unsafe-inline' *.cloudflare.com fonts.googleapis.com *.googleapis.com",
+        'script-src': "'self' 'unsafe-eval' *.mapbox.com *.cloudflare.com *.googleapis.com"
+    },    
     modulePrefix: 'searchapp',
     environment: environment,
-    baseURL: '/developments/search',
+    baseURL: '/developments',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -12,21 +20,16 @@ module.exports = function(environment) {
         // e.g. 'with-controller': true
       }
     },
-
-    APP: {
-      // Here you can pass flags/options to your application instance
-      // when it is created
+    streetView: {
+      include: false,
+      apiKey: 'AIzaSyAWrW13SqSU3BRD81HFXS0c1EP3p_wb6Rc'
     },
     mapbox: {
       accessToken: 'pk.eyJ1Ijoid2lsYnVybmZvcmNlIiwiYSI6InUzTmxaNHcifQ.TfoRyRJIHvzqV3HwSGEp9w',
     },
-    contentSecurityPolicy: {
-        'img-src': "'self' blob:* data: *.mapbox.com",
-        'child-src': "blob:",
-        'connect-src': "'self' api.lvh.me:5000 localhost:4200 *.mapbox.com *.mockable.io",
-        'font-src': "'self' *.cloudflare.com fonts.gstatic.com data:application/*",
-        'style-src': "'self' 'unsafe-inline' *.cloudflare.com fonts.googleapis.com",
-        'script-src': "'self' 'unsafe-eval' *.mapbox.com *.cloudflare.com"
+    APP: {
+      // Here you can pass flags/options to your application instance
+      // when it is created
     }
   };
 
