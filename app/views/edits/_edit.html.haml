@@ -1,7 +1,7 @@
 - unless edit.no_change?
   .event
     .label
-      %img{src: edit.editor.gravatar_url}
+      %img{ src: edit.editor.gravatar_url }
     .content
       - if edit.multiple_changes?
         = render partial: 'edits/summary', object: edit, as: :edit

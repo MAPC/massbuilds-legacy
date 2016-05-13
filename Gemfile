@@ -1,25 +1,28 @@
 source 'https://rubygems.org'
 
-ruby '2.1.5'
+ruby '2.3.1'
 
-gem 'rails', '4.2.1'
+gem 'bundler', '1.11.2'
+
+gem 'rails', '4.2.5.1'
 
 # Database
 gem 'pg'
 gem 'periscope-activerecord' # Makes filtering simpler
 gem 'seed-fu', '~> 2.3'      # Manages fixtures
 gem 'faker', require: false  # Fake sample data
+gem 'enumerize' # Store options in a string field
+# gem 'paperclip' # File attachments
 
 # Users
 gem 'bcrypt'
 gem 'devise'
+gem 'authority'
 
 # Utilities
-gem 'enumerize' # Store options in a string field
-gem 'geometry'  # Simple geometry constructor
+gem 'geometry' # Simple geometry constructor
 gem 'wannabe_bool', '0.3.0' # Convert to boolean
-gem 'paperclip' # File attachments
-gem 'stamp'     # Easier timestamps
+gem 'stamp' # Easier timestamps
 
 # Forms & Presenters
 gem 'virtus'       # Form objects
@@ -38,7 +41,8 @@ gem 'kaminari'  # Pagination
 gem 'leaflet-rails' # Maps
 gem 'wicked_pdf', '~> 1.0'    # PDF generation
 gem 'wkhtmltopdf-binary-edge' # PDF generation binary
-gem "ember-cli-rails", :git => "git://github.com/allthesignals/ember-cli-rails.git"
+gem 'ember-cli-rails', git: 'https://github.com/allthesignals/ember-cli-rails'
+gem 'meta-tags' # SEO, Open Graph tags
 
 # Semantic UI
 gem 'therubyracer'
@@ -52,10 +56,11 @@ gem 'versionist'
 
 # Server
 gem 'puma'
-gem 'foreman', require: false
+gem 'airbrake', '~> 5.2'              # Error reporting
 gem 'rack-cors', require: 'rack/cors' # CORS Headers
 
 group :development do
+  gem 'foreman', require: false
   gem 'spring'            # Keeps environment in background
   gem 'better_errors'     # Clearer error messages
   gem 'binding_of_caller' # REPL & more in error page
@@ -69,7 +74,9 @@ group :development do
   gem 'rubocop'
 end
 
-gem 'bullet', '4.14.10', group: [:development, :test] # SQL diagnostics
+group :development, :test do
+  gem 'bullet', '4.14.10' # SQL diagnostics
+end
 
 group :test do
   gem 'minitest-rails'     # Test library
@@ -80,4 +87,10 @@ group :test do
   gem 'codeclimate-test-reporter', require: nil
   gem 'launchy'
   gem 'rake' # Specified for Travis CI
+  gem 'webmock' # Disable network connections
+end
+
+group :staging, :production do
+  gem 'rails_12factor'
+  gem 'newrelic_rpm'
 end

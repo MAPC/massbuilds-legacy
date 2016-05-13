@@ -146,7 +146,6 @@ namespace :db do
     #  Developments
     #=================
 
-
     godfrey = Development.create!(
       name:       'Godfrey Hotel',
       address:    '501 Washington Street',
@@ -159,7 +158,12 @@ namespace :db do
       total_cost: 10_020_300,
       latitude:   42.3547661,
       longitude: -71.0615689,
-      creator:    User.order('RANDOM()').first
+      creator:    User.order('RANDOM()').first,
+      stories: 9, prjarea: 225, singfamhu: 0, twnhsmmult: 0, tothu: 5,
+      gqpop: 10, rptdemp: 100, emploss: 10, commsf: 2000, hotelrms: 240,
+      onsitepark: 35, fa_ret: 1000.0, fa_ofcmd: 200.0, fa_edinst: 400.0,
+      fa_hotel: 1000.0,
+      street_view_heading: 220, street_view_pitch: 35
     )
 
     millennium = Development.create!(
@@ -173,7 +177,11 @@ namespace :db do
       total_cost: 100_000_000,
       latitude:   42.355777,
       longitude: -71.0597007,
-      creator: User.order('RANDOM()').first
+      creator: User.order('RANDOM()').first,
+      street_view_heading: 270.0,
+      street_view_pitch: 10.0,
+      street_view_latitude: 42.3556878,
+      street_view_longitude: -71.0588645
     )
 
     opera = Development.create!(
@@ -186,7 +194,8 @@ namespace :db do
       total_cost: 3_029_101,
       latitude: 42.3539817,
       longitude: -71.0623373,
-      creator: User.order('RANDOM()').first
+      creator: User.order('RANDOM()').first,
+      street_view_heading: 303
     )
 
     residences = Development.create!(
@@ -199,7 +208,11 @@ namespace :db do
       total_cost: 5_000_100,
       latitude: 42.3554185,
       longitude: -71.0613328,
-      creator: User.order('RANDOM()').first
+      creator: User.order('RANDOM()').first,
+      street_view_heading: 175.0,
+      street_view_pitch: 33.0,
+      street_view_latitude: 42.3557652,
+      street_view_longitude: -71.061501
     )
 
     # A ton of fake ones.
@@ -234,11 +247,13 @@ namespace :db do
     #  Development Histories
     #===========================
 
+    puts "Adding edits and changes to developments..."
     count = Development.count * 15
     count.times do |i|
       random_edit
-      puts percent_log(i, count)
+      percent_log(i, count)
     end
+    puts "done adding edits!"
 
     #     Development Teams
     #===========================
@@ -331,7 +346,7 @@ end
 
 def percent_log(num, denom)
   num = num + 1
-  puts "#{((num / denom) * 100).to_f.round(2)}% complete (#{num}/#{denom})"
+  print "#{((num / denom) * 100).to_f.round(2)}% complete (#{num}/#{denom})\r"
 end
 
 
@@ -407,7 +422,7 @@ end
 
 def create_development
   name        = "#{Faker::Name.last_name} #{Faker::Address.street_suffix}"
-  address     = "#{Faker::Address.street_address}, #{Faker::Address.city} #{Faker::Address.state_abbr} #{Faker::Address.zip}"
+  address     = "#{Faker::Address.street_address}"
   year_compl  = (1990..2027).to_a.sample
   status      = [:projected, :planning, :in_construction, :completed].sample
   total_cost  = Faker::Number.number([6,7,8,9].sample)

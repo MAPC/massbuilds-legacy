@@ -28,7 +28,9 @@ class DevelopmentSerializer
   end
 
   def base_attributes
-    @record.attributes.merge({'city' => @record.municipality})
+    base = @record.attributes
+    base['city'] = @record.municipality
+    base.reject { |k, _v| k.include?('street_view_') }
   end
 
   def only?
@@ -40,11 +42,11 @@ class DevelopmentSerializer
   end
 
   def only_attributes
-    base_attributes.select{ |k, _v| only_selection.include? k.to_sym }
+    base_attributes.select { |k, _v| only_selection.include? k.to_sym }
   end
 
   def except_attributes
-    base_attributes.reject{ |k, _v| except_selection.include? k.to_sym }
+    base_attributes.reject { |k, _v| except_selection.include? k.to_sym }
   end
 
   def only_selection

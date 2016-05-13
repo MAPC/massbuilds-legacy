@@ -1,7 +1,7 @@
 class DevelopmentPresenter < Burgundy::Item
 
   delegate :status_with_year, :status_icon, to: :status_info
-  CHANGES_TO_SHOW = 3
+  NUM_CHANGES = 3 # to display
 
   # Relationships
 
@@ -16,19 +16,23 @@ class DevelopmentPresenter < Burgundy::Item
 
   # Last several changes, for a feed
   def recent_history
-    EditPresenter.wrap history.includes(:fields).limit(CHANGES_TO_SHOW)
+    EditPresenter.wrap history.includes(:fields).limit(NUM_CHANGES)
   end
 
   def pending_edits
     EditPresenter.wrap item.pending_edits
   end
 
+  def pending_flags
+    FlagPresenter.wrap item.flags.where(state: :open)
+  end
+
   def changes_since(timestamp = Time.now)
-    EditPresenter.wrap item.changes_since(timestamp).first(CHANGES_TO_SHOW)
+    EditPresenter.wrap item.history.since(timestamp).first(NUM_CHANGES)
   end
 
   def undisplayed_changes_since(timestamp = Time.now)
-    item.changes_since(timestamp).count - CHANGES_TO_SHOW
+    item.history.since(timestamp).count - NUM_CHANGES
   end
 
   alias_method :pending, :pending_edits
@@ -80,15 +84,7 @@ class DevelopmentPresenter < Burgundy::Item
   end
 
   def street_view(*args)
-    # TODO: Move this into its own class.
-    return nil if Rails.env == 'test'
-    w, h = 600, 600
-    w, h = 80, 70 if args.include? :tiny
-    url = 'https://maps.googleapis.com/maps/api/streetview?'
-    url << "size=#{w}x#{h}"
-    url << "&location=#{location.join(',')}"
-    url << '&fov=100&heading=235&pitch=35'
-    url << '&key=AIzaSyA-kZB6mH1kp-uXBrp5v8luDiPzKYh_nfQ'
+    "data:image/jpg;base64,#{Base64.encode64(item.street_view.image)}"
   end
 
   def physical_attributes

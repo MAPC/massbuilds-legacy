@@ -1,14 +1,19 @@
 class Search < ActiveRecord::Base
-  belongs_to :user
-  has_many :subscriptions, as: :subscribable
-  has_many :subscribers, through: :subscriptions, source: :user
 
   before_save :ensure_title
+
+  belongs_to :user
+  has_many :subscriptions, as: :subscribable
+  has_many :subscribers,   through: :subscriptions, source: :user
 
   validates :user, presence: true
 
   def results
-    Development.periscope(Array(query))
+    Development.periscope Array(query)
+  end
+
+  def self.saved
+    where saved: true
   end
 
   alias_method :developments, :results
@@ -26,11 +31,11 @@ class Search < ActiveRecord::Base
   private
 
   def ensure_title
-    return if (title || unsaved?)
+    return if title || unsaved?
     self.title = "Saved Search #{next_search_count(user)}"
   end
 
   def next_search_count(user)
-    user.searches.where(saved: true).count + 1
+    user.searches.saved.count + 1
   end
 end

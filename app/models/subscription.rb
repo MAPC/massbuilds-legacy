@@ -13,11 +13,11 @@ class Subscription < ActiveRecord::Base
 
   private
 
-    def valid_subscribable
-      sub = subscribable
-      unless sub.is_a?(Development) || sub.respond_to?(:developments)
-        errors.add :subscribable,
-          "must be a Development or respond to #developments"
-      end
+  def valid_subscribable
+    sub = subscribable
+    unless sub.is_a?(Development) || sub.respond_to?(:developments)
+      errors.add :subscribable,
+        'must be a Development or respond to #developments'
     end
+  end
 end

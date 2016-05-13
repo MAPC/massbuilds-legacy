@@ -268,7 +268,13 @@ CREATE TABLE developments (
     affordable double precision,
     latitude numeric(12,9),
     longitude numeric(12,9),
-    place_id integer
+    place_id integer,
+    street_view_heading integer,
+    street_view_pitch smallint,
+    street_view_latitude numeric(12,9),
+    street_view_longitude numeric(12,9),
+    street_view_image bytea,
+    parcel_id character varying(25)
 );
 
 
@@ -512,7 +518,8 @@ CREATE TABLE organizations (
     abbv character varying,
     short_name character varying,
     gravatar_email character varying,
-    hashed_email character varying
+    hashed_email character varying,
+    municipal boolean
 );
 
 
@@ -736,7 +743,8 @@ CREATE TABLE users (
     first_name character varying,
     last_name character varying,
     hashed_email character varying,
-    last_checked_subscriptions timestamp without time zone DEFAULT '2016-03-17 20:41:06.669662'::timestamp without time zone NOT NULL
+    last_checked_subscriptions timestamp without time zone DEFAULT now() NOT NULL,
+    mail_frequency character varying(8) DEFAULT 'weekly'::character varying
 );
 
 
@@ -1549,4 +1557,12 @@ INSERT INTO schema_migrations (version) VALUES ('20160209214001');
 INSERT INTO schema_migrations (version) VALUES ('20160210184025');
 
 INSERT INTO schema_migrations (version) VALUES ('20160308203038');
+
+INSERT INTO schema_migrations (version) VALUES ('20160321203100');
+
+INSERT INTO schema_migrations (version) VALUES ('20160323213936');
+
+INSERT INTO schema_migrations (version) VALUES ('20160325150216');
+
+INSERT INTO schema_migrations (version) VALUES ('20160327210952');
 

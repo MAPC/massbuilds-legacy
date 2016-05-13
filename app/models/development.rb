@@ -6,9 +6,15 @@ class Development < ActiveRecord::Base
 
   extend Enumerize
 
+  # include Development::Callbacks
+  # include Development::Relationships
+  # include Development::Validations
+  # include Development::Scopes
+
   # Callbacks
   before_save :update_tagline
   before_save :clean_zip_code
+  before_save :cache_street_view
 
   # Relationships
   belongs_to :creator, class_name: :User
@@ -17,11 +23,17 @@ class Development < ActiveRecord::Base
   has_many :edits
   has_many :flags
   has_many :crosswalks
-  has_many :team_memberships, class_name: :DevelopmentTeamMembership,
-            counter_cache: :team_membership_count
+
+  has_many :team_memberships,
+    class_name:    :DevelopmentTeamMembership,
+    counter_cache: :team_membership_count,
+    dependent:     :destroy
+
   has_many :team_members, through: :team_memberships, source: :organization
+  has_many :moderators,   through: :team_members,     source: :members
+
   has_many :subscriptions, as: :subscribable
-  has_many :subscribers, through: :subscriptions, source: :user
+  has_many :subscribers,   through: :subscriptions, source: :user
 
   has_and_belongs_to_many :programs
 
@@ -29,14 +41,26 @@ class Development < ActiveRecord::Base
   validates :creator,    presence: true
   validates :year_compl, presence: true
 
+  lat_range = { less_than_or_equal_to:  90, greater_than_or_equal_to:  -90 }
+  lon_range = { less_than_or_equal_to: 180, greater_than_or_equal_to: -180 }
+
+  validates :latitude,  presence: true, numericality: lat_range
+  validates :longitude, presence: true, numericality: lon_range
+
+  validates :street_view_latitude,  allow_blank: true, numericality: lat_range
+  validates :street_view_longitude, allow_blank: true, numericality: lon_range
+
   STATUSES = [:projected, :planning, :in_construction, :completed].freeze
   enumerize :status, in: STATUSES, predicates: true
 
-  alias_attribute :website, :project_url
-  alias_attribute :zip, :zip_code
-  alias_attribute :hidden, :private
+  alias_attribute :description, :desc
+  alias_attribute :website,     :project_url
+  alias_attribute :zip,         :zip_code
+  alias_attribute :hidden,      :private
 
   # Scopes
+  default_scope { includes(:place) }
+
   ranged_scopes :created_at, :updated_at, :height, :stories,
     :year_compl, :affordable, :prjarea, :singfamhu, :twnhsmmult,
     :lgmultifam, :tothu, :gqpop, :rptdemp, :emploss, :estemp, :commsf,
@@ -87,17 +111,9 @@ class Development < ActiveRecord::Base
   # TODO: Cache this in the database, to be used for searches.
   alias_method :mixed_use, :mixed_use?
 
-  def history(since: nil)
-    scope = edits.where(applied: true).order(applied_at: :desc)
-    scope = scope.where('applied_at > ?', since) if since
-    scope
+  def history
+    edits.applied
   end
-
-  def most_recent_edit
-    history.first
-  end
-
-  alias_method :last_edit, :most_recent_edit
 
   def pending_edits
     edits.where(state: 'pending').order(created_at: :asc)
@@ -107,38 +123,50 @@ class Development < ActiveRecord::Base
     ContributorQuery.new(self).find.map(&:editor).push(creator).uniq
   end
 
+  def street_view
+    @street_view ||= StreetView.new(self)
+  end
+
   def parcel
-    OpenStruct.new(id: 12345)
+    OpenStruct.new(id: 123)
   end
 
-  def incentive_programs
-    programs.where type: :incentive
+  def updated_since?(time = Time.now)
+    history.since(time).any? ? true : created_since?(time)
   end
 
-  def regulatory_programs
-    programs.where type: :regulatory
-  end
-
-  def updated_since?(timestamp = Time.now)
-    history.any? ? last_edit.applied_at > timestamp : created_at > timestamp
-  end
-
-  def changes_since(timestamp = Time.now)
-    history.where('applied_at > ?', timestamp)
+  def created_since?(time = Time.now)
+    created_at > time
   end
 
   def self.ranged_column_bounds
     Hash[ranged_column_array]
   end
 
+  def to_s
+    name
+  end
+
   private
+
+  def cache_street_view
+    if street_view_fields_changed?
+      self.street_view_image = street_view.image(cached: false)
+    end
+  end
+
+  def street_view_fields_changed?
+    [:latitude, :longitude, :pitch, :heading].select { |field|
+      send("street_view_#{field}_changed?")
+    }.any?
+  end
 
   def update_tagline
     self.tagline = TaglineGenerator.new(self).perform!
   end
 
   def clean_zip_code
-    zip_code.to_s.gsub!(/\D*/, '')
+    zip_code.to_s.gsub!(/\D*/, '') # Only digits
   end
 
   def nine_digit_formatted_zip(code)
@@ -158,9 +186,9 @@ class Development < ActiveRecord::Base
   end
 
   private_class_method def self.exclude_from_ranges?(col)
-    id_regex = /^id$|_id$/
-    type_regex = /(integer|double|timestamp|numeric)/i
-    id_regex.match(col.name.to_s) || !type_regex.match(col.sql_type.to_s)
+    exclude_reg = /^street_view_|^id$|_id$/
+    include_reg = /(integer|double|timestamp|numeric)/i
+    exclude_reg.match(col.name.to_s) || !include_reg.match(col.sql_type.to_s)
   end
 
 end

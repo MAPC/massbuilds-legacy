@@ -1,7 +1,7 @@
 class Edit < ActiveRecord::Base
   extend Enumerize
 
-  has_many :fields, class_name: :FieldEdit, dependent: :nullify
+  has_many :fields, class_name: :FieldEdit, dependent: :destroy
 
   belongs_to :editor,    class_name: :User
   belongs_to :moderator, class_name: :User
@@ -14,6 +14,14 @@ class Edit < ActiveRecord::Base
 
   enumerize :state, in: [:pending, :approved, :declined],
     default: :pending, predicates: true
+
+  def self.applied
+    where(applied: true).order(applied_at: :desc)
+  end
+
+  def self.since(time = Time.now)
+    where 'applied_at > ?', time
+  end
 
   # TODO: Do these belong here, if the service is handling
   # the alteration of state?

@@ -12,3 +12,11 @@ massit:
   short_name: MassIT
   creator: moderator
   website: http://www.mass.gov/anf/research-and-tech/oversight-agencies/itd/
+
+bra:
+  name: Boston Redevelopment Authority
+  abbv: BRA
+  short_name: Boston Redevelop
+  creator: tim
+  website: http://bostonredevelopment.com
+  municipal: true

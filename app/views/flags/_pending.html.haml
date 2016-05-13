@@ -1,0 +1,8 @@
+= render partial: 'flags/flag', object: flag, as: :flag
+
+%br
+
+= link_to close_development_flag_path(@development, flag), method: :post do
+  .ui.basic.green.button
+    %i.checkmark.icon
+    Mark as resolved

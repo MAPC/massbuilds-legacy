@@ -18,18 +18,18 @@ class EditApplication
 
   private
 
-    def apply!
-      ActiveRecord::Base.transaction do
-        if @development.update_attributes(assignable_attributes)
-          @edit.applied
-          @edit.save
-        end
-        true
+  def apply!
+    ActiveRecord::Base.transaction do
+      if @development.update_attributes(assignable_attributes)
+        @edit.applied
+        @edit.save
       end
+      true
     end
+  end
 
-    def assignable_attributes
-      Hash[ @fields.map{ |f| [f.name, f.to] } ]
-    end
+  def assignable_attributes
+    Hash[@fields.map { |f| [f.name, f.to] }]
+  end
 
 end

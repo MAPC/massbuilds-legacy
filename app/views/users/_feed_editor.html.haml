@@ -1,0 +1,5 @@
+= link_to editor.short_name, 'editor'
+- org = editor.primary_organization
+- if org.present?
+  = link_to org do
+    (#{ org.short_name })

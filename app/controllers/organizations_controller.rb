@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  before_filter :authenticate_user!, only: [:create, :new, :edit, :update]
+  before_filter :authenticate_user!, except: [:show, :index]
   before_action :load_presented_record, only: [:show, :edit]
 
   def index
@@ -19,6 +19,7 @@ class OrganizationsController < ApplicationController
   def update
     @organization = Organization.find(params[:id])
     if @organization.update_attributes(org_params)
+      flash[:success] = 'Organization updated!'
       redirect_to @organization
     else
       render 'edit'
@@ -27,7 +28,7 @@ class OrganizationsController < ApplicationController
 
   def create
     @organization = Organization.new(org_params)
-    @organization.creator = current_user
+    @organization.creator = devise_current_user
 
     if @organization.save
       flash[:success] = 'Organization successfully created.'
@@ -41,8 +42,8 @@ class OrganizationsController < ApplicationController
   private
 
   def org_params
-    params.require(:organization).
-      permit(:name, :email, :location, :short_name, :website, :abbv)
+    params.require(:organization).permit(:name, :location, :email,
+      :gravatar_email, :website, :short_name, :abbv)
   end
 
   def load_presented_record

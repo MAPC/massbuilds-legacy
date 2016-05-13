@@ -1,3 +1,15 @@
+:ruby
+  set_meta_tags title: @development.name
+  set_meta_tags og: {
+    title:       @development.name,
+    url:         development_url(@development),
+    description: @development.tagline,
+    image:       @development.street_view.to_s.html_safe,
+    type:        'development'
+  }
+  set_meta_tags twitter: { card: 'summary_large_image' }
+
+
 .row
   .ten.wide.column#title-area
     = render partial: 'developments/show/title'
@@ -7,12 +19,13 @@
   .six.wide.column#actions
     = render partial: 'developments/show/actions'
 
+= render partial: 'developments/show/tags'
+
 .row
   .ten.wide.column
-    #tags
-      = render partial: 'developments/show/tags'
     #images
-      %img.ui.image{src: @development.street_view, style: 'width: 600px; height: 600px;', alt: @development.name}
+      %img.ui.image{ src: @development.street_view,
+        style: 'width: 600px; height: 600px;', alt: @development.name }
     #data
       .ui.horizontal.divider Details
       = render partial: 'developments/show/physical'
@@ -21,7 +34,7 @@
       -# = render partial: 'developments/show/transportation'
 
   .six.wide.column#sidebar
-    #map=     render partial: 'developments/show/map'
+    #map-container= render partial: 'developments/show/map'
     #team=    render partial: 'developments/show/team'
     #contrib= render partial: 'developments/show/contributors'
     #related= render partial: 'developments/show/related'

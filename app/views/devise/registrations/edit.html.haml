@@ -18,9 +18,10 @@
             = link_to "Update your photo via Gravatar",
               'https://en.gravatar.com/site/login', target: '_blank'
     .five.wide.column
+
       = form_for(resource, as: resource_name,
-        url: registration_path(resource_name),
-        html: { method: :put, class: 'ui form' }) do |f|
+          url: registration_path(resource_name),
+          html: { method: :put, class: 'ui form' }) do |f|
 
         = devise_error_messages!
 
@@ -35,6 +36,27 @@
         .field
           = f.label :email
           = f.email_field :email
+
+        %hr
+
+        %ui.horizontal.divider Email frequency
+        %p
+          How often would you like to receive updates on the
+          developments you watch?
+        .grouped.fields
+          .field
+            .ui.radio.checkbox
+              = f.radio_button :mail_frequency, :never
+              = f.label :mail_frequency, 'Never', value: 'never'
+          .field
+            .ui.radio.checkbox
+              = f.radio_button :mail_frequency, :daily
+              = f.label :mail_frequency, 'Daily', value: 'daily'
+          .field
+            .ui.radio.checkbox
+              = f.radio_button :mail_frequency, :weekly
+              = f.label :mail_frequency, 'Weekly (recommended)',
+                  value: 'weekly'
 
         - if devise_mapping.confirmable? && resource.pending_reconfirmation?
           %div

@@ -145,8 +145,8 @@ class DevelopmentTest < ActiveSupport::TestCase
     d.programs << programs(:massworks)
     d.programs << programs(:forty_b)
     assert_equal 2, d.programs.count
-    assert_equal 1, d.incentive_programs.count
-    assert_equal 1, d.regulatory_programs.count
+    assert_equal 1, d.programs.incentive.count
+    assert_equal 1, d.programs.regulatory.count
   end
 
   test '#status' do
@@ -273,6 +273,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#last_edit returns most recent history item' do
+    skip 'we really do not need this'
     edit = d.pending_edits.first
     edit.applied
     edit.save
@@ -280,17 +281,17 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal edit, d.last_edit
   end
 
-  test '#changes_since' do
+  test '#history.since' do
     edit = d.pending_edits.first
     Time.stub :now, Time.new(2000, 1, 2) do
       edit.applied
       edit.save
     end
-    assert_equal [edit], d.changes_since(Time.new(2000, 1, 1))
+    assert_equal [edit], d.history.since(Time.new(2000, 1, 1))
   end
 
-  test '#changes_since without history' do
-    assert_equal [], d.changes_since(Time.new(2000, 1, 2))
+  test '#history.since without history' do
+    assert_equal [], d.history.since(Time.new(2000, 1, 2))
   end
 
   test '#place' do
@@ -374,6 +375,25 @@ class DevelopmentTest < ActiveSupport::TestCase
     array = [ranged_scopes, boolean_scopes].flatten
     array.delete(:hidden) # Ignores hidden because of the alias, for now.
     array
+  end
+
+  test 'street view' do
+    assert_respond_to development, :street_view
+    assert_respond_to development.street_view, :url
+    assert_respond_to development.street_view, :image
+  end
+
+  test 'cache street view' do
+    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
+    stub_request(:get, 'http://maps.googleapis.com/maps/api/streetview?fov=100&heading=0&key=loLOLol&location=42.000001,71.000001&pitch=11&size=600x600').
+      to_return(status: 200, body: file)
+    assert_difference 'development.street_view_image.size', 21904 do
+      development.update_attributes street_view_attrs
+    end
+  end
+
+  def street_view_attrs
+    { street_view_heading: 0, street_view_pitch: 11 }
   end
 
 end

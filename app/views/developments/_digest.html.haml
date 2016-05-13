@@ -1,0 +1,21 @@
+:ruby
+  edits = EditSummaryPresenter.wrap(
+    development.history.since(@digest.user_last_checked))
+
+
+= render partial: 'developments/related',
+    object: DevelopmentPresenter.new(development), as: :development
+
+.ui.small.feed
+  - if edits.empty?
+    .event
+      .content
+        Added on
+        = development.created_at.to_s(:timestamp)
+        = link_to 'Edit this development.', development
+  = render partial: 'edits/edit', collection: edits, as: :edit
+  .event
+    .label
+      %i.list.icon
+    .content
+      = link_to "See all activity on #{development}", development

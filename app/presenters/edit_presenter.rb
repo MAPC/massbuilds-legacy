@@ -30,14 +30,14 @@ class EditPresenter < Burgundy::Item
     changes.count == 0
   end
 
+  def more  ; 0     ; end
+  def more? ; false ; end
+  def more_than(*); false; end
+
   private
 
-    def field_to_time
-      if applied?
-        applied_at
-      else
-        created_at
-      end
-    end
+  def field_to_time
+    applied? ? applied_at : created_at
+  end
 
 end

@@ -2,11 +2,14 @@ require 'api_version'
 
 Rails.application.routes.draw do
 
-  mount_ember_app :searchapp, to: "developments", controller: "developments", action: "index"
+  mount_ember_app :searchapp,
+    to:         'developments',
+    controller: 'developments',
+    action:     'index'
 
-  namespace :api, constraints: {subdomain: 'api'}, path: '' do
+  namespace :api, constraints: { subdomain: 'api' }, path: '' do
     api_version(APIVersion.new(version: 1, default: true).params) do
-      jsonapi_resources :developments,  only: [:index, :show]
+      jsonapi_resources :developments,  only: [:index, :show, :create]
       jsonapi_resources :searches,      only: [:index, :show, :create]
       jsonapi_resources :subscriptions, only: [:create, :destroy]
       jsonapi_resources :organizations, only: [:index, :show]
@@ -15,12 +18,10 @@ Rails.application.routes.draw do
   end
 
   resources :developments, only: [:index, :show, :edit, :update] do
-    # collection do
-    #   get 'search', to: 'developments#search'
-    #   get 'search/*ui', to: 'developments#search'
-    # end
     resources :claims, only: [:new, :create]
-    resources :flags,  only: [:new, :create]
+    resources :flags,  only: [:new, :create] do
+      post :close, on: :member
+    end
     resources :edits,  only: [:index, :show] do
       post :approve, on: :member
       post :decline, on: :member

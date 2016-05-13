@@ -8,7 +8,8 @@ class ClaimsController < ApplicationController
 
   def create
     @claim = Claim.new new_claim_params
-    @claim.assign_attributes(development: @development, claimant: current_user)
+    @claim.assign_attributes(development: @development,
+      claimant: devise_current_user)
     if @claim.save
       flash[:success] = CLAIM_CREATED
     else

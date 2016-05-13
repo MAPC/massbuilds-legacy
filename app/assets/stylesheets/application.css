@@ -17,7 +17,11 @@
  */
 
 #main {
-  margin-top: 50px;
+  margin-top: 30px;
+}
+
+#flash {
+  margin-top: 15px;
 }
 
 a {

@@ -9,7 +9,70 @@
     .ui.form
       = form_for @flag, url: development_flags_path do |f|
         .eight.wide.field
-          = f.label :reason, "Reason"
-          = f.text_area :reason, rows: 4
-        = link_to "Cancel", @flag.development, class: 'ui basic button'
-        = f.submit "Flag", class: 'ui green submit button'
+          = f.label :reason, 'Reason (required)'
+          = f.text_area :reason, rows: 4, placeholder: 'Why are you flagging this development? Please be as descriptive as possible.'
+        = link_to 'Cancel', @flag.development, class: 'ui basic button'
+        = f.submit 'Flag', class: 'ui green submit button'
+        .ui.basic.circular.label#counter 23 to go!
+      .ui.error.message
+
+:javascript
+
+  const min =  23
+      , max = 450;
+
+  $('.ui.form')
+    .form({
+      fields: {
+        flag_reason: ['minLength['+min+']', 'maxLength['+max+']']
+      },
+      inline: true,
+      on:    'change'
+    })
+  ;
+
+  // Set default state
+  $('#counter').addClass('red');
+  $('.submit').addClass('disabled');
+
+  $('.ui.form textarea').on('input', function () {
+    var remaining = min - $(this).val().length;
+
+    if (remaining > 0) {
+      $('#counter').show();
+      $('#counter').text(remaining + ' to go!');
+      $('.submit').addClass('disabled');
+    } else {
+
+      $('#counter').hide();
+      $('.submit').removeClass('disabled');
+    }
+
+
+    if (remaining >= 20) {
+      $('#counter').addClass('red');
+      $('#counter').removeClass('yellow');
+      $('#counter').removeClass('olive');
+      $('#counter').removeClass('green');
+    }
+    if (remaining < 20) {
+      $('#counter').addClass('yellow');
+      $('#counter').removeClass('red');
+      $('#counter').removeClass('olive');
+      $('#counter').removeClass('green');
+    }
+    if (remaining < 10) {
+      $('#counter').addClass('olive');
+      $('#counter').removeClass('red');
+      $('#counter').removeClass('yellow');
+      $('#counter').removeClass('green');
+    }
+    if (remaining < 3) {
+      $('#counter').addClass('green');
+      $('#counter').removeClass('red');
+      $('#counter').removeClass('yellow');
+      $('#counter').removeClass('olive');
+    }
+
+
+  });

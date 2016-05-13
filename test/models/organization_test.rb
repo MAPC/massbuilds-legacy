@@ -15,6 +15,10 @@ class OrganizationTest < ActiveSupport::TestCase
     assert_not org.valid?
   end
 
+  test 'creator is an admin' do
+    assert_equal org.creator, org.admin
+  end
+
   test 'when created, builds a membership' do
     assert_difference 'Membership.count', +1 do
       Organization.new(creator: users(:tim)).save(validate: false)
@@ -47,8 +51,6 @@ class OrganizationTest < ActiveSupport::TestCase
     assert org.valid?
     org.location = 'Boston, MA'
     assert org.valid?
-    org.location =
-    assert org.valid?
   end
 
   test 'can accept an abbreviation' do
@@ -64,9 +66,9 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test 'requires a URL that exists' do
-    msg =  'Read https://www.igvita.com/2006/09/07/validating-url-in-ruby-on-rails/'
-    msg << 'and http://stackoverflow.com/questions/5908017/check-if-url-exists-in-ruby'
-    skip msg
+    # Read https://www.igvita.com/2006/09/07/validating-url-in-ruby-on-rails/
+    # and http://stackoverflow.com/questions/5908017/check-if-url-exists-in-ruby
+    skip
     org.website = 'https://lo.lllll'
     assert_not org.valid?
     org.website = 'http://homestarrunner.com'
@@ -147,6 +149,12 @@ class OrganizationTest < ActiveSupport::TestCase
     org.gravatar_email = nil
     org.save!
     assert_equal base_hash, org.hashed_email
+  end
+
+  test 'municipal?' do
+    assert_respond_to organization, :municipal
+    assert_respond_to organization, :municipal?
+    refute Organization.new.municipal?
   end
 
   private

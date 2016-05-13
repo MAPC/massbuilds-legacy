@@ -21,3 +21,11 @@ lower_case:
   encrypted_password: <%= BCrypt::Password.create('drowssap', cost: BCrypt::Engine::MIN_COST) %>
   first_name: matt
   last_name:  gardner
+
+peter_pan:
+  email: peeta@pan.org
+  encrypted_password: <%= BCrypt::Password.create('neversayneverland', cost: BCrypt::Engine::MIN_COST) %>
+  first_name: Peter
+  last_name:  Pan
+  mail_frequency: never
+  last_checked_subscriptions: <%= Time.at(0) %>
