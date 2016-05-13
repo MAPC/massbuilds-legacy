@@ -19,32 +19,30 @@ export default Ember.Route.extend({
     },
     reset() {
       this.resetController();
-      // this.refresh();
     }
   },
   setupController(controller, model, transition) {
-    // Call _super for default behavior
     this._super(controller, model);
 
-    this.controllerFor("developments").computeRanges();
+    this.controllerFor("developments.search").computeRanges();
     if(transition.queryParams.year_compl !== undefined) {
       var year = JSON.parse(transition.queryParams.year_compl)  
-      this.controllerFor('developments').set("yearFrom", year[0]).set("yearTo", year[1]);
+      this.controllerFor('developments.search').set("yearFrom", year[0]).set("yearTo", year[1]);
     }
 
     if(transition.queryParams.commsf !== undefined) {
       var commsf = JSON.parse(transition.queryParams.commsf)  
-      this.controllerFor('developments').set("sqftFrom", commsf[0]).set("sqftTo", commsf[1]);
+      this.controllerFor('developments.search').set("sqftFrom", commsf[0]).set("sqftTo", commsf[1]);
     }
 
     if(transition.queryParams.tothu !== undefined) {
       var tothu = JSON.parse(transition.queryParams.tothu)  
-      this.controllerFor('developments').set("tothuFrom", tothu[0]).set("tothuTo", tothu[1]);
+      this.controllerFor('developments.search').set("tothuFrom", tothu[0]).set("tothuTo", tothu[1]);
     }
 
   },
   resetController: function () {
-    var controller = this.controllerFor("developments")
+    var controller = this.controllerFor("developments.search")
     var queryParams = controller.get('queryParams');
     queryParams.forEach(function (param) {
       controller.set(param, null);

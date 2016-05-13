@@ -2,9 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model() {
-    if (Search.api_key) {
-      return  this.store.findAll("search");
-    }
+    // if (Search.api_key !== '') {
+    //   return  this.store.findAll("search");
+    // }
   },
   actions: {
     toggle: function(direction) {
@@ -35,8 +35,8 @@ export default Ember.Route.extend({
     },
     error(error, transition) {
       if (error) {
-        console.log("Nothing!");
-        return this.transitionTo("map");
+        // console.log("Nothing!");
+        // return this.transitionTo("map");
       }
     }
   }
