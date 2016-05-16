@@ -5,22 +5,14 @@
       <h1 class="ui header" id="title">
         <div class="sub header" id="address">
           <div class="ui form">
-            <div class="field">
-              {{input value=model.name}}
+            <div class="ui huge input">
+              {{input value=model.name class="huge"}}
             </div>
-            {{place-autocomplete-field
-              class="field"
-              value= model.address
-              disable=false
-              handlerController= this
-              inputClass= 'place-autocomplete--input'
-              placeChangedCallback='placeChanged'
-              types="address"
-            }}
+
 
             <div class="field">
               <label>Description</label>
-              {{textarea value=descriptions cols="80" rows="6"}}
+              {{textarea value=descriptions cols="80" rows="6" placeholder="e.g. 'Transit-oriented affordable housing complex with ground-floor retail and restaurant spaces.'"}}
             </div>
 
             Construction status:
@@ -35,6 +27,16 @@
               {{/each}}
               </div>
             {{/ui-dropdown}}
+
+            {{place-autocomplete-field
+              class="field"
+              value= model.address
+              disable=false
+              handlerController= this
+              inputClass= 'place-autocomplete--input'
+              placeChangedCallback='placeChanged'
+              types="address"
+            }}
           </div>
         </div>
       </h1>
@@ -55,14 +57,12 @@
   </div>
   <div class="row">
     <div class="ten wide column">
-      <div id="tags">
-        
-      </div>
-      <div id="images">
-        {{#if model.latitude}}
-          {{street-view povChanged='povChanged' positionChanged='positionChanged' addressControl=false pov=this.pointOfView lat=model.latitude lng=model.longitude}}
-        {{/if}}
-      </div>
+      
+      Set street view, then drag the map to position the dot above the correct parcel.
+      {{#if model.latitude}}
+        {{street-view povChanged='povChanged' positionChanged='positionChanged' addressControl=false pov=this.pointOfView lat=model.latitude lng=model.longitude}}
+      {{/if}}
+
 
       <div id="data">
         <div class="ui horizontal divider">Details</div>
@@ -72,45 +72,42 @@
       Building & Site
       </h2>
 
-      <div class="ui labeled input">
-        <div class="ui label">
-          Stories
-        </div>
-        
-        <div class="ui input">
-          {{input type="text" value=this.stories}}
-        </div>
-      </div>
-
-      <div class="ui labeled input">
-        <div class="ui label">
-          Project Area (SQFT)
-        </div>
-        
-        <div class="ui input">
-          {{input type="text" value=this.project-area}}
-        </div>
-      </div>
-
-      <div class="ui labeled input">
-        <div class="ui label">
-          Total Housing Units
-        </div>
-        
-        <div class="ui input">
-          {{input type="text" value=this.tothu}}
-        </div>
-      </div>
-
-      <div class="ui labeled input">
-        <div class="ui label">
-          Commercial Square Feet
-        </div>
-        
-        <div class="ui input">
-          {{input type="text" value=this.comm-sq-feet}}
-        </div>
-      </div>
+      <table class="ui celled table">
+        <tbody>
+          <tr>
+            <td>Stories</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.stories}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Project Area (SQFT)</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.prjarea}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Total Housing Units</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.tothu}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Commercial Square Feet</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.commsf}}
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
       <div id="data">
         <div class="ui horizontal divider">Residential</div>
@@ -128,11 +125,11 @@
             <td>Single family homes</td>
             <td>
               <div class="ui input">
-                {{input type="text" value=this.single-family-homes}}
+                {{input type="text" value=this.singfamhu}}
               </div>
             </td>
           </tr>
-          <tr class="positive">
+          <tr>
             <td>Small Multi-Family</td>
             <td>
               <div class="ui input">
@@ -180,15 +177,15 @@
             <td>Retail</td>
             <td>
               <div class="ui input">
-                {{input type="text" value=this.retail}}
+                {{input type="text" value=this.fa_ret}}
               </div>
             </td>
           </tr>
-          <tr class="positive">
+          <tr>
             <td>Office or Medical</td>
             <td>
               <div class="ui input">
-                {{input type="text" value=this.office}}
+                {{input type="text" value=this.fa_ofcmd}}
               </div>
             </td>
           </tr>
@@ -196,7 +193,7 @@
             <td>Educational and Institutional</td>
             <td>
               <div class="ui input">
-                {{input type="text" value=this.edu}}
+                {{input type="text" value=this.fa_indmf}}
               </div>
             </td>
           </tr>
@@ -204,7 +201,7 @@
             <td>Commercial Square Feet</td>
             <td>
               <div class="ui input">
-                {{input type="text" value=this.comm-sq-feet}}
+                {{input type="text" value=this.commsf}}
               </div>
             </td>
           </tr>
@@ -217,7 +214,7 @@
             <td>Hotel Rooms</td>
             <td>
               <div class="ui input">
-                {{input type="text" value=this.hotel-rooms}}
+                {{input type="text" value=this.fa_hotel}}
               </div>
             </td>
           </tr>
@@ -243,7 +240,7 @@
             <td>Employment Losses</td>
             <td>
               <div class="ui input">
-                {{input type="text" value=this.employment-losses}}
+                {{input type="text" value=this.emploss}}
               </div>
             </td>
           </tr>
@@ -256,7 +253,6 @@
     </div>
     <div class="six wide column">
       <div>
-        Refine Development location:
         {{#if model.latitude}}
           {{development-map model=model}}
         {{/if}}
