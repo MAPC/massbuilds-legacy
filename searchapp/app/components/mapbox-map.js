@@ -90,7 +90,7 @@ export default Ember.Component.extend({
     // map configuration
     this.map = new mapboxgl.Map({
         container: 'map', // container id
-        style: 'mapbox://styles/mapbox/streets-v8'
+        style: 'mapbox://styles/mapbox/basic-v8'
     });
     this.map.scrollZoom.disable();
     this.map.addControl(new mapboxgl.Navigation());
@@ -113,7 +113,7 @@ export default Ember.Component.extend({
           "type": "symbol",
           "source": "markers",
           "layout": {
-              "icon-image": "music-15",
+              "icon-image": "circle-15",
               "icon-allow-overlap": true
           }
       });
@@ -131,6 +131,20 @@ export default Ember.Component.extend({
       this.map.on('mousemove', (e) => {
         this.drawPopup(e.point);
       });
+
+    });
+
+    this.map.on('click', (e) => {
+      var features = this.map.featuresAt(e.point, {       
+        radius: 15, // Half the marker size (15px).
+        includeGeometry: true,
+        layer: 'markers'
+      }, (err, features) => {
+        if (features.length) {
+          window.location = features[0].properties.id;
+        }
+      });
+
 
     });
 

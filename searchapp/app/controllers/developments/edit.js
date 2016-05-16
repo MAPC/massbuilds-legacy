@@ -12,7 +12,7 @@ export default Ember.Controller.extend({
       { name: "designer", id: 7 }];
   }.property(),
   role: null,
-  itemActions: ["Complete", "Construction", "Projected", "Planned"],
+  itemActions: ["Projected", "Planning", "In Construction", "Completed"],
   actions: {
     // Google Place AutoFill
     placeChanged(response) {

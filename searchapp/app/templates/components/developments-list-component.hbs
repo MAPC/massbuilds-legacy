@@ -9,7 +9,7 @@
   <tbody>
     {{#each development in model}}
     <tr {{action "mouseover" development on='mouseEnter'}}>
-      <td class="selectable">{{development.name}}</td>
+      <td><a href="{{development.id}}">{{development.name}}</a></td>
       <td>{{development.year}}</td>
       <td>{{development.tothu}}</td>
       <td>{{development.commsf}}</td>
