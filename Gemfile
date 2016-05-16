@@ -12,6 +12,8 @@ gem 'periscope-activerecord' # Makes filtering simpler
 gem 'seed-fu', '~> 2.3'      # Manages fixtures
 gem 'faker', require: false  # Fake sample data
 gem 'enumerize' # Store options in a string field
+gem 'activerecord-postgis-adapter'
+gem 'rgeo'
 # gem 'paperclip' # File attachments
 
 # Users

@@ -18,4 +18,5 @@ guard :minitest, opts do
   watch(%r{^test/.+_test\.rb$})
   watch(%r{^test/test_helper\.rb$}) { "test" }
   watch(%r{^test/fixtures/(.+)\.yml$})                     { |m| "test/models/#{m[1].singularize}_test.rb" }
+  watch(%r{^config/routes.rb$}) { |m| 'test/routes/route_test.rb' }
 end

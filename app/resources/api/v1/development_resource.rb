@@ -4,7 +4,7 @@ module API
   module V1
     class DevelopmentResource < JSONAPI::Resource
 
-      attributes :name, :status, :description, :year_compl,
+      attributes :name, :status, :tagline, :description, :year_compl,
 
                  :redevelopment, :as_of_right, :age_restricted,
                  :cluster_or_open_space_development, :phased, :stalled,

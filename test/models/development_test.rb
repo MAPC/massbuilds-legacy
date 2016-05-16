@@ -195,10 +195,25 @@ class DevelopmentTest < ActiveSupport::TestCase
     skip
   end
 
-  test 'updates tagline' do
-    d.update_attribute(:tagline, nil)
-    d.save
-    assert_not_nil d.tagline
+  test 'if tagline, needs to be short' do
+    d.tagline = ''
+    assert d.valid?
+
+    invalid_taglines = [
+      'Mixed-use development',
+      "Value capture compatible uses gridiron modernist tradition facilitate
+       easement street parking storefront state funding vacancy developed world
+       topography disadvantaged unincorporated community Le Corbusier
+       geospatial analysis."
+    ]
+    invalid_taglines.each do |tagline|
+      d.tagline = tagline
+      refute d.valid?
+    end
+  end
+
+  test 'description' do
+    skip
   end
 
   test 'nearby developments' do
@@ -411,6 +426,25 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert dev.walkscore
     assert_equal 98, dev.walkscore['walkscore'], d.walkscore.inspect
     assert_equal "Walker's Paradise", dev.walkscore['description']
+  end
+
+  test 'associate place' do
+    stub_walkscore(lat: 0.00)
+    place = places(:boston)
+    d.place = nil
+    Place.stub :contains, [place] do
+      d.update_attribute(:latitude, 0.00)
+    end
+    assert_equal place, d.place
+  end
+
+  test 'associate no place' do
+    stub_walkscore(lat: 0.00)
+    d.place = nil
+    Place.stub :contains, [] do
+      d.update_attribute(:latitude, 0.00)
+    end
+    assert_equal nil, d.place
   end
 
   private

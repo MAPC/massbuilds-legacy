@@ -9,8 +9,8 @@ class Development < ActiveRecord::Base
   # include Development::Scopes
 
   # Callbacks
-  before_save :update_tagline
   before_save :clean_zip_code
+  before_save :associate_place
   before_save :cache_street_view
   before_save :update_walk_score
 
@@ -38,6 +38,8 @@ class Development < ActiveRecord::Base
   # Validations
   validates :creator,    presence: true
   validates :year_compl, presence: true
+  validates :tagline,     allow_blank: true, length: { minimum: 40,  maximum: 140 }
+  validates :description, allow_blank: true, length: { minimum: 141, maximum: 500 }
 
   lat_range = { less_than_or_equal_to:  90, greater_than_or_equal_to:  -90 }
   lon_range = { less_than_or_equal_to: 180, greater_than_or_equal_to: -180 }
@@ -83,23 +85,22 @@ class Development < ActiveRecord::Base
     code.length == 9 ? nine_digit_formatted_zip(code) : code
   end
 
+  def neighborhood
+    place.neighborhood if place
+  end
+
   def municipality
-    return nil unless place
-    case place.type
-    when 'Municipality' then place
-    when 'Neighborhood' then place.municipality
-    else raise NotImplementedError, "type not defined in #{__FILE__}"
-    end
+    place.municipality if place
   end
 
   alias_method :city, :municipality
 
-  def neighborhood
-    return nil unless place
-    case place.type
-    when 'Neighborhood' then place
-    when 'Municipality' then nil
-    end
+  def parcel
+    OpenStruct.new(id: 123)
+  end
+
+  def street_view
+    @street_view ||= StreetView.new(self)
   end
 
   def mixed_use?
@@ -121,14 +122,6 @@ class Development < ActiveRecord::Base
     ContributorQuery.new(self).find.map(&:editor).push(creator).uniq
   end
 
-  def street_view
-    @street_view ||= StreetView.new(self)
-  end
-
-  def parcel
-    OpenStruct.new(id: 123)
-  end
-
   def updated_since?(time = Time.now)
     history.since(time).any? ? true : created_since?(time)
   end
@@ -147,8 +140,20 @@ class Development < ActiveRecord::Base
 
   private
 
+  def associate_place
+    if location_fields_changed? || new_record?
+      places = Place.contains(lat: latitude, lon: longitude)
+      if places.empty?
+        Airbrake.notify('No place found', self) if defined?(Airbrake)
+        self.place = nil
+      else
+        self.place = places.first
+      end
+    end
+  end
+
   def cache_street_view
-    if street_view_fields_changed?
+    if street_view_fields_changed? || new_record?
       self.street_view_image = street_view.image(cached: false)
     end
   end
@@ -169,10 +174,6 @@ class Development < ActiveRecord::Base
     [:latitude, :longitude, :pitch, :heading].select { |field|
       send("street_view_#{field}_changed?")
     }.any?
-  end
-
-  def update_tagline
-    self.tagline = TaglineGenerator.new(self).perform!
   end
 
   def clean_zip_code
