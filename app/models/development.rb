@@ -11,6 +11,7 @@ class Development < ActiveRecord::Base
   # Callbacks
   before_save :clean_zip_code
   before_save :associate_place
+  before_save :determine_mixed_use
   before_save :cache_street_view
   before_save :update_walk_score
 
@@ -103,13 +104,6 @@ class Development < ActiveRecord::Base
     @street_view ||= StreetView.new(self)
   end
 
-  def mixed_use?
-    false
-    # any_residential_fields? && any_commercial_fields?
-  end
-  # TODO: Cache this in the database, to be used for searches.
-  alias_method :mixed_use, :mixed_use?
-
   def history
     edits.applied
   end
@@ -138,6 +132,10 @@ class Development < ActiveRecord::Base
     name
   end
 
+  def mixed_use?
+    tothu.to_i > 0 && commsf.to_i > 0
+  end
+
   private
 
   def associate_place
@@ -149,6 +147,12 @@ class Development < ActiveRecord::Base
       else
         self.place = places.first
       end
+    end
+  end
+
+  def determine_mixed_use
+    if mixed_use?
+      self.mixed_use = mixed_use?
     end
   end
 

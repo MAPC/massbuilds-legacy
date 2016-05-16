@@ -71,7 +71,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'accepts 9-digit zip codes' do
     d.zip_code = input = '02139-1112'
-    assert d.save
+    d.save!
     assert_equal '021391112',  d.read_attribute(:zip_code)
     assert_equal input, d.zip_code
   end
@@ -89,11 +89,23 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#mixed_use?' do
-    skip 'Come back to this soon.'
-    assert_not Development.new.mixed_use?
-    assert_not Development.new(tothu:  1).mixed_use?
-    assert_not Development.new(commsf: 1).mixed_use?
+    assert_respond_to Development.new, :mixed_use?
+    assert_respond_to Development.new, :mixed_use
+    refute Development.new.mixed_use?
+    refute Development.new(tothu:  1).mixed_use?
+    refute Development.new(commsf: 1).mixed_use?
     assert Development.new(tothu: 1, commsf: 1).mixed_use?
+  end
+
+  test '#mixed_use? saves' do
+    stub_street_view lat: 42.3547661, lon: -71.0615689, heading: 35, pitch: 28
+    stub_walkscore lat: nil, lon: nil
+    dev = Development.new(tothu: 1, commsf: 1)
+    assert dev.mixed_use?
+    dev.save!(validate: false)
+    assert dev.mixed_use?
+    dev.tothu = 0
+    refute dev.mixed_use?
   end
 
   test '#edits' do
@@ -264,6 +276,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'boolean scope definition' do
+    skip
     assert_equal 1, Development.hidden(true).count
     assert_equal 1, Development.hidden.count
     assert_equal 3, Development.hidden(false).count
@@ -419,10 +432,10 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'cache walk score' do
     assert_respond_to development, :walkscore
-    attrs = {'id' => nil, street_view_heading: 0, street_view_pitch: 11 }
+    attrs = { 'id' => nil, street_view_heading: 0, street_view_pitch: 11 }
     dev = Development.new(d.attributes.merge(attrs))
     assert_empty dev.walkscore
-    dev.save
+    dev.save!
     assert dev.walkscore
     assert_equal 98, dev.walkscore['walkscore'], d.walkscore.inspect
     assert_equal "Walker's Paradise", dev.walkscore['description']
@@ -449,9 +462,9 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   private
 
-  def stub_street_view
+  def stub_street_view(lat: 42.000001, lon: 71.000001, heading: 0, pitch: 11)
     file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
-    stub_request(:get, 'http://maps.googleapis.com/maps/api/streetview?fov=100&heading=0&key=loLOLol&location=42.000001,71.000001&pitch=11&size=600x600').
+    stub_request(:get, "http://maps.googleapis.com/maps/api/streetview?fov=100&heading=#{heading}&key=loLOLol&location=#{lat},#{lon}&pitch=#{pitch}&size=600x600").
       to_return(status: 200, body: file)
   end
 
