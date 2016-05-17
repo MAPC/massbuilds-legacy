@@ -4,9 +4,12 @@ class DevelopmentsController < ApplicationController
 
   before_action :load_record, only: [:show, :edit, :update]
   before_action :authenticate_user!, only: [:edit, :update]
+
   def index
-    # Falls back to Development.all
     @limits = Development.ranged_column_bounds.to_json
+  end
+
+  def new
   end
 
   def show

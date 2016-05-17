@@ -2,10 +2,8 @@ require 'api_version'
 
 Rails.application.routes.draw do
 
-  mount_ember_app :searchapp,
-    to:         'developments',
-    controller: 'developments',
-    action:     'index'
+  mount_ember_app :searchapp, to: 'developments/:id/edit', controller: 'developments', action: 'edit', as: :edit_development
+  mount_ember_app :searchapp, to: 'developments/new', controller: 'developments', action: 'new', as: :new_development
 
   namespace :api, constraints: { subdomain: 'api' }, path: '' do
     api_version(APIVersion.new(version: 1, default: true).params) do
@@ -17,7 +15,7 @@ Rails.application.routes.draw do
     end
   end
 
-  resources :developments, only: [:index, :show, :edit, :update] do
+  resources :developments, only: [:show] do
     resources :claims, only: [:new, :create]
     resources :flags,  only: [:new, :create] do
       post :close, on: :member
@@ -28,6 +26,8 @@ Rails.application.routes.draw do
       get  :pending, on: :collection
     end
   end
+
+  mount_ember_app :searchapp, to: 'developments', controller: 'developments', action: 'index', as: :developments
 
   resources :searches, only: [:show], defaults: { format: :pdf }
 
