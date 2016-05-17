@@ -37,7 +37,6 @@ gem 'haml-rails'   # Use HAML views
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'jquery-rails'
-gem 'turbolinks'
 gem 'uglifier', '>= 1.3.0' # Compress JavaScript
 gem 'kaminari'  # Pagination
 gem 'leaflet-rails' # Maps

@@ -1,4 +1,6 @@
 require 'walk_score'
+require 'employment_estimator'
+
 class Development < ActiveRecord::Base
 
   extend Enumerize
@@ -7,6 +9,10 @@ class Development < ActiveRecord::Base
   # include Development::Relationships
   # include Development::Validations
   # include Development::Scopes
+  # include Development::FieldAliases
+  # include Development::Location
+  # include Development::History
+  # include Development::Meta
 
   # Callbacks
   before_save :clean_zip_code
@@ -14,6 +20,7 @@ class Development < ActiveRecord::Base
   before_save :determine_mixed_use
   before_save :cache_street_view
   before_save :update_walk_score
+  before_save :estimate_employment
 
   # Relationships
   belongs_to :creator, class_name: :User
@@ -73,6 +80,13 @@ class Development < ActiveRecord::Base
 
   scope :close_to, CloseToQuery.new(self).scope
 
+  # Field Aliases
+  alias_attribute :redevelopment,  :rdv
+  alias_attribute :as_of_right,    :asofright
+  alias_attribute :age_restricted, :ovr55
+  alias_attribute :cluster_or_open_space_development, :clusteros
+
+  # Location
   def location
     [latitude, longitude].map(&:to_f)
   end
@@ -104,6 +118,7 @@ class Development < ActiveRecord::Base
     @street_view ||= StreetView.new(self)
   end
 
+  # History
   def history
     edits.applied
   end
@@ -124,6 +139,7 @@ class Development < ActiveRecord::Base
     created_at > time
   end
 
+  # Meta
   def self.ranged_column_bounds
     Hash[ranged_column_array]
   end
@@ -166,6 +182,10 @@ class Development < ActiveRecord::Base
     if location_fields_changed? || new_record?
       self.walkscore = WalkScore.new(lat: latitude, lon: longitude).to_h
     end
+  end
+
+  def estimate_employment
+    self.estemp = EmploymentEstimator.new(self).estimate
   end
 
   def location_fields_changed?

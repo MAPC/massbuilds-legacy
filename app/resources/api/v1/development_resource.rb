@@ -4,15 +4,15 @@ module API
   module V1
     class DevelopmentResource < JSONAPI::Resource
 
-      attributes :name, :status, :tagline, :description, :year_compl,
+      attributes :name, :status, :tagline, :description, :project_url,
+                 :year_compl,
 
-                 :redevelopment, :as_of_right, :age_restricted,
+                 :mixed_use, :redevelopment, :as_of_right, :age_restricted,
                  :cluster_or_open_space_development, :phased, :stalled,
                  :cancelled, :private,
 
-                 :description, :address, :neighborhood, :city, :state,
-                 :zip_code, :full_address, :project_url, :tagline,
-                 :location,
+                 :address, :neighborhood, :city, :state, :zip_code,
+                 :full_address, :location, :latitude, :longitude,
 
                  :height, :stories, :prjarea, :total_cost,
 
@@ -22,7 +22,6 @@ module API
                  :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst, :fa_other, :fa_hotel,
                  :affordable, :hotelrms, :onsitepark, :other_rate,
 
-                 :latitude, :longitude,
                  :street_view_latitude,
                  :street_view_longitude,
                  :street_view_heading,
@@ -46,27 +45,16 @@ module API
 
       filter :status
 
-      # TODO: Warning, possibility for bloat. May warrant a presenter.
-      def redevelopment
-        @model.rdv
+      def self.creatable_fields(context)
+        super - [:mixed_use, :walkscore]
       end
 
-      def as_of_right
-        @model.asofright
-      end
-
-      def age_restricted
-        @model.ovr55
-      end
-
-      def cluster_or_open_space_development
-        @model.clusteros
+      def self.updatable_fields(context)
+        super - [:mixed_use, :walkscore]
       end
 
       def city
-        # TODO: Add muni_id
-        # TODO: Fix NilCheck smell
-        { name: @model.city.name } if @model.city
+        @model.municipality.try :name
       end
 
       # TODO: This is duplicated from the presenter.

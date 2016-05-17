@@ -4,9 +4,13 @@ class DevelopmentsController < ApplicationController
 
   before_action :load_record, only: [:show, :edit, :update]
   before_action :authenticate_user!, only: [:edit, :update]
+
   def index
-    # Falls back to Development.all
     @limits = Development.ranged_column_bounds.to_json
+    # render layout: "search"
+  end
+
+  def new
   end
 
   def show
@@ -26,11 +30,6 @@ class DevelopmentsController < ApplicationController
       flash[:partial] = { path: 'developments/proposed_error' }
       redirect_to edit_development_path(@development)
     end
-  end
-
-  def search
-    @limits = Development.ranged_column_bounds.to_json
-    render layout: "search"
   end
 
   private

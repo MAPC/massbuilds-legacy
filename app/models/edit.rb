@@ -19,6 +19,10 @@ class Edit < ActiveRecord::Base
     where(applied: true).order(applied_at: :desc)
   end
 
+  def self.pending
+    where(state: :pending)
+  end
+
   def self.since(time = Time.now)
     where 'applied_at > ?', time
   end

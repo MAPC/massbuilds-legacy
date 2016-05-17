@@ -8,11 +8,12 @@ class DevelopmentsControllerTest < ActionController::TestCase
 
   test 'should get index' do
     get :index
-    assert assigns(:developments).count > 1
+    # assert assigns(:developments).count > 1
     assert_response :success
   end
 
   test 'should get index, searching' do
+    skip 'replaced by Ember'
     get :index, q: { commsf: '[11,13]' }
     assert_equal 1, assigns(:developments).count
     assert_response :success
@@ -30,6 +31,7 @@ class DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test 'should patch update' do
+    skip 'replaced by Ember'
     sign_in users(:normal)
     data = { name: "lol", rdv: true }
     assert_difference 'Edit.count + FieldEdit.count', +3 do
