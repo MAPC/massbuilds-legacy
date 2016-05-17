@@ -50,7 +50,7 @@ export default Ember.Component.extend({
     var features = [];
 
     this.get("developments").forEach((development) => {
-      var coordinates = [development.get("latitude"), development.get("longitude")];
+      var coordinates = [development.get("longitude"), development.get("latitude")];
       var properties = {  municipality: development.get("municipality"), 
                           name: development.get("name"), 
                           id: development.get("id"), 
