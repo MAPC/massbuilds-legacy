@@ -89,8 +89,20 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
     assert_response :unauthorized
   end
 
-  test 'should not create, update, or destroy' do
-    %i( update destroy ).each do |action|
+  test 'should update' do
+    set_content_type_header!
+    assert_difference 'Edit.pending.count', +1 do
+      patch :update, id: developments(:one), data: update_development_payload
+    end
+    assert_response :success, response.body
+  end
+
+  test 'should not update with unauthorized user' do
+    skip 'come back to this'
+  end
+
+  test 'should not destroy' do
+    %i( destroy ).each do |action|
       assert_raises(StandardError) { post action }
     end
   end
@@ -108,12 +120,26 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
         attributes: {
           latitude: 42.3,
           longitude: -71.0,
-          name: 'heyo listen what I sayo',
+          name: '100 Fury Road',
           description: ('a' * 142),
           'year-compl' => 2106,
           'street-view-latitude' => 42.301,
           'street-view-longitude' => -71.010
         }
+      }
+    }
+  end
+
+  def update_development_payload
+    {
+      type: 'developments',
+      id: developments(:one),
+      attributes: {
+        name: '14 Winter Palace',
+        tagline: 'A short, pithy, but long-enough description.',
+        'year-compl' => 2016,
+        tothu: 10,
+        commsf: 1000
       }
     }
   end

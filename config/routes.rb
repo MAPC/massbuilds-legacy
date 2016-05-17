@@ -14,7 +14,7 @@ Rails.application.routes.draw do
 
   namespace :api, constraints: { subdomain: 'api' }, path: '' do
     api_version(APIVersion.new(version: 1, default: true).params) do
-      jsonapi_resources :developments,  only: [:index, :show, :create]
+      jsonapi_resources :developments,  except: [:destroy]
       jsonapi_resources :searches,      only: [:index, :show, :create]
       jsonapi_resources :subscriptions, only: [:create, :destroy]
       jsonapi_resources :organizations, only: [:index, :show]
