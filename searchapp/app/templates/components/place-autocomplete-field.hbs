@@ -1,0 +1,11 @@
+{{#if hasBlock}}
+  {{yield this}}
+{{else}}
+  {{input value=value
+          classBinding="inputClass"
+          tabindex=tabindex
+          disabled=disabled
+          focus-out='focusOut'
+          placeholder="Enter an address"
+          bubbles=true}}
+{{/if}}

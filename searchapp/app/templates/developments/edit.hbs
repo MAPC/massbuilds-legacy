@@ -5,14 +5,17 @@
       <h1 class="ui header" id="title">
         <div class="sub header" id="address">
           <div class="ui form">
-            <div class="ui huge input">
-              {{input value=model.name class="huge"}}
+            <div class="ui field fluid huge input">
+              {{input value=model.name class="huge" placeholder="Descriptive name for development project"}}
             </div>
 
+            <div class="ui field fluid huge input">
+              {{input value=model.tagline class="huge" placeholder="Project tagline"}}
+            </div>
 
             <div class="field">
               <label>Description</label>
-              {{textarea value=descriptions cols="80" rows="6" placeholder="e.g. 'Transit-oriented affordable housing complex with ground-floor retail and restaurant spaces.'"}}
+              {{textarea value=description cols="80" rows="15" placeholder="e.g. 'Transit-oriented affordable housing complex with ground-floor retail and restaurant spaces.'"}}
             </div>
 
             Construction status:
@@ -28,6 +31,64 @@
               </div>
             {{/ui-dropdown}}
 
+            <div class="field">
+              <div class="ui slider checkbox">
+                <label>Redevelopment</label>
+                {{input type="checkbox" checked=rdv}}
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="ui slider checkbox">
+                <label>As-of-Right</label>
+                {{input type="checkbox" checked=asofright}}
+              </div>
+            </div>
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Age-Restricted</label>
+              {{input type="checkbox" checked=age_restricted}}
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Cluster or Open Space Development</label>
+              {{input type="checkbox" checked=clusteros}}
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Phased</label>
+              {{input type="checkbox" checked=phased}}
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Stalled</label>
+              {{input type="checkbox" checked=stalled}}
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Cancelled</label>
+              {{input type="checkbox" checked=cancelled}}
+            </div>
+          </div>
+
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Private</label>
+              {{input type="checkbox" checked=private}}
+            </div>
+          </div>
+
+            Enter an address:
             {{place-autocomplete-field
               class="field"
               value= model.address
@@ -36,6 +97,7 @@
               inputClass= 'place-autocomplete--input'
               placeChangedCallback='placeChanged'
               types="address"
+              placeholder="Enter an address"
             }}
           </div>
         </div>
@@ -106,6 +168,14 @@
               </div>
             </td>
           </tr>
+          <tr>
+            <td>Height</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.height}}
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
 
@@ -133,7 +203,15 @@
             <td>Small Multi-Family</td>
             <td>
               <div class="ui input">
-                {{input type="text" value=this.small-multi-family}}
+                {{input type="text" value=this.twnhsmmult}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Small Multi-Family</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.lgmultifam}}
               </div>
             </td>
           </tr>
@@ -154,7 +232,7 @@
             <td>Group Quarters (i.e. dorms, barracks, etc.)</td>
             <td>
               <div class="ui input">
-                {{input type="text" value=this.group-quarters}}
+                {{input type="text" value=this.gqpop}}
               </div>
             </td>
           </tr>
@@ -198,10 +276,50 @@
             </td>
           </tr>
           <tr>
+            <td>Warehouse and Shipping</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.fa_whs}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Research and Development</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.fa_rnd}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Other</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.fa_other}}
+              </div>
+            </td>
+          </tr>
+          <tr>
             <td>Commercial Square Feet</td>
             <td>
               <div class="ui input">
                 {{input type="text" value=this.commsf}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Affordable housing units (percent of total)</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.affordable}}
+              </div>
+            </td>
+          </tr>
+          <tr>
+            <td>Hotel Rooms (total number)</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.hotelrms}}
               </div>
             </td>
           </tr>
@@ -232,7 +350,7 @@
             <td>Employment (reported)</td>
             <td>
               <div class="ui input">
-                {{input type="text" value=this.employment}}
+                {{input type="text" value=this.rptdemp}}
               </div>
             </td>
           </tr>
@@ -244,11 +362,19 @@
               </div>
             </td>
           </tr>
+          <tr>
+            <td>Total Employment Potential</td>
+            <td>
+              <div class="ui input">
+                {{input type="text" value=this.estemp}}
+              </div>
+            </td>
+          </tr>
         </tbody>
       </table>
 
       <button class="ui primary button" {{action "save" model}}>
-        Save
+        Propose Changes
       </button>
     </div>
     <div class="six wide column">
@@ -329,15 +455,6 @@
         </div>
       {{/if}}
 
-      <div id="contrib">
-        
-      </div>
-      <div id="related">
-        
-      </div>
-      <div id="history">
-        
-      </div>
     </div>
   </div>
 </div>
