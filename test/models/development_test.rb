@@ -1,6 +1,12 @@
 require 'test_helper'
 
 class DevelopmentTest < ActiveSupport::TestCase
+
+  def setup
+    stub_street_view
+    stub_walkscore
+  end
+
   def development
     @development ||= developments :one
   end
@@ -65,7 +71,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'accepts 9-digit zip codes' do
     d.zip_code = input = '02139-1112'
-    assert d.save
+    d.save!
     assert_equal '021391112',  d.read_attribute(:zip_code)
     assert_equal input, d.zip_code
   end
@@ -83,11 +89,23 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#mixed_use?' do
-    skip 'Come back to this soon.'
-    assert_not Development.new.mixed_use?
-    assert_not Development.new(tothu:  1).mixed_use?
-    assert_not Development.new(commsf: 1).mixed_use?
+    assert_respond_to Development.new, :mixed_use?
+    assert_respond_to Development.new, :mixed_use
+    refute Development.new.mixed_use?
+    refute Development.new(tothu:  1).mixed_use?
+    refute Development.new(commsf: 1).mixed_use?
     assert Development.new(tothu: 1, commsf: 1).mixed_use?
+  end
+
+  test '#mixed_use? saves' do
+    stub_street_view lat: 42.3547661, lon: -71.0615689, heading: 35, pitch: 28
+    stub_walkscore lat: nil, lon: nil
+    dev = Development.new(tothu: 1, commsf: 1)
+    assert dev.mixed_use?
+    dev.save!(validate: false)
+    assert dev.mixed_use?
+    dev.tothu = 0
+    refute dev.mixed_use?
   end
 
   test '#edits' do
@@ -189,21 +207,38 @@ class DevelopmentTest < ActiveSupport::TestCase
     skip
   end
 
-  test 'updates tagline' do
-    d.update_attribute(:tagline, nil)
-    d.save
-    assert_not_nil d.tagline
+  test 'if tagline, needs to be short' do
+    d.tagline = ''
+    assert d.valid?
+
+    invalid_taglines = [
+      'Mixed-use development',
+      "Value capture compatible uses gridiron modernist tradition facilitate
+       easement street parking storefront state funding vacancy developed world
+       topography disadvantaged unincorporated community Le Corbusier
+       geospatial analysis."
+    ]
+    invalid_taglines.each do |tagline|
+      d.tagline = tagline
+      refute d.valid?
+    end
+  end
+
+  test 'description' do
+    skip
   end
 
   test 'nearby developments' do
     far_dev = developments(:one)
     far_dev.latitude  =  40.000000
     far_dev.longitude = -77.000000
+    stub_walkscore(lat: far_dev.latitude, lon: far_dev.longitude)
     far_dev.save
 
     close_dev = developments(:two)
     close_dev.latitude  =  39.010000
     close_dev.longitude = -75.990000
+    stub_walkscore(lat: close_dev.latitude, lon: close_dev.longitude)
     close_dev.save
 
     close_devs = Development.close_to(39.000000, -76.000000).load
@@ -241,6 +276,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'boolean scope definition' do
+    skip
     assert_equal 1, Development.hidden(true).count
     assert_equal 1, Development.hidden.count
     assert_equal 3, Development.hidden(false).count
@@ -384,9 +420,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'cache street view' do
-    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
-    stub_request(:get, 'http://maps.googleapis.com/maps/api/streetview?fov=100&heading=0&key=loLOLol&location=42.000001,71.000001&pitch=11&size=600x600').
-      to_return(status: 200, body: file)
+    stub_street_view
     assert_difference 'development.street_view_image.size', 21904 do
       development.update_attributes street_view_attrs
     end
@@ -394,6 +428,51 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   def street_view_attrs
     { street_view_heading: 0, street_view_pitch: 11 }
+  end
+
+  test 'cache walk score' do
+    assert_respond_to development, :walkscore
+    attrs = { 'id' => nil, street_view_heading: 0, street_view_pitch: 11 }
+    dev = Development.new(d.attributes.merge(attrs))
+    assert_empty dev.walkscore
+    dev.save!
+    assert dev.walkscore
+    assert_equal 98, dev.walkscore['walkscore'], d.walkscore.inspect
+    assert_equal "Walker's Paradise", dev.walkscore['description']
+  end
+
+  test 'associate place' do
+    stub_walkscore(lat: 0.00)
+    place = places(:boston)
+    d.place = nil
+    Place.stub :contains, [place] do
+      d.update_attribute(:latitude, 0.00)
+    end
+    assert_equal place, d.place
+  end
+
+  test 'associate no place' do
+    stub_walkscore(lat: 0.00)
+    d.place = nil
+    Place.stub :contains, [] do
+      d.update_attribute(:latitude, 0.00)
+    end
+    assert_equal nil, d.place
+  end
+
+  private
+
+  def stub_street_view(lat: 42.000001, lon: 71.000001, heading: 0, pitch: 11)
+    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
+    stub_request(:get, "http://maps.googleapis.com/maps/api/streetview?fov=100&heading=#{heading}&key=loLOLol&location=#{lat},#{lon}&pitch=#{pitch}&size=600x600").
+      to_return(status: 200, body: file)
+  end
+
+  def stub_walkscore(lat: 42.000001, lon: 71.000001)
+    file = File.read('test/fixtures/walkscore/200.json')
+    stub_request(:get, "http://api.walkscore.com/score?format=json&lat=#{lat}&lon=#{lon}&wsapikey=").
+          with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'api.walkscore.com', 'User-Agent'=>'Ruby'}).
+          to_return(:status => 200, :body => file)
   end
 
 end

@@ -19,7 +19,34 @@ class RouteTest < ActionDispatch::IntegrationTest
     assert_routing('http://api.test.host/searches', rte)
   end
 
+  test 'development show goes to DevelopmentsController' do
+    assert_routing 'http://test.host/developments/1', {
+      controller: 'developments', action: 'show', id: '1'
+    }
+  end
+
+  test 'development index goes to Ember app' do
+    assert_routing 'http://test.host/developments', {
+      ember_app: :searchapp, controller: 'developments', action: 'index'
+    }
+  end
+
+  test 'development edit goes to Ember app' do
+    edit_route = 'http://test.host/developments/1/edit'
+    assert_routing edit_route, {
+      ember_app: :searchapp, controller: 'developments', action: 'edit', id: '1'
+    }
+  end
+
+  test 'development new goes to Ember app' do
+    new_route  = 'http://test.host/developments/new'
+    assert_routing new_route, {
+      ember_app: :searchapp, controller: 'developments', action: 'new'
+    }
+  end
+
   test 'wildcard after search' do
+    skip
     rte = { ember_app: :searchapp, controller: 'developments',
             action: 'search' }
     assert_routing('http://test.host/developments/search', rte)

@@ -73,23 +73,13 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
-  focus
   test 'should post create' do
     set_auth_header_for_user! user
     set_content_type_header!
-    post :create, {
-      data: {
-        type: 'developments',
-        attributes: {
-          latitude: 42.3,
-          longitude: -71.0,
-          name: 'heyo listen what I sayo',
-          'year-compl' => 2106,
-          'street-view-longitude' => 42.301,
-          'street-view-latitude' => -71.010
-        }
-      }
-    }
+    stub_street_view
+    stub_walkscore(lat: 42.3, lon: -71.0)
+
+    post :create, create_development_json
     assert_response :created, response.body
   end
 
@@ -113,22 +103,32 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
 
   def create_development_json
     {
-      type: 'developments',
-      attributes: {
-        latitude: 42.34112697262291,
-        longitude: -71.08826943770919,
-        prjarea: nil,
-        name: nil,
-        address: "32",
-        city: "Boston",
-        commsf: nil,
-        tothu: nil,
-        year_compl: 2016,
-        description: nil,
-        street_view_latitude: 42.341578992156656,
-        street_view_longitude: -71.08757742778562
+      data: {
+        type: 'developments',
+        attributes: {
+          latitude: 42.3,
+          longitude: -71.0,
+          name: 'heyo listen what I sayo',
+          description: ('a' * 142),
+          'year-compl' => 2106,
+          'street-view-latitude' => 42.301,
+          'street-view-longitude' => -71.010
+        }
       }
     }
+  end
+
+  def stub_street_view
+    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
+    stub_request(:get, 'http://maps.googleapis.com/maps/api/streetview?fov=100&heading=35&key=loLOLol&location=42.301,-71.01&pitch=28&size=600x600').
+      to_return(status: 200, body: file)
+  end
+
+  def stub_walkscore(lat: 42.000001, lon: 71.000001)
+    file = File.read('test/fixtures/walkscore/200.json')
+    stub_request(:get, "http://api.walkscore.com/score?format=json&lat=#{lat}&lon=#{lon}&wsapikey=").
+          with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'api.walkscore.com', 'User-Agent'=>'Ruby'}).
+          to_return(:status => 200, :body => file)
   end
 
 end

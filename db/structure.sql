@@ -274,7 +274,9 @@ CREATE TABLE developments (
     street_view_latitude numeric(12,9),
     street_view_longitude numeric(12,9),
     street_view_image bytea,
-    parcel_id character varying(25)
+    parcel_id character varying(25),
+    walkscore json DEFAULT '{}'::json NOT NULL,
+    mixed_use boolean
 );
 
 
@@ -588,7 +590,8 @@ CREATE TABLE places (
     type character varying,
     place_id integer,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    geom geography(Geometry,4326)
 );
 
 
@@ -1565,4 +1568,10 @@ INSERT INTO schema_migrations (version) VALUES ('20160323213936');
 INSERT INTO schema_migrations (version) VALUES ('20160325150216');
 
 INSERT INTO schema_migrations (version) VALUES ('20160327210952');
+
+INSERT INTO schema_migrations (version) VALUES ('20160512194027');
+
+INSERT INTO schema_migrations (version) VALUES ('20160516145552');
+
+INSERT INTO schema_migrations (version) VALUES ('20160516200036');
 
