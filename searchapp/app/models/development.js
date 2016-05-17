@@ -23,5 +23,9 @@ export default DS.Model.extend({
   refinedLat: DS.attr("string"),
   refinedLng: DS.attr("string"),
   teamMemberships: DS.hasMany("team-membership", { async: true, defaultValue: function() { return []; } }),
-  developmentTeamMemberships: DS.hasMany("development-team-membership", { async: true, defaultValue: function() { return []; } })
+  developmentTeamMemberships: DS.hasMany("development-team-membership", { async: true, defaultValue: function() { return []; } }),
+  street_view_latitude: DS.attr("number"),
+  street_view_longitude: DS.attr("number"),
+  street_view_heading: DS.attr("number"),
+  street_view_pitch: DS.attr("number")
 });

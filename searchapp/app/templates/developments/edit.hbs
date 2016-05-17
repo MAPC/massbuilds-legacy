@@ -31,6 +31,62 @@
               </div>
             {{/ui-dropdown}}
 
+            <div class="field">
+              <div class="ui slider checkbox">
+                <label>Redevelopment</label>
+                {{input type="checkbox" checked=rdv}}
+              </div>
+            </div>
+
+            <div class="field">
+              <div class="ui slider checkbox">
+                <label>As-of-Right</label>
+                {{input type="checkbox" checked=asofright}}
+              </div>
+            </div>
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Age-Restricted</label>
+              {{input type="checkbox" checked=age_restricted}}
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Cluster or Open Space Development</label>
+              {{input type="checkbox" checked=clusteros}}
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Phased</label>
+              {{input type="checkbox" checked=phased}}
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Stalled</label>
+              {{input type="checkbox" checked=stalled}}
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Cancelled</label>
+              {{input type="checkbox" checked=cancelled}}
+            </div>
+          </div>
+
+
+          <div class="field">
+            <div class="ui slider checkbox">
+              <label>Private</label>
+              {{input type="checkbox" checked=private}}
+            </div>
+          </div>
 
             Enter an address:
             {{place-autocomplete-field
