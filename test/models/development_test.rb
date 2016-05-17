@@ -436,9 +436,10 @@ class DevelopmentTest < ActiveSupport::TestCase
     dev = Development.new(d.attributes.merge(attrs))
     assert_empty dev.walkscore
     dev.save!
-    assert dev.walkscore
-    assert_equal 98, dev.walkscore['walkscore'], d.walkscore.inspect
-    assert_equal "Walker's Paradise", dev.walkscore['description']
+    puts d.read_attribute(:walkscore).inspect
+    puts d.walkscore.inspect
+    assert_equal 98, dev.walkscore.score
+    assert_equal "Walker's Paradise", dev.walkscore.to_h['description']
   end
 
   test 'associate place' do

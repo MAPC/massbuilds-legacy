@@ -118,6 +118,10 @@ class Development < ActiveRecord::Base
     @street_view ||= StreetView.new(self)
   end
 
+  def walkscore
+    @walkscore ||= WalkScore.new hash: read_attribute(:walkscore)
+  end
+
   # History
   def history
     edits.applied

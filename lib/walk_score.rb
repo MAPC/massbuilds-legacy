@@ -3,22 +3,29 @@ class WalkScore
   BASE_URL = 'http://api.walkscore.com/score?format=json'.freeze
   API_KEY = ENV['WALKSCORE_API_KEY']
 
-  def initialize(lat: , lon:)
-    @lat = lat
-    @lon = lon
-    @content ||= JSON.parse(
-      Net::HTTP.get_response(URI(url)).body
-    ).with_indifferent_access
+  def initialize(lat: nil, lon: nil, hash: {})
+    @content ||= if hash
+      hash
+    else
+      @lat, @lon = lat, lon
+      JSON.parse(response).with_indifferent_access
+    end
   end
 
-  def walkscore
+  def score
     @content[:walkscore]
   end
 
-  alias_method :score, :walkscore
-
   def to_h
     @content
+  end
+
+  def empty?
+    @content.keys.count <= 1 # Status key is always present
+  end
+
+  def response
+    Net::HTTP.get_response(URI(url)).body
   end
 
   def url
