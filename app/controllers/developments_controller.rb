@@ -7,6 +7,7 @@ class DevelopmentsController < ApplicationController
 
   def index
     @limits = Development.ranged_column_bounds.to_json
+    # render layout: "search"
   end
 
   def new
@@ -29,11 +30,6 @@ class DevelopmentsController < ApplicationController
       flash[:partial] = { path: 'developments/proposed_error' }
       redirect_to edit_development_path(@development)
     end
-  end
-
-  def search
-    @limits = Development.ranged_column_bounds.to_json
-    render layout: "search"
   end
 
   private

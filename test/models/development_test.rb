@@ -460,6 +460,16 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal nil, d.place
   end
 
+  test 'estimates employment' do
+    d.estemp = nil
+    d.fa_ret = 0
+    d.save!
+    assert_equal 0, d.estemp
+    d.fa_ret = 750
+    d.save!
+    assert d.estemp > 0
+  end
+
   private
 
   def stub_street_view(lat: 42.000001, lon: 71.000001, heading: 0, pitch: 11)
