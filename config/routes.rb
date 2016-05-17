@@ -2,8 +2,15 @@ require 'api_version'
 
 Rails.application.routes.draw do
 
-  mount_ember_app :searchapp, to: 'developments/:id/edit', controller: 'developments', action: 'edit', as: :edit_development
-  mount_ember_app :searchapp, to: 'developments/new', controller: 'developments', action: 'new', as: :new_development
+  mount_ember_app :searchapp, to: 'developments/:id/edit',
+    controller: 'developments',
+    action:     'edit',
+    as:         :edit_development
+
+  mount_ember_app :searchapp, to: 'developments/new',
+    controller: 'developments',
+    action:     'new',
+    as:         :new_development
 
   namespace :api, constraints: { subdomain: 'api' }, path: '' do
     api_version(APIVersion.new(version: 1, default: true).params) do
@@ -14,6 +21,9 @@ Rails.application.routes.draw do
       jsonapi_resources :development_team_memberships
     end
   end
+
+  get 'developments/map',  to: 'developments#index', rest: '/map',  ember_app: :searchapp
+  get 'developments/list', to: 'developments#index', rest: '/list', ember_app: :searchapp
 
   resources :developments, only: [:show] do
     resources :claims, only: [:new, :create]
@@ -27,7 +37,10 @@ Rails.application.routes.draw do
     end
   end
 
-  mount_ember_app :searchapp, to: 'developments', controller: 'developments', action: 'index', as: :developments
+  mount_ember_app :searchapp, to: 'developments',
+    controller: 'developments',
+    action:     'index',
+    as:         :developments
 
   resources :searches, only: [:show], defaults: { format: :pdf }
 
