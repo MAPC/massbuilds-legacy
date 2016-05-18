@@ -14,6 +14,9 @@ class DevelopmentsController < ApplicationController
   end
 
   def show
+    if @development.out_of_date?
+      flash.now[:partial] = { path: 'developments/out_of_date' }
+    end
   end
 
   def edit
