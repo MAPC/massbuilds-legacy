@@ -436,8 +436,6 @@ class DevelopmentTest < ActiveSupport::TestCase
     dev = Development.new(d.attributes.merge(attrs))
     assert_empty dev.walkscore
     dev.save!
-    puts d.read_attribute(:walkscore).inspect
-    puts d.walkscore.inspect
     assert_equal 98, dev.walkscore.score
     assert_equal "Walker's Paradise", dev.walkscore.to_h['description']
   end
@@ -469,6 +467,22 @@ class DevelopmentTest < ActiveSupport::TestCase
     d.fa_ret = 750
     d.save!
     assert d.estemp > 0
+  end
+
+  test 'out of date' do
+    development.created_at = 7.months.ago
+    development.updated_at = 7.months.ago
+    assert development.out_of_date?
+
+    opts = {
+      applied:      true,
+      applied_at:   Time.now,
+      editor:       users(:normal),
+      state:        :approved,
+      moderated_at: Time.now
+    }
+    development.edits.create!(opts)
+    refute development.out_of_date?
   end
 
   private

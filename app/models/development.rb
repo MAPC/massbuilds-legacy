@@ -143,6 +143,12 @@ class Development < ActiveRecord::Base
     created_at > time
   end
 
+  OUT_OF_DATE_THRESHHOLD = 6.months.ago
+
+  def out_of_date?
+    !updated_since?(OUT_OF_DATE_THRESHHOLD)
+  end
+
   # Meta
   def self.ranged_column_bounds
     Hash[ranged_column_array]
