@@ -13,7 +13,7 @@
       .content
         .header
           = @development.address
-        = "#{@development.place}, MA"
+        = "#{@development.municipality.name}, MA"
     - if @development.parcel_id
       .item
         .header

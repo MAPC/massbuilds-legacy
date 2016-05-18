@@ -23,4 +23,19 @@
 
     - if signed_in?
 
-      = render 'users/header'
+      .right.menu
+
+        .ui.dropdown.item
+          %i.add.icon
+          .menu
+            .header
+              Create new
+            = link_to new_development_path, class: 'item' do
+              %i.building.icon
+              Development
+            = link_to new_organization_path, class: 'item' do
+              %i.users.icon
+              Organization
+
+
+        = render 'users/header'
