@@ -1,0 +1,38 @@
+.row
+  .ten.wide.column#title-area
+    %h2 Welcome!
+    %h5 You're on your way to a world of development data!
+
+.row
+  .ui.six.column.grid
+
+    .six.wide.column
+
+      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'ui form new_user' }) do |f|
+
+        = devise_error_messages!
+
+        .field
+          = f.label :first_name
+          = f.text_field :first_name, placeholder: 'First name', autofocus: true
+
+        .field
+          = f.label :last_name
+          = f.text_field :last_name, placeholder: 'Last name'
+
+        .field
+          = f.label :email, 'Email address'
+          = f.email_field :email, placeholder: 'Email address'
+
+        .field
+          = f.label :password
+          = f.password_field :password, autocomplete: 'off',
+              placeholder: '************'
+
+        .field
+          = f.label :password_confirmation, 'Confirm password'
+          = f.password_field :password_confirmation, autocomplete: 'off',
+              placeholder: '************'
+
+        .actions
+          = f.submit 'Sign me up!',  class: 'ui green button'
