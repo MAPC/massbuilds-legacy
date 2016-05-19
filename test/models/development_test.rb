@@ -494,6 +494,45 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert d.valid?
   end
 
+  test 'requires extra housing information' do
+    # If it's in construction or completed, and there's more than
+    # one housing unit, require extra housing information.
+    housing_fields = [:singfamhu, :twnhsmmult, :lgmultifam, :gqpop]
+
+    [:in_construction, :completed].each do |status|
+      d.status = status
+      d.tothu  = 1
+      d.commsf = 0
+      housing_fields.each { |attrib| d.send("#{attrib}=", nil) }
+      refute d.valid?
+      housing_fields.each { |attrib| d.send("#{attrib}=", 0) }
+      assert d.valid?
+    end
+
+    [:in_construction, :completed].each do |status|
+      d.status = status
+      d.tothu = d.commsf = 0
+      housing_fields.each { |attrib| d.send("#{attrib}=", nil) }
+      assert d.valid?
+    end
+  end
+
+  test 'requires extra nonres information if in_construction or completed' do
+    skip
+    d.tothu = d.commsf = nil
+  end
+
+  test 'housing units must add up' do
+    skip
+    # add total, single, etc. so they don't add up. then so they do.
+    d.tothu = 1
+    refute d.valid?
+  end
+
+  test 'commercial square feet must add up' do
+    skip
+  end
+
   private
 
   def stub_street_view(lat: 42.000001, lon: 71.000001, heading: 0, pitch: 11)
