@@ -168,6 +168,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#status' do
+    d.tothu = d.commsf = 0 # Prevent additional info validation
     [:projected, :planning, :in_construction, :completed].each do |status|
       d.status = status
       assert d.valid?
@@ -518,8 +519,28 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'requires extra nonres information if in_construction or completed' do
-    skip
-    d.tothu = d.commsf = nil
+    nonres_fields = [
+      :fa_ret,   :fa_ofcmd, :fa_indmf,
+      :fa_whs,   :fa_rnd,   :fa_edinst,
+      :fa_other, :fa_hotel
+    ]
+
+    [:in_construction, :completed].each do |status|
+      d.status = status
+      d.tothu  = 0
+      d.commsf = 1
+      nonres_fields.each { |attrib| d.send("#{attrib}=", nil) }
+      refute d.valid?
+      nonres_fields.each { |attrib| d.send("#{attrib}=", 0) }
+      assert d.valid?
+    end
+
+    [:in_construction, :completed].each do |status|
+      d.status = status
+      d.tothu = d.commsf = 0
+      nonres_fields.each { |attrib| d.send("#{attrib}=", nil) }
+      assert d.valid?
+    end
   end
 
   test 'housing units must add up' do

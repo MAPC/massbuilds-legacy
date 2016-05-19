@@ -4,7 +4,7 @@ one:
   place: boston
   state: MA
   zip_code: '02111'
-  status: in_construction
+  status: planning
   tothu:   0
   commsf: 12
   estemp: 75

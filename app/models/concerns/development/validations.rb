@@ -26,6 +26,16 @@ class Development
         end
       end
 
+      with_options if: :requires_detailed_nonres? do |record|
+        [
+          :fa_ret,   :fa_ofcmd, :fa_indmf,
+          :fa_whs,   :fa_rnd,   :fa_edinst,
+          :fa_other, :fa_hotel
+        ].each do |attribute|
+          record.validates attribute, presence: true, numericality: { minimum: 0 }
+        end
+      end
+
       # Location
 
       lat_range = {
@@ -53,6 +63,10 @@ class Development
 
       def requires_detailed_housing?
         (in_construction? || completed?) && tothu.to_i > 0
+      end
+
+      def requires_detailed_nonres?
+        (in_construction? || completed?) && commsf.to_i > 0
       end
 
     end
