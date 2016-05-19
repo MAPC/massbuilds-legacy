@@ -5,6 +5,7 @@ one:
   state: MA
   zip_code: '02111'
   status: in_construction
+  tothu:   0
   commsf: 12
   estemp: 75
   private: true
