@@ -11,6 +11,7 @@ class Edit < ActiveRecord::Base
   validates :editor, presence: true
   validates :state,  presence: true
   validates :moderated_at, presence: true, if: -> { approved? || declined? }
+  # validate  :applied_only_if_approved
 
   enumerize :state, in: [:pending, :approved, :declined],
     default: :pending, predicates: true
@@ -20,7 +21,7 @@ class Edit < ActiveRecord::Base
   end
 
   def self.pending
-    where(state: :pending)
+    where(state: :pending).where(applied: false).order(created_at: :asc)
   end
 
   def self.since(time = Time.now)
@@ -61,22 +62,37 @@ class Edit < ActiveRecord::Base
   end
 
   def conflicts
-    fields.map(&:conflict).compact
+    fields.map do |field|
+      if field.conflict?
+        { name: field.name, conflict: field.conflict }
+      end
+    end
   end
 
   def conflicts?
     conflicts.any?
   end
 
+  def diff
+    fields.map { |field| { name: field.name }.merge(field.change) }
+  end
+
   alias_method :conflict,  :conflicts
   alias_method :conflict?, :conflicts?
-
-  private
 
   # Returns true if there is a conflict,
   # and we aren't explicitly ignoring it.
   def unignored_conflict?
     conflict? && !ignore_conflicts?
+  end
+
+  private
+
+  def applied_only_if_approved
+    # The state must be :approved if applied = true
+    if applied == true && state.to_sym != :approved
+      errors.add(:applied, 'can only be set if the edit is approved')
+    end
   end
 
 end

@@ -5,10 +5,6 @@ class Development
       edits.applied
     end
 
-    def pending_edits
-      edits.where(state: 'pending').order(created_at: :asc)
-    end
-
     def contributors
       ContributorQuery.new(self).find.map(&:editor).push(creator).uniq
     end

@@ -7,6 +7,7 @@ class EditsController < ApplicationController
   end
 
   def approve
+    @edit.update_attribute(:ignore_conflicts, true)
     moderate(EditApproval, @edit, :approved)
   end
 
@@ -19,7 +20,7 @@ class EditsController < ApplicationController
   def moderate(moderator_class, object, partial_ref)
     if moderator_class.new(object).perform!
       obj = partial_object(partial_ref)
-      if object.development.pending_edits.empty?
+      if object.development.edits.pending.empty?
         obj[:object][:none_left] = true
       end
       flash[:partial] = obj
@@ -36,20 +37,17 @@ class EditsController < ApplicationController
   end
 
   def load_unmoderated_record
-    @edit = EditPresenter.new(Edit.find(params[:id]))
+    @edit = Edit.find(params[:id])
     if @edit.moderated?
-      flash[:error] = """
-        The edit you were trying to moderate
-        has already been #{@edit.state}.
-      """
+      flash[:error] = "The edit you were trying to moderate has already been #{@edit.state}."
       redirect_to :pending_development_edits
     end
   end
 
   def default_rescue_action(object)
-    # TODO: Trigger Airbrake error notices
+    Airbrake.notify 'Default rescue action' if defined?(Airbrake)
     flash[:partial] = claim_not_acted_upon
-    redirect_to :pending_development_edits, status: 400
+    redirect_to :pending_development_edits
   end
 
   def partial_object(action)

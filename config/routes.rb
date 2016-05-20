@@ -2,7 +2,7 @@ require 'api_version'
 
 Rails.application.routes.draw do
 
-  mount_ember_app :searchapp, to: 'developments/:id/edit',
+  mount_ember_app :searchapp, to: 'developments/:id/edit$',
     controller: 'developments',
     action:     'edit',
     as:         :edit_development

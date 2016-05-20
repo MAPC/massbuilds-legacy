@@ -6,7 +6,7 @@ class EditApproval < EditModeration
   end
 
   def performable?
-    @edit.applyable? && @application.performable?
+    @application.performable? # Delegates to EditApplication service.
   end
 
   def perform!
