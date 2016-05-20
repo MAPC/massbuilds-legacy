@@ -36,6 +36,9 @@ class Development
         end
       end
 
+      validate :commercial_sqft_equal_total
+      validate :housing_units_equal_total
+
       # Location
 
       lat_range = {
@@ -67,6 +70,20 @@ class Development
 
       def requires_detailed_nonres?
         (in_construction? || completed?) && commsf.to_i > 0
+      end
+
+      def housing_units_equal_total
+        unit_count = [singfamhu, twnhsmmult, lgmultifam].map(&:to_i).reduce(:+)
+        if unit_count != tothu
+          errors.add(:tothu, 'must equal the sum of unit types')
+        end
+      end
+
+      def commercial_sqft_equal_total
+        if [fa_ret, fa_ofcmd, fa_indmf, fa_whs, fa_rnd,
+         fa_edinst, fa_other, fa_hotel].map(&:to_i).reduce(:+) != commsf
+          errors.add(:commsf, 'must equal the sum of floor area types')
+        end
       end
 
     end

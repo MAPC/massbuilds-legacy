@@ -171,7 +171,7 @@ class DevelopmentTest < ActiveSupport::TestCase
     d.tothu = d.commsf = 0 # Prevent additional info validation
     [:projected, :planning, :in_construction, :completed].each do |status|
       d.status = status
-      assert d.valid?
+      assert d.valid?, d.errors.full_messages
     end
     [:built, :solid, :dead, :stalled].each do |status|
       d.status = status
@@ -192,11 +192,6 @@ class DevelopmentTest < ActiveSupport::TestCase
     end
   end
 
-
-  test 'infer project type' do
-    skip
-  end
-
   test 'contributors includes creator' do
     creator = users(:normal)
     # TODO: clear out edits on this development.
@@ -204,13 +199,9 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_includes d.contributors, creator
   end
 
-  test 'applied edits result in contributors' do
-    skip
-  end
-
   test 'if tagline, needs to be short' do
     d.tagline = ''
-    assert d.valid?
+    assert d.valid?, d.errors.full_messages
 
     invalid_taglines = [
       'Mixed-use development',
@@ -225,23 +216,18 @@ class DevelopmentTest < ActiveSupport::TestCase
     end
   end
 
-  test 'description' do
-    skip
-  end
-
   test 'nearby developments' do
-    skip
     far_dev = developments(:one)
     far_dev.latitude  =  40.000000
     far_dev.longitude = -77.000000
     stub_walkscore(lat: far_dev.latitude, lon: far_dev.longitude)
-    far_dev.save
+    far_dev.save!
 
     close_dev = developments(:two)
     close_dev.latitude  =  39.010000
     close_dev.longitude = -75.990000
     stub_walkscore(lat: close_dev.latitude, lon: close_dev.longitude)
-    close_dev.save
+    close_dev.save!
 
     close_devs = Development.close_to(39.000000, -76.000000).load
 
@@ -308,15 +294,6 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test '#updated_since? without history' do
     refute d.updated_since?(Date.new(2000))
-  end
-
-  test '#last_edit returns most recent history item' do
-    skip 'we really do not need this'
-    edit = d.pending_edits.first
-    edit.applied
-    edit.save
-    assert_not_empty d.reload.history
-    assert_equal edit, d.last_edit
   end
 
   test '#history.since' do
@@ -464,10 +441,10 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'estimates employment' do
     d.estemp = nil
-    d.fa_ret = 0
+    d.commsf = d.fa_ret = 0
     d.save!
     assert_equal 0, d.estemp
-    d.fa_ret = 750
+    d.commsf = d.fa_ret = 750
     d.save!
     assert d.estemp > 0
   end
@@ -492,7 +469,7 @@ class DevelopmentTest < ActiveSupport::TestCase
     d.tothu = d.commsf = nil
     refute d.valid?
     d.tothu = d.commsf = 0
-    assert d.valid?
+    assert d.valid?, d.errors.full_messages
   end
 
   test 'requires extra housing information' do
@@ -507,14 +484,15 @@ class DevelopmentTest < ActiveSupport::TestCase
       housing_fields.each { |attrib| d.send("#{attrib}=", nil) }
       refute d.valid?
       housing_fields.each { |attrib| d.send("#{attrib}=", 0) }
-      assert d.valid?
+      d.singfamhu = 1 # for sum validation
+      assert d.valid?, d.errors.full_messages
     end
 
     [:in_construction, :completed].each do |status|
       d.status = status
       d.tothu = d.commsf = 0
       housing_fields.each { |attrib| d.send("#{attrib}=", nil) }
-      assert d.valid?
+      assert d.valid?, d.errors.full_messages
     end
   end
 
@@ -532,27 +510,64 @@ class DevelopmentTest < ActiveSupport::TestCase
       nonres_fields.each { |attrib| d.send("#{attrib}=", nil) }
       refute d.valid?
       nonres_fields.each { |attrib| d.send("#{attrib}=", 0) }
-      assert d.valid?
+      d.fa_ret = 1 # For sum validation
+      assert d.valid?, d.errors.full_messages
     end
 
     [:in_construction, :completed].each do |status|
       d.status = status
       d.tothu = d.commsf = 0
       nonres_fields.each { |attrib| d.send("#{attrib}=", nil) }
-      assert d.valid?
+      assert d.valid?, d.errors.full_messages
     end
   end
 
   test 'housing units must add up' do
-    skip
-    # add total, single, etc. so they don't add up. then so they do.
-    d.tothu = 1
+    d.status = :in_construction
+    d.tothu  = 100
+    d.commsf = d.gqpop = 0
+    d.singfamhu = d.twnhsmmult = d.lgmultifam = 0
     refute d.valid?
+    d.singfamhu = 100
+    assert d.valid?, d.errors.full_messages
+    d.singfamhu = d.twnhsmmult = 25
+    d.lgmultifam = 50
+    assert d.valid?, d.errors.full_messages
   end
 
   test 'commercial square feet must add up' do
+    d.status = :in_construction
+    d.tothu = 0
+    d.commsf = 1000
+
+    d.fa_ret    = 0
+    d.fa_ofcmd  = 0
+    d.fa_indmf  = 0
+    d.fa_whs    = 0
+    d.fa_rnd    = 0
+    d.fa_edinst = 0
+    d.fa_other  = 0
+    d.fa_hotel  = 0
+
+    refute d.valid?
+    d.fa_ret = 1000
+    assert d.valid?, d.errors.full_messages
+    d.fa_ret = d.fa_ofcmd = d.fa_hotel = d.fa_other = 250
+    assert d.valid?, d.errors.full_messages
+  end
+
+  test 'infer project type' do
     skip
   end
+
+  test 'applied edits result in contributors' do
+    skip
+  end
+
+  test 'description' do
+    skip
+  end
+
 
   private
 

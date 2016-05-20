@@ -6,7 +6,7 @@ one:
   zip_code: '02111'
   status: planning
   tothu:   0
-  commsf: 12
+  commsf:  0
   estemp: 75
   private: true
   creator: normal
@@ -26,7 +26,8 @@ two:
   state: ET
   zip_code: '02118'
   status: completed
-  commsf: 200
+  tothu:  0
+  commsf: 0
   estemp: 1000
   private: false
   creator: normal
