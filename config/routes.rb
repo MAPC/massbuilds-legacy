@@ -2,7 +2,7 @@ require 'api_version'
 
 Rails.application.routes.draw do
 
-  mount_ember_app :searchapp, to: 'developments/:id/edit',
+  mount_ember_app :searchapp, to: 'developments/:id/edit$',
     controller: 'developments',
     action:     'edit',
     as:         :edit_development
@@ -15,7 +15,7 @@ Rails.application.routes.draw do
   namespace :api, constraints: { subdomain: 'api' }, path: '' do
     api_version(APIVersion.new(version: 1, default: true).params) do
       jsonapi_resources :developments,  except: [:destroy]
-      jsonapi_resources :searches,      only: [:index, :show, :create]
+      jsonapi_resources :searches,      only: [:index, :show, :create, :destroy]
       jsonapi_resources :subscriptions, only: [:create, :destroy]
       jsonapi_resources :organizations, only: [:index, :show]
       jsonapi_resources :development_team_memberships

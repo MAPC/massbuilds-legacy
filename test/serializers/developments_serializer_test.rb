@@ -1,18 +1,35 @@
 require 'test_helper'
 
 class DevelopmentsSerializerTest < ActiveSupport::TestCase
+
+  def setup
+    stub_street_view
+  end
+
   def development_one
     @_d1 ||= Development.create!(
-      id: 101_010, name: 'Gadfly Hotel',
-      address: '505 Washington Street', place: places(:boston), state: 'MA',
-      zip_code: '02111', status: 'in_construction', commsf: 12,
-      estemp: 75, private: true,
-      created_at: Time.new('1969-12-31 19:00:00 -0500'),
-      updated_at: Time.new('1969-12-31 19:00:00 -0500'),
-      year_compl: '2016', creator: users(:normal)
+      id: 101_010,
+      name:        'Gadfly Hotel',
+      address:     '505 Washington Street',
+      place:       places(:boston),
+      state:       'MA',
+      zip_code:    '02111',
+      status:      'projected',
+      tothu:        0,
+      commsf:      12,
+      estemp:      75,
+      private:     true,
+      latitude:     42.0,
+      longitude:   -71.0,
+      created_at:  Time.new('1969-12-31 19:00:00 -0500'),
+      updated_at:  Time.new('1969-12-31 19:00:00 -0500'),
+      year_compl:  '2016',
+      creator:     users(:normal)
     )
     @_d1.team_memberships = [DevelopmentTeamMembership.create(
-      development: @_d1, role: 'landlord', organization: organizations(:mapc)
+      development:  @_d1,
+      role:         'landlord',
+      organization: organizations(:mapc)
     )]
     @_d1.save
     @_d1
@@ -20,13 +37,23 @@ class DevelopmentsSerializerTest < ActiveSupport::TestCase
 
   def development_two
     @_d2 ||= Development.create!(
-      id: 101_011, name: 'Hello',
-      address: "It's me / I was wondering if after all these years",
-      place: places(:roxbury), state: 'ET', zip_code: '02118',
-      status: 'completed', commsf: 200, estemp: 1000, private: false,
+      id: 101_011,
+      name:     'Hello',
+      address:  "It's me / I was wondering if after all these years",
+      place:    places(:roxbury),
+      state:    'ET',
+      zip_code: '02118',
+      status:   'projected',
+      tothu:        0,
+      commsf:   200,
+      estemp:   1000,
+      private:    false,
+      latitude:     42.0,
+      longitude:   -71.0,
       created_at: Time.new('1969-12-31 19:00:00 -0500'),
-      updated_at: Time.new('1969-12-31 19:00:00 -0500'), year_compl: 2012,
-      creator: users(:tim)
+      updated_at: Time.new('1969-12-31 19:00:00 -0500'),
+      year_compl: 2012,
+      creator:    users(:tim)
     )
   end
 
@@ -58,11 +85,13 @@ class DevelopmentsSerializerTest < ActiveSupport::TestCase
 
   private
 
+  # TODO Use Avdi's new operator that strips leading whitespace
+  # Or just load in a Fixture file
   def expected_csv
     <<-CSV
 id,creator_id,created_at,updated_at,rdv,asofright,ovr55,clusteros,phased,stalled,name,status,desc,project_url,mapc_notes,tagline,address,state,zip_code,height,stories,year_compl,prjarea,singfamhu,twnhsmmult,lgmultifam,tothu,gqpop,rptdemp,emploss,estemp,commsf,hotelrms,onsitepark,total_cost,team_membership_count,cancelled,private,fa_ret,fa_ofcmd,fa_indmf,fa_whs,fa_rnd,fa_edinst,fa_other,fa_hotel,other_rate,affordable,latitude,longitude,place_id,city,team_member_1_name,team_member_1_website,team_member_1_url_template,team_member_1_location,team_member_1_email,team_member_1_abbv,team_member_1_short_name,team_member_1_role
-101010,562391268,1969-01-01 05:00:00 UTC,1969-01-01 05:00:00 UTC,,,,,,,Gadfly Hotel,in_construction,,,,Luxury hotel with ground-floor retail.,505 Washington Street,MA,02111,,,2016,,,,,,,,,75,12,,,,1,false,true,,,,,,,,,,,,,226565033,Boston,Metropolitan Area Planning Council,http://mapc.org,,\"Boston, MA\",,MAPC,MAPC,landlord
-101011,730190997,1969-01-01 05:00:00 UTC,1969-01-01 05:00:00 UTC,,,,,,,Hello,completed,,,,Luxury hotel with ground-floor retail.,It's me / I was wondering if after all these years,ET,02118,,,2012,,,,,,,,,1000,200,,,,,false,false,,,,,,,,,,,,,559828770,Boston,,,,,,,,
+101010,562391268,1969-01-01 05:00:00 UTC,1969-01-01 05:00:00 UTC,,,,,,,Gadfly Hotel,projected,,,,Luxury hotel with ground-floor retail.,505 Washington Street,MA,02111,,,2016,,,,,,,,,75,12,,,,1,false,true,,,,,,,,,,,,,226565033,Boston,Metropolitan Area Planning Council,http://mapc.org,,\"Boston, MA\",,MAPC,MAPC,landlord
+101011,730190997,1969-01-01 05:00:00 UTC,1969-01-01 05:00:00 UTC,,,,,,,Hello,projected,,,,Luxury hotel with ground-floor retail.,It's me / I was wondering if after all these years,ET,02118,,,2012,,,,,,,,,1000,200,,,,,false,false,,,,,,,,,,,,,559828770,Boston,,,,,,,,
     CSV
   end
 
@@ -81,4 +110,9 @@ id,creator_id,created_at,updated_at,rdv,asofright,ovr55,clusteros,phased,stalled
         team_member_1_short_name team_member_1_role )
   end
 
+  def stub_street_view(lat: 42.0, lon: -71.0, heading: 35, pitch: 28)
+    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
+    stub_request(:get, "http://maps.googleapis.com/maps/api/streetview?fov=100&heading=#{heading}&key=loLOLol&location=#{lat},#{lon}&pitch=#{pitch}&size=600x600").
+      to_return(status: 200, body: file)
+  end
 end

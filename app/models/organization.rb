@@ -44,7 +44,7 @@ class Organization < ActiveRecord::Base
   end
 
   def gravatar_url
-    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{hashed_email}"
+    @gravatar_url ||= "https://secure.gravatar.com/avatar/#{hashed_email}?d=identicon"
   end
 
   alias_method :logo, :gravatar_url

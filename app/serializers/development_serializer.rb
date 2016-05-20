@@ -30,7 +30,10 @@ class DevelopmentSerializer
   def base_attributes
     base = @record.attributes
     base['city'] = @record.municipality
-    base.reject { |k, _v| k.include?('street_view_') }
+    base.reject! { |k, _v| k.include?('street_view_') }
+    base.reject! { |k, _v| k.include?('walkscore') }
+    base.reject! { |k, _v| k.include?('parcel') }
+    base
   end
 
   def only?
@@ -74,6 +77,8 @@ class DevelopmentSerializer
       attribute.to_s
     elsif class_name.include? 'Neighborhood'
       attribute.municipality.to_s
+    elsif class_name.include? 'Decimal'
+      attribute.to_f
     else
       attribute
     end

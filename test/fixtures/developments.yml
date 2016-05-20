@@ -4,8 +4,9 @@ one:
   place: boston
   state: MA
   zip_code: '02111'
-  status: in_construction
-  commsf: 12
+  status: planning
+  tothu:   0
+  commsf:  0
   estemp: 75
   private: true
   creator: normal
@@ -25,7 +26,8 @@ two:
   state: ET
   zip_code: '02118'
   status: completed
-  commsf: 200
+  tothu:  0
+  commsf: 0
   estemp: 1000
   private: false
   creator: normal

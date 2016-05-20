@@ -19,6 +19,12 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
     @_user
   end
 
+  def wrong_user
+    @_user ||= users(:tim)
+    @_user.create_api_key
+    @_user
+  end
+
   def search
     @_search ||= searches(:saved)
   end
@@ -65,13 +71,39 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
 
   test 'create with user authorized through data param' do
     set_content_type_header!
-    post :create, empty_saved_search.merge({ api_key: user.api_key.token })
+    assert_difference 'Search.count', +1 do
+      post :create, empty_saved_search.merge({ api_key: user.api_key.token })
+    end
     assert_response :created, response.body
   end
 
   test 'create with no user' do
     set_content_type_header!
     post :create, empty_unsaved_search
+    assert_response :unauthorized, response.body
+  end
+
+  test 'destroy a search' do
+    set_content_type_header!
+    set_auth_header_for_user!(user)
+    assert_difference 'Search.count', -1 do
+      delete :destroy, id: search.id
+    end
+    assert_response :success, response.body
+  end
+
+  test 'destroy with wrong user' do
+    set_content_type_header!
+    set_auth_header_for_user!(wrong_user)
+    delete :destroy, id: searches(:ranged).id
+    # Instead of returning :unauthorized, returns :not_found because the records
+    # are only those belonging to current_user.
+    assert_response :not_found, response.body
+  end
+
+  test 'destroy with no user' do
+    set_content_type_header!
+    delete :destroy, id: search.id
     assert_response :unauthorized, response.body
   end
 

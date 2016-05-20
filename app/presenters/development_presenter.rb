@@ -20,7 +20,7 @@ class DevelopmentPresenter < Burgundy::Item
   end
 
   def pending_edits
-    EditPresenter.wrap item.pending_edits
+    EditPresenter.wrap item.edits.pending
   end
 
   def pending_flags
@@ -38,14 +38,14 @@ class DevelopmentPresenter < Burgundy::Item
   alias_method :pending, :pending_edits
 
   def pending_edits_count
-    item.pending_edits.count
+    item.edits.pending.count
   end
 
   # Nearby or similar developments
   def related
     DevelopmentPresenter.wrap(
-      Development.close_to(*item.location).
-        where.not(id: item.id).limit(3).includes(:place))
+      Development.close_to(*item.location).where.not(id: item.id).limit(3)
+    )
   end
 
   # Members of the development team

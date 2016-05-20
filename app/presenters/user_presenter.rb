@@ -24,7 +24,7 @@ class UserPresenter < Burgundy::Item
 
   def gravatar_url(size: 120)
     @gravatar_url ||=
-      "https://secure.gravatar.com/avatar/#{hashed_email}?s=#{size}"
+      "https://secure.gravatar.com/avatar/#{hashed_email}?s=#{size}&d=identicon"
   end
 
   def active_memberships

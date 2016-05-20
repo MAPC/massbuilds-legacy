@@ -1,0 +1,31 @@
+.row
+  .ten.wide.column#title-area
+    %h2 Sign in
+
+.row
+  .ui.six.column.grid
+
+    .six.wide.column
+
+      = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'ui form new_user' }) do |f|
+
+        .field
+          = f.label :email
+          = f.email_field :email, autofocus: true
+
+        .field
+          = f.label :password
+          = f.password_field :password, autocomplete: "off"
+
+        - if devise_mapping.rememberable?
+          .field
+            .ui.checkbox
+              = f.check_box :remember_me, selected: true
+              = f.label     :remember_me
+
+        .actions
+          = f.submit "Log in"
+
+      .ui.horizontal.divider
+
+      = render "devise/shared/links"

@@ -16,12 +16,10 @@
   .ui.twelve.column.grid
     .four.wide.column
       .ui.fluid.card
-        %a.image{ href: 'https://en.gravatar.com/site/login',
-          target: '_blank' }
-          %img{ src: @user.gravatar_url(size: 250) }
+        .image
+          %img{ src: @user.gravatar_url(size: 500) }
         .content
-          %a.header{ href: 'https://en.gravatar.com/site/login',
-            target: '_blank' }
+          .header
             = @user.full_name
           .meta
             .ui.list

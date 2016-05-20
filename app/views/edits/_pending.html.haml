@@ -6,11 +6,14 @@
   .ui.basic.black.button.launch-modal{ data: { modal: "conflict-#{edit.id}" } }
     %i.right.arrow.icon
     Review Conflict
-  -# = render partial: 'edits/review_conflict', object: edit, as: :edit
+  -# Maybe break conflict display into its own partial?
   .ui.basic.modal{id: "conflict-#{edit.id}"}
     %i.close.icon
     .header  Review Conflict
-    .content The explanation of the diff for conflict #{edit.id} here.
+    .content
+      %ul
+        - edit.conflicts.each do |conflict|
+          %li= ConflictPresenter.new(conflict).description
     .actions.left
       = link_to decline_development_edit_path(@development, edit), method: :post do
         .ui.red.button

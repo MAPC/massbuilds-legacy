@@ -20,13 +20,12 @@
           .label
             = Development.human_attribute_name(field)
 
-    -# This can be a partial
     - unless @development.walkscore.empty?
       .ui.statistic
         .value
-          = link_to @development.walkscore['help_link'], target: '_blank' do
-            = @development.walkscore['walkscore']
+          = link_to @development.walkscore.to_h['help_link'], target: '_blank' do
+            = @development.walkscore.score
         .label
-          = link_to @development.walkscore['help_link'], target: '_blank' do
+          = link_to @development.walkscore.to_h['help_link'], target: '_blank' do
             WalkScore &reg;
 

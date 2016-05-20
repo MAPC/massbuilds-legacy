@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   before_save :hash_email
   before_save :ensure_reasonable_last_checked
+  before_create :set_initial_last_checked
   after_create :assign_api_key
 
   attr_readonly :api_key
@@ -76,6 +77,10 @@ class User < ActiveRecord::Base
     if mail_frequency_change && mail_frequency_change.last != 'never'
       self.last_checked_subscriptions = 1.week.ago
     end
+  end
+
+  def set_initial_last_checked
+    self.last_checked_subscriptions = created_at
   end
 
   def assign_api_key
