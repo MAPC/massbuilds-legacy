@@ -66,7 +66,6 @@ export default Ember.Component.extend({
   }.property("developments"),
 
   refresh: function() {
-    console.log("Did Refresh")
 
     // remove all existing markers
     this.map.removeSource("markers");
@@ -100,7 +99,6 @@ export default Ember.Component.extend({
       cluster: false,
       data: this.get("mapToGeoJSON") 
     });
-    console.log(this.get("mapToGeoJSON"));
     // load markers
     this.map.on('style.load', () => {
       // Add marker data as a new GeoJSON source.

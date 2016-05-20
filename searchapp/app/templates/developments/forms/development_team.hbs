@@ -1,0 +1,64 @@
+<div id="data">
+  <div class="ui horizontal divider">Development Team</div>
+</div>
+<table class="ui very basic celled table">
+  <tbody>
+    {{#each this.groupedResults}}
+      <tr>
+        <td>
+          {{role}}
+        </td>
+        <td>
+          <div class="ui items">
+            {{#each contents as |content|}}
+              <h5 class="ui header">
+                <img class="ui mini rounded image" src="{{content.organization.logo}}"/>
+                <div class="content">
+                  {{content.organization.name}} <p {{action "removeMembership" content}}>(Remove Member)</p> {{content.teamMembership}}
+
+                  <div class="sub header">
+                    {{#if content.isDirty}}
+                      This has been flagged for deletion
+                    {{/if}}
+                    {{content.organization.location}}
+                  </div>
+                </div>
+              </h5>
+            {{/each}}
+          </div>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+  <tfoot>
+    <tr><th colspan="2">
+      <div class="ui horizontal divider">Add Team member</div>
+      <div class="ui form">
+        <div class="three fields">
+          <div class="field">
+            <label>Role</label>
+            <select class="ui dropdown" onChange={{action (mut role) value="target.value"}}>
+              <option value="" selected="true">Select below</option>
+              {{#each roles key="@index" as |roleChoice|}}
+                <option value="{{roleChoice.name}}" selected={{eq role roleChoice.name}}>{{roleChoice.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+          <div class="field">
+            <label>Organization</label>                
+            <select class="ui dropdown" onChange={{action (mut organization) value="target.value"}}>
+              <option value="" selected="true">Select below</option>
+              {{#each organizations key="@index" as |organizationChoice|}}
+                <option value="{{organizationChoice}}" selected={{eq organization organizationChoice}}>{{organizationChoice.name}}</option>
+              {{/each}}
+              <option value="{{organizations.firstObject}}" selected={{eq organization organizationChoice}}>{{organizations.firstObject.name}}</option>
+            </select>
+          </div>
+          <div class="field">
+            <div class="ui submit button" {{action "saveNewTeamMember"}}>Add Member</div>
+          </div>
+        </div>
+      </div>
+    </th></tr>
+  </tfoot>
+</table>

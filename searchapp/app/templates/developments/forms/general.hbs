@@ -1,0 +1,62 @@
+<div id="data">
+  <div class="ui horizontal divider">General</div>
+</div>
+<div class="ui form">
+  <div class="field huge fluid input">
+    <label>Project Name</label>
+    {{input value=model.name class="huge" placeholder="Descriptive name for development project"}}
+  </div>
+
+  <div class="field fluid huge input">
+    <label>Tagline</label>
+    {{input value=model.tagline class="huge" placeholder="Project tagline"}}
+  </div>
+
+  <div class="field">
+    <label>Description</label>
+    {{textarea value=model.description cols="80" rows="10" placeholder="e.g. 'Transit-oriented affordable housing complex with ground-floor retail and restaurant spaces.'"}}
+  </div>
+
+  <div class="ui segment">
+    <div class="ui top attached label">Project Tags - Click to Select</div>
+    <div class="ui tag labels">
+      {{toggle-label field=model.redevelopment label="Redevelopment"}}
+      {{toggle-label field=model.asofright label="As-of-Right"}}
+      {{toggle-label field=model.age_restricted label="Age Restricted"}}
+      {{toggle-label field=model.clusteros label="Clusteros"}}
+      {{toggle-label field=model.phased label="Phased"}}
+      {{toggle-label field=model.cancelled label="Cancelled"}}
+      {{toggle-label field=model.private label="Private"}}
+    </div>
+  </div>
+
+  <div class="ui segment">
+    <div class="ui top attached label">Construction Status</div>
+    <div class="grouped fields">
+      <div class="field">
+        <div class="ui radio checkbox">
+          {{radio-button value='projected' groupValue=model.status}}
+          <label><b>Projected:</b> Known opportunity or planning priority but no specific proposal or developer</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          {{radio-button value='planning' groupValue=model.status}}
+          <label><b>Planning:</b> Specific proposal &amp; proponent, building permit not yet issued</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          {{radio-button value='in_construction' groupValue=model.status}}
+          <label><b>In Construction:</b> Commencement of site work to receipt of final occupancy permit</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui radio checkbox">
+          {{radio-button value='completed' groupValue=model.status}}
+          <label><b>Completed:</b> Development is occupied or available for occupancy</label>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

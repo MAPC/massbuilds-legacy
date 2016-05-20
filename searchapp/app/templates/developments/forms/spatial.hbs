@@ -1,0 +1,38 @@
+<div id="data">
+  <div class="ui horizontal divider">Location</div>
+</div>
+
+<div class="ui segment autocomplete-field">
+  <div class="ui top attached label">Step 1: Enter an address to geocode and select from dropdown</div>
+  <div class="ui field fluid input">
+  {{place-autocomplete-field
+    value= model.address
+    disable=false
+    handlerController= this
+    inputClass= 'place-autocomplete--input'
+    placeChangedCallback='placeChanged'
+    types="address"
+    placeholder="Enter an address" }}
+  </div>
+</div>
+
+{{#if model.latitude}}
+  <div class="ui two steps">
+    <div class="step">
+      <div class="ui top attached label">Step 2: Drag map to center point onto appropriate parcel</div>
+      {{development-map model=model}}
+
+{{!--       {{#if model.parcel_id}}
+        Parcel ID: {{model.parcel_id}}
+      {{/if}} --}}
+    </div>
+
+
+    <div class="step">
+      <div class="ui top attached label">Step 3: Drag to position camera to desired angle</div>
+      <div style="width:100%">
+        {{street-view povChanged='povChanged' positionChanged='positionChanged' addressControl=false pov=this.pointOfView lat=model.latitude lng=model.longitude}}
+      </div>
+    </div>
+  </div>
+{{/if}}
