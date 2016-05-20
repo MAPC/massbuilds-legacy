@@ -1,4 +1,6 @@
 {{#ui-sidebar class="ui left inverted sidebar" id="sidebar" searches=model.searches}}
+  <br/>
+  <br/>
   <div class="ui selection divided inverted large list">
   	<div class="item" style="pointer-events: none;">
       <div class="content header">
@@ -11,13 +13,13 @@
           <i {{action 'deleteSearch' search}} class="icon trash"></i>
         </div>
         <div {{action 'transitionToSaved' search}} class="content">
-          {{search.name}}
+          {{search.title}}
         </div>
       </div>
     {{/each}}
   </div>
 {{/ui-sidebar}}
-<div class="ui pusher large masthead">
+<div class="ui pusher main">
   {{outlet}}
 </div>
 {{#ui-modal class="delete-search"}}

@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
+  classNames: "development-map-wrapper",
   didInsertElement: function() {
     var model = this.get("model");
     // access token
@@ -49,7 +50,6 @@ export default Ember.Component.extend({
   },
   modelChange: function() {
     var model = this.get("model");
-    console.log("Changing to: ", [model.get("longitude"), model.get("latitude")]);
     this.map.flyTo({
       center: model.get("location"),
       zoom: 17

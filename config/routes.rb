@@ -23,7 +23,7 @@ Rails.application.routes.draw do
   end
 
   get 'developments/map',  to: 'developments#index', rest: '/map',  ember_app: :searchapp
-  get 'developments/list', to: 'developments#index', rest: '/list', ember_app: :searchapp
+  get 'developments/table', to: 'developments#index', rest: '/table', ember_app: :searchapp
 
   resources :developments, only: [:show] do
     resources :claims, only: [:new, :create]

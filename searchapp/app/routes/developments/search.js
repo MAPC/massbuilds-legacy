@@ -1,7 +1,9 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
+  storedParams: {},
   model(params) {
+    this.set("storedParams", params);
     var queryObject = { filter: {} };
     var filters = ["year_compl","tothu","commsf","name","address","municipality","rdv","saved","status"];
 
@@ -11,7 +13,7 @@ export default Ember.Route.extend({
       }
     });
 
-    return this.store.query("development", queryObject);
+    return this.store.find("development", queryObject);
   },
   actions: {
     search() {

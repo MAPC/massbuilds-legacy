@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model() {
-    if (Search.api_key !== '') {
+    if (document.API_KEY !== '') {
       return  this.store.findAll("search");
     }
   },
@@ -12,32 +12,25 @@ export default Ember.Route.extend({
       $('.ui.sidebar').sidebar('toggle');
     },
     transitionToSaved: function(search) {
-      var parsed = search.get("parsed");
-      this.transitionTo("/developments/search/table?" + parsed);
+      var query = search.get("query");
+      this.transitionTo({queryParams: query });
       this.refresh();
       this.send("toggle");
-
     },
     nameSearch() {
       $('.ui.modal.save-search').modal('show');
     },    
     postSearch() {
       var controller = this.controllerFor("application");
-      var parsed = window.location.href.split("?")[1];
-      var search = this.store.createRecord("search", { name: controller.get("name"), parsed: parsed })
+      var query = this.get("container").lookup("route:developments.search").get("storedParams");
+      var search = this.store.createRecord("search", { title: controller.get("title"), query: query, saved: true });
 
       search.save().then((response) => {
-        controller.set("name", null);
+        controller.set("title", null);
       });
     },
     deleteSearch(search) {
       search.destroyRecord();
-    },
-    error(error, transition) {
-      if (error) {
-        // console.log("Nothing!");
-        // return this.transitionTo("map");
-      }
     }
   }
 });
