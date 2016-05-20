@@ -69,8 +69,8 @@ class UserTest < ActiveSupport::TestCase
   test 'last checked subscriptions' do
     Time.stub :now, Time.new(2000) do
       new_user = User.new
-      new_user.save(validate: false)
-      assert new_user.last_checked_subscriptions
+      new_user.save!(validate: false)
+      assert new_user.last_checked_subscriptions, new_user.inspect
       # Not returning, probably because Time.now is being called at
       # the database level in the prevent_null_last_check migration
       # assert_equal user.last_checked_subscriptions, Time.new(2000)

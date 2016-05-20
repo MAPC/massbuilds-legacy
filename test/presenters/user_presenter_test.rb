@@ -33,7 +33,7 @@ class UserPresenterTest < ActiveSupport::TestCase
 
   test 'gravatar url' do
     pres.save
-    expected = 'https://secure.gravatar.com/avatar/72dedd9e525e529e37b724e8aba4997f?s=120'
+    expected = 'https://secure.gravatar.com/avatar/72dedd9e525e529e37b724e8aba4997f?s=120&d=identicon'
     assert_equal expected, pres.gravatar_url
   end
 end
