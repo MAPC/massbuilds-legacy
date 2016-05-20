@@ -30,13 +30,13 @@ class CreateOrganizationTest < Capybara::Rails::TestCase
 
   test 'signed out guest, visit organization creation, and be redirected' do
     visit new_organization_path
-    assert_content page, 'Log in'
+    assert_content page, /sign|log in/
   end
 
   test 'visit organization creation, and not be redirected' do
     sign_in user, visit: true, submit: true
     visit new_organization_path
-    assert_content page, 'Create Organization'
+    assert_content page, /new organization/
   end
 
   test 'visits new organization path, and successfully creates organization' do
