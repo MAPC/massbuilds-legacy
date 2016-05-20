@@ -30,7 +30,7 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test 'should get index, filtering on range' do
-    get :index, filter: { commsf: '[11,13]' }
+    get :index, filter: { estemp: '[50,100]' }
     assert_equal 1, results(response).count, results(response).inspect
     assert_response :success
   end
@@ -44,14 +44,14 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test 'should get index, filtering on status' do
-    get :index, filter: { status: 'in_construction' }
+    get :index, filter: { status: 'planning' }
     assert_response :success
     assert_equal 1, results(response).count
   end
 
   test 'should log non-blank searches' do
     assert_difference 'Search.count', +2 do
-      get :index, filter: { commsf: '[11,13]' }
+      get :index, filter: { estemp: '[50,100]' }
       get :index, filter: { rdv: 'true' }
     end
   end
@@ -80,7 +80,7 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
     stub_walkscore(lat: 42.3, lon: -71.0)
 
     post :create, create_development_json
-    assert_response :created, response.body
+    assert_response :created, JSON.parse(response.body)#['errors'].first['meta']['backtrace'].join("\n")
   end
 
   test 'should not create unauthorized user' do
@@ -91,6 +91,7 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
 
   test 'should update' do
     set_content_type_header!
+    set_auth_header_for_user! user
     assert_difference 'Edit.pending.count', +1 do
       patch :update, id: developments(:one), data: update_development_payload
     end
@@ -98,7 +99,9 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test 'should not update with unauthorized user' do
-    skip 'come back to this'
+    set_content_type_header!
+    patch :update, id: developments(:one), data: update_development_payload
+    assert_response :unauthorized, response.body
   end
 
   test 'should not destroy' do
@@ -123,7 +126,9 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
           name: '100 Fury Road',
           description: ('a' * 142),
           'year-compl' => 2106,
-          'street-view-latitude' => 42.301,
+          tothu: 0,
+          commsf: 0,
+          'street-view-latitude'  =>  42.301,
           'street-view-longitude' => -71.010
         }
       }
