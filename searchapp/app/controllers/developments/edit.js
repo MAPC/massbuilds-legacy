@@ -12,7 +12,6 @@ export default Ember.Controller.extend({
       { name: "designer", id: 7 }];
   }.property(),
   role: null,
-  itemActions: ["Projected", "Planning", "In Construction", "Completed"],
   actions: {
     // Google Place AutoFill
     placeChanged(response) {
@@ -49,12 +48,12 @@ export default Ember.Controller.extend({
       });
 
     },
-    update_selected(component, id, value) {
-      this.set('status', id);
-    },
     save(model) {
       model.save()
       this.transitionToRoute('developments.edit', model);
+    },
+    toggleLabels(context) {
+      console.log(context);
     }
   },
 

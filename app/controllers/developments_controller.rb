@@ -1,13 +1,12 @@
 class DevelopmentsController < ApplicationController
 
-  layout 'search', only: [:search]
+  layout 'search', except: [:show]
 
   before_action :load_record, only: [:show, :edit, :update]
   before_action :authenticate_user!, only: [:edit, :update]
 
   def index
     @limits = Development.ranged_column_bounds.to_json
-    # render layout: "search"
   end
 
   def new

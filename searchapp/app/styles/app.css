@@ -28,18 +28,15 @@
 }
 
 .map-list-results {
-  max-height: calc(45vh) !important;
+  /*max-height: calc(45vh) !important;*/
   overflow-y: scroll;
   padding-top: 0 !important;
 }
 
 .master-grid {
-  height: calc(100vh + 15px) !important;
+  /*height: calc(100vh + 15px) !important;*/
 }
 
-#emberapp {
-  max-height: calc(100vh);
-}
 
 .map-container {
   padding-bottom: 0 !important;
@@ -48,6 +45,10 @@
 .results-table {
   border: 0 !important;
   border-radius: 0 !important;
+}
+
+.ui.table {
+  border-radius: 0;
 }
 
 .ui.attached.buttons {
@@ -78,6 +79,31 @@
   z-index: 1000;
   -webkit-transform: translate(-50%, -50%);
   background: red;
-
-  /* width and height can be anything, as long as they're equal */
 }
+
+.main {
+  top: 30px;
+}
+
+.menu {
+  min-width: 250px;
+}
+
+.autocomplete-field {
+  width: 100%;
+}
+
+.autocomplete-field div {
+  width: 100%;
+}
+
+.ui.input input {
+  width: 100%;
+}
+
+#development-map {
+  width: 520px;
+  height: 500px;
+}
+
+

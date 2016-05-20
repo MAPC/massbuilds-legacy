@@ -13,6 +13,14 @@ export default DS.Model.extend({
   year: DS.attr("number"),
   description: DS.attr("string"),
   walkscore: DS.attr("number"),
+  status: DS.attr("string"),
+  redevelopment: DS.attr("boolean"),
+  asofright: DS.attr("boolean"), 
+  age_restricted: DS.attr("boolean"), 
+  clusteros: DS.attr("boolean"), 
+  phased: DS.attr("boolean"), 
+  cancelled: DS.attr("boolean"), 
+  "private": DS.attr("boolean"), 
   location: function() {
     var longitude = this.get("longitude"),
     latitude = this.get("latitude");
