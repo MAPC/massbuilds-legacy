@@ -38,12 +38,11 @@ export default Ember.Controller.extend({
       item.destroyRecord();
     },
     saveNewTeamMember() {
-      this.store.findRecord("organization", 1).then((org) => {
-        console.log(org);
+      this.store.findRecord("organization", this.get("organization")).then((org) => {
         var teamMember = this.store.createRecord("development-team-membership", 
                                 { organization: org,
                                   development: this.get("model"), 
-                                  role:         this.role });
+                                  role:         this.get("role") });
         teamMember.save().catch((reason) => { teamMember.deleteRecord(); });
       });
 
