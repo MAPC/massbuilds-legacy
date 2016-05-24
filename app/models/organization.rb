@@ -3,19 +3,19 @@ class Organization < ActiveRecord::Base
   before_save :hash_email
   after_create :create_membership
 
-  has_many :memberships, dependent: :destroy
+  has_many :memberships, dependent: :nullify
   has_many :members, through: :memberships, source: :user
   has_many :administrators, class_name: :User, dependent: :nullify
   has_many :crosswalks, dependent: :nullify
-  has_many :development_team_memberships, dependent: :destroy
+  has_many :development_team_memberships, dependent: :nullify
 
   # This should be scoped for unique, but our Postgres version (9.3)
   # cannot SELECT DISTINCT on tables with JSON data types.
   has_many :developments, through: :development_team_memberships
-  belongs_to :creator,      class_name: :User
+  belongs_to :creator, class_name: :User
 
   validates :name,       presence: true
-  validates :website,    presence: true
+  # validates :website,    presence: true
   validates :short_name, presence: true
 
   validates :creator, presence: true
@@ -71,8 +71,8 @@ class Organization < ActiveRecord::Base
   end
 
   def hash_email
-    email_to_hash = (gravatar_email || email).to_s.downcase
-    self.hashed_email = Digest::MD5.hexdigest(email_to_hash)
+    attribute_to_hash = [gravatar_email, email, name].detect(&:present?).to_s.downcase
+    self.hashed_email = Digest::MD5.hexdigest(attribute_to_hash)
   end
 
   def create_membership
