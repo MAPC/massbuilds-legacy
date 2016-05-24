@@ -15,11 +15,11 @@ class ConflictPresenter < Burgundy::Item
   end
 
   def from
-    item[:conflict][:from] || 'NULL'
+    item[:conflict].fetch(:from, 'NULL')
   end
 
   def current
-    item[:conflict][:current] || 'NULL'
+    item[:conflict].fetch(:current, 'NULL')
   end
 
   def name
