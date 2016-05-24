@@ -26,7 +26,11 @@
       {{partial "developments/forms/employment"}}
 
       <button class="ui primary button" {{action "save" model}}>
-        Propose Changes
+        {{#if isInEdit}}
+          Propose Changes
+        {{else}}
+          New
+        {{/if}}
       </button>
     </div>
   </div>

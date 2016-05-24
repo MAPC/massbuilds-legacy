@@ -56,6 +56,12 @@ export default Ember.Controller.extend({
     }
   },
 
+  isInEdit: function() {
+      var currentPath = this.get('currentPath') || "";
+      console.log(currentPath);
+      return currentPath.split('.')[0] === 'edit';        
+  }.property('currentPath'),
+
   // sets defaults in case undefined. defaults should be set on the model.
   pointOfView: function() {
     var model = this.get("model");
