@@ -9,21 +9,19 @@
           {{role}}
         </td>
         <td>
-          <div class="ui items">
+          <div class="ui list">
             {{#each contents as |content|}}
-              <h5 class="ui header">
-                <img class="ui mini rounded image" src="{{content.organization.logo}}"/>
-                <div class="content">
-                  {{content.organization.name}} <p {{action "removeMembership" content}}>(Remove Member)</p> {{content.teamMembership}}
-
-                  <div class="sub header">
-                    {{#if content.isDirty}}
-                      This has been flagged for deletion
-                    {{/if}}
-                    {{content.organization.location}}
-                  </div>
+              <div class="item">
+                <div class="right floated content">
+                  <button {{action "removeMembership" content}} class="ui mini basic icon button">
+                    <i class="delete icon"></i>
+                  </button>
                 </div>
-              </h5>
+                <img class="ui mini rounded avatar image" src="{{content.organization.logo}}"/>
+                <div class="content">
+                  <a href="/organizations/{{content.organization.id}}">{{content.organization.short_name}}</a>
+                </div>
+              </div>
             {{/each}}
           </div>
         </td>
@@ -34,8 +32,8 @@
     <tr><th colspan="2">
       <div class="ui horizontal divider">Add Team member</div>
       <div class="ui form">
-        <div class="three fields">
-          <div class="field">
+        <div class="fields">
+          <div class="eight wide field">
             <label>Role</label>
             <select class="ui dropdown" onChange={{action (mut role) value="target.value"}}>
               <option value="" selected="true">Select below</option>
@@ -44,7 +42,7 @@
               {{/each}}
             </select>
           </div>
-          <div class="field">
+          <div class="eight wide field">
             <label>Organization</label>                
             <select class="ui dropdown" onChange={{action (mut organization) value="target.value"}}>
               <option value="" selected="true">Select below</option>
@@ -53,9 +51,9 @@
               {{/each}}
             </select>
           </div>
-          <div class="field">
-            <div class="ui submit button" {{action "saveNewTeamMember"}}>Add Member</div>
-          </div>
+        </div>
+        <div class="field">
+          <div class="ui fluid submit button" {{action "saveNewTeamMember"}}>Add Member</div>
         </div>
       </div>
     </th></tr>
