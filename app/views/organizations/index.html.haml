@@ -1,11 +1,14 @@
 #main.ui.main.container
 
-  = link_to new_organization_path do
-    %button.ui.right.floated.primary.button
-      %i.plus.icon
-      Create Organization
+  - if signed_in?
+    = link_to new_organization_path do
+      %button.ui.right.floated.primary.button
+        %i.plus.icon
+        Create Organization
 
   %h1 Organizations
 
   .ui.middle.aligned.relaxed.selection.list
     = render @organizations
+
+  = paginate @organizations
