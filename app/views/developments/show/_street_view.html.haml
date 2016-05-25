@@ -1,0 +1,7 @@
+:ruby
+  src = @development.street_view.data
+  style = 'width: 600px; height: 600px;'
+  alt = @development.name
+
+- unless @development.street_view.null?
+  %img.ui.image{ src: src, style: style, alt: alt }

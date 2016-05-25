@@ -13,6 +13,11 @@ class Development
       history.since(time).any? ? true : created_since?(time)
     end
 
+    def last_updated
+      time = history.any? ? history.first.applied_at : created_at
+      time.to_s(:subject)
+    end
+
     def created_since?(time = Time.now)
       created_at > time
     end

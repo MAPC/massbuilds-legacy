@@ -2,6 +2,7 @@
   .ui.container
     %a.header.item{ href: developments_path }
       -# %img.logo{:src => "assets/images/logo.png"}
+      %i.building.icon
       DD
 
     = link_to developments_path,  class: 'item' do
@@ -12,14 +13,20 @@
 
     - unless signed_in?
 
-      = link_to '#static/pricing', class: 'item' do
-        Pricing
+      -# = link_to '#static/pricing', class: 'item' do
+      -#   Pricing
+
+      .right.compact.menu
+
+      = link_to signup_path, class: 'active teal item' do
+        %i.rocket.icon
+        Sign up
 
       = link_to signin_path, class: 'item' do
-        Sign in
+        %i.door.icon
+        Log in
 
-      = link_to signup_path, class: 'item' do
-        Sign up
+
 
     - if signed_in?
 
