@@ -89,12 +89,15 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
     assert_response :unauthorized
   end
 
-  test 'should update' do
+  test 'should update and return object' do
     set_content_type_header!
     set_auth_header_for_user! user
     assert_difference 'Edit.pending.count', +1 do
       patch :update, id: developments(:one), data: update_development_payload
     end
+    # Shouldn't change the name, since it goes into moderation
+    assert_equal 'Godfrey Hotel', results(response)['attributes']['name']
+    assert_includes response.headers['Content-Type'], 'application/vnd.api+json'
     assert_response :success, response.body
   end
 
@@ -151,7 +154,7 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
 
   def stub_street_view
     file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
-    stub_request(:get, 'http://maps.googleapis.com/maps/api/streetview?fov=100&heading=35&key=loLOLol&location=42.301,-71.01&pitch=28&size=600x600').
+    stub_request(:get, 'http://maps.googleapis.com/maps/api/streetview?fov=100&heading=0&key=loLOLol&location=42.301,-71.01&pitch=35&size=600x600').
       to_return(status: 200, body: file)
   end
 
