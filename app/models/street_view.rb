@@ -17,6 +17,24 @@ class StreetView
     end
   end
 
+  def data
+    "data:image/jpg;base64,#{Base64.encode64(image)}"
+  end
+
+  # Perform a checksum on the image
+  def hash
+    Digest::MD5.hexdigest image
+  end
+
+  def null?
+    hash == self.class.null
+  end
+
+  # This image means we're over the rate limit.
+  def self.null
+    "18bd8a05483bcc612f0891f94364d410"
+  end
+
   private
 
   def fresh_image

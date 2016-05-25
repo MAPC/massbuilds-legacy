@@ -13,7 +13,9 @@ module API
                  :cluster_or_open_space_development, :phased, :stalled,
                  :cancelled, :private,
 
-                 :address, :neighborhood, :city, :state, :zip_code,
+                 # add place ID, remove neighborhood/city from updatable attrs
+
+                 :address, :city, :state, :zip_code,
                  :full_address, :location, :latitude, :longitude,
 
                  :height, :stories, :prjarea, :total_cost,
@@ -28,6 +30,8 @@ module API
                  :street_view_longitude,
                  :street_view_heading,
                  :street_view_pitch
+
+      has_one :place
 
       before_save do
         @model.creator_id = context[:current_user].id if @model.new_record?
