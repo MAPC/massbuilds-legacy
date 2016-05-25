@@ -1,9 +1,16 @@
 :ruby
-  colors = [[:private, :grey], [:rdv, :red], [:mixed_use, :orange],
-           [:asofright, :green], [:ovr55, :blue], [:clusteros, :purple],
-           [:phased, :pink], [:stalled, :black]]
+  tag_colors = {
+    private:   :grey,
+    rdv:       :red,
+    mixed_use: :orange,
+    asofright: :green,
+    ovr55:     :blue,
+    clusteros: :purple,
+    phased:    :pink,
+    stalled:   :black
+  }
 
-- tags = colors.select { |b| @development.send(b.first) }
+- tags = tag_colors.select { |tag, _color| @development.send(tag) }
 - if tags.any?
   .row
     .ten.wide.column
