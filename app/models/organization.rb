@@ -5,17 +5,18 @@ class Organization < ActiveRecord::Base
 
   has_many :memberships, dependent: :destroy
   has_many :members, through: :memberships, source: :user
-  has_many :administrators, class_name: :User, dependent: :nullify
-  has_many :crosswalks, dependent: :nullify
+  # has_many :administrators, class_name: :User, dependent: :nullify
   has_many :development_team_memberships, dependent: :destroy
+
+  # has_many :crosswalks, dependent: :nullify
 
   # This should be scoped for unique, but our Postgres version (9.3)
   # cannot SELECT DISTINCT on tables with JSON data types.
   has_many :developments, through: :development_team_memberships
-  belongs_to :creator,      class_name: :User
+  belongs_to :creator, class_name: :User
 
   validates :name,       presence: true
-  validates :website,    presence: true
+  # validates :website,    presence: true
   validates :short_name, presence: true
 
   validates :creator, presence: true
@@ -27,7 +28,7 @@ class Organization < ActiveRecord::Base
   alias_attribute :admin, :creator
 
   def active_members
-    memberships.where(state: 'active').map(&:user).uniq
+    memberships.active.map(&:user).uniq
   end
 
   def url_parser
@@ -71,8 +72,8 @@ class Organization < ActiveRecord::Base
   end
 
   def hash_email
-    email_to_hash = (gravatar_email || email).to_s.downcase
-    self.hashed_email = Digest::MD5.hexdigest(email_to_hash)
+    attribute_to_hash = [gravatar_email, email, name].detect(&:present?).to_s.downcase
+    self.hashed_email = Digest::MD5.hexdigest(attribute_to_hash)
   end
 
   def create_membership

@@ -29,19 +29,24 @@
         #organization
           #stats
             %span#location
-              %i.icon.marker
-              = @organization.location
+              - if @organization.location
+                %i.marker.icon
+                = @organization.location
             %span#website
-              %i.icon.linkify
-              = link_to @organization.website
-            %span#email= @organization.email
+              - if @organization.website
+                %i.linkify.icon
+                = link_to @organization.website
+            %span#email
+              - if @organization.email
+                %i.mail.icon
+                = link_to @organization.email
 
       .four.wide.column
-        -# TODO: If current_user not already a member.
-        = link_to join_organization_path(@organization), method: :post do
-          %button.ui.right.floated.green.button
-            %i.users.icon
-            Request Membership
+        - unless current_user.member_of? @organization
+          = link_to join_organization_path(@organization), method: :post do
+            %button.ui.right.floated.green.button
+              %i.users.icon
+              Request Membership
 
   %br
   %br
