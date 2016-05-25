@@ -9,22 +9,23 @@ namespace :migrate do
   end
 
 
-  namespace :organizations do
+  namespace :orgs do
     organizations_file = 'db/import/organizations.csv'
-    task import: :environment do
+    task :in => :environment do
       CSV.foreach organizations_file, headers: true do |row|
-        org = Organization.find_or_initialize_by(
+        attributes = {
           creator: User.find_by(first_name: 'Importer'),
           name:     canonical_name(row),
           short_name: short_name(row),
-          website:  row['website'].to_s.strip!,
-          location: row['location'].to_s.strip!,
-          email:    row['email'].to_s.strip!,
-          gravatar_email: row['email'].to_s.strip!,
-          phone:    row['phone'].to_s.strip!,
-          address:  row['address'].to_s.strip!,
-          abbv:     row['abbv'].to_s.strip!
-        )
+          website:  row['website'].to_s.strip,
+          location: row['location'].to_s.strip,
+          email:    row['email'].to_s.strip,
+          gravatar_email: row['email'].to_s.strip,
+          phone:    row['phone'].to_s.strip,
+          address:  row['address'].to_s.strip,
+          abbv:     row['abbv'].to_s.strip
+        }
+        org = Organization.find_or_initialize_by attributes
         if org.save
           print '.'
         else

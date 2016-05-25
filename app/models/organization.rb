@@ -28,7 +28,7 @@ class Organization < ActiveRecord::Base
   alias_attribute :admin, :creator
 
   def active_members
-    memberships.active.where(state: 'active').map(&:user).uniq
+    memberships.active.map(&:user).uniq
   end
 
   def url_parser
