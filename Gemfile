@@ -25,6 +25,7 @@ gem 'authority'
 gem 'geometry' # Simple geometry constructor
 gem 'wannabe_bool', '0.3.0' # Convert to boolean
 gem 'stamp' # Easier timestamps
+gem 'geocoder'
 
 # Forms & Presenters
 gem 'virtus'       # Form objects
