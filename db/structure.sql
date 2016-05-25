@@ -230,10 +230,10 @@ CREATE TABLE developments (
     stalled boolean,
     name character varying(140),
     status character varying(20),
-    "desc" character varying,
+    "desc" text,
     project_url character varying(140),
     mapc_notes character varying,
-    tagline character varying(85),
+    tagline character varying,
     address character varying(140),
     state character varying(2) DEFAULT 'MA'::character varying,
     zip_code character varying(9),
@@ -1580,4 +1580,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160516200036');
 INSERT INTO schema_migrations (version) VALUES ('20160523213744');
 
 INSERT INTO schema_migrations (version) VALUES ('20160524185517');
+
+INSERT INTO schema_migrations (version) VALUES ('20160525192137');
 
