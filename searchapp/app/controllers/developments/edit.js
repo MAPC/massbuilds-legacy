@@ -57,10 +57,10 @@ export default Ember.Controller.extend({
   },
 
   isInEdit: function() {
-      var currentPath = this.get('currentPath') || "";
-      console.log(currentPath);
-      return currentPath.split('.')[0] === 'edit';        
-  }.property('currentPath'),
+      var currentModelID = this.get('model.id') || "";
+      console.log(currentModelID);
+      return currentModelID !== "";        
+  }.property('model.id'),
 
   // sets defaults in case undefined. defaults should be set on the model.
   pointOfView: function() {
@@ -69,7 +69,7 @@ export default Ember.Controller.extend({
       heading: model.get("street-view-heading") || 30,
       pitch: model.get("street-view-pitch") || 5
     } 
-  }.property("this.model"),
+  }.property("model.id"),
 
   groupedResults: function () {
      var result = [];

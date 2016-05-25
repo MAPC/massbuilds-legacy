@@ -21,6 +21,7 @@ export default Ember.Route.extend({
     },
     reset() {
       this.resetController();
+      this.refresh();
     }
   },
   setupController(controller, model, transition) {
