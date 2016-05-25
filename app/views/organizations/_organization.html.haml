@@ -4,6 +4,10 @@
   .middle.aligned.content
     .header= organization.name
     .meta
-      = organization.location
-      &bull;
+      - if organization.location.present?
+        = organization.location
+        &bull;
       = pluralize(organization.active_members.count, 'member')
+      - if organization.developments.any?
+        &bull;
+        = pluralize(organization.developments.count, 'development')
