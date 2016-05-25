@@ -7,7 +7,9 @@ module API
       attributes :name, :status, :tagline, :description, :project_url,
                  :year_compl,
 
-                 :mixed_use, :redevelopment, :as_of_right, :age_restricted,
+                 :mixed_use, :rdv, :asofright, :ovr55, :clusteros, :hidden,
+
+                 :redevelopment, :as_of_right, :age_restricted,
                  :cluster_or_open_space_development, :phased, :stalled,
                  :cancelled, :private,
 
