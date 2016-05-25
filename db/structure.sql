@@ -269,8 +269,8 @@ CREATE TABLE developments (
     latitude numeric(12,9),
     longitude numeric(12,9),
     place_id integer,
-    street_view_heading integer,
-    street_view_pitch smallint,
+    street_view_heading integer DEFAULT 0,
+    street_view_pitch smallint DEFAULT 35,
     street_view_latitude numeric(12,9),
     street_view_longitude numeric(12,9),
     street_view_image bytea,
@@ -521,7 +521,9 @@ CREATE TABLE organizations (
     short_name character varying,
     gravatar_email character varying,
     hashed_email character varying,
-    municipal boolean
+    municipal boolean,
+    phone character varying(20),
+    address character varying
 );
 
 
@@ -1574,4 +1576,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160512194027');
 INSERT INTO schema_migrations (version) VALUES ('20160516145552');
 
 INSERT INTO schema_migrations (version) VALUES ('20160516200036');
+
+INSERT INTO schema_migrations (version) VALUES ('20160523213744');
+
+INSERT INTO schema_migrations (version) VALUES ('20160524185517');
 

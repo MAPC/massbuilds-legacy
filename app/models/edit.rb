@@ -66,7 +66,7 @@ class Edit < ActiveRecord::Base
       if field.conflict?
         { name: field.name, conflict: field.conflict }
       end
-    end
+    end.compact
   end
 
   def conflicts?

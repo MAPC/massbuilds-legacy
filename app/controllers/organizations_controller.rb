@@ -3,7 +3,7 @@ class OrganizationsController < ApplicationController
   before_action :load_presented_record, only: [:show, :edit]
 
   def index
-    @organizations = Organization.all
+    @organizations = Organization.order(:name).page params[:page]
   end
 
   def new

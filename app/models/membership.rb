@@ -16,6 +16,10 @@ class Membership < ActiveRecord::Base
   enumerize :state, in: [:pending, :invited, :active, :inactive, :declined],
     default: :pending, predicates: true
 
+  def self.active
+    where state: 'active'
+  end
+
   def invited
     self.state = :invited
     self

@@ -12,14 +12,14 @@ en:
         name:         Development Name
         status:       Status
         year_compl:   Completion Year
-        prjarea:      Project area (sqft)
+        prjarea:      Project area (sq. ft.)
         rdv:          Redevelopment
         singfamhu:    Single family homes
         twnhsmmult:   Small multifamily
         lgmultifam:   Large multifamily
         tothu:        Total housing units
         gqpop:        Group Quarters
-        clusteros:    Cluster Development
+        clusteros:    Cluster or Open Space Development
         ovr55:        Age-Restricted
         mixeduse:     Mixed Use
         rptdemp:      Reported Employment
@@ -53,8 +53,8 @@ en:
         state:        State
         zip_code:     Zip code
         affunits:     Number of affordable units
-        affordable:   Affordable Percent
-        feet_tall:    Height
+        affordable:   Affordable housing units (percent of total)
+        height:       Height (feet)
         stories:      Stories
         ch40_id:      40B/40R/43D
         project_type: Project type
