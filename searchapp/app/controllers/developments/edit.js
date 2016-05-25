@@ -38,12 +38,11 @@ export default Ember.Controller.extend({
       item.destroyRecord();
     },
     saveNewTeamMember() {
-      this.store.findRecord("organization", 1).then((org) => {
-        console.log(org);
+      this.store.findRecord("organization", this.get("organization")).then((org) => {
         var teamMember = this.store.createRecord("development-team-membership", 
                                 { organization: org,
                                   development: this.get("model"), 
-                                  role:         this.role });
+                                  role:         this.get("role") });
         teamMember.save().catch((reason) => { teamMember.deleteRecord(); });
       });
 
@@ -56,6 +55,12 @@ export default Ember.Controller.extend({
       console.log(context);
     }
   },
+
+  isInEdit: function() {
+      var currentPath = this.get('currentPath') || "";
+      console.log(currentPath);
+      return currentPath.split('.')[0] === 'edit';        
+  }.property('currentPath'),
 
   // sets defaults in case undefined. defaults should be set on the model.
   pointOfView: function() {

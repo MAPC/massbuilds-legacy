@@ -1,64 +1,63 @@
 <div id="data">
   <div class="ui horizontal divider">Development Team</div>
 </div>
-<table class="ui very basic celled table">
-  <tbody>
-    {{#each this.groupedResults}}
-      <tr>
-        <td>
-          {{role}}
-        </td>
-        <td>
-          <div class="ui items">
-            {{#each contents as |content|}}
-              <h5 class="ui header">
-                <img class="ui mini rounded image" src="{{content.organization.logo}}"/>
-                <div class="content">
-                  {{content.organization.name}} <p {{action "removeMembership" content}}>(Remove Member)</p> {{content.teamMembership}}
-
-                  <div class="sub header">
-                    {{#if content.isDirty}}
-                      This has been flagged for deletion
-                    {{/if}}
-                    {{content.organization.location}}
+<div class="ui segment">
+  <table class="ui very basic celled table">
+    <tbody>
+      {{#each this.groupedResults}}
+        <tr>
+          <td>
+            {{role}}
+          </td>
+          <td>
+            <div class="ui middle aligned list">
+              {{#each contents as |content|}}
+                <div class="item">
+                  <div class="right floated content">
+                    <button {{action "removeMembership" content}} class="ui mini basic icon button">
+                      <i class="delete icon"></i>
+                    </button>
+                  </div>
+                  <img class="ui mini rounded avatar image" src="{{content.organization.logo}}"/>
+                  <div class="content">
+                    <a href="/organizations/{{content.organization.id}}">{{content.organization.short_name}}</a>
                   </div>
                 </div>
-              </h5>
-            {{/each}}
-          </div>
-        </td>
-      </tr>
-    {{/each}}
-  </tbody>
-  <tfoot>
-    <tr><th colspan="2">
-      <div class="ui horizontal divider">Add Team member</div>
-      <div class="ui form">
-        <div class="three fields">
-          <div class="field">
-            <label>Role</label>
-            <select class="ui dropdown" onChange={{action (mut role) value="target.value"}}>
-              <option value="" selected="true">Select below</option>
-              {{#each roles key="@index" as |roleChoice|}}
-                <option value="{{roleChoice.name}}" selected={{eq role roleChoice.name}}>{{roleChoice.name}}</option>
               {{/each}}
-            </select>
+            </div>
+          </td>
+        </tr>
+      {{/each}}
+    </tbody>
+    <tfoot>
+      <tr><th colspan="2">
+        <div class="ui horizontal divider">Add Team member</div>
+        <div class="ui form">
+          <div class="fields">
+            <div class="five wide field">
+              <label>Role</label>
+              <select class="ui dropdown" onChange={{action (mut role) value="target.value"}}>
+                <option value="" selected="true">Select below</option>
+                {{#each roles key="@index" as |roleChoice|}}
+                  <option value="{{roleChoice.name}}" selected={{eq role roleChoice.name}}>{{roleChoice.name}}</option>
+                {{/each}}
+              </select>
+            </div>
+            <div class="eleven wide field">
+              <label>Organization</label>                
+              <select class="ui dropdown" onChange={{action (mut organization) value="target.value"}}>
+                <option value="" selected="true">Select below</option>
+                {{#each organizations key="@index" as |organizationChoice|}}
+                  <option value="{{organizationChoice.id}}" selected={{eq organization organizationChoice.name}}>{{organizationChoice.name}}</option>
+                {{/each}}
+              </select>
+            </div>
           </div>
           <div class="field">
-            <label>Organization</label>                
-            <select class="ui dropdown" onChange={{action (mut organization) value="target.value"}}>
-              <option value="" selected="true">Select below</option>
-              {{#each organizations key="@index" as |organizationChoice|}}
-                <option value="{{organizationChoice}}" selected={{eq organization organizationChoice}}>{{organizationChoice.name}}</option>
-              {{/each}}
-              <option value="{{organizations.firstObject}}" selected={{eq organization organizationChoice}}>{{organizations.firstObject.name}}</option>
-            </select>
-          </div>
-          <div class="field">
-            <div class="ui submit button" {{action "saveNewTeamMember"}}>Add Member</div>
+            <div class="ui fluid submit button" {{action "saveNewTeamMember"}}>Add Member</div>
           </div>
         </div>
-      </div>
-    </th></tr>
-  </tfoot>
-</table>
+      </th></tr>
+    </tfoot>
+  </table>
+</div>
