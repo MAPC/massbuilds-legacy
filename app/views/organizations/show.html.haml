@@ -19,9 +19,13 @@
     .three.column.row
       .two.wide.column
         .ui.fluid.card
-          %a.image{ href: 'https://en.gravatar.com/site/login',
-            target: '_blank' }
-            %img{ src: @organization.gravatar_url }
+          - if current_user.member_of? @organization
+            -# TODO: Partial me
+            %a.image{ href: 'https://en.gravatar.com/site/login', target: '_blank' }
+              %img{ src: @organization.gravatar_url }
+          - else
+            .image
+              %img{ src: @organization.gravatar_url }
 
       .ten.wide.column
         %h1#name
@@ -29,16 +33,16 @@
         #organization
           #stats
             %span#location
-              - if @organization.location
+              - if @organization.location.present?
                 %i.marker.icon
                 = @organization.location
             %span#website
-              - if @organization.website
+              - if @organization.website.present?
                 %i.linkify.icon
                 = link_to @organization.website
             %span#email
-              - if @organization.email
-                %i.mail.icon
+              - if @organization.email.present?
+                %i.mail.outline.icon
                 = link_to @organization.email
 
       .four.wide.column
@@ -65,6 +69,14 @@
 
     .ui.bottom.attached.tab.segment.active{ data: { tab: 'developments' } }
       .ui.divided.items
+        - if @organization.developments.empty?
+          %p
+            This organization has no developments yet.
+          %p
+            - if current_user.member_of? @organization
+              = link_to new_development_path do
+                %button.ui.green.button
+                  Add a development.
         = render partial: 'developments/related',
           collection: DevelopmentPresenter.wrap(@organization.developments),
           as: :development
