@@ -6,8 +6,13 @@ module API
 
       def update
         development = Development.find(params[:id])
-        persist! development if development.present? # WARN: NilCheck
-        render nothing: true, status: :ok
+        if development.present? # WARN: NilCheck
+          persist! development
+          # Serialize object like a GET request, according to spec
+          render json: JSONAPI::ResourceSerializer.new(DevelopmentResource).
+            serialize_to_hash(DevelopmentResource.new(development, nil)),
+            content_type: JSONAPI::MEDIA_TYPE
+        end
       end
 
       private
