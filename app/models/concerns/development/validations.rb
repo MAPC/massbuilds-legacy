@@ -12,7 +12,7 @@ class Development
 
       validates :tagline,
                 allow_blank: true,
-                length: { minimum: 40,  maximum: 140 }
+                length: { minimum: 11,  maximum: 140 }
 
       validates :description,
                 allow_blank: true,

@@ -19,4 +19,7 @@
 .ui.label.large.basic
   %i.green.money.icon
   Total Cost:
-  = number_to_currency @development.total_cost, precision: 0
+  - if @development.total_cost
+    = number_to_currency @development.total_cost, precision: 0
+  - else
+    unknown

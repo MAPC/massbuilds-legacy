@@ -1,16 +1,16 @@
 .row
   .column
-    .ui.labeled.button{ tabindex: '0' }
-      %button.ui.button#watch
-        %i.unhide.icon
-        Watch
-      %a.ui.basic.left.pointing.label#watchers
-        #{@development.subscribers.count}
+    -# .ui.labeled.button{ tabindex: '0' }
+    -#   %button.ui.button#watch
+    -#     %i.unhide.icon
+    -#     Watch
+    -#   %a.ui.basic.left.pointing.label#watchers
+    -#     #{@development.subscribers.count}
 
     -# Consider making this a partial, passing the path, icon, and text
     -# TODO: Can edit if ... ?
     = link_to edit_development_path(@development) do
-      .ui.vertical.animated.button{ tabindex: '1' }
+      .ui.green.vertical.animated.button{ tabindex: '1' }
         .visible.content
           %i.pencil.icon
         .hidden.content
@@ -25,12 +25,12 @@
           Flag
 
     -# TODO: Can claim if you belong to at least one organization.
-    = link_to new_development_claim_path(@development) do
-      .ui.vertical.animated.button{ tabindex: '3' }
-        .visible.content
-          %i.university.icon
-        .hidden.content
-          Claim
+    -# = link_to new_development_claim_path(@development) do
+    -#   .ui.vertical.animated.button{ tabindex: '3' }
+    -#     .visible.content
+    -#       %i.university.icon
+    -#     .hidden.content
+    -#       Claim
 
 .row
   .column
@@ -46,7 +46,9 @@
         %a.ui.basic.left.pointing.label{ class: color }
           - if @development.pending_edits.any?
             = @development.pending_edits_count
-            = 'edits'.pluralize @development.pending_edits_count
+            = 'changes'.pluralize @development.pending_edits_count
+          - else
+            No Pending Changes
           - if @development.pending_edits.any?
             = ', '
             = @development.pending_flags.count
