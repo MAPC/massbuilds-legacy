@@ -32,7 +32,23 @@ class User < ActiveRecord::Base
   end
 
   def member_of?(organization)
-    self.organizations.where(id: organization.id).any?
+    memberships.active.where(organization_id: organization.id).any?
+  end
+
+  def moderator_for?(dev)
+    member_of_development_team?(dev) || member_of_municipal_org?(dev)
+  end
+
+  # Is the user a member of an organization which is on the development team
+  # for this development?
+  def member_of_development_team?(development)
+    (organizations & development.team_members).any?
+  end
+
+  # Is the user a member of a municipal organization whose municipality
+  # contains this development?
+  def member_of_municipal_org?(development)
+    organizations.municipal_in(development.municipality).any?
   end
 
   def subscribe(subscribable)

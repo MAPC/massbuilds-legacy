@@ -1,7 +1,11 @@
 class EditsController < ApplicationController
 
+  before_action :authenticate_user!
   before_action :load_parent, only: [:pending]
+  before_action :assert_moderator
+
   before_action :load_unmoderated_record, only: [:approve, :decline]
+
 
   def pending
   end
@@ -16,6 +20,13 @@ class EditsController < ApplicationController
   end
 
   private
+
+  def assert_moderator
+    unless devise_current_user.moderator_for? @development
+      flash[:error] = "You are not a moderator for #{@development.name}."
+      redirect_to @development
+    end
+  end
 
   def moderate(moderator_class, object, partial_ref)
     if moderator_class.new(object).perform!
@@ -62,4 +73,5 @@ class EditsController < ApplicationController
   def claim_not_acted_upon
     error_partial 'As a result, the edit you were trying to resolve may not be resolved.'
   end
+
 end
