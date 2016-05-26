@@ -1,7 +1,7 @@
 .ui.horizontal.divider
 .ui.small.feed
   %h4.ui.header Recent Changes
-  - if @development.recent_history.empty? && signed_in?
+  - if @development.recent_history.empty?
     .event
       .content
         There is no activity to show.
