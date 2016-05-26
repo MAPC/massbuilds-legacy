@@ -16,6 +16,10 @@ class Search < ActiveRecord::Base
     where saved: true
   end
 
+  def query
+    read_attribute(:query).reject { |_k, v| v.nil? }
+  end
+
   alias_method :developments, :results
   alias_attribute :name, :title
 

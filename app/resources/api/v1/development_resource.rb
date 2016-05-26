@@ -13,10 +13,9 @@ module API
                  :cluster_or_open_space_development, :phased, :stalled,
                  :cancelled, :private,
 
-                 # add place ID, remove neighborhood/city from updatable attrs
+                 :address, :neighborhood, :city, :state, :zip_code,
+                 :full_address, :location, :latitude, :longitude, :place_id,
 
-                 :address, :city, :state, :zip_code,
-                 :full_address, :location, :latitude, :longitude,
 
                  :height, :stories, :prjarea, :total_cost,
 
@@ -47,7 +46,8 @@ module API
         :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst, :fa_other, :fa_hotel
 
       boolean_filters :rdv, :asofright, :ovr55, :clusteros, :phased,
-        :stalled, :cancelled, :hidden
+        :stalled, :cancelled, :hidden, :redevelopment, :age_restricted, 
+        :private, :as_of_right, :cluster_os
 
       filter :status
 

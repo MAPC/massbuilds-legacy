@@ -10,10 +10,10 @@
     {{#each development in model}}
     <tr {{action "mouseover" development on='mouseEnter'}}>
       <td><a href="{{development.id}}">{{development.name}}</a></td>
-      <td>{{development.year}}</td>
+      <td>{{development.year_compl}}</td>
       <td>{{development.tothu}}</td>
       <td>{{development.commsf}}</td>
-      <td>{{development.municipality}}</td>
+      <td>{{development.city}}</td>
     </tr>
     {{/each}}
   </tbody>
