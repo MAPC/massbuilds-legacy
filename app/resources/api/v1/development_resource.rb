@@ -14,7 +14,7 @@ module API
                  :cancelled, :private,
 
                  :address, :neighborhood, :city, :state, :zip_code,
-                 :full_address, :location, :latitude, :longitude,
+                 :full_address, :location, :latitude, :longitude, :place_id,
 
                  :height, :stories, :prjarea, :total_cost,
 
@@ -43,7 +43,8 @@ module API
         :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst, :fa_other, :fa_hotel
 
       boolean_filters :rdv, :asofright, :ovr55, :clusteros, :phased,
-        :stalled, :cancelled, :hidden
+        :stalled, :cancelled, :hidden, :redevelopment, :age_restricted, 
+        :private, :as_of_right, :cluster_os
 
       filter :status
 
