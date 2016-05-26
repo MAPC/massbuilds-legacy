@@ -5,7 +5,7 @@
   .sub.header
     Units by use type
 
-- if @development.housing_attributes.empty?
+- if @development.housing_attributes.empty? && signed_in?
   = link_to edit_development_path(@development) do
     %button.ui.green.button
       Contribute information

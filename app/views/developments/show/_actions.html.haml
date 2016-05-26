@@ -8,21 +8,22 @@
     -#     #{@development.subscribers.count}
 
     -# Consider making this a partial, passing the path, icon, and text
-    -# TODO: Can edit if ... ?
-    = link_to edit_development_path(@development) do
-      .ui.green.vertical.animated.button{ tabindex: '1' }
-        .visible.content
-          %i.pencil.icon
-        .hidden.content
-          Edit
+    - if signed_in?
+      -# TODO: Can edit if ... ? 
+      = link_to edit_development_path(@development) do
+        .ui.green.vertical.animated.button{ tabindex: '1' }
+          .visible.content
+            %i.pencil.icon
+          .hidden.content
+            Edit
 
-    -# TODO: Can flag if you are signed in.
-    = link_to new_development_flag_path(@development) do
-      .ui.vertical.animated.button{ tabindex: '2' }
-        .visible.content
-          %i.flag.icon
-        .hidden.content
-          Flag
+      -# TODO: Can flag if you are signed in.
+      = link_to new_development_flag_path(@development) do
+        .ui.vertical.animated.button{ tabindex: '2' }
+          .visible.content
+            %i.flag.icon
+          .hidden.content
+            Flag
 
     -# TODO: Can claim if you belong to at least one organization.
     -# = link_to new_development_claim_path(@development) do
