@@ -36,21 +36,22 @@
 .row
   .column
     %br
-    - disabled = "disabled" if @development.disable_moderation?
-    - color = @development.disable_moderation? ? "" : "green"
+    - if current_user.moderator_for? @development
+      - disabled = "disabled" if @development.disable_moderation?
+      - color = @development.disable_moderation? ? "" : "green"
 
-    = link_to pending_development_edits_path(@development) do
-      .ui.labeled.button{ class: disabled }
-        .ui.button{ class: color }
-          %i.filter.icon
-          Moderate
-        %a.ui.basic.left.pointing.label{ class: color }
-          - if @development.pending_edits.any?
-            = @development.pending_edits_count
-            = 'changes'.pluralize @development.pending_edits_count
-          - else
-            No Pending Changes
-          - if @development.pending_edits.any?
-            = ', '
-            = @development.pending_flags.count
-            = 'flag'.pluralize @development.pending_flags.count
+      = link_to pending_development_edits_path(@development) do
+        .ui.labeled.button{ class: disabled }
+          .ui.button{ class: color }
+            %i.filter.icon
+            Moderate
+          %a.ui.basic.left.pointing.label{ class: color }
+            - if @development.pending_edits.any?
+              = @development.pending_edits_count
+              = 'changes'.pluralize @development.pending_edits_count
+            - else
+              No Pending Changes
+            - if @development.pending_edits.any?
+              = ', '
+              = @development.pending_flags.count
+              = 'flag'.pluralize @development.pending_flags.count

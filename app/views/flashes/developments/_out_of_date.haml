@@ -2,7 +2,7 @@
   %i.close.icon
   .header
     %i.warning.sign.icon
-    The data on this page may be out of date.
+    Help keep this page up to date!
   .p
     Do you know what's happened with this development since
     = succeed '?' do
@@ -10,5 +10,5 @@
 
     If so, please
     = succeed '.' do
-      = link_to 'update this record', edit_development_path(@development)
+      = link_to 'contribute data', edit_development_path(@development)
 

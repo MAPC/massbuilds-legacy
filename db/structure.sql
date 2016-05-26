@@ -523,7 +523,8 @@ CREATE TABLE organizations (
     hashed_email character varying,
     municipal boolean,
     phone character varying(20),
-    address character varying
+    address character varying,
+    place_id integer
 );
 
 
@@ -1261,6 +1262,13 @@ CREATE INDEX index_organizations_on_creator_id ON organizations USING btree (cre
 
 
 --
+-- Name: index_organizations_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_organizations_on_place_id ON organizations USING btree (place_id);
+
+
+--
 -- Name: index_places_on_place_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -1401,6 +1409,14 @@ ALTER TABLE ONLY memberships
 
 ALTER TABLE ONLY field_edits
     ADD CONSTRAINT fk_rails_9dafeeb28b FOREIGN KEY (edit_id) REFERENCES edits(id);
+
+
+--
+-- Name: fk_rails_9dc9c035a3; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY organizations
+    ADD CONSTRAINT fk_rails_9dc9c035a3 FOREIGN KEY (place_id) REFERENCES places(id);
 
 
 --
@@ -1582,4 +1598,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160523213744');
 INSERT INTO schema_migrations (version) VALUES ('20160524185517');
 
 INSERT INTO schema_migrations (version) VALUES ('20160525192137');
+
+INSERT INTO schema_migrations (version) VALUES ('20160526150247');
 
