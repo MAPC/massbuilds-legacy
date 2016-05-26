@@ -1,7 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  queryParams: ["year_compl", "tothu", "commsf","redevelopment", 
+  queryParams: ["year_compl", "tothu", "commsf", 
                 "status", "asofright", "age_restricted", "clusteros", 
                 "phased", "cancelled", "private", "number", "size"],
 

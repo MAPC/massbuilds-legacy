@@ -27,8 +27,6 @@ export default Ember.Route.extend({
     queryObject.page["number"] = params["number"]
     queryObject.page["size"] = params["size"]
 
-
-
     return this.store.find("development", queryObject);
   },
   actions: {
@@ -37,7 +35,6 @@ export default Ember.Route.extend({
     },
     reset() {
       this.resetController();
-      
     }
   },
   setupController(controller, model, transition) {
