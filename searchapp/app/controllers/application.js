@@ -19,6 +19,10 @@ export default Ember.Controller.extend({
             search.destroyRecord();
           }
         }).modal("show")
+    },
+    downloadSearchModal(search) {
+      $('.ui.modal.download-search-' + search.get("id"))
+        .modal("show")
     }
 	},
   searches: function() {
