@@ -6,8 +6,8 @@ class Development
       belongs_to :creator, class_name: :User
       belongs_to :place
 
-      has_many :edits
-      has_many :flags
+      has_many :edits, dependent: :destroy
+      has_many :flags, dependent: :destroy
       has_many :crosswalks
 
       has_many :team_memberships,
