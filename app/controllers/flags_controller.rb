@@ -1,6 +1,7 @@
 class FlagsController < ApplicationController
   before_action :authenticate_user!, only: [:new, :create]
   before_action :load_parent, only: [:new, :create, :close]
+  before_action :assert_moderator, only: [:close]
 
   def new
     @flag = Flag.new(development: @development)
@@ -35,6 +36,13 @@ class FlagsController < ApplicationController
 
   def new_flag_params
     params.require(:flag).permit(:reason)
+  end
+
+  def assert_moderator
+    unless devise_current_user.moderator_for? @development
+      flash[:error] = "You are not a moderator for #{@development.name}."
+      redirect_to @development
+    end
   end
 
   FLAG_CREATED = "Thanks for letting us know! We received your flag
