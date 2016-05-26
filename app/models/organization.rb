@@ -15,6 +15,10 @@ class Organization < ActiveRecord::Base
   has_many :developments, through: :development_team_memberships
   belongs_to :creator, class_name: :User
 
+  # Must have a place (Municipality) if it is a municipal organization
+  belongs_to :place, -> { where type: 'Municipality' }
+  validates  :place, presence: true, if: 'municipal?'
+
   validates :name,       presence: true
   # validates :website,    presence: true
   validates :short_name, presence: true
@@ -26,6 +30,14 @@ class Organization < ActiveRecord::Base
   # TODO: validates :existence_of_website
 
   alias_attribute :admin, :creator
+
+  def self.municipal
+    where municipal: true
+  end
+
+  def self.municipal_in(place)
+    municipal.where(place_id: place.municipality.id)
+  end
 
   def active_members
     memberships.active.map(&:user).uniq
@@ -77,7 +89,7 @@ class Organization < ActiveRecord::Base
   end
 
   def create_membership
-    Membership.create(organization: self, user: creator)
+    Membership.create(organization: self, user: creator, state: :active)
   end
 
 end
