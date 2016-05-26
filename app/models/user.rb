@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   end
 
   def member_of?(organization)
-    self.organizations.where(id: organization.id).any?
+    memberships.active.where(organization_id: organization.id).any?
   end
 
   def subscribe(subscribable)

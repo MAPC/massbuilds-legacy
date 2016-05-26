@@ -46,7 +46,7 @@
                 = link_to @organization.email
 
       .four.wide.column
-        - unless current_user.member_of? @organization
+        - if not (current_user.member_of? @organization) and signed_in?
           = link_to join_organization_path(@organization), method: :post do
             %button.ui.right.floated.green.button
               %i.users.icon
