@@ -1,7 +1,10 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  queryParams: ["year_compl", "tothu", "commsf","rdv", "status"],
+  queryParams: ["year_compl", "tothu", "commsf","redevelopment", 
+                "status", "asofright", "age_restricted", "clusteros", 
+                "phased", "cancelled", "private"],
+
   itemActions: ["Complete", "Construction", "Projected", "Planned"],
   year_compl: null,
   tothu: null,
@@ -9,7 +12,13 @@ export default Ember.Controller.extend({
   name: null,
   address: null,
   municipality: null,
-  rdv: null,
+  redevelopment: null,
+  asofright: null,
+  age_restricted: null,
+  clusteros: null,
+  phased: null,
+  cancelled: null,
+  "private": null,
   saved: null,
   status: null,
   rangedProperties: [
