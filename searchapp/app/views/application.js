@@ -1,6 +1,6 @@
-import Ember from 'ember';
+// import Ember from 'ember';
 
-export default Ember.Component.extend({
-  classNames: ['pusher'],
-  tagName: ''
-});
+// export default Ember.Component.extend({
+//   classNames: ['pusher'],
+//   tagName: ''
+// });

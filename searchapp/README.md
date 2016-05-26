@@ -1,9 +1,53 @@
-# Development Database Search
+# Searchapp
 
-## Overview
+This README outlines the details of collaborating on this Ember application.
+A short introduction of this app could easily go here.
 
-This is the main repository for one of the Development Database's key features: development search. This feature is built with ember-cli and is structured as an embeddable app, meaning it will bind to a given element nested inside a larger Ruby on Rails structure.
+## Prerequisites
 
-## Development
+You will need the following things properly installed on your computer.
 
-Run `ember install` then `ember serve`. The project is set up with a mock API server at localhost:4200/api. To compile the final product, run `ember build`. This builds a JavaScript file inside the /dist folder. 
+* [Git](http://git-scm.com/)
+* [Node.js](http://nodejs.org/) (with NPM)
+* [Bower](http://bower.io/)
+* [Ember CLI](http://www.ember-cli.com/)
+* [PhantomJS](http://phantomjs.org/)
+
+## Installation
+
+* `git clone <repository-url>` this repository
+* change into the new directory
+* `npm install`
+* `bower install`
+
+## Running / Development
+
+* `ember server`
+* Visit your app at [http://localhost:4200](http://localhost:4200).
+
+### Code Generators
+
+Make use of the many generators for code, try `ember help generate` for more details
+
+### Running Tests
+
+* `ember test`
+* `ember test --server`
+
+### Building
+
+* `ember build` (development)
+* `ember build --environment production` (production)
+
+### Deploying
+
+Specify what it takes to deploy your app.
+
+## Further Reading / Useful Links
+
+* [ember.js](http://emberjs.com/)
+* [ember-cli](http://www.ember-cli.com/)
+* Development Browser Extensions
+  * [ember inspector for chrome](https://chrome.google.com/webstore/detail/ember-inspector/bmdblncegkenkacieihfhpjfppoconhi)
+  * [ember inspector for firefox](https://addons.mozilla.org/en-US/firefox/addon/ember-inspector/)
+
