@@ -12,6 +12,7 @@ export default Ember.Controller.extend({
       { name: "designer", id: 7 }];
   }.property(),
   role: null,
+  // errors: [],
   actions: {
     // Google Place AutoFill
     placeChanged(response) {
@@ -48,8 +49,10 @@ export default Ember.Controller.extend({
 
     },
     save(model) {
-      model.save()
-      this.transitionToRoute('developments.edit', model);
+      model.save().then((model) => {
+        // this.transitionToRoute('developments', model);  
+        window.location.replace(model.get("id"));
+      });
     },
     toggleLabels(context) {
       console.log(context);
@@ -113,7 +116,7 @@ export default Ember.Controller.extend({
 
   resetRefinements: function() {
     var model = this.get("model");
-    model.set("refinedLat", model.get("latitude"));
-    model.set("refinedLng", model.get("longitude"));
+    model.set("street_view_latitude", model.get("latitude"));
+    model.set("street_view_longitude", model.get("longitude"));
   }.observes("this.model.location")
 });

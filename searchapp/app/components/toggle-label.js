@@ -4,18 +4,16 @@ export default Ember.Component.extend({
   classNames: ['ui label'],
   classNameBindings: ['blue'],
   tagName: 'a',
-  blue: function() {
-    return this.get("field")
-  }.property("field"),
-  toggle: function() {
-    if(this.get("field")) {
-      this.set("field", false);
-    } else {
-      this.set("field", true);
-    }
-  },
+  internal: Ember.computed('field', function() {
+    return !!this.get('field');
+  }),
+  blue: Ember.computed('internal', function() {
+    return !!this.get('internal');
+  }),
   click: function() {
-    console.log("clicked");
-    this.toggle();
+    this.toggleProperty("field");
+  },
+  didInsertElement: function() {
+    console.log(this.get("blue"));
   }
 });

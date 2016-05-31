@@ -2,7 +2,7 @@
   .row#flash
     .sixteen.wide.column
       - flash.each do |key, value|
-        - if flash[:partial]
+        - if key == 'partial'
           - path = value.with_indifferent_access[:path]
           = render partial: "flashes/#{path}",
               locals: { key: key, object: value['object'] }
