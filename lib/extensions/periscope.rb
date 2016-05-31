@@ -4,7 +4,7 @@ module Periscope
   # that will accept either a range of numeric values or a single numeric value.
   def ranged_scopes(*scope_names)
     scope_names.map(&:to_sym).each do |name|
-      scope(name, range_or_value_scope(name))
+      scope name, range_or_value_scope(name)
     end
     scope_accessible(*scope_names, parser: periscope_range_parser)
   end
@@ -14,7 +14,7 @@ module Periscope
   # to true.
   def boolean_scopes(*scope_names)
     scope_names.map(&:to_sym).each do |name|
-      scope(name, _boolean_scope(name))
+      scope name, _boolean_scope(name)
     end
     scope_accessible(*scope_names)
   end
@@ -41,8 +41,8 @@ module Periscope
   #   with it, but this is a good first pass.
   def _boolean_scope(name)
     Proc.new do |*bools|
-      if %( false nil ).include?(bools.first.to_s)
-        where.not(name => true)
+      if [false, nil].include? bools.first.to_b
+        where(name => [false, nil])
       else
         where(name => true)
       end
