@@ -6,5 +6,6 @@
 %p.tagline
   = @development.tagline
   - if @development.website
-    %i.icon.linkify
-    = link_to @development.website, @development.website, target: '_blank'
+    = link_to @development.website, target: '_blank' do
+      %i.icon.linkify
+      = @development.website
