@@ -83,10 +83,6 @@ class DevelopmentPresenter < Burgundy::Item
     pending_edits.empty?
   end
 
-  def street_view(*args)
-    "data:image/jpg;base64,#{Base64.encode64(item.street_view.image)}"
-  end
-
   def physical_attributes
     category_attributes :physical
   end

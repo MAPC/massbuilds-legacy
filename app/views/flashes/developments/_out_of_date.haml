@@ -2,13 +2,13 @@
   %i.close.icon
   .header
     %i.warning.sign.icon
-    The data on this page may be out of date.
+    Help keep this page up to date!
   .p
-    If you can, please
-    = succeed ',' do
-      = link_to edit_development_path(@development) do
-        update this development
-    which was last updated on
+    Do you know what's happened with this development since
+    = succeed '?' do
+      = @development.last_updated
+
+    If so, please
     = succeed '.' do
-      = @development.history.first.applied_at.to_s(:subject)
-    = link_to 'Update.', edit_development_path(@development)
+      = link_to 'contribute data', edit_development_path(@development)
+

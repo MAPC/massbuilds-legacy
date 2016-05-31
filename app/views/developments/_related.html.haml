@@ -1,6 +1,7 @@
 = link_to development, class: 'development item' do
-  .ui.tiny.image
-    %img{ src: development.street_view(:tiny) }
+  - unless development.street_view.null?
+    .ui.tiny.image
+      %img{ src: development.street_view.data }
   .middle.aligned.content
     .header= development.name
     .meta
