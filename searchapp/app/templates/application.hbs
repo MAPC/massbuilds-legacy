@@ -12,10 +12,33 @@
         <div class="right floated content">
           <i {{action 'deleteSearch' search}} class="icon trash"></i>
         </div>
+        <div class="right floated content">
+          <i {{action 'downloadSearchModal' search}} class="icon download"></i>
+        </div>
         <div {{action 'transitionToSaved' search}} class="content">
           {{search.title}}
         </div>
       </div>
+      {{#ui-modal class=""}}
+        <div class="ui modal download-search-{{search.id}}">
+          <div class="header">
+            Select format:
+          </div>
+          <div class="actions">
+            <a href="/searches/{{search.id}}.csv" download class="ui positive approve red ok right labeled icon button">
+              CSV
+              <i class="file excel outline icon"></i>
+            </a>
+            <a href="/searches/{{search.id}}.pdf" download class="ui positive approve red ok right labeled icon button">
+              PDF
+              <i class="file pdf outline  icon"></i>
+            </a>
+            <div class="ui black deny button">
+              Cancel
+            </div>
+          </div>
+        </div>
+      {{/ui-modal}}
     {{/each}}
   </div>
 {{/ui-sidebar}}
@@ -36,4 +59,5 @@
     </div>
   </div>
 {{/ui-modal}}
+
 {{partial "save-search"}}

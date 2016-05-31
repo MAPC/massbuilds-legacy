@@ -2,17 +2,17 @@
   <div class="ui horizontal divider">General</div>
 </div>
 <div class="ui form">
-  <div class="field huge fluid input">
+  <div class="required field huge fluid input">
     <label>Project Name</label>
     {{input value=model.name class="huge" placeholder="Descriptive name for development project"}}
   </div>
 
-  <div class="field fluid huge input">
+  <div class="required field fluid huge input">
     <label>Tagline</label>
     {{input value=model.tagline class="huge" placeholder="Project tagline"}}
   </div>
 
-  <div class="field">
+  <div class="required field">
     <label>Description</label>
     {{textarea value=model.description cols="80" rows="10" placeholder="e.g. 'Transit-oriented affordable housing complex with ground-floor retail and restaurant spaces.'"}}
   </div>
@@ -58,5 +58,9 @@
         </div>
       </div>
     </div>
+  </div>
+  <div class="required field fluid huge input">
+    <label>Year Completed (YYYY)</label>
+    {{input value=model.year_compl class="huge" placeholder="Project tagline"}}
   </div>
 </div>

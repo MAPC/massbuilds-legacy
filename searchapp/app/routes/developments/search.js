@@ -5,7 +5,9 @@ export default Ember.Route.extend({
   model(params) {
     this.set("storedParams", params);
     var queryObject = { filter: {} };
-    var filters = ["year_compl","tothu","commsf","name","address","municipality","rdv","saved","status"];
+    var filters = ["year_compl","tothu","commsf","name","address","municipality","redevelopment", 
+                  "status", "asofright", "age_restricted", "clusteros", 
+                  "phased", "cancelled", "private","saved","status"];
 
     filters.forEach(function(property){
       if(params[property] !== null) {
@@ -21,7 +23,7 @@ export default Ember.Route.extend({
     },
     reset() {
       this.resetController();
-      this.refresh();
+      
     }
   },
   setupController(controller, model, transition) {

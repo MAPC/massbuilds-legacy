@@ -13,10 +13,8 @@ module API
                  :cluster_or_open_space_development, :phased, :stalled,
                  :cancelled, :private,
 
-                 # add place ID, remove neighborhood/city from updatable attrs
-
-                 :address, :city, :state, :zip_code,
-                 :full_address, :location, :latitude, :longitude,
+                 :address, :neighborhood, :city, :state, :zip_code,
+                 :full_address, :location, :latitude, :longitude, :place_id,
 
                  :height, :stories, :prjarea, :total_cost,
 
@@ -47,16 +45,17 @@ module API
         :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst, :fa_other, :fa_hotel
 
       boolean_filters :rdv, :asofright, :ovr55, :clusteros, :phased,
-        :stalled, :cancelled, :hidden
+        :stalled, :cancelled, :hidden, :redevelopment, :age_restricted,
+        :private, :as_of_right, :cluster_os
 
       filter :status
 
       def self.creatable_fields(context)
-        super - [:mixed_use, :walkscore]
+        super - [:mixed_use, :walkscore, :neighborhood, :city, :full_address]
       end
 
       def self.updatable_fields(context)
-        super - [:mixed_use, :walkscore]
+        super - [:mixed_use, :walkscore, :neighborhood, :city, :full_address]
       end
 
       def city
