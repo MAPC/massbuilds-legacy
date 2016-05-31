@@ -35,3 +35,10 @@
     </div>
   </div>
 </div>
+
+Errors: 
+{{#each model.errors as |error|}}
+  <div class="error">
+    {{error.message}}
+  </div>
+{{/each}}

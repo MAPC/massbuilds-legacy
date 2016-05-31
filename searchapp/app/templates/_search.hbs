@@ -41,10 +41,16 @@
   </div>
   <div class="ui divider"></div>
 
-  <div class="field">
-    <div class="ui slider checkbox">
-      <label>Redevelopment</label>
-      {{input type="checkbox" checked=rdv}}
+  <div class="ui segment">
+    <div class="ui top attached label">Project Tags - Click to Select</div>
+    <div class="ui tag labels">
+      {{toggle-label field=this.redevelopment label="Redevelopment"}}
+      {{toggle-label field=this.asofright label="As-of-Right"}}
+      {{toggle-label field=this.age_restricted label="Age Restricted"}}
+      {{toggle-label field=this.clusteros label="Cluster / Open Space"}}
+      {{toggle-label field=this.phased label="Phased"}}
+      {{toggle-label field=this.cancelled label="Cancelled"}}
+      {{toggle-label field=this.private label="Private"}}
     </div>
   </div>
 
