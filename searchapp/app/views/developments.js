@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.View.extend({
   didInsertHtml: function() {
-    $('.ui.radio.checkbox')
+    $('.ui.slider.checkbox')
       .checkbox()
     ;
   }
