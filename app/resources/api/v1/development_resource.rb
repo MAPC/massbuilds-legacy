@@ -16,7 +16,6 @@ module API
                  :address, :neighborhood, :city, :state, :zip_code,
                  :full_address, :location, :latitude, :longitude, :place_id,
 
-
                  :height, :stories, :prjarea, :total_cost,
 
                  :singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop,
@@ -46,17 +45,17 @@ module API
         :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst, :fa_other, :fa_hotel
 
       boolean_filters :rdv, :asofright, :ovr55, :clusteros, :phased,
-        :stalled, :cancelled, :hidden, :redevelopment, :age_restricted, 
+        :stalled, :cancelled, :hidden, :redevelopment, :age_restricted,
         :private, :as_of_right, :cluster_os
 
       filter :status
 
       def self.creatable_fields(context)
-        super - [:mixed_use, :walkscore]
+        super - [:mixed_use, :walkscore, :neighborhood, :city, :full_address]
       end
 
       def self.updatable_fields(context)
-        super - [:mixed_use, :walkscore]
+        super - [:mixed_use, :walkscore, :neighborhood, :city, :full_address]
       end
 
       def city
