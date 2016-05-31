@@ -29,6 +29,8 @@ module API
                  :street_view_heading,
                  :street_view_pitch
 
+      has_one :place
+
       before_save do
         @model.creator_id = context[:current_user].id if @model.new_record?
       end
@@ -43,17 +45,17 @@ module API
         :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst, :fa_other, :fa_hotel
 
       boolean_filters :rdv, :asofright, :ovr55, :clusteros, :phased,
-        :stalled, :cancelled, :hidden, :redevelopment, :age_restricted, 
+        :stalled, :cancelled, :hidden, :redevelopment, :age_restricted,
         :private, :as_of_right, :cluster_os
 
       filter :status
 
       def self.creatable_fields(context)
-        super - [:mixed_use, :walkscore]
+        super - [:mixed_use, :walkscore, :neighborhood, :city, :full_address]
       end
 
       def self.updatable_fields(context)
-        super - [:mixed_use, :walkscore]
+        super - [:mixed_use, :walkscore, :neighborhood, :city, :full_address]
       end
 
       def city

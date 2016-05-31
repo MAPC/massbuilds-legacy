@@ -23,6 +23,10 @@ class Search < ActiveRecord::Base
   alias_method :developments, :results
   alias_attribute :name, :title
 
+  def query
+    read_attribute(:query).reject { |_k, v| v.nil? }
+  end
+
   def unsaved?
     !saved?
   end
