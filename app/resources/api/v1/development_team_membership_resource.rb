@@ -5,6 +5,8 @@ module API
 
       has_one :development
       has_one :organization
+
+      paginator :none
     end
   end
 end
