@@ -13,7 +13,7 @@ module API
                  :cluster_or_open_space_development, :phased, :stalled,
                  :cancelled, :private,
 
-                 :address, :neighborhood, :city, :state, :zip_code,
+                 :address, :city, :state, :zip_code,
                  :full_address, :location, :latitude, :longitude, :place_id,
 
                  :height, :stories, :prjarea, :total_cost,
