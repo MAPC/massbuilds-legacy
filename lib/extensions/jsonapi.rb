@@ -13,7 +13,11 @@ module JSONAPI
       def boolean_filters(*filter_attributes)
         Array(filter_attributes).flatten.each { |attribute|
           filter(attribute, apply: ->(records, value, options) {
-            records.where(attribute => value)
+            if [false, nil].include? value.first.to_b
+              records.where(attribute => [false, nil])
+            else
+              records.where(attribute => true)
+            end
           })
         }
       end
