@@ -39,6 +39,20 @@
 
     .ten.wide.column
 
+      - if current_user == @user.item && @user.active_memberships.empty? && @user.pending_memberships.empty?
+
+        .ui.raised.very.padded.text.container.segment
+          %p
+            You aren't an active member of any
+            = succeed '.' do
+              = link_to 'organizations', organizations_path
+
+          %p
+            = link_to organizations_path, class: 'ui basic compact green button' do
+              %i.users.icon
+              Browse organizations
+            to find real estate development companies, municipal planning organizations, and other teams you belong to.
+
       - if @user.active_memberships.any?
 
         %h3 Member of
@@ -46,8 +60,15 @@
           = render @user.active_memberships
 
       -# TODO: [Code Smell] NilCheck
-      - if current_user == @user.item && @user.pending_memberships.any?
+      - if current_user == @user.item
+        - if @user.pending_memberships.any?
 
-        %h3 Pending Requests
-        .ui.middle.aligned.relaxed.selection.list
-          = render @user.pending_memberships
+          %h3 Pending Membership Requests
+          .ui.middle.aligned.relaxed.selection.list
+            = render @user.pending_memberships
+
+        - if @user.pending_memberships.any?
+
+          = link_to organizations_path, class: 'ui basic compact green button' do
+            %i.add.icon
+            Find another organization to join.
