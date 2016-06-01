@@ -31,6 +31,10 @@ class Organization < ActiveRecord::Base
 
   alias_attribute :admin, :creator
 
+  def self.search(text)
+    where('name ILIKE ?', "%#{text}%");
+  end
+
   def self.municipal
     where municipal: true
   end
