@@ -6,7 +6,7 @@ class Development
     end
 
     def contributors
-      ContributorQuery.new(self).find.map(&:editor).push(creator).uniq
+      ContributorQuery.new(self).find.map(&:editor).push(creator).compact.uniq
     end
 
     def updated_since?(time = Time.now)
