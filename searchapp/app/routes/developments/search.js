@@ -2,18 +2,28 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   storedParams: {},
+  queryParams: {
+    number: {
+      refreshModel: true
+    }
+  },
+  filters: ["year_compl","tothu","commsf","name","address","municipality","redevelopment", 
+                  "status", "asofright", "age_restricted", "clusteros", 
+                  "phased", "cancelled", "private","saved","status"],
   model(params) {
     this.set("storedParams", params);
     var queryObject = { filter: {} };
-    var filters = ["year_compl","tothu","commsf","name","address","municipality","redevelopment", 
-                  "status", "asofright", "age_restricted", "clusteros", 
-                  "phased", "cancelled", "private","saved","status"];
+    var filters = this.filters;
 
     filters.forEach(function(property){
       if(params[property] !== null) {
         queryObject.filter[property] = params[property];  
       }
     });
+
+    queryObject.page = {};
+    queryObject.page["number"] = params["number"]
+    queryObject.page["size"] = params["size"]
 
     return this.store.find("development", queryObject);
   },
@@ -49,7 +59,7 @@ export default Ember.Route.extend({
   resetController: function () {
     var controller = this.controllerFor("developments.search")
     var queryParams = controller.get('queryParams');
-    queryParams.forEach(function (param) {
+    this.filters.forEach((param) => {
       controller.set(param, null);
     });
     controller.rangedProperties.forEach(function(property) { 
