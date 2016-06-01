@@ -56,9 +56,12 @@ export default Ember.Controller.extend({
     },
     toggleLabels(context) {
       console.log(context);
+    },
+    update_selected(component, id, value) {
+      this.set("organization", id);
     }
   },
-
+  searchCriteria: "",
   isInEdit: function() {
       var currentModelID = this.get('model.id') || "";
       console.log(currentModelID);
@@ -107,10 +110,12 @@ export default Ember.Controller.extend({
      return result;
   }.property('model.developmentTeamMemberships.[]'),
 
-  organization: null,
+  organization: "test",
   organizations: function() {
-    return this.store.findAll("organization");
-  }.property(),
+    var queryObject = { filter: {} };
+    queryObject["search"] = this.get("searchCriteria");
+    return this.store.query("organization", { "filter[search]": this.get("searchCriteria") });
+  }.property("this.searchCriteria"),
 
   // private
 
