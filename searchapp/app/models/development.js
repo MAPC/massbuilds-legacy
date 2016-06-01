@@ -56,7 +56,7 @@ export default DS.Model.extend({
   rptdemp: DS.attr("number"),
   emploss: DS.attr("number"),
 
-  teamMemberships: DS.hasMany("team-membership", { async: true, defaultValue: function() { return []; } }),
-  developmentTeamMemberships: DS.hasMany("development-team-membership", { async: true, defaultValue: function() { return []; } })
+  teamMemberships: DS.hasMany("team-membership", { async: true }),
+  developmentTeamMemberships: DS.hasMany("development-team-membership", { async: true })
 
 });
