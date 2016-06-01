@@ -9,7 +9,9 @@ module API
         @model.active_members.count
       end
 
-
+      filter :search, apply: -> (records, values, options) {
+        records.search values.first
+      }
     end
   end
 end
