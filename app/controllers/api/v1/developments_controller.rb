@@ -5,17 +5,41 @@ module API
       after_action  :log_search, only: [:index]
 
       def update
-        development = Development.find(params[:id])
-        if development.present? # WARN: NilCheck
-          persist! development
-          # Serialize object like a GET request, according to spec
-          render json: JSONAPI::ResourceSerializer.new(DevelopmentResource).
-            serialize_to_hash(DevelopmentResource.new(development, nil)),
-            content_type: JSONAPI::MEDIA_TYPE
+        @request = JSONAPI::Request.new(params, context: context,
+          key_formatter: key_formatter,
+          server_error_callbacks: (self.class.server_error_callbacks || []))
+        unless @request.errors.empty?
+          render_errors(@request.errors)
+        else
+          development = Development.find params[:id]
+          development.assign_attributes(update_params)
+          if development.changes.any? && development.valid?
+            persist!(development)
+            render json:         serialized_resource(development),
+                   content_type: JSONAPI::MEDIA_TYPE,
+                   status:      :accepted
+          else
+            raise JSONAPI::Exceptions::ValidationErrors.new(resource(development))
+          end
+        end
+      rescue => e
+        handle_exceptions(e)
+      ensure
+        if response.body.size > 0
+          response.headers['Content-Type'] = JSONAPI::MEDIA_TYPE
         end
       end
 
       private
+
+      def serialized_resource(development)
+        JSONAPI::ResourceSerializer.new(DevelopmentResource).
+          serialize_to_hash(resource(development))
+      end
+
+      def resource(development)
+        DevelopmentResource.new(development, nil)
+      end
 
       def persist!(development)
         # Without a transaction, this can become a dangling edit with
@@ -29,6 +53,7 @@ module API
             )
           end
         end
+        development.reload # Clear out changes before rendering.
       end
 
       def log_search
@@ -40,6 +65,14 @@ module API
 
       def filter_params
         params.fetch(:filter) { Hash.new }
+      end
+
+      def update_params
+        Hash[
+          params.fetch(:data).fetch(:attributes).map { |k, v|
+            [k.underscore, v]
+          }
+        ]
       end
 
     end

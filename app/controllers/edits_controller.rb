@@ -1,7 +1,7 @@
 class EditsController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :load_parent, only: [:pending]
+  before_action :load_parent
   before_action :assert_moderator
 
   before_action :load_unmoderated_record, only: [:approve, :decline]
