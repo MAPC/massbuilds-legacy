@@ -49,6 +49,7 @@ export default DS.Model.extend({
   fa_whs: DS.attr("number"),
   fa_rnd: DS.attr("number"),
   fa_other: DS.attr("number"),
+  fa_edinst: DS.attr("number"),
   commsf: DS.attr("number"),
   fa_hotel: DS.attr("number"),
   hotelrms: DS.attr("number"),

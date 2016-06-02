@@ -36,6 +36,7 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test 'should get index, filtering on boolean' do
+    skip
     [{ asofright: 'true' }, { asofright: 'false' }].each do |filter_value|
       get :index, filter: filter_value
       assert_response :success
@@ -89,7 +90,7 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
     assert_response :unauthorized
   end
 
-  test 'should update and return object' do
+  test 'should create edit and return unmodified development' do
     set_content_type_header!
     set_auth_header_for_user! user
     assert_difference 'Edit.pending.count', +1 do
@@ -97,8 +98,19 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
     end
     # Shouldn't change the name, since it goes into moderation
     assert_equal 'Godfrey Hotel', results(response)['attributes']['name']
+    # Should have the new name in the edit's fields
+    assert_includes Edit.last.fields.map(&:change).map(&:to_s).join(' '), '14 Winter Palace'
     assert_includes response.headers['Content-Type'], 'application/vnd.api+json'
     assert_response :success, response.body
+  end
+
+  test 'if invalid, should return unmodified development with errors' do
+    set_content_type_header!
+    set_auth_header_for_user! user
+    assert_no_difference 'Edit.pending.count' do
+      patch :update, id: developments(:one), data: invalid_update_development_payload
+    end
+    assert_includes response.body, 'error'
   end
 
   test 'should not update with unauthorized user' do
@@ -111,6 +123,11 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
     %i( destroy ).each do |action|
       assert_raises(StandardError) { post action }
     end
+  end
+
+  test 'search' do
+    skip
+    filter_params = { rdv: 'false', clusteros: 'false' }
   end
 
   private
@@ -147,6 +164,20 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
         tagline: 'A short, pithy, but long-enough description.',
         'year-compl' => 2016,
         tothu: 10,
+        commsf: 1000
+      }
+    }
+  end
+
+  def invalid_update_development_payload
+    {
+      type: 'developments',
+      id: developments(:one),
+      attributes: {
+        name: '',
+        status: 'completed',
+        tothu: 10,
+        gqpop: 10000,
         commsf: 1000
       }
     }
