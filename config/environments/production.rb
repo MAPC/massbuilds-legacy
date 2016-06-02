@@ -77,7 +77,7 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  DEFAULT_HOST = ENV.fetch 'HOST', 'dd.mapc.org'
+  DEFAULT_HOST = ENV.fetch 'DEFAULT_HOST', 'dd.mapc.org'
   Rails.application.default_url_options[:host] = DEFAULT_HOST
 
   config.action_mailer.delivery_method = :smtp
