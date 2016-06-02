@@ -25,9 +25,10 @@ export default Ember.Controller.extend({
 
     // Google Street View
     povChanged(state) {
+      console.log(state.pov.heading);
       var model = this.get("model");
-      model.set("street-view-heading", state.pov.heading);
-      model.set("street-view-pitch", state.pov.pitch);
+      model.set("street_view_heading", state.pov.heading);
+      model.set("street_view_pitch", state.pov.pitch);
       // model.set("zoom", state.pov.zoom);
     },
     positionChanged(state) {
@@ -72,8 +73,8 @@ export default Ember.Controller.extend({
   pointOfView: function() {
     var model = this.get("model");
     return {
-      heading: model.get("street-view-heading") || 30,
-      pitch: model.get("street-view-pitch") || 5
+      heading: model.get("street_view_heading") || 30,
+      pitch: model.get("street_view_pitch") || 5
     } 
   }.property("model.id"),
 

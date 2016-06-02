@@ -5,7 +5,11 @@ export default Ember.Controller.extend({
                 "status", "asofright", "age_restricted", "clusteros", 
                 "phased", "cancelled", "private"],
 
-  itemActions: ["Complete", "Construction", "Projected", "Planned"],
+  itemActions: [{ name: "Projected", id: "projected" }, 
+      { name: "Planning", id: "planning" }, 
+      { name: "In Construction", id: "in_construction" }, 
+      { name: "Completed", id: "completed" }],
+
   year_compl: null,
   tothu: null,
   commsf: null,
