@@ -26,16 +26,16 @@
 
   <div class="field">
     <label>Project Status:</label>
-    {{#ui-dropdown class="selection" onChange=(action 'update_selected')}}
+    {{#ui-dropdown class="selection" onChange=(action 'update_selected') value=status}}
 
       <div class="default text">Select an Option</div>
       <i class="dropdown icon"></i>
       <div class="menu">
-      {{#each itemActions as |itemAction|}}
-        <div class="item" data-id="{{itemAction}}">
-          {{itemAction}}
-        </div>
-      {{/each}}
+        {{#each itemActions as |itemAction|}}
+          <div class="item" data-value="{{itemAction.id}}">
+            {{itemAction.name}}
+          </div>
+        {{/each}}
       </div>
     {{/ui-dropdown}}
   </div>
