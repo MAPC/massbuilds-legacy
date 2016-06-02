@@ -1,4 +1,5 @@
 require 'api_version'
+require 'subdomain_constraint'
 
 Rails.application.routes.draw do
 
@@ -12,7 +13,7 @@ Rails.application.routes.draw do
     action:     'new',
     as:         :new_development
 
-  namespace :api, constraints: { subdomain: 'api' }, path: '' do
+  namespace :api, constraints: SubdomainConstraint.new(/^api/), path: '' do
     api_version(APIVersion.new(version: 1, default: true).params) do
       jsonapi_resources :developments,  except: [:destroy]
       jsonapi_resources :searches,      only: [:index, :show, :create, :destroy]
