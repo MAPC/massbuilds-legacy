@@ -9,21 +9,6 @@
   <div class="ui divider"></div>
   {{range-field-group from=tothuFrom to=tothuTo min=1 max=600 from_max=5000 label="Total Housing Units:"}}
   <div class="ui divider"></div>
-{{!--   <div class="field">
-    <label>Name:</label>
-    {{input value=name name=name}}
-  </div>
-
-  <div class="field">
-    <label>Address:</label>
-    {{input name="address"}}
-  </div>
-
-  <div class="field">
-    <label>Municipality:</label>
-    {{input name="municipality"}}
-  </div> --}}
-
   <div class="field">
     <label>Project Status:</label>
     {{#ui-dropdown class="selection" onChange=(action 'update_selected') value=status}}
@@ -53,7 +38,7 @@
       {{toggle-label field=this.private label="Private"}}
     </div>
   </div>
-
+  <button {{action "reset"}} class="fluid ui button red">Clear Filters</button>
   <div class="ui divider"></div>
 
   <div class="two ui buttons">
@@ -63,7 +48,7 @@
 
   </div>
 
-  <button {{action "reset"}} class="fluid ui button red">Clear Search</button>
+  
 
   <h3 class="ui horizontal inverted divider header">
     <i class="star icon"></i>
