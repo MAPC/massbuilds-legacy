@@ -3,7 +3,7 @@ import Ember from 'ember';
 export default Ember.Controller.extend({
   queryParams: ["year_compl", "tothu", "commsf","redevelopment", 
                 "status", "asofright", "age_restricted", "clusteros", 
-                "phased", "cancelled", "private"],
+                "phased", "cancelled", "private", "number", "size"],
 
   itemActions: [{ name: "Projected", id: "projected" }, 
       { name: "Planning", id: "planning" }, 
@@ -23,6 +23,8 @@ export default Ember.Controller.extend({
   phased: null,
   cancelled: null,
   "private": null,
+  "number": 1,
+  "size": 15,
   saved: null,
   status: null,
   rangedProperties: [
@@ -46,6 +48,12 @@ export default Ember.Controller.extend({
   actions: {
     update_selected(component, id, value) {
       this.set('status', id);
+    },
+    nextPage() {
+      this.set("number", this.get("number")+1);
+    },
+    previousPage() {
+      this.set("number", this.get("number")-1);
     }
   },
 
