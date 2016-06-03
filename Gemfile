@@ -22,6 +22,7 @@ gem 'devise'
 gem 'authority'
 
 # Utilities
+gem 'mailgun_rails'
 gem 'geometry' # Simple geometry constructor
 gem 'wannabe_bool', '0.3.0' # Convert to boolean
 gem 'stamp' # Easier timestamps
