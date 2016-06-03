@@ -8,7 +8,8 @@ class Subscription < ActiveRecord::Base
   validate :valid_subscribable
 
   def needs_update?
-    subscribable.updated_since?(user.last_checked_subscriptions)
+    return false unless subscribable
+    subscribable.updated_since? user.last_checked_subscriptions
   end
 
   private
