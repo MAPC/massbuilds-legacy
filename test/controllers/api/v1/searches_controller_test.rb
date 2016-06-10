@@ -77,6 +77,15 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
     assert_response :created, response.body
   end
 
+  test 'create does not save pagination parameters' do
+    set_content_type_header!
+    set_auth_header_for_user!(user)
+    post :create, search_with_page_parameters
+    assert_response :created, response.body
+    query_keys = results(response)['attributes']['query'].keys
+    refute query_keys.include?('number'), query_keys.inspect
+  end
+
   test 'create with no user' do
     set_content_type_header!
     post :create, empty_unsaved_search
@@ -108,6 +117,29 @@ class API::V1::SearchesControllerTest < ActionController::TestCase
   end
 
   private
+
+  def results(response)
+    JSON.parse(response.body)['data']
+  end
+
+  def search_with_page_parameters
+    {
+      data: {
+        type: 'searches',
+        attributes: {
+          query: {
+            page: {
+              number: 1,
+              size: 1
+            },
+            number: 1,
+            size: 1
+          },
+          saved: true
+        }
+      }
+    }
+  end
 
   def empty_saved_search
     { data: { type: 'searches', attributes: { query: {}, saved: true } } }
