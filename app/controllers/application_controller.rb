@@ -10,6 +10,11 @@ class ApplicationController < ActionController::Base
     redirect_to request.referrer.presence || root_path
   end
 
+  rescue_from 'BCrypt::Errors::InvalidHash' do |exception|
+    flash[:partial] = { path: 'users/reset_password' }
+    redirect_to request.referer || root_path
+  end
+
   protected
 
   def authenticate_user!(options = {})
