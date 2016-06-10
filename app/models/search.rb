@@ -1,6 +1,7 @@
 class Search < ActiveRecord::Base
 
   before_save :ensure_title
+  before_save :clean_query
 
   belongs_to :user
   has_many :subscriptions, as: :subscribable
@@ -23,10 +24,6 @@ class Search < ActiveRecord::Base
   alias_method :developments, :results
   alias_attribute :name, :title
 
-  def query
-    read_attribute(:query).reject { |_k, v| v.nil? }
-  end
-
   def unsaved?
     !saved?
   end
@@ -43,7 +40,18 @@ class Search < ActiveRecord::Base
     self.title = "Saved Search #{next_search_count(user)}"
   end
 
+  # TODO Filter out at the resource level.
+  def clean_query
+    cleaned = query.dup
+    rejectable_keys.each { |key| cleaned.delete(key) }
+    self.query = cleaned
+  end
+
   def next_search_count(user)
     user.searches.saved.count + 1
+  end
+
+  def rejectable_keys
+    %w( page number size )
   end
 end

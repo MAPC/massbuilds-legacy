@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     as:         :new_development
 
   namespace :api, constraints: SubdomainConstraint.new(/^api/), path: '' do
+    get 'searches/limits', to: 'searches#limits'
     api_version(APIVersion.new(version: 1, default: true).params) do
       jsonapi_resources :developments,  except: [:destroy]
       jsonapi_resources :searches,      only: [:index, :show, :create, :destroy]
