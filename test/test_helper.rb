@@ -26,7 +26,7 @@ Minitest::Reporters.use!(
   Minitest::Reporters::ProgressReporter.new, ENV, Minitest.backtrace_filter
 )
 
-MiniTest.after_run do
+Minitest.after_run do
   WebMock.disable_net_connect! allow: %w{ codeclimate.com }
 end
 
