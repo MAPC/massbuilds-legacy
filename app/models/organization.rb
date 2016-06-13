@@ -43,6 +43,11 @@ class Organization < ActiveRecord::Base
     municipal.where(place_id: place.municipality.id)
   end
 
+  # Look up admin organizations, as specified by comma-separated ENV var.
+  def self.admin
+    where id: ENV['ADMIN_ORG_IDS'].to_s.split(',')
+  end
+
   def active_members
     memberships.active.map(&:user).uniq
   end
