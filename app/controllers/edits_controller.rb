@@ -62,8 +62,13 @@ class EditsController < ApplicationController
   end
 
   def partial_object(action)
-    { path: 'edits/action', object:
-      { action: action, name: @edit.editor.first_name }}
+    {
+      path: 'edits/action',
+      object: {
+        action: action,
+        name:   @edit.editor.first_name
+      }
+    }
   end
 
   def error_partial(message)

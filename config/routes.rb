@@ -47,7 +47,8 @@ Rails.application.routes.draw do
   resources :searches, only: [:show], defaults: { format: :pdf }
 
   resources :organizations, only: [:index, :show, :edit, :create, :update, :new, :join] do
-    post :join, to: 'memberships#join', on: :member
+    post :join,  to: 'memberships#join',       on: :member
+    post :leave, to: 'memberships#deactivate', on: :member
   end
 
   devise_for :users, controllers: { registrations: 'registrations' }

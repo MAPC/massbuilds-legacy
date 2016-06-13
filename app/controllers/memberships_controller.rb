@@ -15,13 +15,14 @@ class MembershipsController < ApplicationController
   end
 
   def deactivate
-    membership = Membership.find(membership_params[:membership_id])
+    @organization = Organization.find membership_params[:id]
+    membership = @organization.memberships.find_by(user: devise_current_user)
     if membership.deactivated.save
       flash[:success] = 'Membership deactivated.'
     else
       flash[:danger] = membership.errors.full_messages
     end
-    redirect_to current_user
+    redirect_to request.referrer || @organization
   end
 
   private

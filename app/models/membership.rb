@@ -20,6 +20,14 @@ class Membership < ActiveRecord::Base
     where state: 'active'
   end
 
+  def self.pending
+    where state: 'pending'
+  end
+
+  def self.inactive
+    where.not state: 'inactive'
+  end
+
   def invited
     self.state = :invited
     self
