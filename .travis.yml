@@ -8,6 +8,8 @@ before_script:
   - bundle exec rake db:create db:structure:load db:migrate
   - cd /home/travis/build/MAPC/developmentdatabase/searchapp
   - npm install
+script:
+  - bundle exec rake test
 cache: bundler
 addons:
   postgresql: '9.3'
