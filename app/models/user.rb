@@ -28,15 +28,19 @@ class User < ActiveRecord::Base
     predicates: true, default: :weekly
 
   def contributions
-    Edit.where(editor_id: id, state: 'applied')
+    Edit.applied.where(editor_id: id)
   end
 
-  def member_of?(organization)
-    memberships.active.where(organization_id: organization.id).any?
+  def member_of?(organization, state: :active)
+    memberships.where(state: state, organization_id: organization.id).any?
   end
 
-  def moderator_for?(dev)
-    member_of_development_team?(dev) || member_of_municipal_org?(dev)
+  def moderator_for?(development)
+    [
+      member_of_development_team?(development),
+      member_of_municipal_org?(development),
+      member_of_admin_org?
+    ].any?
   end
 
   # Is the user a member of an organization which is on the development team
@@ -49,6 +53,12 @@ class User < ActiveRecord::Base
   # contains this development?
   def member_of_municipal_org?(development)
     organizations.municipal_in(development.municipality).any?
+  end
+
+  def member_of_admin_org?
+    # Do the organizations this user belongs to intersect with the organizations
+    #   that have admin privileges?
+    (organizations & Organization.admin).any?
   end
 
   def subscribe(subscribable)
