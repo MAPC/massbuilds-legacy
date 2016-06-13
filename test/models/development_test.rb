@@ -98,7 +98,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#mixed_use? saves' do
-    stub_street_view lat: 42.3547661, lon: -71.0615689, heading: 35, pitch: 28
+    stub_street_view lat: 42.3547661, lon: -71.0615689, heading: 0, pitch: 35
     stub_walkscore lat: nil, lon: nil
     dev = Development.new(tothu: 1, commsf: 1)
     assert dev.mixed_use?
@@ -121,7 +121,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#pending' do
-    assert_not_empty d.pending_edits
+    assert_not_empty d.edits.pending
   end
 
   test '#contributors' do
@@ -204,7 +204,7 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert d.valid?, d.errors.full_messages
 
     invalid_taglines = [
-      'Mixed-use development',
+      'Invalid.',
       "Value capture compatible uses gridiron modernist tradition facilitate
        easement street parking storefront state funding vacancy developed world
        topography disadvantaged unincorporated community Le Corbusier
@@ -212,7 +212,7 @@ class DevelopmentTest < ActiveSupport::TestCase
     ]
     invalid_taglines.each do |tagline|
       d.tagline = tagline
-      refute d.valid?
+      refute d.valid?, "Is length #{tagline.length}"
     end
   end
 
@@ -285,7 +285,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test '#updated_since?' do
     Time.stub :now, Time.new(2001) do
-      edit = d.pending_edits.first
+      edit = d.edits.pending.first
       edit.applied
       edit.save
     end
@@ -297,7 +297,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test '#history.since' do
-    edit = d.pending_edits.first
+    edit = d.edits.pending.first
     Time.stub :now, Time.new(2000, 1, 2) do
       edit.applied
       edit.save

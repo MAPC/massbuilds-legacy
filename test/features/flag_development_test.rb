@@ -9,12 +9,11 @@ class FlagDevelopmentTest < Capybara::Rails::TestCase
 
   test 'sign in, visit development, and flag it' do
     sign_in @user, visit: true, submit: true
-    visit developments_path
-    first('a.development').click
+    visit development_path(developments(:one))
     assert_content page, 'Godfrey Hotel'
     click_link 'Flag'
     assert_content page, 'Flagging Godfrey Hotel'
-    fill_in 'Reason', with: ''
+    fill_in 'Reason', with: 'a' * 140
     assert_difference 'Flag.count', +1 do
       click_button 'Flag'
     end

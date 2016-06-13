@@ -63,7 +63,7 @@ class FieldEditTest < ActiveSupport::TestCase
   end
 
   test '#from' do
-    assert_equal 12, field.from
+    assert_equal 0, field.from
   end
 
   test '#to' do
@@ -77,7 +77,7 @@ class FieldEditTest < ActiveSupport::TestCase
   test '#conflict' do
     assert_nil field.conflict
     field.development.commsf = 13
-    expected = { current: 13, from: 12 }
+    expected = { current: 13, from: 0 }
     assert_equal expected, field.conflict
   end
 

@@ -2,24 +2,19 @@ require 'test_helper'
 
 class ViewDevelopmentTest < Capybara::Rails::TestCase
 
-  # def user
-  #   @_user ||= users :normal
-  #   @_user.password = 'password'
-  #   @_user
-  # end
-
   def development
     @_development ||= developments(:one)
   end
 
   def out_of_date
-    development.updated_at = 7.months.ago
+    Time.stub :current, Time.at(0) do
+      development.update_attribute :updated_at, 7.months.ago
+    end
     development.save!
     development
   end
 
   def setup
-    # sign_in user, visit: true, submit: true
     visit development_path(development)
   end
 
@@ -28,9 +23,8 @@ class ViewDevelopmentTest < Capybara::Rails::TestCase
   end
 
   test 'out of date' do
-    refute_content page, 'out of date'
     visit development_path(out_of_date)
-    assert_content page, 'out of date'
+    assert_content page, 'Help keep this page up to date'
   end
 
 end

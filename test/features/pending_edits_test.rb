@@ -2,9 +2,15 @@ require 'test_helper'
 
 class PendingEditsTest < Capybara::Rails::TestCase
 
+  def user
+    @_user ||= users :normal
+    @_user.password = 'password'
+    @_user
+  end
+
   def setup
-    visit developments_path
-    first('a.development').click
+    sign_in user, visit: true, submit: true
+    visit development_path(developments(:one))
     assert_content page, 'Godfrey Hotel'
     click_link 'Moderate'
   end

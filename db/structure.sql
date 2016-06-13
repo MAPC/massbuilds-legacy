@@ -667,7 +667,7 @@ CREATE TABLE schema_migrations (
 
 CREATE TABLE searches (
     id integer NOT NULL,
-    query json,
+    query json DEFAULT '{}'::json NOT NULL,
     user_id integer,
     saved boolean,
     created_at timestamp without time zone NOT NULL,
@@ -1600,4 +1600,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160524185517');
 INSERT INTO schema_migrations (version) VALUES ('20160525192137');
 
 INSERT INTO schema_migrations (version) VALUES ('20160526150247');
+
+INSERT INTO schema_migrations (version) VALUES ('20160613151630');
 
