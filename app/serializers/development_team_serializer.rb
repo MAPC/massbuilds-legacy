@@ -4,7 +4,7 @@ class DevelopmentTeamSerializer
   def initialize(development, max_team_size)
     @development   = development
     @max_team_size = max_team_size
-    @row = Array.new(@max_team_size * team_attributes_count)
+    @row = Array.new(@max_team_size * team_attributes.count)
   end
 
   # TODO: Refactor and clean up
@@ -34,8 +34,12 @@ class DevelopmentTeamSerializer
   end
 
   def member_attributes
-    Organization.attribute_names - %w( id gravatar_email hashed_email
-      creator_id created_at updated_at municipal )
+    Organization.attribute_names - removable_attributes
+  end
+
+  def removable_attributes
+    %w( id gravatar_email hashed_email created_at updated_at municipal place_id
+        creator_id address phone url_template )
   end
 
   def membership_attributes
@@ -43,11 +47,7 @@ class DevelopmentTeamSerializer
   end
 
   def team_attributes
-    member_attributes + membership_attributes
-  end
-
-  def team_attributes_count
-    team_attributes.count
+    (member_attributes + membership_attributes).compact
   end
 
 end

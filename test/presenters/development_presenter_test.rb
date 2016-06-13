@@ -83,18 +83,18 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
   end
 
   test '#disable_moderation?' do
-    assert_not_empty item.pending_edits
+    assert_not_empty item.edits.pending
     assert_equal false, pres.disable_moderation?
-    item.pending_edits.destroy_all
+    item.edits.pending.destroy_all
     assert_equal true, pres.disable_moderation?
   end
 
   test '#pending' do
-    assert_equal item.pending_edits, pres.pending
+    assert_equal item.edits.pending, pres.pending
   end
 
   test '#housing_attributes' do
-    assert_empty pres.housing_attributes
+    assert_equal({ 'tothu' => 0 }, pres.housing_attributes)
     item.tothu = 1
     refute_empty pres.housing_attributes
     assert_includes pres.housing_attributes.keys, 'tothu'

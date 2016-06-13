@@ -8,6 +8,7 @@ class ClaimDevelopmentTest < Capybara::Rails::TestCase
   end
 
   test 'sign in, visit development, and claim it' do
+    skip 'no claiming'
     sign_in @user, visit: true, submit: true
     visit developments_path
     first('a.development').click

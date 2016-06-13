@@ -36,7 +36,7 @@ class StreetViewTest < ActiveSupport::TestCase
 
   def expected_default_url
     expected = 'http://maps.googleapis.com/maps/api/streetview?size=600x600'
-    expected << '&location=42.3547661,-71.0615689&fov=100&heading=35&pitch=28'
+    expected << '&location=42.3547661,-71.0615689&fov=100&heading=0&pitch=35'
     expected << '&key=loLOLol'
   end
 

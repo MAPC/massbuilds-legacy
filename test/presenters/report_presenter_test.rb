@@ -46,6 +46,7 @@ class ReportPresenterTest < ActiveSupport::TestCase
   end
 
   test 'can specify whether fields are nested' do
+    skip
   end
 
   test 'shortcuts' do
