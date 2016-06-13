@@ -16,7 +16,9 @@ require 'rails/test_help'
 }
 require 'minitest/benchmark' if ENV['BENCH']
 require 'minitest/fail_fast' if ENV['FAST']
+
 require 'webmock/minitest'
+WebMock.disable_net_connect! allow: %w{ codeclimate.com }
 
 # Require entire support tree
 Dir[File.expand_path('test/support/**/*')].each { |file| require file }
@@ -25,10 +27,6 @@ Minitest::Reporters.use!(
   # Progress bar
   Minitest::Reporters::ProgressReporter.new, ENV, Minitest.backtrace_filter
 )
-
-Minitest.after_run do
-  WebMock.disable_net_connect! allow: %w{ codeclimate.com }
-end
 
 class ActionController::TestCase
   include Devise::TestHelpers
