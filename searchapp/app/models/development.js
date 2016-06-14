@@ -1,5 +1,4 @@
 import DS from 'ember-data';
-import Ember from 'ember';
 
 export default DS.Model.extend({
   name: DS.attr("string"),
@@ -32,7 +31,6 @@ export default DS.Model.extend({
   street_view_pitch: DS.attr("number"),
 
   tothu: DS.attr("number"),
-  commsf: DS.attr("number"),
   prjarea: DS.attr("number"),
   stories: DS.attr("number"),
   height: DS.attr("number"),

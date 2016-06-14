@@ -6,7 +6,6 @@ import config from './config/environment';
 let App;
 
 Ember.MODEL_FACTORY_INJECTIONS = true;
-Error.stackTraceLimit=100;
 
 App = Ember.Application.extend({
   modulePrefix: config.modulePrefix,
