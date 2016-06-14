@@ -28,6 +28,7 @@
     "ember-cli-htmlbars": "^1.0.1",
     "ember-cli-htmlbars-inline-precompile": "^0.3.1",
     "ember-cli-inject-live-reload": "^1.3.1",
+    "ember-cli-ion-rangeslider": "0.1.1",
     "ember-cli-qunit": "^1.2.1",
     "ember-cli-release": "0.2.8",
     "ember-cli-sri": "^2.0.0",
@@ -35,8 +36,10 @@
     "ember-data": "^2.3.0",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
+    "ember-leaflet": "git://github.com/gabesmed/ember-leaflet.git#8c22085c93ababc709c9c01d11905fccac496f71",
     "ember-load-initializers": "^0.5.0",
     "ember-resolver": "^2.0.3",
-    "loader.js": "^4.0.0"
+    "loader.js": "^4.0.0",
+    "semantic-ui-ember": "1.0.0"
   }
 }
