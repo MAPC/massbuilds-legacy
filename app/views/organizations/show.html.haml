@@ -46,11 +46,25 @@
                 = link_to @organization.email
 
       .four.wide.column
-        - if not (current_user.member_of? @organization) and signed_in?
-          = link_to join_organization_path(@organization), method: :post do
-            %button.ui.right.floated.green.button
-              %i.users.icon
-              Request Membership
+        - leave = 'Are you sure you want to leave? You will not be able to re-join once you do.'
+        - cancel = "Are you sure you want to cancel your request to join #{@organization.name}? You will not be able to re-request once you do."
+        - if signed_in?
+          - if current_user.member_of? @organization
+            = link_to leave_organization_path(@organization), method: :post, data: { confirm: leave } do
+              %button.ui.right.floated.basic.button
+                Leave Organization
+          - elsif current_user.member_of?(@organization, state: :pending)
+            = link_to leave_organization_path(@organization), method: :post, data: { confirm: cancel } do
+              %button.ui.right.floated.basic.orange.button
+                Cancel Request
+          - else
+            = link_to join_organization_path(@organization), method: :post do
+              %button.ui.right.floated.green.button
+                %i.users.icon
+                Request Membership
+        - else
+          = link_to 'Sign in', signin_path
+          to join this organization or list your own.
 
   %br
   %br

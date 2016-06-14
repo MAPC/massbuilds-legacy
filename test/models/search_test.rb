@@ -26,14 +26,14 @@ class SearchTest < ActiveSupport::TestCase
   end
 
   test 'results' do
-    refute_empty search.results
+    refute_empty search.results, search.inspect
   end
 
   test 'exact' do
     # Warning: Code Smell
     # Requires collaborator (Development) to have the right scopes
     assert_equal 1, search.results.count
-    assert_equal developments(:one), search.results.first
+    assert_equal developments(:stable_one).id, search.results.first.id
   end
 
   test 'range' do
@@ -48,7 +48,7 @@ class SearchTest < ActiveSupport::TestCase
   test '#updated_since?' do
     development = developments(:one)
     Time.stub :now, Time.new(2010) do
-      edit = development.pending_edits.first
+      edit = development.edits.pending.first
       edit.applied
       edit.save
     end

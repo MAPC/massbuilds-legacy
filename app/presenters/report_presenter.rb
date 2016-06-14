@@ -1,5 +1,7 @@
 class ReportPresenter < Burgundy::Item
 
+  EXPORT_RESULT_LIMIT = 100
+
   def developments
     item.results
   end
@@ -48,7 +50,7 @@ class ReportPresenter < Burgundy::Item
   end
 
   def to_csv
-    DevelopmentsSerializer.new(developments).to_csv
+    DevelopmentsSerializer.new(developments.first(EXPORT_RESULT_LIMIT)).to_csv
   end
 
   private

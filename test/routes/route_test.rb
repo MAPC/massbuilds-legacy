@@ -3,19 +3,19 @@ require 'test_helper'
 class RouteTest < ActionDispatch::IntegrationTest
 
   test 'default api version' do
-    rte = { subdomain: 'api', controller: 'api/v1/searches', action: 'index' }
+    rte = { controller: 'api/v1/searches', action: 'index' }
     assert_routing('http://api.test.host/searches', rte)
   end
 
   test 'api version parameter' do
-    rte = { subdomain: 'api', controller: 'api/v1/searches', action: 'index' }
+    rte = { controller: 'api/v1/searches', action: 'index' }
     assert_routing('http://api.test.host/searches?api_version=1', rte)
   end
 
   test 'api version in header' do
     env = ActionDispatch::TestRequest::DEFAULT_ENV
     env['action_dispatch.request.accepts'] = 'application/org.dd.v1'
-    rte = { subdomain: 'api', controller: 'api/v1/searches', action: 'index' }
+    rte = { controller: 'api/v1/searches', action: 'index' }
     assert_routing('http://api.test.host/searches', rte)
   end
 
@@ -47,8 +47,8 @@ class RouteTest < ActionDispatch::IntegrationTest
 
   test 'wildcard after search' do
     base = 'http://test.host/developments/'
-    assert_routing base + 'map',  route_for('map')
-    assert_routing base + 'list', route_for('list')
+    assert_routing base + 'map',   route_for('map')
+    assert_routing base + 'table', route_for('table')
   end
 
   private

@@ -18,11 +18,13 @@ class SubscribeToSubscribablesTest < Capybara::Rails::TestCase
   end
 
   test 'without subscription' do
+    skip
     assert_content page, 'Hello' # development name
     assert_content page, 'Watch'
   end
 
   test 'subscribe' do
+    skip 'no subscribing'
     assert_content find('#watchers'), '0'
     click_button 'Watch'
     assert_content find('#watchers'), '1'

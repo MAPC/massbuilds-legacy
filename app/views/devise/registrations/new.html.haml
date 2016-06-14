@@ -1,7 +1,10 @@
 .row
   .ten.wide.column#title-area
     %h2 Welcome!
-    %h5 You're on your way to a world of development data!
+    %h5
+      If you used the previous version of the Development Database, you can
+      = link_to 'log in', signin_path
+      using the email address you signed up with before.
 
 .row
   .ui.six.column.grid
@@ -25,14 +28,12 @@
           = f.email_field :email, placeholder: 'Email address'
 
         .field
-          = f.label :password
-          = f.password_field :password, autocomplete: 'off',
-              placeholder: '************'
+          = f.label :password, 'Password (at least 8 characters)'
+          = f.password_field :password, autocomplete: 'off'
 
         .field
           = f.label :password_confirmation, 'Confirm password'
-          = f.password_field :password_confirmation, autocomplete: 'off',
-              placeholder: '************'
+          = f.password_field :password_confirmation, autocomplete: 'off'
 
         .actions
           = f.submit 'Sign me up!',  class: 'ui green button'

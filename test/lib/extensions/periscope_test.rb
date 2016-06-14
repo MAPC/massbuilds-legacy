@@ -37,7 +37,7 @@ class PeriscopeTest < ActiveSupport::TestCase
   end
 
   def false_nil_sql
-    "SELECT \"developments\".* FROM \"developments\" WHERE (\"developments\".\"bool_to_scope\" != 't')"
+    "SELECT \"developments\".* FROM \"developments\" WHERE (\"developments\".\"bool_to_scope\" = 'f' OR \"developments\".\"bool_to_scope\" IS NULL)"
   end
 
 end

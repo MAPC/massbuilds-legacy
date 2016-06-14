@@ -18,7 +18,7 @@ class EditApplicationTest < ActiveSupport::TestCase
   end
 
   test '#performable?' do
-    assert application.performable?
+    assert application.performable?, "Is edit applyable? #{application.edit.applyable?}"
   end
 
   test 'not #performable?' do
@@ -28,18 +28,18 @@ class EditApplicationTest < ActiveSupport::TestCase
 
   test 'perform! sets :applied' do
     application.perform!
-    assert edit.applied?
+    assert edit.applied?, edit.state.inspect
     assert edit.applied_at
   end
 
   test 'perform! applies edits' do
-    assert_equal 12, development.commsf
+    assert_equal 0, development.commsf
     application.perform!
     assert_equal 1000, development.commsf
   end
 
   test 'perform! applies and saves edits' do
-    assert_equal 12, development.commsf
+    assert_equal 0, development.commsf
     application.perform!
     assert_equal 1000, development.reload.commsf
   end
@@ -48,7 +48,7 @@ class EditApplicationTest < ActiveSupport::TestCase
     conflict = EditApplication.new(edits(:conflict))
     refute conflict.perform! # Should not change anything
     assert_equal 'pending', conflict.edit.state
-    assert_equal 12, conflict.development.commsf
+    assert_equal 0, conflict.development.commsf
   end
 
   test 'ignore conflict and apply edit' do

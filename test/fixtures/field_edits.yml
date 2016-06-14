@@ -4,7 +4,7 @@ one:
   edit: one
   name: commsf
   change:
-    from: 12
+    from: 0
     to: 1000
 
 two:

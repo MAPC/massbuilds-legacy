@@ -30,7 +30,7 @@ two:
   commsf: 0
   estemp: 1000
   private: false
-  creator: normal
+  creator: tim
   created_at: 1969-12-31 19:00:00 -0500
   updated_at: 1969-12-31 19:00:00 -0500
   year_compl: 2012

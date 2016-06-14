@@ -12,7 +12,7 @@ module API
 
       def restrict_access
         unless restrict_access_by_params || restrict_access_by_header
-          render json: { message: 'Invalid API token.' }, status: 401
+          render json: { message: 'Invalid API key.' }, status: 401
           return
         end
 
