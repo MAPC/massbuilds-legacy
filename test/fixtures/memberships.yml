@@ -3,6 +3,8 @@
 one:
   user: normal
   organization: mapc
+  role: admin
+  state: active
 
 two:
   user: normal

@@ -79,7 +79,7 @@
             = link_to 'Sign in', signin_path
             to join this organization or list your own.
 
-        - if current_user.admin_of? @organization
+        - if current_user.admin_of? @organization.item
           .row
             = link_to admin_organization_path(@organization) do
               %button.ui.right.floated.basic.gray.button

@@ -3,13 +3,19 @@ require 'test_helper'
 class AdministerOrganizationTest < Capybara::Rails::TestCase
 
   def organization
-    @_org ||= organizations :mapc
+    @_org ||= admin_membership.organization
   end
 
-  def creator
-    @_creator ||= organization.creator
-    @_creator.password = 'password'
-    @_creator
+  def admin
+    @_admin ||= admin_membership.user
+    @_admin.password = 'password'
+    @_admin
+  end
+
+  def admin_membership
+    @_mem ||= memberships(:one)
+    @_mem.save!
+    @_mem
   end
 
   def not_yet_admin
@@ -20,15 +26,16 @@ class AdministerOrganizationTest < Capybara::Rails::TestCase
 
   def setup
     organization.memberships.create!(user: not_yet_admin)
-    sign_in creator, visit: true, submit: true
+    sign_in admin, visit: true, submit: true
   end
 
   def teardown
     organization.memberships.where(user: not_yet_admin).each(&:destroy)
-    sign_out creator
+    sign_out admin
   end
 
   test 'admin can see organization admin link' do
+    assert admin.admin_of?(organization)
     visit organization_path(organization)
     assert_content page, 'membership requests'
   end
@@ -49,7 +56,7 @@ class AdministerOrganizationTest < Capybara::Rails::TestCase
   end
 
   test 'normal user cannot view organization admin dashboard' do
-    sign_out creator
+    sign_out admin
     sign_in not_yet_admin, visit: true, submit: true
     visit admin_organization_path(organization)
     assert_content page, 'not authorized'
@@ -63,7 +70,7 @@ class AdministerOrganizationTest < Capybara::Rails::TestCase
       click_link 'promote'
     end
     assert_content page, 'promoted'
-    sign_out creator
+    sign_out admin
     sign_in not_yet_admin, visit: true, submit: true
     visit admin_organization_path(organization)
     refute_content page, 'not authorized'

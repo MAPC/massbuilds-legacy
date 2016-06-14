@@ -94,14 +94,13 @@ class OrganizationTest < ActiveSupport::TestCase
   test '#active_members' do
     org.memberships.create user: users(:normal)
     org.memberships.create user: users(:moderator), state: :active
-    assert_equal 1, org.active_members.count
-    assert_equal users(:moderator), org.active_members.first
+    assert_equal 2, org.active_members.count # add one for the creator
+    assert_includes org.active_members, users(:moderator)
   end
 
   test 'members can belong to many organizations' do
-    user = users(:normal)
+    user   = users :normal # Already a member of MAPC
     massit = organizations :massit
-    assert org.members << user
     assert massit.members << user
   end
 
