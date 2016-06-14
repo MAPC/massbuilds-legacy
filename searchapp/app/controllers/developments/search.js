@@ -60,7 +60,10 @@ export default Ember.Controller.extend({
   toRangeString(min,max) {
     return "[" + min + ',' + max + "]";
   },
-
+  totalResults: function() {
+    var meta = this.store.metadataFor("development");
+    return meta["record-count"];
+  }.property("model"),
   // since a range isn't strictly a type, we need some parsing logic
   computeRanges() {
     this.rangedProperties.forEach((property) => {
