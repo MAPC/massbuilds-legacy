@@ -3,11 +3,11 @@
   Search Filters
 </h3>
 <form class="ui form inverted">
-  {{range-field-group from=yearFrom to=yearTo min=1990 max=2050 from_max=2050 label="Year:"}}
+  {{range-field-group from=yearFrom to=yearTo min=limits.year_compl.min max=limits.year_compl.max from_max=limits.year_compl.max label="Year:"}}
   <div class="ui divider"></div>
-  {{range-field-group from=sqftFrom to=sqftTo min=1 max=5000 from_max=5000 label="Commercial Square Feet:"}}
+  {{range-field-group from=sqftFrom to=sqftTo min=limits.commsf.min max=limits.commsf.max from_max=limits.commsf.max label="Commercial Square Feet:"}}
   <div class="ui divider"></div>
-  {{range-field-group from=tothuFrom to=tothuTo min=1 max=600 from_max=5000 label="Total Housing Units:"}}
+  {{range-field-group from=tothuFrom to=tothuTo min=limits.tothu.min max=limits.tothu.max from_max=limits.tothu.max label="Total Housing Units:"}}
   <div class="ui divider"></div>
   <div class="field">
     <label>Project Status:</label>
@@ -47,9 +47,6 @@
     </button>
 
   </div>
-
-  
-
   <h3 class="ui horizontal inverted divider header">
     <i class="star icon"></i>
     Saved Searches
