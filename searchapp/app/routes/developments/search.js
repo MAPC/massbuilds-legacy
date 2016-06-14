@@ -15,6 +15,8 @@ export default Ember.Route.extend({
     var queryObject = { filter: {} };
     var filters = this.filters;
 
+    this.getSearchLimits();
+
     filters.forEach(function(property){
       if(params[property] !== null) {
         queryObject.filter[property] = params[property];  
@@ -24,6 +26,8 @@ export default Ember.Route.extend({
     queryObject.page = {};
     queryObject.page["number"] = params["number"]
     queryObject.page["size"] = params["size"]
+
+
 
     return this.store.find("development", queryObject);
   },
@@ -67,5 +71,19 @@ export default Ember.Route.extend({
       controller.set(property.max, null);
     });
     controller.computeRanges();
+  },
+  getSearchLimits: function() {
+    //http://api.lvh.me:5000/searches/limits
+    var host = this.store.adapterFor('application').get('host'),
+    endpoint = 'searches/limits';
+
+    Ember.$.ajax({
+        url: `${host}/${endpoint}`,
+        // your other details...
+    }).then((resolve) => {
+        // self.set('name', resolve.doc.name);
+        this.controllerFor('developments.search').set("limits", resolve);
+        // process the result...
+    });
   }
 });
