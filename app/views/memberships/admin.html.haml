@@ -1,0 +1,38 @@
+
+%h2.ui.header.page-header Memberships
+
+.row
+
+  %h3.ui.header Pending Requests
+
+  - pending_memberships = @memberships.select(&:pending?)
+  - if pending_memberships.any?
+    %table.ui.compact.table
+      %thead
+        %tr
+          %th Name
+          %th
+          %th
+      %tbody
+        - pending_memberships.each do |membership|
+          %tr
+            %td= link_to "#{membership.user.first_name} (View Profile)", membership.user
+            %td= link_to 'Approve', approve_membership_path(membership), method: :post
+            %td= link_to 'Decline', decline_membership_path(membership), method: :put
+
+.row
+
+  %h3 Active Members
+
+  %table.ui.compact.table
+    %thead
+      %tr
+        %th Name
+        %th
+        %th
+    %tbody
+      - @memberships.select(&:active?).each do |membership|
+        %tr
+          %td= link_to "#{membership.user.first_name} (View Profile)", membership.user
+          %td= link_to 'Promote',    promote_membership_path(membership), method: :post
+          %td= link_to 'Deactivate', deactivate_membership_path(membership), method: :put

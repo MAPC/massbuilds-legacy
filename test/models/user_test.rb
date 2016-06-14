@@ -139,4 +139,10 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test 'admin of?' do
+    assert_respond_to user, :admin_of?
+    assert user.admin_of? organizations(:mapc)
+    refute user.admin_of? organizations(:bra)
+  end
+
 end

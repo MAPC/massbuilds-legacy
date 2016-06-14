@@ -43,6 +43,14 @@ class User < ActiveRecord::Base
     ].any?
   end
 
+  def admin_of?(organization)
+    # This should become whether or not the organization is the the user's
+    # memberships with role :admin.
+    # Also, when this change is made, remember to update the relationship
+    # creation call in the Organization after_create hook to have role: :admin
+    self == organization.creator
+  end
+
   # Is the user a member of an organization which is on the development team
   # for this development?
   def member_of_development_team?(development)

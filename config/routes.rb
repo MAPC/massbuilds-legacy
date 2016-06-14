@@ -46,9 +46,10 @@ Rails.application.routes.draw do
 
   resources :searches, only: [:show], defaults: { format: :pdf }
 
-  resources :organizations, only: [:index, :show, :edit, :create, :update, :new, :join] do
+  resources :organizations, except: [:destroy] do
     post :join,  to: 'memberships#join',       on: :member
     post :leave, to: 'memberships#deactivate', on: :member
+    get  :admin, to: 'memberships#admin',      on: :member
   end
 
   devise_for :users, controllers: { registrations: 'registrations' }
@@ -63,6 +64,15 @@ Rails.application.routes.draw do
     resources :memberships, only: [:deactivate, :activate] do
       put :deactivate
       post :activate
+    end
+  end
+
+  resources :memberships do
+    member do
+      post :approve
+      put  :decline
+      post :promote
+      put  :deactivate
     end
   end
 
