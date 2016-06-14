@@ -1,0 +1,474 @@
+{
+
+  "results": [{
+    "address_components": [{
+      "long_name": "24",
+      "short_name": "24",
+      "types": [
+        "street_number"
+      ]
+    }, {
+      "long_name": "Elm Street",
+      "short_name": "Elm St",
+      "types": [
+        "route"
+      ]
+    }, {
+      "long_name": "Everett",
+      "short_name": "Everett",
+      "types": [
+        "locality",
+        "political"
+      ]
+    }, {
+      "long_name": "Middlesex County",
+      "short_name": "Middlesex County",
+      "types": [
+        "administrative_area_level_2",
+        "political"
+      ]
+    }, {
+      "long_name": "Massachusetts",
+      "short_name": "MA",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    }, {
+      "long_name": "United States",
+      "short_name": "US",
+      "types": [
+        "country",
+        "political"
+      ]
+    }, {
+      "long_name": "02149",
+      "short_name": "02149",
+      "types": [
+        "postal_code"
+      ]
+    }, {
+      "long_name": "3908",
+      "short_name": "3908",
+      "types": [
+        "postal_code_suffix"
+      ]
+    }],
+    "formatted_address": "24 Elm St, Everett, MA 02149, USA",
+    "geometry": {
+      "location": {
+        "lat": 42.412396,
+        "lng": -71.046218
+      },
+      "location_type": "ROOFTOP",
+      "viewport": {
+        "northeast": {
+          "lat": 42.4137449802915,
+          "lng": -71.0448690197085
+        },
+        "southwest": {
+          "lat": 42.4110470197085,
+          "lng": -71.04756698029151
+        }
+      }
+    },
+    "place_id": "ChIJQaMbL5xx44kRTiUusH9UL5c",
+    "types": [
+      "street_address"
+    ]
+  }, {
+    "address_components": [{
+      "long_name": "Elm St @ Ferry St",
+      "short_name": "Elm St @ Ferry St",
+      "types": [
+        "point_of_interest",
+        "establishment"
+      ]
+    }, {
+      "long_name": "Everett",
+      "short_name": "Everett",
+      "types": [
+        "locality",
+        "political"
+      ]
+    }, {
+      "long_name": "Middlesex County",
+      "short_name": "Middlesex County",
+      "types": [
+        "administrative_area_level_2",
+        "political"
+      ]
+    }, {
+      "long_name": "Massachusetts",
+      "short_name": "MA",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    }, {
+      "long_name": "United States",
+      "short_name": "US",
+      "types": [
+        "country",
+        "political"
+      ]
+    }, {
+      "long_name": "02149",
+      "short_name": "02149",
+      "types": [
+        "postal_code"
+      ]
+    }],
+    "formatted_address": "Elm St @ Ferry St, Everett, MA 02149, USA",
+    "geometry": {
+      "location": {
+        "lat": 42.412499,
+        "lng": -71.04560699999999
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "northeast": {
+          "lat": 42.4138479802915,
+          "lng": -71.04425801970848
+        },
+        "southwest": {
+          "lat": 42.4111500197085,
+          "lng": -71.0469559802915
+        }
+      }
+    },
+    "place_id": "ChIJY6q1PJxx44kRGNhicbe_bsY",
+    "types": [
+      "bus_station",
+      "transit_station",
+      "point_of_interest",
+      "establishment"
+    ]
+  }, {
+    "address_components": [{
+      "long_name": "Everett",
+      "short_name": "Everett",
+      "types": [
+        "locality",
+        "political"
+      ]
+    }, {
+      "long_name": "Middlesex County",
+      "short_name": "Middlesex County",
+      "types": [
+        "administrative_area_level_2",
+        "political"
+      ]
+    }, {
+      "long_name": "Massachusetts",
+      "short_name": "MA",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    }, {
+      "long_name": "United States",
+      "short_name": "US",
+      "types": [
+        "country",
+        "political"
+      ]
+    }, {
+      "long_name": "02149",
+      "short_name": "02149",
+      "types": [
+        "postal_code"
+      ]
+    }],
+    "formatted_address": "Everett, MA 02149, USA",
+    "geometry": {
+      "bounds": {
+        "northeast": {
+          "lat": 42.424097,
+          "lng": -71.0280959
+        },
+        "southwest": {
+          "lat": 42.3886986,
+          "lng": -71.07430099999999
+        }
+      },
+      "location": {
+        "lat": 42.40843,
+        "lng": -71.0536625
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "northeast": {
+          "lat": 42.424097,
+          "lng": -71.0280959
+        },
+        "southwest": {
+          "lat": 42.3886986,
+          "lng": -71.07430099999999
+        }
+      }
+    },
+    "place_id": "ChIJabkkUApx44kRwFMuh8-HEQc",
+    "types": [
+      "locality",
+      "political"
+    ]
+  }, {
+    "address_components": [{
+      "long_name": "02149",
+      "short_name": "02149",
+      "types": [
+        "postal_code"
+      ]
+    }, {
+      "long_name": "Everett",
+      "short_name": "Everett",
+      "types": [
+        "locality",
+        "political"
+      ]
+    }, {
+      "long_name": "Massachusetts",
+      "short_name": "MA",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    }, {
+      "long_name": "United States",
+      "short_name": "US",
+      "types": [
+        "country",
+        "political"
+      ]
+    }],
+    "formatted_address": "Everett, MA 02149, USA",
+    "geometry": {
+      "bounds": {
+        "northeast": {
+          "lat": 42.4242499,
+          "lng": -71.02806509999999
+        },
+        "southwest": {
+          "lat": 42.3832949,
+          "lng": -71.076419
+        }
+      },
+      "location": {
+        "lat": 42.4041313,
+        "lng": -71.0557196
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "northeast": {
+          "lat": 42.4242499,
+          "lng": -71.02806509999999
+        },
+        "southwest": {
+          "lat": 42.3832949,
+          "lng": -71.076419
+        }
+      }
+    },
+    "place_id": "ChIJL-l-6Qpx44kR2JLExvS1goo",
+    "types": [
+      "postal_code"
+    ]
+  }, {
+    "address_components": [{
+      "long_name": "Middlesex County",
+      "short_name": "Middlesex County",
+      "types": [
+        "administrative_area_level_2",
+        "political"
+      ]
+    }, {
+      "long_name": "Massachusetts",
+      "short_name": "MA",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    }, {
+      "long_name": "United States",
+      "short_name": "US",
+      "types": [
+        "country",
+        "political"
+      ]
+    }],
+    "formatted_address": "Middlesex County, MA, USA",
+    "geometry": {
+      "bounds": {
+        "northeast": {
+          "lat": 42.736102,
+          "lng": -71.020095
+        },
+        "southwest": {
+          "lat": 42.15669,
+          "lng": -71.8987159
+        }
+      },
+      "location": {
+        "lat": 42.467206,
+        "lng": -71.2874209
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "northeast": {
+          "lat": 42.736102,
+          "lng": -71.020095
+        },
+        "southwest": {
+          "lat": 42.15669,
+          "lng": -71.8987159
+        }
+      }
+    },
+    "place_id": "ChIJmQwtQe4L5IkRCLDyk1MVcOI",
+    "types": [
+      "administrative_area_level_2",
+      "political"
+    ]
+  }, {
+    "address_components": [{
+      "long_name": "Boston-Cambridge-Newton, MA-NH Metropolitan Statistical Area",
+      "short_name": "Boston-Cambridge-Newton, MA-NH Metropolitan Statistical Area",
+      "types": [
+        "political"
+      ]
+    }, {
+      "long_name": "United States",
+      "short_name": "US",
+      "types": [
+        "country",
+        "political"
+      ]
+    }],
+    "formatted_address": "Boston-Cambridge-Newton, MA-NH Metropolitan Statistical Area, USA",
+    "geometry": {
+      "bounds": {
+        "northeast": {
+          "lat": 43.573012,
+          "lng": -70.3225219
+        },
+        "southwest": {
+          "lat": 41.5658509,
+          "lng": -71.8987159
+        }
+      },
+      "location": {
+        "lat": 42.645948,
+        "lng": -71.0022311
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "northeast": {
+          "lat": 43.573012,
+          "lng": -70.3225219
+        },
+        "southwest": {
+          "lat": 41.5658509,
+          "lng": -71.8987159
+        }
+      }
+    },
+    "place_id": "ChIJQ-TFt5IL44kR1kcVhdMVrXg",
+    "types": [
+      "political"
+    ]
+  }, {
+    "address_components": [{
+      "long_name": "Massachusetts",
+      "short_name": "MA",
+      "types": [
+        "administrative_area_level_1",
+        "political"
+      ]
+    }, {
+      "long_name": "United States",
+      "short_name": "US",
+      "types": [
+        "country",
+        "political"
+      ]
+    }],
+    "formatted_address": "Massachusetts, USA",
+    "geometry": {
+      "bounds": {
+        "northeast": {
+          "lat": 42.88679,
+          "lng": -69.92855109999999
+        },
+        "southwest": {
+          "lat": 41.2390448,
+          "lng": -73.5081419
+        }
+      },
+      "location": {
+        "lat": 42.4072107,
+        "lng": -71.3824374
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "northeast": {
+          "lat": 42.88679,
+          "lng": -69.92855109999999
+        },
+        "southwest": {
+          "lat": 41.2390737,
+          "lng": -73.5081419
+        }
+      }
+    },
+    "place_id": "ChIJ_b9z6W1l44kRHA2DVTbQxkU",
+    "types": [
+      "administrative_area_level_1",
+      "political"
+    ]
+  }, {
+    "address_components": [{
+      "long_name": "United States",
+      "short_name": "US",
+      "types": [
+        "country",
+        "political"
+      ]
+    }],
+    "formatted_address": "United States",
+    "geometry": {
+      "bounds": {
+        "northeast": {
+          "lat": 71.3867745,
+          "lng": -66.9502861
+        },
+        "southwest": {
+          "lat": 18.910677,
+          "lng": 172.4458955
+        }
+      },
+      "location": {
+        "lat": 37.09024,
+        "lng": -95.712891
+      },
+      "location_type": "APPROXIMATE",
+      "viewport": {
+        "northeast": {
+          "lat": 49.38,
+          "lng": -66.94
+        },
+        "southwest": {
+          "lat": 25.82,
+          "lng": -124.39
+        }
+      }
+    },
+    "place_id": "ChIJCzYy5IS16lQRQrfeQ5K5Oxw",
+    "types": [
+      "country",
+      "political"
+    ]
+  }],
+  "status": "OK"
+
+}

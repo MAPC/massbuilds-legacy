@@ -14,10 +14,10 @@ module API
         context[:current_user].searches
       end
 
-      def save
-        @model.user ||= context[:current_user]
-        super
+      before_save do
+        @model.user_id = context[:current_user].id if @model.new_record?
       end
+
     end
   end
 end

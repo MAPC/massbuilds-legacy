@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     as:         :new_development
 
   namespace :api, constraints: SubdomainConstraint.new(/^api/), path: '' do
+    get 'searches/limits', to: 'searches#limits'
     api_version(APIVersion.new(version: 1, default: true).params) do
       jsonapi_resources :developments,  except: [:destroy]
       jsonapi_resources :searches,      only: [:index, :show, :create, :destroy]
@@ -46,7 +47,8 @@ Rails.application.routes.draw do
   resources :searches, only: [:show], defaults: { format: :pdf }
 
   resources :organizations, only: [:index, :show, :edit, :create, :update, :new, :join] do
-    post :join, to: 'memberships#join', on: :member
+    post :join,  to: 'memberships#join',       on: :member
+    post :leave, to: 'memberships#deactivate', on: :member
   end
 
   devise_for :users, controllers: { registrations: 'registrations' }

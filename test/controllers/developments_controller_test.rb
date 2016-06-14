@@ -7,6 +7,7 @@ class DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test 'should get index' do
+    skip 'Replaced by Ember'
     get :index
     # assert assigns(:developments).count > 1
     assert_response :success
@@ -25,6 +26,7 @@ class DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test 'should get edit' do
+    skip 'replaced by Ember'
     sign_in users(:normal)
     get :edit, id: development.id
     assert_response :success

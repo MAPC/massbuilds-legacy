@@ -8,10 +8,12 @@ class APIVersion
   end
 
   def params
-    { module: module_name,
-      header: header,
+    {
+      module:    module_name,
+      header:    header,
       parameter: parameter,
-      default: @default }
+      default:   @default
+    }
   end
 
   private
@@ -21,8 +23,10 @@ class APIVersion
   end
 
   def header
-    { name:  "Accept",
-      value: "application/vnd.api+json; application/org.dd.v#{@version}" }
+    {
+      name:  "Accept",
+      value: "application/vnd.api+json; application/org.dd.v#{@version}"
+    }
   end
 
   def parameter

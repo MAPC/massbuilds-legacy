@@ -6,15 +6,19 @@ class DevelopmentSerializer
   end
 
   def to_row
-    [attributes.keys.map { |key| ensure_csv_ready(@record.send(key)) },
-     DevelopmentTeamSerializer.new(@record, max_team_size).to_row].flatten
+    [
+      attributes.keys.map { |key| ensure_csv_ready(@record.send(key)) },
+      DevelopmentTeamSerializer.new(@record, max_team_size).to_row
+    ].flatten
   rescue
     []
   end
 
   def to_header
-    [attributes.keys,
-     DevelopmentTeamSerializer.new(@record, max_team_size).to_header].flatten
+    [
+      attributes.keys,
+      DevelopmentTeamSerializer.new(@record, max_team_size).to_header
+    ].flatten
   rescue
     []
   end
@@ -30,9 +34,11 @@ class DevelopmentSerializer
   def base_attributes
     base = @record.attributes
     base['city'] = @record.municipality
-    base.reject! { |k, _v| k.include?('street_view_') }
-    base.reject! { |k, _v| k.include?('walkscore') }
-    base.reject! { |k, _v| k.include?('parcel') }
+    # TODO list each of these strings as array in default
+    # initialization option :reject, then loop through.
+    base.reject! { |k, _v| k.include? 'street_view_' }
+    base.reject! { |k, _v| k.include? 'walkscore'    }
+    base.reject! { |k, _v| k.include? 'parcel'       }
     base
   end
 
