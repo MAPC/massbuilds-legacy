@@ -11,8 +11,12 @@
       {{#link-to "developments.search.table" class="ui button"}}Table{{/link-to}}
       {{#link-to "developments.search.map" class="ui button"}}Map{{/link-to}}
     </div>
+    <div class="ui inverted segment" style="margin-bottom:0; margin-top:0; border-radius:0">
+      <p>Total Results: {{totalResults}}</p>
+    </div>
     <div class="container">
       {{outlet}}
+
     </div>
     <div class="ui two bottom attached primary buttons">
       <div {{action "previousPage"}} class="ui button">Previous Page</div>
