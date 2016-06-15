@@ -46,8 +46,16 @@ class MembershipsController < ApplicationController
     redirect_to request.referrer || admin_organization_path(@organization)
   end
 
-  # def promote
-  # end
+  def promote
+    membership = Membership.find(params[:id])
+    membership.role = :admin
+    if membership.save
+      flash[:success] = "Member promoted to admin."
+    else
+      flash[:error] = "Something went wrong."
+    end
+    redirect_to request.referrer || admin_organization_path(@organization)
+  end
 
   def admin
     @memberships = @organization.memberships

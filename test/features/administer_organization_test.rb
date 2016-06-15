@@ -63,12 +63,11 @@ class AdministerOrganizationTest < Capybara::Rails::TestCase
   end
 
   test 'admin can promote members' do
-    skip '!'
     visit admin_organization_path(organization)
     assert_content page, not_yet_admin.first_name
-    assert_difference 'organization.admins.count', +1 do
-      click_link 'promote'
-    end
+    # assert_difference 'organization.admins.count', +1 do
+      click_button 'Promote'
+    # end
     assert_content page, 'promoted'
     sign_out admin
     sign_in not_yet_admin, visit: true, submit: true

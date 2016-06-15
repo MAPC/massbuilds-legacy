@@ -44,7 +44,7 @@ class User < ActiveRecord::Base
   end
 
   def admin_of?(organization)
-    memberships.admin.map(&:organization).include?(organization)
+    organization.admins.include? self
   end
 
   # Is the user a member of an organization which is on the development team

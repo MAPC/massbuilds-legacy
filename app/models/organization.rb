@@ -48,6 +48,10 @@ class Organization < ActiveRecord::Base
     where id: ENV['ADMIN_ORG_IDS'].to_s.split(',')
   end
 
+  def admins
+    members.joins(:memberships).where(memberships: { role: :admin })
+  end
+
   def active_members
     memberships.active.map(&:user).uniq
   end

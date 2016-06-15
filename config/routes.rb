@@ -70,6 +70,7 @@ Rails.application.routes.draw do
   resources :memberships do
     member do
       post :approve
+      post :activate, to: 'memberships#approve'
       put  :decline
       post :promote
       put  :deactivate

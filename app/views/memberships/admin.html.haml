@@ -16,7 +16,7 @@
       %tbody
         - pending_memberships.each do |membership|
           %tr
-            %td= link_to "#{membership.user.first_name} (View Profile)", membership.user
+            %td= link_to "#{membership.user.first_name} #{membership.user.last_name} (View Profile)", membership.user
             %td
               = link_to approve_membership_path(membership), method: :post do
                 %button.ui.green.button
