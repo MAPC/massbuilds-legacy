@@ -1,0 +1,64 @@
+
+%h2.ui.header.page-header Memberships
+
+.row
+
+  %h3.ui.header Pending Requests
+
+  - pending_memberships = @memberships.select(&:pending?)
+  - if pending_memberships.any?
+    %table.ui.compact.table
+      %thead
+        %tr
+          %th Name
+          %th
+          %th
+      %tbody
+        - pending_memberships.each do |membership|
+          %tr
+            %td= link_to "#{membership.user.first_name} #{membership.user.last_name} (View Profile)", membership.user
+            %td
+              = link_to approve_membership_path(membership), method: :post do
+                %button.ui.green.button
+                  %i.checkmark.icon
+                  Approve
+            %td
+              = link_to decline_membership_path(membership), method: :put do
+                %button.ui.basic.red.button
+                  %i.cancel.icon
+                  Decline
+
+.row
+
+  %h3 Active Members
+
+  %table.ui.compact.table
+    %thead
+      %tr
+        %th Name
+        %th
+        %th
+    %tbody
+      - @memberships.select(&:active?).each do |membership|
+        %tr
+          %td= link_to "#{membership.user.first_name} #{membership.user.last_name} (View Profile)", membership.user
+          - if membership.user.admin_of?(membership.organization)
+            %td.collapsing
+              %button.ui.blue.disabled.button
+                %i.circle.chevron.up.icon
+                Promote
+            %td.collapsing
+              %button.ui.red.basic.disabled.button
+                %i.angle.down.icon
+                Deactivate
+          - else
+            %td.collapsing
+              = link_to promote_membership_path(membership), method: :post, data: { confirm: "Are you sure you want to make this user an administrator?" } do
+                %button.ui.blue.button
+                  %i.circle.chevron.up.icon
+                  Promote
+            %td.collapsing
+              = link_to deactivate_membership_path(membership), method: :put, data: { confirm: "Are you sure you want to remove this member from your organization? You cannot undo this action." } do
+                %button.ui.red.basic.button
+                  %i.angle.down.icon
+                  Deactivate

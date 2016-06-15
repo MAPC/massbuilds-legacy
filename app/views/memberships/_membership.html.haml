@@ -1,9 +1,11 @@
 = render membership.organization
-- if membership.active? && (@user == current_user.item)
-  = link_to 'Leave Organization',
-    user_membership_deactivate_path(current_user, membership),
-    method: :put, class: 'ui small basic right floated button',
-    style: 'bottom: 40px; right: 8px; position: relative;'
+
+-# - if membership.active? && (@user == current_user.item)
+-#   = link_to 'Leave Organization',
+-#     user_membership_deactivate_path(current_user, membership),
+-#     method: :put, class: 'ui small basic right floated button',
+-#     style: 'bottom: 40px; right: 8px; position: relative;'
+
 - if membership.pending? && (@user == current_user.item)
   = link_to 'Cancel request',
     user_membership_deactivate_path(current_user, membership),

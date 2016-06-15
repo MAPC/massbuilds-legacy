@@ -1,7 +1,7 @@
 class Organization < ActiveRecord::Base
 
   before_save :hash_email
-  after_create :create_membership
+  after_create :create_admin_membership
 
   has_many :memberships, dependent: :destroy
   has_many :members, through: :memberships, source: :user
@@ -46,6 +46,10 @@ class Organization < ActiveRecord::Base
   # Look up admin organizations, as specified by comma-separated ENV var.
   def self.admin
     where id: ENV['ADMIN_ORG_IDS'].to_s.split(',')
+  end
+
+  def admins
+    members.joins(:memberships).where(memberships: { role: :admin })
   end
 
   def active_members
@@ -97,8 +101,8 @@ class Organization < ActiveRecord::Base
     self.hashed_email = Digest::MD5.hexdigest(attribute_to_hash)
   end
 
-  def create_membership
-    Membership.create(organization: self, user: creator, state: :active)
+  def create_admin_membership
+    self.memberships.create!(user: creator, state: :active, role: :admin)
   end
 
 end

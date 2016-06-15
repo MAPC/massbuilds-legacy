@@ -33,7 +33,33 @@ class Development
     end
 
     def walkscore
-      @walkscore ||= WalkScore.new hash: read_attribute(:walkscore)
+      @walkscore ||= WalkScore.new content: read_attribute(:walkscore)
+    end
+
+    def get_walkscore
+      self.walkscore = WalkScore.new(lat: latitude, lon: longitude).to_h
+    end
+
+    def get_nearest_transit
+      key = 'parent_station_name'
+
+      url = "http://realtime.mbta.com/developer/api/v2/stopsbylocation?"
+      url << "api_key=#{ENV['MBTA_API_KEY']}"
+      url << "&lat=#{latitude.to_f}&lon=#{longitude.to_f}&format=json"
+
+      puts url
+
+      json = JSON.parse(Net::HTTP.get_response(URI(url)).body)
+
+      station = json['stop'].detect { |e| e[key].present? }
+      name = if station
+        station[key]
+      else
+        "Bus stop: #{json['stop'].first['stop_name']}"
+      end
+      self.nearest_transit = name
+    rescue StandardError => e
+      self.nearest_transit = "" # Return current value or empty string
     end
 
   end

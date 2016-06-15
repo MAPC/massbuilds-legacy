@@ -5,6 +5,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   def setup
     stub_street_view
     stub_walkscore
+    stub_mbta
   end
 
   def development
@@ -99,7 +100,8 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test '#mixed_use? saves' do
     stub_street_view lat: 42.3547661, lon: -71.0615689, heading: 0, pitch: 35
-    stub_walkscore lat: nil, lon: nil
+    stub_walkscore lat: 0.0, lon: 0.0
+    stub_mbta lat: 0.0, lon: 0.0
     dev = Development.new(tothu: 1, commsf: 1)
     assert dev.mixed_use?
     dev.save!(validate: false)
@@ -221,12 +223,14 @@ class DevelopmentTest < ActiveSupport::TestCase
     far_dev.latitude  =  40.000000
     far_dev.longitude = -77.000000
     stub_walkscore(lat: far_dev.latitude, lon: far_dev.longitude)
+    stub_mbta(lat: far_dev.latitude, lon: far_dev.longitude)
     far_dev.save!
 
     close_dev = developments(:two)
     close_dev.latitude  =  39.010000
     close_dev.longitude = -75.990000
     stub_walkscore(lat: close_dev.latitude, lon: close_dev.longitude)
+    stub_mbta(lat: close_dev.latitude, lon: close_dev.longitude)
     close_dev.save!
 
     close_devs = Development.close_to(39.000000, -76.000000).load
@@ -422,6 +426,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'associate place' do
     stub_walkscore(lat: 0.00)
+    stub_mbta lat: 0.0, lon: 71.000001
     place = places(:boston)
     d.place = nil
     Place.stub :contains, [place] do
@@ -432,6 +437,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'associate no place' do
     stub_walkscore(lat: 0.00)
+    stub_mbta lat: 0.0, lon: 71.000001
     d.place = nil
     Place.stub :contains, [] do
       d.update_attribute(:latitude, 0.00)
@@ -556,6 +562,13 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert d.valid?, d.errors.full_messages
   end
 
+  test 'nearest transit station' do
+    d.latitude_will_change! # Prompt an update.
+    d.save
+    assert_respond_to d, :nearest_transit
+    assert_equal d.nearest_transit, 'Boylston'
+  end
+
   test 'infer project type' do
     skip
   end
@@ -582,6 +595,12 @@ class DevelopmentTest < ActiveSupport::TestCase
     stub_request(:get, "http://api.walkscore.com/score?format=json&lat=#{lat}&lon=#{lon}&wsapikey=").
           with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'api.walkscore.com', 'User-Agent'=>'Ruby'}).
           to_return(:status => 200, :body => file)
+  end
+
+  def stub_mbta(lat: 42.000001, lon: 71.000001)
+    file = File.read('test/fixtures/mbta/stopsbylocation.json')
+    stub_request(:get, "http://realtime.mbta.com/developer/api/v2/stopsbyroute?api_key=&format=json&lat=#{lat}&lon=#{lon}")
+      .to_return(status: 200, body: file)
   end
 
 end

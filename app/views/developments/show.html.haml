@@ -22,17 +22,15 @@
 
 .row
   .ten.wide.column
-    #images
-      = render partial: 'developments/show/street_view'
     #data
-      .ui.horizontal.divider Details
       = render partial: 'developments/show/physical'
+      = render partial: 'developments/show/transportation'
       = render partial: 'developments/show/residential'
       = render partial: 'developments/show/commercial'
-      -# = render partial: 'developments/show/transportation'
 
   .six.wide.column#sidebar
     #map-container= render partial: 'developments/show/map'
+    #images=  render partial: 'developments/show/street_view'
     #team=    render partial: 'developments/show/team'
     #contrib= render partial: 'developments/show/contributors'
     #related= render partial: 'developments/show/related'

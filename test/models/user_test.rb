@@ -139,4 +139,18 @@ class UserTest < ActiveSupport::TestCase
     end
   end
 
+  test 'creator is an admin of organization' do
+    assert_respond_to user, :admin_of?
+    assert user.admin_of? organizations(:mapc)
+    refute user.admin_of? organizations(:bra)
+  end
+
+  test 'org admins can be added' do
+    org = organizations(:bra)
+    refute user.admin_of?(org)
+    mem = user.memberships.create!(organization: org, role: :admin, state: :active)
+    assert user.admin_of?(org)
+    mem.destroy if mem
+  end
+
 end

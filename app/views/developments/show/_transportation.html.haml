@@ -1,24 +1,24 @@
-%h3.ui.header
-  Transportation
-  .sub.header
-    Transit, Parking, and Walking
+-# %h3.ui.header
+-#   Transportation
+-#   .sub.header
+-#     Transit, Parking, and Walking
 
-.ui.tiny.statistics
+.ui.horizontal.divider
 
-  .ui.green.statistic
-    .label
-      Walk Score
-    .value
-      93
+.ui.large.basic.label#parking
+  %i.car.icon
+  = @development.onsitepark
+  on-site parking spaces
 
-  .ui.statistic
-    .value
-      25
-    .label
-      Parking Spaces
-
-.ui.mini.red.statistic
-  .value
-    Charles / MGH
-  .label
+- if @development.nearest_transit.present?
+  .ui.large.basic.label#transit
     Nearest Transit Station
+    .detail
+      = @development.nearest_transit
+
+- unless @development.walkscore.empty?
+  = link_to @development.walkscore.to_h['help_link'], target: '_blank' do
+    .ui.large.basic.label
+      = @development.walkscore.score
+      .detail
+        WalkScore &reg;

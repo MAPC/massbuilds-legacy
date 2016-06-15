@@ -16,6 +16,8 @@ class Membership < ActiveRecord::Base
   enumerize :state, in: [:pending, :invited, :active, :inactive, :declined],
     default: :pending, predicates: true
 
+  enumerize :role, in: [:normal, :admin], default: :normal, predicates: true
+
   def self.active
     where state: 'active'
   end
@@ -26,6 +28,10 @@ class Membership < ActiveRecord::Base
 
   def self.inactive
     where.not state: 'inactive'
+  end
+
+  def self.admin
+    where state: :active, role: :admin
   end
 
   def invited

@@ -5,5 +5,5 @@
   .menu
     = link_to 'My Profile', user_path(current_user), class: 'item'
     = link_to 'Edit Profile', edit_user_registration_path, class: 'item'
-    = link_to 'Logout', destroy_user_session_path, method: :delete,
+    = link_to 'Log out', destroy_user_session_path, method: :delete,
       class: 'item'

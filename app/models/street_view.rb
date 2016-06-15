@@ -1,3 +1,5 @@
+require 'compass'
+
 class StreetView
 
   attr_reader :url
@@ -27,12 +29,19 @@ class StreetView
   end
 
   def null?
-    hash == self.class.null
+    self.class.null.include? hash
   end
 
   # This image means we're over the rate limit.
   def self.null
-    "18bd8a05483bcc612f0891f94364d410"
+    [
+      "18bd8a05483bcc612f0891f94364d410",  # Rate-limited
+      "f4af83d510a83d5c480ecebe1cedaf6d"   # No imagery here
+    ]
+  end
+
+  def compass_direction
+    Compass.direction_from_degrees(heading)
   end
 
   private

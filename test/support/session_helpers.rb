@@ -22,7 +22,7 @@ module SessionHelpers
 
   def sign_out(*)
     # Might try `visit signout_path, method: :delete`
-    click_link 'Sign out'
+    click_link 'Log out'
   end
 
   def request_password_reset_for(user, options = {})

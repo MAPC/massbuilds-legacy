@@ -21,8 +21,8 @@ class User < ActiveRecord::Base
 
   has_many :subscriptions
 
-  validates :first_name, presence: true
-  validates :last_name,  presence: true
+  validates :first_name, presence: true, if: :new_record?
+  validates :last_name,  presence: true, if: :new_record?
 
   enumerize :mail_frequency, in: [:never, :daily, :weekly],
     predicates: true, default: :weekly
@@ -41,6 +41,10 @@ class User < ActiveRecord::Base
       member_of_municipal_org?(development),
       member_of_admin_org?
     ].any?
+  end
+
+  def admin_of?(organization)
+    organization.admins.include? self
   end
 
   # Is the user a member of an organization which is on the development team

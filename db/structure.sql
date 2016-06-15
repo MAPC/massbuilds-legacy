@@ -276,7 +276,8 @@ CREATE TABLE developments (
     street_view_image bytea,
     parcel_id character varying(25),
     walkscore json DEFAULT '{}'::json NOT NULL,
-    mixed_use boolean
+    mixed_use boolean,
+    nearest_transit character varying
 );
 
 
@@ -480,7 +481,8 @@ CREATE TABLE memberships (
     organization_id integer,
     state character varying,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    role character varying DEFAULT 'normal'::character varying NOT NULL
 );
 
 
@@ -1602,4 +1604,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160525192137');
 INSERT INTO schema_migrations (version) VALUES ('20160526150247');
 
 INSERT INTO schema_migrations (version) VALUES ('20160613151630');
+
+INSERT INTO schema_migrations (version) VALUES ('20160614162551');
+
+INSERT INTO schema_migrations (version) VALUES ('20160615155856');
 
