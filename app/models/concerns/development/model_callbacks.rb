@@ -7,7 +7,8 @@ class Development
       before_save :associate_place
       before_save :determine_mixed_use
       before_save :cache_street_view
-      before_save :update_walk_score
+      before_save :update_walkscore
+      before_save :update_nearest_transit
       before_save :estimate_employment
 
       private
@@ -40,9 +41,15 @@ class Development
         end
       end
 
-      def update_walk_score
+      def update_walkscore
         if location_fields_changed? || new_record?
-          self.walkscore = WalkScore.new(lat: latitude, lon: longitude).to_h
+          self.get_walkscore
+        end
+      end
+
+      def update_nearest_transit
+        if location_fields_changed? || new_record?
+          self.get_nearest_transit
         end
       end
 

@@ -12,7 +12,7 @@
     about housing for this development.
 
 - if @development.housing_attributes.any?
-  %table.ui.basic.selectable.celled.table
+  %table.ui.selectable.celled.table
     %thead
       %th
         %h4.ui.header
@@ -26,8 +26,16 @@
       - @development.housing_attributes.each_pair do |field, value|
         = render partial: 'developments/show/row', locals: { field: field,
             value: value, conditional: true }
+    %tfoot
+      %tr
+        %th
+          %h4.ui.header
+            .content
+              = Development.human_attribute_name(:tothu)
+        %th
+          = number_with_delimiter(@development.tothu.to_i)
 
-  %table.ui.very.basic.selectable.celled.table
+  %table.ui.basic.selectable.celled.table
     %tbody
       = render partial: 'developments/show/row', locals: { field: :gqpop,
         conditional: true, subheader: 'i.e. dorms, barracks, etc.' }

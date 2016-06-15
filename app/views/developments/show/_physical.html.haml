@@ -1,7 +1,6 @@
-%h3.ui.header
-  Building &amp; Site
-  .sub.header
-    Physical Attributes
+.ui.horizontal.divider Building & Site
+
+.ui.horizontal.divider
 
 - if @development.physical_attributes.empty?
   -# TODO: Contribution button partial
@@ -19,13 +18,3 @@
           .value= value
           .label
             = Development.human_attribute_name(field)
-
-    - unless @development.walkscore.empty?
-      .ui.statistic
-        .value
-          = link_to @development.walkscore.to_h['help_link'], target: '_blank' do
-            = @development.walkscore.score
-        .label
-          = link_to @development.walkscore.to_h['help_link'], target: '_blank' do
-            WalkScore &reg;
-

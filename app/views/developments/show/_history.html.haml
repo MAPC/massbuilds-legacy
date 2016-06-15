@@ -2,6 +2,10 @@
 .ui.small.feed
   %h4.ui.header Recent Changes
   - if @development.recent_history.empty?
+    .ui.basic.label
+      Last Updated
+      .detail
+      = @development.created_at.to_s(:short)
     .event
       .content
         There is no activity to show.
