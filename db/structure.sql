@@ -276,7 +276,8 @@ CREATE TABLE developments (
     street_view_image bytea,
     parcel_id character varying(25),
     walkscore json DEFAULT '{}'::json NOT NULL,
-    mixed_use boolean
+    mixed_use boolean,
+    nearest_transit character varying
 );
 
 
@@ -1605,4 +1606,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160526150247');
 INSERT INTO schema_migrations (version) VALUES ('20160613151630');
 
 INSERT INTO schema_migrations (version) VALUES ('20160614162551');
+
+INSERT INTO schema_migrations (version) VALUES ('20160615155856');
 

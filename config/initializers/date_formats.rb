@@ -6,6 +6,14 @@ Time::DATE_FORMATS[:subject] = proc { |date|
   date.stamp('Sunday, 2 Feb 2016')
 }
 
+Time::DATE_FORMATS[:short] = proc { |date|
+  date.stamp('Feb 2, 1999')
+}
+
+Date::DATE_FORMATS[:short] = proc { |date|
+  date.stamp('Feb 2, 1999')
+}
+
 Date::DATE_FORMATS[:subject] = proc { |date|
   date.stamp('Sunday, 2 Feb 2016')
 }

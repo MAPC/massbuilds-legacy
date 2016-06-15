@@ -1,7 +1,27 @@
 :ruby
   src = @development.street_view.data
-  style = 'width: 600px; height: 600px;'
+  style = 'width: 100%;'
   alt = @development.name
 
 - unless @development.street_view.null?
-  %img.ui.image{ src: src, style: style, alt: alt }
+  .ui.horizontal.divider
+  .ui.fluid.card
+    .image
+      %img{ src: src, alt: alt }
+    .content
+      .description
+        %p
+          Google Street View for
+          = succeed ',' do
+            = @development.address
+          facing
+          = succeed '.' do
+            = @development.street_view.compass_direction
+          %p
+            = link_to edit_development_path(@development) do
+              %i.pencil.icon
+              Edit Street View
+    .extra.content
+      %i.warning.icon
+      Image may be old, or not oriented toward the site.
+
