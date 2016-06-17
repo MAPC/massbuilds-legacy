@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import App from '../../app';
 
 export default Ember.Route.extend({
   storedParams: {},
@@ -27,7 +28,11 @@ export default Ember.Route.extend({
     queryObject.page["number"] = params["number"]
     queryObject.page["size"] = params["size"]
 
-    return this.store.find("development", queryObject);
+    return this.store.query("development", queryObject).then(function(model) {
+      console.log(App);
+      model.meta = App.storeMeta['development'];
+      return model;
+    });
   },
   actions: {
     search() {

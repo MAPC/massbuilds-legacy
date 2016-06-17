@@ -61,7 +61,7 @@ export default Ember.Controller.extend({
     return "[" + min + ',' + max + "]";
   },
   totalResults: function() {
-    var meta = this.store.metadataFor("development");
+    var meta = this.get('model.meta');
     return meta["record-count"];
   }.property("model"),
   // since a range isn't strictly a type, we need some parsing logic
