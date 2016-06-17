@@ -25,7 +25,6 @@ export default Ember.Controller.extend({
 
     // Google Street View
     povChanged(state) {
-      console.log(state.pov.heading);
       var model = this.get("model");
       model.set("street_view_heading", state.pov.heading);
       model.set("street_view_pitch", state.pov.pitch);
@@ -55,9 +54,6 @@ export default Ember.Controller.extend({
         window.location.replace(model.get("id"));
       });
     },
-    toggleLabels(context) {
-      console.log(context);
-    },
     update_selected(component, id, value) {
       this.set("organization", id);
     }
@@ -65,7 +61,6 @@ export default Ember.Controller.extend({
   searchCriteria: "",
   isInEdit: function() {
       var currentModelID = this.get('model.id') || "";
-      console.log(currentModelID);
       return currentModelID !== "";        
   }.property('model.id'),
 
