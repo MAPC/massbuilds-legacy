@@ -14,12 +14,8 @@
 
 notes.txt
 
-<<<<<<< db704b573b6d2b888f9bace2f2079e3742bd43db
 .env
 .DS_Store
 node_modules/
 bower_components/
-=======
-searchapp/node_modules/
-searchapp/bower_components
->>>>>>> Updating git ignore
+
