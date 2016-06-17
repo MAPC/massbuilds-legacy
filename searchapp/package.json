@@ -36,6 +36,7 @@
     "ember-cli-sri": "^2.0.0",
     "ember-cli-uglify": "^1.2.0",
     "ember-data": "^2.3.0",
+    "ember-data-has-many-query": "0.1.4",
     "ember-disable-proxy-controllers": "^1.0.1",
     "ember-export-application-global": "^1.0.4",
     "ember-leaflet": "git://github.com/gabesmed/ember-leaflet.git#8c22085c93ababc709c9c01d11905fccac496f71",
