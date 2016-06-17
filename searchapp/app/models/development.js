@@ -41,6 +41,9 @@ export default DS.Model.extend({
   affordable: DS.attr("number"),
   gqpop: DS.attr("number"),
 
+  "refined-lng": DS.attr("number"),
+  "refined-lat": DS.attr("number"),
+
   fa_ret: DS.attr("number"),
   fa_ofcmd: DS.attr("number"),
   fa_indmf: DS.attr("number"),
