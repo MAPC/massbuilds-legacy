@@ -2,8 +2,17 @@ import Ember from 'ember';
 
 export default Ember.Controller.extend({
   queryParams: ["year_compl", "tothu", "commsf", 
-                "status", "asofright", "age_restricted", "clusteros", 
-                "phased", "cancelled", "private", "number", "size"],
+                "status", 
+
+                { "redevelopment": { type: 'boolean' }}, 
+                { "asofright": { type: 'boolean' }}, 
+                { "age_restricted": { type: 'boolean' }}, 
+                { "clusteros": { type: 'boolean' }}, 
+                { "phased": { type: 'boolean' }}, 
+                { "cancelled": { type: 'boolean' }}, 
+                { "private": { type: 'boolean' }}, 
+
+                "number", "size"],
 
   itemActions: [{ name: "Projected", id: "projected" }, 
       { name: "Planning", id: "planning" }, 
