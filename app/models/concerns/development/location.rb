@@ -40,6 +40,16 @@ class Development
       self.walkscore = WalkScore.new(lat: latitude, lon: longitude).to_h
     end
 
+    # TODO: Refactor into fully-tested (> 90%) service object.
+    #
+    #   Spec:
+    #     - If there is a subway stop in the list, use it.
+    #     - If there is no subway stop in the list, use the nearest bus stop.
+    #     - If there are no nearby transit results, return nil.
+    #  Additionally:
+    #  - Remember to add a 'none' display in the view if there is no transit.
+    #  - Keep using Net::HTTP - no gem needed for something this simple.
+    #
     def get_nearest_transit
       key = 'parent_station_name'
 

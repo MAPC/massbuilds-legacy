@@ -1,5 +1,6 @@
 class ChangePresenter < Burgundy::Item
 
+  # TODO: Rename method to #message, and employ in views.
   def text
     text_for(item)
   end
@@ -8,15 +9,20 @@ class ChangePresenter < Burgundy::Item
 
   def text_for(change)
     types = [change.from.class, change.to.class]
+    # TODO: Instead of deleting NilClass, prevent it from ever appearing.
     types.delete NilClass
     template_for(types.first.name.to_sym)
   end
 
-  # TODO: Make this return an object, for the template
-  # to lay out and interpolate text.
-  # TODO: For enumerized statuses, instead of just checking
-  # that it's String type, titleize values. That is, in_construction,
-  # should read In Construction.
+  # TODO: For enumerized values such as 'status', titleize the status value.
+  #   For example, when someone changes item.status to :in_construction, the
+  #   message should read, 'changed status from "Planning" to "In Construction"'.
+  #   This could happen in a conditional here, or it might be possible to do
+  #   something in the Development enumerize line.
+
+  # TODO: Let the message values be double-quoted, that is:
+  #   'changed name from "old" to "new"'.
+
   def template_for(type)
     case type
     when :Fixnum
@@ -32,6 +38,7 @@ class ChangePresenter < Burgundy::Item
     end
   end
 
+  # TODO: Does this need to be private?
   def name
     Development.human_attribute_name item.name
   end
