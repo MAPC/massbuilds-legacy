@@ -41,4 +41,19 @@ class Place < ActiveRecord::Base
     RGeo::Geographic.spherical_factory(srid: 4326)
   end
 
+  include PgSearch
+  multisearchable against: [
+    :name,
+    :municipality_name,
+    :neighborhood_name
+  ]
+
+  def municipality_name
+    municipality.try :name
+  end
+
+  def neighborhood_name
+    neighborhood.try :name
+  end
+
 end

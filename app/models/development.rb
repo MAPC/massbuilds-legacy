@@ -25,6 +25,24 @@ class Development < ActiveRecord::Base
     tothu.to_i > 0 && commsf.to_i > 0
   end
 
+  include PgSearch
+  multisearchable against: [
+    :name,
+    :address,
+    :tagline,
+    :description,
+    :place_name,
+    :municipality_name
+  ]
+
+  def place_name
+    place.name if place
+  end
+
+  def municipality_name
+    place.municipality.name if place
+  end
+
   private
 
   def nine_digit_formatted_zip(code)

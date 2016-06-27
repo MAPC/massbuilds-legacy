@@ -346,7 +346,8 @@ CREATE TABLE edits (
     updated_at timestamp without time zone NOT NULL,
     ignore_conflicts boolean DEFAULT false,
     moderated_at timestamp without time zone,
-    applied boolean DEFAULT false NOT NULL
+    applied boolean DEFAULT false NOT NULL,
+    log_entry text
 );
 
 
@@ -547,6 +548,39 @@ CREATE SEQUENCE organizations_id_seq
 --
 
 ALTER SEQUENCE organizations_id_seq OWNED BY organizations.id;
+
+
+--
+-- Name: pg_search_documents; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE pg_search_documents (
+    id integer NOT NULL,
+    content text,
+    searchable_id integer,
+    searchable_type character varying,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: pg_search_documents_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE pg_search_documents_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: pg_search_documents_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE pg_search_documents_id_seq OWNED BY pg_search_documents.id;
 
 
 --
@@ -904,6 +938,13 @@ ALTER TABLE ONLY organizations ALTER COLUMN id SET DEFAULT nextval('organization
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY pg_search_documents ALTER COLUMN id SET DEFAULT nextval('pg_search_documents_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY place_profiles ALTER COLUMN id SET DEFAULT nextval('place_profiles_id_seq'::regclass);
 
 
@@ -1051,6 +1092,14 @@ ALTER TABLE ONLY memberships
 
 ALTER TABLE ONLY organizations
     ADD CONSTRAINT organizations_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: pg_search_documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY pg_search_documents
+    ADD CONSTRAINT pg_search_documents_pkey PRIMARY KEY (id);
 
 
 --
@@ -1268,6 +1317,13 @@ CREATE INDEX index_organizations_on_creator_id ON organizations USING btree (cre
 --
 
 CREATE INDEX index_organizations_on_place_id ON organizations USING btree (place_id);
+
+
+--
+-- Name: index_pg_search_documents_on_searchable_type_and_searchable_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_pg_search_documents_on_searchable_type_and_searchable_id ON pg_search_documents USING btree (searchable_type, searchable_id);
 
 
 --
@@ -1608,4 +1664,8 @@ INSERT INTO schema_migrations (version) VALUES ('20160613151630');
 INSERT INTO schema_migrations (version) VALUES ('20160614162551');
 
 INSERT INTO schema_migrations (version) VALUES ('20160615155856');
+
+INSERT INTO schema_migrations (version) VALUES ('20160615180427');
+
+INSERT INTO schema_migrations (version) VALUES ('20160624144930');
 
