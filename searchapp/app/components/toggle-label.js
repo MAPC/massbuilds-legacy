@@ -11,6 +11,7 @@ export default Ember.Component.extend({
     return !!this.get('internal');
   }),
   click: function() {
+    console.log(this.get("blue"));
     this.toggleProperty("field");
   },
   didInsertElement: function() {

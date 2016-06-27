@@ -1,10 +1,10 @@
 GIT
   remote: https://github.com/allthesignals/ember-cli-rails
-  revision: 95299d73262a6ab2e73517cb8874833f0d05eb4c
+  revision: 77d4e595be7db1bd132a91f540fade9d3cd73431
   specs:
-    ember-cli-rails (0.7.2)
+    ember-cli-rails (0.7.4)
       cocaine (~> 0.5.8)
-      ember-cli-rails-assets (>= 0.6.1)
+      ember-cli-rails-assets (~> 0.6.2)
       html_page (~> 0.1.0)
       railties (>= 3.2, < 5)
 

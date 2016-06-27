@@ -1,9 +1,18 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  queryParams: ["year_compl", "tothu", "commsf","redevelopment", 
-                "status", "asofright", "age_restricted", "clusteros", 
-                "phased", "cancelled", "private", "number", "size"],
+  queryParams: ["year_compl", "tothu", "commsf", 
+                "status", 
+
+                { "redevelopment": { type: 'boolean' }}, 
+                { "asofright": { type: 'boolean' }}, 
+                { "age_restricted": { type: 'boolean' }}, 
+                { "clusteros": { type: 'boolean' }}, 
+                { "phased": { type: 'boolean' }}, 
+                { "cancelled": { type: 'boolean' }}, 
+                { "private": { type: 'boolean' }}, 
+
+                "number", "size"],
 
   itemActions: [{ name: "Projected", id: "projected" }, 
       { name: "Planning", id: "planning" }, 
@@ -61,7 +70,7 @@ export default Ember.Controller.extend({
     return "[" + min + ',' + max + "]";
   },
   totalResults: function() {
-    var meta = this.store.metadataFor("development");
+    var meta = this.get('model.meta');
     return meta["record-count"];
   }.property("model"),
   // since a range isn't strictly a type, we need some parsing logic
