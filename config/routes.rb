@@ -21,6 +21,7 @@ Rails.application.routes.draw do
       jsonapi_resources :subscriptions, only: [:create, :destroy]
       jsonapi_resources :organizations, only: [:index, :show]
       jsonapi_resources :development_team_memberships
+      jsonapi_resources :searchables, only: [:show]
     end
   end
 
@@ -28,6 +29,7 @@ Rails.application.routes.draw do
   get 'developments/table', to: 'developments#index', rest: '/table', ember_app: :searchapp
 
   resources :developments, only: [:show] do
+    get :image, on: :member
     resources :claims, only: [:new, :create]
     resources :flags,  only: [:new, :create] do
       post :close, on: :member

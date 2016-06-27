@@ -10,6 +10,7 @@ class Edit < ActiveRecord::Base
   validates :development, presence: true
   validates :editor, presence: true
   validates :state,  presence: true
+  # validates :log_entry, presence: true, if: :new_record?
   validates :moderated_at, presence: true, if: -> { approved? || declined? }
   # validate  :applied_only_if_approved
 

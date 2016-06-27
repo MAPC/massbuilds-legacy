@@ -563,7 +563,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'nearest transit station' do
-    d.latitude_will_change! # Prompt an update.
+    d.latitude_will_change! # This prompts an update.
     d.save
     assert_respond_to d, :nearest_transit
     assert_equal d.nearest_transit, 'Boylston'
