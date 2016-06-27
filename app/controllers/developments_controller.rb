@@ -2,7 +2,7 @@ class DevelopmentsController < ApplicationController
 
   layout 'search', except: [:show]
 
-  before_action :load_record, only: [:show, :edit, :update]
+  before_action :load_record, only: [:show, :image, :edit, :update]
   before_action :authenticate_user!, only: [:edit, :update]
 
   def index
@@ -16,6 +16,11 @@ class DevelopmentsController < ApplicationController
     if @development.out_of_date?
       flash.now[:partial] = { path: 'developments/out_of_date' }
     end
+  end
+
+  def image
+    send_data @development.street_view.image, type: 'image/jpg',
+      disposition: 'inline'
   end
 
   def edit

@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   get 'developments/table', to: 'developments#index', rest: '/table', ember_app: :searchapp
 
   resources :developments, only: [:show] do
+    get :image, on: :member
     resources :claims, only: [:new, :create]
     resources :flags,  only: [:new, :create] do
       post :close, on: :member
