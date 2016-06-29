@@ -31,7 +31,7 @@ module Ddmodels2
     # to allow any host to connect to it. In production, set it to a comma-separated list of
     # domains where the client application is known to be hosted.
     # # => KNOWN_HOSTS=clientside.knowplace.com,another.pla.ce
-    KNOWN_HOSTS = ENV.fetch('KNOWN_HOSTS') { 'http://lvh.me:5000,http://localhost:4200,http://10.10.2.119:4200,http://0.0.0.0:4200' }
+    KNOWN_HOSTS = ENV.fetch('KNOWN_HOSTS') { 'http://lvh.me:5000,http://localhost:4200' }
     DEBUG_CORS  = ENV.fetch('DEBUG_CORS')  { false }
 
     config.middleware.insert_before 0, "Rack::Cors", debug: DEBUG_CORS, logger: (-> { Rails.logger }) do
