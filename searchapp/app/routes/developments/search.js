@@ -25,8 +25,8 @@ export default Ember.Route.extend({
     });
 
     queryObject.page = {};
-    queryObject.page["number"] = params["number"]
-    queryObject.page["size"] = params["size"]
+    queryObject.page["number"] = params["number"];
+    queryObject.page["size"] = params["size"];
 
     return this.store.query("development", queryObject).then(function(model) {
       console.log(App);
@@ -47,24 +47,23 @@ export default Ember.Route.extend({
 
     this.controllerFor("developments.search").computeRanges();
     if(transition.queryParams.year_compl !== undefined) {
-      var year = JSON.parse(transition.queryParams.year_compl)  
+      var year = JSON.parse(transition.queryParams.year_compl);  
       this.controllerFor('developments.search').setProperties({ "yearFrom": year[0], "yearTo": year[1] });
     }
 
     if(transition.queryParams.commsf !== undefined) {
-      var commsf = JSON.parse(transition.queryParams.commsf)  
+      var commsf = JSON.parse(transition.queryParams.commsf); 
       this.controllerFor('developments.search').setProperties({ "sqftFrom": commsf[0], "sqftTo": commsf[1] });
     }
 
     if(transition.queryParams.tothu !== undefined) {
-      var tothu = JSON.parse(transition.queryParams.tothu)  
+      var tothu = JSON.parse(transition.queryParams.tothu);  
       this.controllerFor('developments.search').setProperties({ "tothuFrom": tothu[0], "tothuTo": tothu[1] });
     }
 
   },
   resetController: function () {
-    var controller = this.controllerFor("developments.search")
-    var queryParams = controller.get('queryParams');
+    var controller = this.controllerFor("developments.search");
     this.filters.forEach((param) => {
       controller.set(param, null);
     });

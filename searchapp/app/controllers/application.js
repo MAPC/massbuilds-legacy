@@ -18,7 +18,7 @@ export default Ember.Controller.extend({
           onApprove() {
             search.destroyRecord();
           }
-        }).modal("show")
+        }).modal("show");
     },
     downloadSearchModal(search) {
       Ember.$('.ui.modal.download-search-' + search.get("id"))
@@ -26,7 +26,7 @@ export default Ember.Controller.extend({
     }
 	},
   searches: function() {
-    var model = this.get("model.searches")
+    var model = this.get("model.searches");
     console.log(model);
     return model;
   }.property("model.searches")

@@ -1,16 +1,18 @@
 import Ember from 'ember';
+import mapboxgl from 'npm:mapbox-gl'
+
 //import mapbox-gl mixin
 // import MapboxGl from 'bower_components/';
 export default Ember.Component.extend({
   actions: {
     highlightPoint(e) {
-      var projected = this.map.project([e.get("latitude"),e.get("longitude")])
+      var projected = this.map.project([e.get("latitude"),e.get("longitude")]);
       this.drawPopup(projected);
     }
   },
   // define default map settings
   drawPopup(point) {
-    this.map.featuresAt(point, {
+    this.map.queryRenderedFeatures(point, {
       radius: 15, // Half the marker size (15px).
       includeGeometry: true,
       layer: 'markers'
@@ -37,12 +39,12 @@ export default Ember.Component.extend({
                 "type": "Point",
                 "coordinates": coordinates
             }
-      }
+      };
   },
   recalculateBounds() {
-    var geojsonLayer = L.geoJson(this.get("mapToGeoJSON"))        
-    var bounds = geojsonLayer.getBounds();
-    var arraybounds = [[bounds.getWest(), bounds.getSouth()], [bounds.getEast(), bounds.getNorth()]]
+    var geojsonLayer = L.geoJson(this.get("mapToGeoJSON")),   
+      bounds = geojsonLayer.getBounds(),
+      arraybounds = [[bounds.getWest(), bounds.getSouth()], [bounds.getEast(), bounds.getNorth()]];
     this.map.fitBounds(arraybounds, { duration: 600 });
   },
   mapToGeoJSON: function() {
@@ -62,7 +64,7 @@ export default Ember.Component.extend({
     return {
       "type": "FeatureCollection",
       "features": features
-    }
+    };
   }.property("developments"),
 
   refresh: function() {
@@ -133,7 +135,7 @@ export default Ember.Component.extend({
     });
 
     this.map.on('click', (e) => {
-      var features = this.map.featuresAt(e.point, {       
+      this.map.queryRenderedFeatures(e.point, {       
         radius: 15, // Half the marker size (15px).
         includeGeometry: true,
         layer: 'markers'

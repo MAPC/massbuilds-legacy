@@ -24,7 +24,7 @@ export default Ember.Route.extend({
       var query = this.get("container").lookup("route:developments.search").get("storedParams");
       var search = this.store.createRecord("search", { title: controller.get("title"), query: query, saved: true });
 
-      search.save().then((response) => {
+      search.save().then(() => {
         controller.set("title", null);
       });
     },

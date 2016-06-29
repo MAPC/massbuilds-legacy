@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import mapboxgl from 'npm:mapbox-gl'
 
 export default Ember.Component.extend({
   classNames: "development-map-wrapper",
@@ -6,7 +7,7 @@ export default Ember.Component.extend({
     var model = this.get("model");
     // access token
     mapboxgl.accessToken = 'pk.eyJ1Ijoid2lsYnVybmZvcmNlIiwiYSI6ImNpaHAzNzZuZzAxZ2N0NG00dnJvNWhpbG0ifQ.wenPCGfbuhofj2g4kkTJGw';
-    L.mapbox.accessToken = mapboxgl.accessToken
+    // L.mapbox.accessToken = mapboxgl.accessToken;
     // map configuration
     this.map = new mapboxgl.Map({
         container: 'development-map', // container id
@@ -57,12 +58,11 @@ export default Ember.Component.extend({
   }.observes("this.model.location"),
   parcelID: function() {
     var model = this.get("model");
-    var centerObj = this.map.getCenter();
     var center = [150, 250];
     
     this.map.featuresAt(center, { radius: 1 }, function(err, features) {
       if(features[0]) {
-        model.set("parcel_id", features[0].properties.parloc_id)
+        model.set("parcel_id", features[0].properties.parloc_id);
       }
     });
   }
