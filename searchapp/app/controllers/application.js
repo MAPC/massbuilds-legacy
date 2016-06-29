@@ -10,10 +10,10 @@ export default Ember.Controller.extend({
     	this.send("cancelSaveSearch");
     },
     closeSearchModal() {
-      $('.ui.modal').modal('hide');
+      Ember.$('.ui.modal').modal('hide');
     },
     deleteSearch(search) {
-      $('.ui.modal.delete-search')
+      Ember.$('.ui.modal.delete-search')
         .modal({
           onApprove() {
             search.destroyRecord();
@@ -21,8 +21,8 @@ export default Ember.Controller.extend({
         }).modal("show")
     },
     downloadSearchModal(search) {
-      $('.ui.modal.download-search-' + search.get("id"))
-        .modal("show")
+      Ember.$('.ui.modal.download-search-' + search.get("id"))
+        .modal("show");
     }
 	},
   searches: function() {

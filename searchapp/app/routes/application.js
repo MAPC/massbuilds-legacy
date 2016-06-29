@@ -7,9 +7,8 @@ export default Ember.Route.extend({
     }
   },
   actions: {
-    toggle: function(direction) {
-      console.log("Toggling");
-      $('.ui.sidebar').sidebar('toggle');
+    toggle: function() {
+      Ember.$('.ui.sidebar').sidebar('toggle');
     },
     transitionToSaved: function(search) {
       var query = search.get("query");
@@ -18,7 +17,7 @@ export default Ember.Route.extend({
       this.send("toggle");
     },
     nameSearch() {
-      $('.ui.modal.save-search').modal('show');
+      Ember.$('.ui.modal.save-search').modal('show');
     },    
     postSearch() {
       var controller = this.controllerFor("application");
