@@ -12,7 +12,7 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{range-field-group}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$('div').attr('class'), 'ember-view', 'it renders');
 
   // Template block usage:" + EOL +
   this.render(hbs`
@@ -21,5 +21,5 @@ test('it renders', function(assert) {
     {{/range-field-group}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$('div').attr('class'), 'ember-view', 'it renders with block');
 });
