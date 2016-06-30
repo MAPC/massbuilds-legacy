@@ -95,6 +95,10 @@ class DevelopmentPresenter < Burgundy::Item
     category_attributes :commercial
   end
 
+  def place_org
+    Organization.municipal.find_by(place_id: item.place_id)
+  end
+
   private
 
   def long_address
