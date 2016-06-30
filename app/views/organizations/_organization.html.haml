@@ -2,7 +2,10 @@
   .ui.tiny.image
     %img{ src: organization.gravatar_url }
   .middle.aligned.content
-    .header= organization.name
+    .header
+      - if organization.municipal?
+        %i.university.icon
+      = organization.name
     .meta
       - if organization.location.present?
         = organization.location
