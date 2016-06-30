@@ -6,6 +6,8 @@ class Development
     end
 
     module ClassMethods
+      # Produces a collection of hashes that list every numeric attribute and
+      # the current minimum and maximum value.
       def ranged_column_bounds
         Hash[ranged_column_array]
       end

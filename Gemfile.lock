@@ -304,6 +304,8 @@ GEM
     rgeo-activerecord (4.0.5)
       activerecord (~> 4.2)
       rgeo (~> 0.3)
+    rgeo-geojson (0.4.3)
+      rgeo (~> 0.5)
     rubocop (0.40.0)
       parser (>= 2.3.1.0, < 3.0)
       powerpack (~> 0.1)
@@ -436,6 +438,7 @@ DEPENDENCIES
   rake
   rb-fsevent
   rgeo
+  rgeo-geojson
   rubocop
   sass-rails
   seed-fu (~> 2.3)

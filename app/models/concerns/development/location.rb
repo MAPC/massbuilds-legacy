@@ -1,6 +1,24 @@
 class Development
   module Location
 
+    def self.included(base)
+      base.extend(ClassMethods)
+    end
+
+    module ClassMethods
+      def within_box(top: , right: , bottom: , left: )
+        factory = RGeo::Geographic.spherical_factory
+        sw = factory.point(left, bottom)
+        ne = factory.point(right, top)
+        window = RGeo::Cartesian::BoundingBox.create_from_points(sw, ne).to_geometry
+        where("point && ?", window)
+      end
+
+      def within(geometry)
+        where("ST_Intersects(point, ?)", geometry)
+      end
+    end
+
     def location
       [latitude, longitude].map(&:to_f)
     end
