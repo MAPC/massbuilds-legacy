@@ -79,6 +79,7 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
     set_content_type_header!
     stub_street_view
     stub_walkscore(lat: 42.3, lon: -71.0)
+    stub_mbta lat: 42.3, lon: -71.0
 
     post :create, create_development_json
     assert_response :created, JSON.parse(response.body)#['errors'].first['meta']['backtrace'].join("\n")
@@ -189,11 +190,17 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
       to_return(status: 200, body: file)
   end
 
-  def stub_walkscore(lat: 42.000001, lon: 71.000001)
+  def stub_walkscore(lat: 42.000001, lon: -71.000001)
     file = File.read('test/fixtures/walkscore/200.json')
     stub_request(:get, "http://api.walkscore.com/score?format=json&lat=#{lat}&lon=#{lon}&wsapikey=").
           with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'api.walkscore.com', 'User-Agent'=>'Ruby'}).
           to_return(:status => 200, :body => file)
+  end
+
+  def stub_mbta(lat: 42.000001, lon: -71.000001)
+    file = File.read('test/fixtures/mbta/stopsbylocation.json')
+    stub_request(:get, "http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key=&format=json&lat=#{lat}&lon=#{lon}")
+      .to_return(status: 200, body: file)
   end
 
 end

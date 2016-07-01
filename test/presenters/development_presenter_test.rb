@@ -94,11 +94,10 @@ class DevelopmentPresenterTest < ActiveSupport::TestCase
   end
 
   test '#housing_attributes' do
-    assert_equal({ 'tothu' => 0 }, pres.housing_attributes)
-    item.tothu = 1
+    assert_equal({ }, pres.housing_attributes)
+    item.singfamhu = 1
     refute_empty pres.housing_attributes
-    assert_includes pres.housing_attributes.keys, 'tothu'
-    assert_includes pres.housing_attributes.values, 1
+    assert_equal({ 'singfamhu' => 1 }, pres.housing_attributes)
   end
 
 end

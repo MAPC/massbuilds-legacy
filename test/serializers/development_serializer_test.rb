@@ -59,7 +59,11 @@ class DevelopmentSerializerTest < ActiveSupport::TestCase
   end
 
   test '#to_header with an object' do
-    assert_equal expected_header, dev.to_header
+    assert_equal expected_header, dev.to_header,
+      """
+        Extra value in actual header: #{e = (dev.to_header - expected_header).first}
+        At index: #{dev.to_header.index(e)}
+      """
   end
 
   test '#to_header shows development team' do
