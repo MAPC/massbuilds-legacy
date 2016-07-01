@@ -1,17 +1,29 @@
-.row
-  .ten.wide.column#title-area
+:css
+  body {
+    background-color: #DADADA;
+  }
+  body > .grid {
+    height: 100%;
+  }
+  .image {
+    margin-top: -100px;
+  }
+  .column {
+    max-width: 450px;
+  }
+
+
+.ui.middle.aligned.center.aligned.grid
+  .column
     %h2 Welcome!
-    %h5
-      If you used the previous version of the Development Database, you can
-      = link_to 'log in', signin_path
-      using the email address you signed up with before.
+    = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'ui form new_user' }) do |f|
 
-.row
-  .ui.six.column.grid
+      .ui.stacked.segment
 
-    .six.wide.column
-
-      = form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: 'ui form new_user' }) do |f|
+        .ui.message
+          If you used the previous version of the Development Database, you can
+          = succeed '.' do
+            = link_to 'go to the login page'
 
         = devise_error_messages!
 
@@ -25,15 +37,21 @@
 
         .field
           = f.label :email, 'Email address'
-          = f.email_field :email, placeholder: 'Email address'
+          .ui.left.icon.input
+            %i.mail.icon
+            = f.email_field :email, placeholder: 'Email address'
 
         .field
           = f.label :password, 'Password (at least 8 characters)'
-          = f.password_field :password, autocomplete: 'off'
+          .ui.left.icon.input
+            %i.lock.icon
+            = f.password_field :password, placeholder: 'Password', autocomplete: 'off'
 
         .field
           = f.label :password_confirmation, 'Confirm password'
-          = f.password_field :password_confirmation, autocomplete: 'off'
+          .ui.left.icon.input
+            %i.lock.icon
+            = f.password_field :password_confirmation, placeholder: 'Confirm password', autocomplete: 'off'
 
-        .actions
-          = f.submit 'Sign me up!',  class: 'ui green button'
+        .ui.actions
+          = f.submit 'Sign me up!',  class: 'ui fluid large teal submit button'

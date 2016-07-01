@@ -34,7 +34,7 @@
             .ui.checkbox
               = f.check_box :remember_me, checked: true
               = f.label     :remember_me
-        .ui.fluid.large.teal.submit.button Log in
+          = f.submit 'Log in',  class: 'ui fluid large teal submit button'
       .ui.error.message
     .ui.message
       = render "devise/shared/links"
