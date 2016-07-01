@@ -3,10 +3,25 @@ import App from '../../app';
 
 export default Ember.Route.extend({
   storedParams: {},
-  queryParams: {
+  queryParams: { 
     number: {
       refreshModel: true
-    }
+    },
+    year_compl: { refreshModel: true },
+    tothu: { refreshModel: true },
+    commsf: { refreshModel: true },
+    name: { refreshModel: true },
+    address: { refreshModel: true },
+    municipality: { refreshModel: true },
+    redevelopment: { refreshModel: true },
+    status: { refreshModel: true },
+    asofright: { refreshModel: true },
+    age_restricted: { refreshModel: true },
+    clusteros: { refreshModel: true },
+    cancelled: { refreshModel: true },
+    'private': { refreshModel: true },
+    saved: { refreshModel: true },
+    status: { refreshModel: true }
   },
   filters: ["year_compl","tothu","commsf","name","address","municipality","redevelopment", 
                   "status", "asofright", "age_restricted", "clusteros", 

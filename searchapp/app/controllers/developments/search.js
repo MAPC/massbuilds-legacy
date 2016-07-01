@@ -87,6 +87,24 @@ export default Ember.Controller.extend({
     });
   },
 
+  filtersSet: function() {
+    var set = false;
+    var params = this.get('queryParams');
+    params.forEach((param) => {
+      if (typeof param === 'string' && param !== 'number' && param !=='size') {
+        if (!!this.get(param)) {
+          set = true;
+        }
+      } else {
+        if (!!this.get(Object.keys(param)[0])) {
+          set = true;
+        }
+      }
+    });
+    
+    return set;
+  }.property("year_compl", "tothu", "commsf", "name", "address", "municipality", "redevelopment", "asofright", "age_restricted", "clusteros", "phased", "cancelled", "private", "number", "size", "saved", "status"),
+
   listenToChanges: function() {
     // this needs to be refactored. No observers.
     console.log("Observer Triggered")
