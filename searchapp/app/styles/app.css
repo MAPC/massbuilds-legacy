@@ -143,3 +143,15 @@
 .export-search {
   box-shadow: 7px 7px 5px #888888;
 }
+
+.spatial-stats {
+  top: 135px;
+  z-index: 99;
+  width: 20%;
+  left: 24px;
+  position: fixed;
+}
+
+.pac-container .pac-logo {
+  display: none;
+}

@@ -12,7 +12,7 @@ export default Ember.Component.extend({
         this.$('.bottom-table-drawer').css({'top': 'calc(100vh - 70px)'});
         this.set('open', !open);
       } else {
-        this.$('.bottom-table-drawer').animate({'top': '60%'}, 300);
+        this.$('.bottom-table-drawer').animate({'top': '45%'}, 300);
         this.set('open', !open);
       }
     }

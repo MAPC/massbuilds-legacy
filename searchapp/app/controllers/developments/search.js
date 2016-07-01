@@ -12,7 +12,7 @@ export default Ember.Controller.extend({
                 { "cancelled": { type: 'boolean' }}, 
                 { "private": { type: 'boolean' }}, 
 
-                "number", "size"],
+                "number", "size", "placeSearch"],
 
   itemActions: [{ name: "Projected", id: "projected" }, 
       { name: "Planning", id: "planning" }, 
@@ -63,6 +63,9 @@ export default Ember.Controller.extend({
     },
     previousPage() {
       this.set("number", this.get("number")-1);
+    },
+    clearSearch() {
+      this.set('placeSearch', null);
     }
   },
 
@@ -91,7 +94,7 @@ export default Ember.Controller.extend({
     var set = false;
     var params = this.get('queryParams');
     params.forEach((param) => {
-      if (typeof param === 'string' && param !== 'number' && param !=='size') {
+      if (typeof param === 'string' && param !== 'number' && param !=='size' && param !== 'placeSearch') {
         if (!!this.get(param)) {
           set = true;
         }
@@ -104,6 +107,42 @@ export default Ember.Controller.extend({
     
     return set;
   }.property("year_compl", "tothu", "commsf", "name", "address", "municipality", "redevelopment", "asofright", "age_restricted", "clusteros", "phased", "cancelled", "private", "number", "size", "saved", "status"),
+
+  placeSearch: null,
+  searchables: function() {
+    var adapter = this.container.lookup('adapter:searchable');
+
+    if (this.get('placeSearch')) {
+      adapter.ajax(this.completeTaskUrl(adapter, this.get('placeSearch')), 'GET')
+        .then((response) => {
+          this.set('placeSearchResults',response.data);
+        });
+
+      // var inputElement = this.get('placeSearch'),
+      //     google = this.get('google') || window.google, //TODO: check how to use the inyected google object
+      //     autocomplete = new google.maps.places.Autocomplete(inputElement, { types: this._typesToArray(), componentRestrictions: this.get('restrictions') });
+      // this.set('autocompleteResults', autocomplete);
+    } else {
+      this.set('placeSearchResults', []);
+      this.set('autocompleteResults', []);
+      this.set('placeSearch', null);
+    }
+
+  }.property('this.placeSearch'),
+  completeTaskUrl: function(adapter, query) {      
+    return adapter.buildURL('searchable') + '/' + query;
+  },
+  placeSearchResults: [],
+
+  types: 'address',
+  autocompleteResults: [],
+  _typesToArray() {
+    if (this.get('types') !== "") {
+      return this.get('types').split(',');
+    } else {
+      return [];
+    }
+  },
 
   listenToChanges: function() {
     // this needs to be refactored. No observers.

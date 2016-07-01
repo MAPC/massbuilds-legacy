@@ -46,5 +46,75 @@
     </div>
   </div>
 {{/filters-menu}}
-{{mapbox-map developments=model model=model}}
+{{#mapbox-map developments=model model=model}}
+  <div class="spatial-stats">
+    <div class="ui segment">
+      <div class="ui form">
+        <div class="ui icon input" style="width: 100%">
+          {{input type="text" value=placeSearch placeholder="Search for a Place"}}
+          {{#if placeSearch}}
+            <i class="circular delete link icon" {{action 'clearSearch'}}></i>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    {{searchables}}
+    {{#if placeSearchResults}}
+      <div class="ui segment">
+        <div class="ui divided link items" style="width: 100%;">
+{{!--           {{#each autocompleteResults as |result|}}
+            <a class="item">
+              <div class="ui tiny image">
+                <img src="http://semantic-ui.com/images/wireframe/image.png">
+              </div>
+              <div class="content">
+                <div class="header">{{result}}</div>
+                <div class="meta">
+                  <span>Type: {{result}}</span>
+                </div>
+              </div>
+            </a>
+          {{/each}} --}}
+          {{#each placeSearchResults as |result|}}
+            <a class="item">
+              <div class="ui tiny image">
+                <img src="http://semantic-ui.com/images/wireframe/image.png">
+              </div>
+              <div class="content">
+                <div class="header">{{result.attributes.name}}</div>
+                <div class="meta">
+                  <span>Type: {{result.type}}</span>
+                </div>
+{{!--                 <div class="description">
+                  <p>{{result.attributes.description}}</p>
+                </div> --}}
+              </div>
+            </a>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+    <div class="ui segment" style="background-color: rgba(255,255,255,0.9);">
+      <div class="ui top attached label">Summary Statistics</div>
+      <div class="ui horizontal statistics">
+        <div class="ui statistic">
+          <div class="value">
+            {{totalResults}}
+          </div>
+          <div class="label">
+            Developments
+          </div>
+        </div>
+        <div class="ui statistic">
+          <div class="value">
+            10,543
+          </div>
+          <div class="label">
+            Housing Units
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{{/mapbox-map}}
 {{developments-list-component model=model}}
