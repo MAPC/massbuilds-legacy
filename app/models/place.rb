@@ -12,6 +12,10 @@ class Place < ActiveRecord::Base
     ")
   end
 
+  def developments
+    Development.within(self.geom)
+  end
+
   def municipality
     case type
     when 'Municipality' then self

@@ -39,6 +39,7 @@ class DevelopmentSerializer
     base.reject! { |k, _v| k.include? 'street_view_' }
     base.reject! { |k, _v| k.include? 'walkscore'    }
     base.reject! { |k, _v| k.include? 'parcel'       }
+    base.reject! { |k, _v| k.include? 'point'        }
     base
   end
 

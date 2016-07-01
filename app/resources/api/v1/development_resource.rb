@@ -50,6 +50,11 @@ module API
 
       filter :status
 
+      filter :bbox, apply: -> (records, value, _options) {
+        west, south, east, north = value.map(&:to_f)
+        records.within_box(top: north, right: east, bottom: south, left: west)
+      }
+
       def self.creatable_fields(context)
         super - [:mixed_use, :walkscore, :neighborhood, :city, :full_address]
       end

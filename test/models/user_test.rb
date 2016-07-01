@@ -6,20 +6,34 @@ class UserTest < ActiveSupport::TestCase
     @user ||= users :normal
   end
 
+  def new_user
+    @new_user ||= User.new(
+      first_name: 'Mad',
+      last_name: 'Max',
+      email: 'zip@zap.zop',
+      password: 'zipzapzop'
+    )
+  end
+
   def mock_subscribable
     mock = Minitest::Mock.new
     mock.expect :developments, []
     mock
   end
 
+  test '#valid?' do
+    assert user.valid?, user.errors.full_messages
+    assert new_user.valid?, new_user.errors.full_messages
+  end
+
   test 'requires a first name' do
-    user.first_name = nil
-    assert_not user.valid?
+    new_user.first_name = nil
+    assert_not new_user.valid?
   end
 
   test 'requires a last name' do
-    user.last_name = nil
-    assert_not user.valid?
+    new_user.last_name = nil
+    assert_not new_user.valid?
   end
 
   test 'hashes email before saving' do
@@ -75,10 +89,6 @@ class UserTest < ActiveSupport::TestCase
       # the database level in the prevent_null_last_check migration
       # assert_equal user.last_checked_subscriptions, Time.new(2000)
     end
-  end
-
-  test 'needing update' do
-    skip
   end
 
   # TODO: Fix the duplicated logic and the overuse of database

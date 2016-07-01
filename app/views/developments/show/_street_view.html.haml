@@ -11,17 +11,18 @@
     .content
       .description
         %p
+          %i.street.view.icon
           Google Street View for
           = succeed ',' do
             = @development.address
           facing
           = succeed '.' do
             = @development.street_view.compass_direction
-          %p
-            = link_to edit_development_path(@development) do
-              %i.pencil.icon
-              Edit Street View
     .extra.content
       %i.warning.icon
-      Image may be old, or not oriented toward the site.
+      Image may be old or not oriented toward the site.
+      %p
+        = link_to edit_development_path(@development) do
+          %i.pencil.icon
+          Edit Street View
 

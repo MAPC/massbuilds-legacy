@@ -277,7 +277,8 @@ CREATE TABLE developments (
     parcel_id character varying(25),
     walkscore json DEFAULT '{}'::json NOT NULL,
     mixed_use boolean,
-    nearest_transit character varying
+    nearest_transit character varying,
+    point geography(Point,4326)
 );
 
 
@@ -1665,4 +1666,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160614162551');
 INSERT INTO schema_migrations (version) VALUES ('20160615155856');
 
 INSERT INTO schema_migrations (version) VALUES ('20160624144930');
+
+INSERT INTO schema_migrations (version) VALUES ('20160629201015');
 

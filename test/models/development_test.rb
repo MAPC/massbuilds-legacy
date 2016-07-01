@@ -599,7 +599,7 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   def stub_mbta(lat: 42.000001, lon: 71.000001)
     file = File.read('test/fixtures/mbta/stopsbylocation.json')
-    stub_request(:get, "http://realtime.mbta.com/developer/api/v2/stopsbyroute?api_key=&format=json&lat=#{lat}&lon=#{lon}")
+    stub_request(:get, "http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key=&format=json&lat=#{lat}&lon=#{lon}")
       .to_return(status: 200, body: file)
   end
 

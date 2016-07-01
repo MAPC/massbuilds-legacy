@@ -39,6 +39,18 @@ class EditTest < ActiveSupport::TestCase
     assert_not edit.valid?
   end
 
+  test 'requires a log message' do
+    skip
+    edit.log_entry = ''
+    assert_not edit.valid?
+    edit.log_entry = 'a' * 24
+    assert_not edit.valid?
+    edit.log_entry = 'a' * 2001
+    assert_not edit.valid?
+    edit.log_entry = 'a' * 257
+    assert edit.valid?
+  end
+
   test 'state predicates' do
     [:pending?, :applied?].each { |method|
       assert_respond_to edit, method

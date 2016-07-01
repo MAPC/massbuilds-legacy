@@ -58,6 +58,8 @@ class DevelopmentConverterTest < ActiveSupport::TestCase
 
   def test_updated_timestamp_persists
     stub_street_view
+    stub_walkscore lat: 42.4123, lon: -71.0462
+    stub_mbta lat: 42.4123, lon: -71.0462
     assert 1.minute.ago > d.updated_at
     d.save!
     assert 1.minute.ago > d.updated_at
@@ -106,5 +108,19 @@ class DevelopmentConverterTest < ActiveSupport::TestCase
   def stub_street_view
     stub_request(:get, "http://maps.googleapis.com/maps/api/streetview?fov=100&heading=0&key=loLOLol&location=42.4123,-71.0462&pitch=35&size=600x600")
   end
+
+  def stub_walkscore(lat: 42.000001, lon: -71.000001)
+    file = File.read('test/fixtures/walkscore/200.json')
+    stub_request(:get, "http://api.walkscore.com/score?format=json&lat=#{lat}&lon=#{lon}&wsapikey=").
+          with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'api.walkscore.com', 'User-Agent'=>'Ruby'}).
+          to_return(:status => 200, :body => file)
+  end
+
+  def stub_mbta(lat: 42.000001, lon: 71.000001)
+    file = File.read('test/fixtures/mbta/stopsbylocation.json')
+    stub_request(:get, "http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key=&format=json&lat=#{lat}&lon=#{lon}")
+      .to_return(status: 200, body: file)
+  end
+
 
 end

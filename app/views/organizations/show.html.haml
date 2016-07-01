@@ -36,25 +36,35 @@
               - if @organization.location.present?
                 %i.marker.icon
                 = @organization.location
+                &nbsp;
+                &nbsp;
             %span#website
               - if @organization.website.present?
                 %i.linkify.icon
                 = link_to @organization.website
+                &nbsp;
+                &nbsp;
             %span#email
               - if @organization.email.present?
                 %i.mail.outline.icon
                 = link_to @organization.email
+                &nbsp;
+                &nbsp;
             %span#status
-              - if @organization.memberships.active.any?
-                - if @organization.developments.any?
-                  %i.star.icon
-                  Engaged Company
-                - else
-                  %i.empty.star.icon
-                  Active Company
+              - if @organization.municipal?
+                %i.university.icon
+                Municipality
               - else
-                -# TODO Add a link to claim it here.
-                Unclaimed Profile
+                - if @organization.memberships.active.any?
+                  - if @organization.developments.any?
+                    %i.star.icon
+                    Engaged Company
+                  - else
+                    %i.empty.star.icon
+                    Active Company
+                - else
+                  -# TODO Add a link to claim it here.
+                  Unclaimed Profile
 
 
       .four.wide.column

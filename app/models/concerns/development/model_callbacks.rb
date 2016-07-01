@@ -5,6 +5,7 @@ class Development
     included do
       before_save :clean_zip_code
       before_save :associate_place
+      before_save :set_point
       before_save :determine_mixed_use
       before_save :cache_street_view
       before_save :update_walkscore
@@ -26,6 +27,12 @@ class Development
           else
             self.place = places.first
           end
+        end
+      end
+
+      def set_point
+        if latitude_changed? || longitude_changed? || new_record?
+          self.point = "POINT (#{longitude} #{latitude})"
         end
       end
 
