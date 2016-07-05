@@ -41,6 +41,10 @@ class Place < ActiveRecord::Base
     where('ST_Intersects(geom, :point)', point: geo_point.to_s)
   end
 
+  def to_geojson
+    RGeo::GeoJSON.encode geom
+  end
+
   def self.factory
     RGeo::Geographic.spherical_factory(srid: 4326)
   end
