@@ -5,7 +5,7 @@ import InfinityRoute from "ember-infinity/mixins/route";
 export default Ember.Route.extend(InfinityRoute, {
   perPageParam: 'page[size]',
   pageParam: 'page[number]',
-  // totalPagesParam: 'meta.record-count',
+  totalPagesParam: 'meta.record-count',
   storedParams: {},
   queryParams: { 
     number: {
@@ -43,14 +43,12 @@ export default Ember.Route.extend(InfinityRoute, {
       }
     });
 
-    queryObject.page = {};
-    queryObject.page["number"] = params["number"];
-    queryObject.page["size"] = 15;
+    // queryObject.page = {};
+    // queryObject.startingPage = 1;
+    queryObject.perPage = 15;
+    // queryObject.sort = '-start-time';
 
-    return this.infinityModel("development", queryObject).then(function(model) {
-      model.meta = App.storeMeta['development'];
-      return model;
-    });
+    return this.infinityModel("development", queryObject)
   },
   actions: {
     search() {
@@ -104,5 +102,15 @@ export default Ember.Route.extend(InfinityRoute, {
         this.controllerFor('developments.search').set("limits", resolve);
         // process the result...
     });
-  }
+  },
+  _canLoadMore: Ember.computed('currentPage', function() {
+    var currentPage = this.get('currentPage');
+    var perPage = this.get('_perPage');
+    var totalRecords = this.get('_totalPages');
+    if ((currentPage * perPage) > totalRecords + perPage) {
+      return false;
+    } else {
+      return true;
+    }
+  })
 });

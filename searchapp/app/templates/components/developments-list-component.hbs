@@ -6,7 +6,7 @@
       {{caret-toggle open=open invert=true}}
     </a>
   </div>
-  <div style="overflow: scroll; height: 100%">
+  <div style="overflow: scroll; height: 100%" class="scrollable-table">
     <table class="ui padded selectable table">
       <thead>
         <tr><th>Name</th>
@@ -25,8 +25,9 @@
           <td>{{development.city}}</td>
         </tr>
         {{/each}}
+        {{yield}}
       </tbody>
     </table>
-    {{infinity-loader infinityModel=model scrollable=".bottom-table-drawer"}}
+    
   </div>
 </div>

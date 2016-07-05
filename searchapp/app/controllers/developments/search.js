@@ -1,7 +1,6 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
-  ajax: Ember.inject.service(),
   queryParams: ["year_compl", "tothu", "commsf", 
                 "status", 
 
@@ -33,8 +32,8 @@ export default Ember.Controller.extend({
   phased: null,
   cancelled: null,
   "private": null,
-  "number": 1,
-  "size": 15,
+  // "number": 1,
+  // "size": 15,
   saved: null,
   status: null,
   rangedProperties: [
@@ -135,17 +134,14 @@ export default Ember.Controller.extend({
   autocompleteSearch: function() {
     let place = this.get('placeSearch');
 
-    var response = this.get('ajax').request('https://search.mapzen.com/v1/autocomplete', {
-      method: 'GET',
-      dataType: "json",
-      data: {
-        "text": "Boston",
-        "api_key": "search-5f1bwRf"
-      },
-      beforeSend: function(request) {
-          return request.setRequestHeader('X-CSRF-Token', null);
-      }
-    });
+    // var response = this.get('ajax').request('https://search.mapzen.com/v1/autocomplete', {
+    //   method: 'GET',
+    //   dataType: "json",
+    //   data: {
+    //     "text": "Boston",
+    //     "api_key": "search-5f1bwRf"
+    //   }  
+    // });
   
     // var adapter = this.container.lookup('adapter:autocomplete');
 

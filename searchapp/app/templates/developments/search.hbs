@@ -85,9 +85,6 @@
                 <div class="meta">
                   <span>Type: {{result.type}}</span>
                 </div>
-{{!--                 <div class="description">
-                  <p>{{result.attributes.description}}</p>
-                </div> --}}
               </div>
             </a>
           {{/each}}
@@ -117,4 +114,20 @@
     </div>
   </div>
 {{/mapbox-map}}
-{{developments-list-component model=model}}
+{{#developments-list-component model=model}}
+  {{infinity-loader infinityModel=model triggerOffset=60 scrollable=".scrollable-table"}}
+{{/developments-list-component}}
+
+{{!--  <br />
+ <br />
+ <br />
+         {{#each model as |development|}}
+        <tr>
+          <td><a href="{{development.id}}">{{development.name}}</a></td>
+          <td>{{development.year_compl}}</td>
+          <td>{{development.tothu}}</td>
+          <td>{{development.commsf}}</td>
+          <td>{{development.city}}</td>
+        </tr>
+        {{/each}}
+ {{infinity-loader infinityModel=model}} --}}

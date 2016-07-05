@@ -5,7 +5,7 @@ module.exports = function(environment) {
     contentSecurityPolicy: {
         'img-src': "'self' blob:* data: *.mapbox.com *.googleapis.com maps.gstatic.com *.gstatic.com",
         'child-src': "blob:",
-        'connect-src': "'self' api.lvh.me:5000 localhost:4200 *.mapbox.com *.mockable.io search.mapzen.com",
+        'connect-src': "'self' api.lvh.me:5000 localhost:4200 *.mapbox.com *.mockable.io https://search.mapzen.com",
         'font-src': "'self' *.cloudflare.com fonts.gstatic.com data:application/*",
         'style-src': "'self' 'unsafe-inline' *.cloudflare.com fonts.googleapis.com *.googleapis.com",
         'script-src': "'self' 'unsafe-eval' *.mapbox.com *.cloudflare.com *.googleapis.com"
