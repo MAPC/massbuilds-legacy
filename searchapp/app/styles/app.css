@@ -146,7 +146,7 @@
 .spatial-stats {
   top: 135px;
   z-index: 99;
-  width: 25%;
+  width: 20%;
   left: 24px;
   position: fixed;
   overflow: scroll;
@@ -164,5 +164,5 @@
 }
 
 .filters-full-menu {
-  max-width: 25%;
+  margin-bottom: 10%;
 }

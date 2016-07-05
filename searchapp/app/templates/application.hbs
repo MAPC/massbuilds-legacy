@@ -38,14 +38,14 @@
       </div>
     </div>
     {{#each model key="@index" as |search|}}
-      <div class="item">
+      <div {{action 'transitionToSaved' search}} class="item">
         <div class="right floated content">
           <i {{action 'deleteSearch' search}} class="icon trash"></i>
         </div>
         <div class="right floated content">
           <i {{action 'downloadSearchModal' search}} class="icon download"></i>
         </div>
-        <div {{action 'transitionToSaved' search}} class="content">
+        <div class="content">
           {{search.title}}
         </div>
       </div>

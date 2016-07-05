@@ -118,11 +118,8 @@ export default Ember.Controller.extend({
           this.set('placeSearchResults',response.data);
         });
 
-      // this.set('autocompleteResults', this.get('autocompleteSearch'));
-      this.autocompleteSearch();
     } else {
       this.set('placeSearchResults', []);
-      this.set('autocompleteResults', []);
       this.set('placeSearch', null);
     }
   }.property('this.placeSearch'),
@@ -130,29 +127,6 @@ export default Ember.Controller.extend({
     return adapter.buildURL('searchable') + '/' + query;
   },
   placeSearchResults: [],
-
-  autocompleteSearch: function() {
-    let place = this.get('placeSearch');
-
-    // var response = this.get('ajax').request('https://search.mapzen.com/v1/autocomplete', {
-    //   method: 'GET',
-    //   dataType: "json",
-    //   data: {
-    //     "text": "Boston",
-    //     "api_key": "search-5f1bwRf"
-    //   }  
-    // });
-  
-    // var adapter = this.container.lookup('adapter:autocomplete');
-
-    // adapter.ajax(this.completeTaskUrl(adapter, this.get('placeSearch')), 'GET')
-    // .then((response) => {
-    //   console.log(response);
-    //   this.set('autocompleteResults',response.data);
-    // });
-
-  },
-  autocompleteResults: [],
 
   listenToChanges: function() {
     // this needs to be refactored. No observers.
@@ -168,5 +142,9 @@ export default Ember.Controller.extend({
     }
   }.property(),
 
-  successfulSave: false
+  successfulSave: false,
+  currentParams: function () { 
+    var query = this.get("container").lookup("route:developments.search").get("getParsedQueryParamsURL");
+    return query;
+  }.property('')
 });

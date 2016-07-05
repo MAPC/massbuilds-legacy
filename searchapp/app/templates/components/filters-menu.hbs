@@ -31,13 +31,35 @@
           {{saved-search-flash successfulSave=successfulSave}}
         </a>
       {{/if}}
-      <a class="item">
+      <a {{action 'downloadSearchModal'}} class="item">
         <i class="download icon"></i>
         Export Results
       </a>
     </div>
   </div>
 </div>
-<div class="ui flowing basic admission popup" style="width:25%">
+<div class="ui flowing basic admission popup" style="max-width: 40%;">
   {{yield}}
 </div>
+{{#ui-modal class="download-unsaved-search"}}
+  <div class="header">
+    Select format:
+  </div>
+  <div class="content">
+    Note: Exports will be limited to the first 100 records            
+  </div>
+  <div class="actions">
+    <a href="/developments/export.csv?{{currentParams}}" download class="ui positive approve red ok right labeled icon button">
+
+      CSV
+      <i class="file excel outline icon"></i>
+    </a>
+    <a href="/developments/export.pdf?{{currentParams}}" download class="ui positive approve red ok right labeled icon button">
+      PDF
+      <i class="file pdf outline  icon"></i>
+    </a>
+    <div class="ui black deny button">
+      Cancel
+    </div>
+  </div>
+{{/ui-modal}}

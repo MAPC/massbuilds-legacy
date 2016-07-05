@@ -6,7 +6,9 @@ export default Ember.Route.extend(InfinityRoute, {
   perPageParam: 'page[size]',
   pageParam: 'page[number]',
   totalPagesParam: 'meta.record-count',
+  queryObject: {},
   storedParams: {},
+  parsedQueryForServer: "",  
   queryParams: { 
     number: {
       refreshModel: true
@@ -47,6 +49,7 @@ export default Ember.Route.extend(InfinityRoute, {
     // queryObject.startingPage = 1;
     queryObject.perPage = 15;
     // queryObject.sort = '-start-time';
+    this.set('queryObject', queryObject);
 
     return this.infinityModel("development", queryObject)
   },
@@ -103,6 +106,13 @@ export default Ember.Route.extend(InfinityRoute, {
         // process the result...
     });
   },
+  getParsedQueryParamsURL: function() {
+    var queryObject = this.get('queryObject');
+    var stripped = this.get('filters').filter(function(property){
+      return queryObject[property] !== "perPage";
+    });
+    return this.set('parsedQueryForServer', Ember.$.param(stripped));
+  }.property('queryObject.{year_compl,tothu,commsf,name,address,municipality,redevelopment,status,asofright,age_restricted,clusteros,phased,cancelled,private,saved,status}'),
   _canLoadMore: Ember.computed('currentPage', function() {
     var currentPage = this.get('currentPage');
     var perPage = this.get('_perPage');

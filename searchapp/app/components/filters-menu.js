@@ -30,6 +30,9 @@ export default Ember.Component.extend({
         allowMultiple: true
       })
       .modal('show');
+    },
+    downloadSearchModal() {
+      this.$('.download-unsaved-search').modal('show');
     }
   }
 });
