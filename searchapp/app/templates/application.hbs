@@ -1,1 +1,92 @@
 {{outlet}}
+{{#ui-modal class="save-search" onApprove=(action 'saveSearch')}}
+  {{error}}
+  <i class="close icon"></i>
+  <div class="header">
+    First, Title This Search:
+  </div>
+  <div class="image content">
+    <div class="description">
+      <div class="ui header">Give your search a descriptive title that's easy to remember.</div>
+
+        <div class="ui input fluid">
+          {{input value=title}}
+        </div>
+
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      Cancel
+    </div>
+    <div class="ui positive right labeled icon button">
+      Save
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+{{/ui-modal}}
+{{#ui-modal class="ui small basic test modal transition hidden" id="saved-searches-modal" searches=model.searches allowMultiple=true}}
+  <div class="ui icon header">
+    <i class="history icon"></i>
+    Saved Searches
+  </div>
+
+  <div class="ui selection divided inverted large list">
+    <div class="item" style="pointer-events: none;">
+      <div class="content header">
+        Your Saved Searches
+      </div>
+    </div>
+    {{#each model key="@index" as |search|}}
+      <div class="item">
+        <div class="right floated content">
+          <i {{action 'deleteSearch' search}} class="icon trash"></i>
+        </div>
+        <div class="right floated content">
+          <i {{action 'downloadSearchModal' search}} class="icon download"></i>
+        </div>
+        <div {{action 'transitionToSaved' search}} class="content">
+          {{search.title}}
+        </div>
+      </div>
+      {{#ui-modal class="" allowMultiple=true}}
+        <div class="ui modal download-search-{{search.id}}">
+          <div class="header">
+            Select format:
+          </div>
+          <div class="content">
+            Note: Exports will be limited to the first 100 records            
+          </div>
+          <div class="actions">
+            <a href="/searches/{{search.id}}.csv" download class="ui positive approve red ok right labeled icon button">
+              CSV
+              <i class="file excel outline icon"></i>
+            </a>
+            <a href="/searches/{{search.id}}.pdf" download class="ui positive approve red ok right labeled icon button">
+              PDF
+              <i class="file pdf outline  icon"></i>
+            </a>
+            <div class="ui black deny button">
+              Cancel
+            </div>
+          </div>
+        </div>
+      {{/ui-modal}}
+    {{/each}}
+  </div>
+{{/ui-modal}}
+
+{{#ui-modal class="delete-search"}}
+  <div class="header">
+    Are you sure?
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      Cancel
+    </div>
+    <div class="ui negative approve red ok right labeled icon button">
+      Delete
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+{{/ui-modal}}

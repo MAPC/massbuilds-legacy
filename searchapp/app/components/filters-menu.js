@@ -20,6 +20,16 @@ export default Ember.Component.extend({
   actions: {
     reset() {
       this.sendAction('reset');
+    },
+    nameSearch() {
+      Ember.$('.ui.modal.save-search').modal('show');
+    },
+    saveSearchesOpen() {
+      Ember.$('#saved-searches-modal')
+      .modal({
+        allowMultiple: true
+      })
+      .modal('show');
     }
   }
 });

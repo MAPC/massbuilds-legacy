@@ -131,13 +131,12 @@
 }
 
 .bottom-table-drawer {
-  z-index: 2000;
+  z-index: 100;
   position: fixed;
   top: calc(100vh - 70px);
   width: 100%;
   /*overflow-y: scroll;*/
   height: calc(100vh * .5);
-  background-color: white;
 }
 
 .export-search {
@@ -147,11 +146,19 @@
 .spatial-stats {
   top: 135px;
   z-index: 99;
-  width: 20%;
+  width: 25%;
   left: 24px;
   position: fixed;
+  overflow: scroll;
+  height: 100%;
+  padding-bottom: 220px;
+  padding-right: 15px;
 }
 
 .pac-container .pac-logo {
   display: none;
+}
+
+.mapboxgl-ctrl-group, .mapboxgl-ctrl {
+  background-color: rgba(255,255,255,0.7);
 }

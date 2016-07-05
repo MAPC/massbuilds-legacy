@@ -1,6 +1,7 @@
 import Ember from 'ember';
 
 export default Ember.Controller.extend({
+  ajax: Ember.inject.service(),
   queryParams: ["year_compl", "tothu", "commsf", 
                 "status", 
 
@@ -118,35 +119,58 @@ export default Ember.Controller.extend({
           this.set('placeSearchResults',response.data);
         });
 
-      // var inputElement = this.get('placeSearch'),
-      //     google = this.get('google') || window.google, //TODO: check how to use the inyected google object
-      //     autocomplete = new google.maps.places.Autocomplete(inputElement, { types: this._typesToArray(), componentRestrictions: this.get('restrictions') });
-      // this.set('autocompleteResults', autocomplete);
+      // this.set('autocompleteResults', this.get('autocompleteSearch'));
+      this.autocompleteSearch();
     } else {
       this.set('placeSearchResults', []);
       this.set('autocompleteResults', []);
       this.set('placeSearch', null);
     }
-
   }.property('this.placeSearch'),
   completeTaskUrl: function(adapter, query) {      
     return adapter.buildURL('searchable') + '/' + query;
   },
   placeSearchResults: [],
 
-  types: 'address',
-  autocompleteResults: [],
-  _typesToArray() {
-    if (this.get('types') !== "") {
-      return this.get('types').split(',');
-    } else {
-      return [];
-    }
+  autocompleteSearch: function() {
+    let place = this.get('placeSearch');
+
+    var response = this.get('ajax').request('https://search.mapzen.com/v1/autocomplete', {
+      method: 'GET',
+      dataType: "json",
+      data: {
+        "text": "Boston",
+        "api_key": "search-5f1bwRf"
+      },
+      beforeSend: function(request) {
+          return request.setRequestHeader('X-CSRF-Token', null);
+      }
+    });
+  
+    // var adapter = this.container.lookup('adapter:autocomplete');
+
+    // adapter.ajax(this.completeTaskUrl(adapter, this.get('placeSearch')), 'GET')
+    // .then((response) => {
+    //   console.log(response);
+    //   this.set('autocompleteResults',response.data);
+    // });
+
   },
+  autocompleteResults: [],
 
   listenToChanges: function() {
     // this needs to be refactored. No observers.
     console.log("Observer Triggered")
     this.computeRanges();
-  }.observes("yearFrom", "yearTo", "sqftTo", "sqftFrom", "tothuFrom", "tothuTo")
+  }.observes("yearFrom", "yearTo", "sqftTo", "sqftFrom", "tothuFrom", "tothuTo"),
+
+  isLoggedIn: function() {
+    if (document.API_KEY) {
+      return true;
+    } else {
+      return false;
+    }
+  }.property(),
+
+  successfulSave: false
 });

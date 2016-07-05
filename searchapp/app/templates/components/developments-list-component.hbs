@@ -1,5 +1,5 @@
 <div class="bottom-table-drawer">
-  <div class="ui menu" style="background-color: white; height: 70px; border-radius:0; margin-bottom:0;">
+  <div class="ui menu" style="background-color: rgba(251,251,251,0.9); height: 70px; border-radius:0; margin-bottom:0;">
     <a class="browse item" {{action 'toggle'}}>
       <i class="table icon"></i>
       Table
@@ -27,5 +27,6 @@
         {{/each}}
       </tbody>
     </table>
+    {{infinity-loader infinityModel=model scrollable=".bottom-table-drawer"}}
   </div>
 </div>

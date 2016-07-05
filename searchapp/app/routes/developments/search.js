@@ -1,7 +1,11 @@
 import Ember from 'ember';
 import App from '../../app';
+import InfinityRoute from "ember-infinity/mixins/route";
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(InfinityRoute, {
+  perPageParam: 'page[size]',
+  pageParam: 'page[number]',
+  // totalPagesParam: 'meta.record-count',
   storedParams: {},
   queryParams: { 
     number: {
@@ -41,10 +45,9 @@ export default Ember.Route.extend({
 
     queryObject.page = {};
     queryObject.page["number"] = params["number"];
-    queryObject.page["size"] = params["size"];
+    queryObject.page["size"] = 15;
 
-    return this.store.query("development", queryObject).then(function(model) {
-      console.log(App);
+    return this.infinityModel("development", queryObject).then(function(model) {
       model.meta = App.storeMeta['development'];
       return model;
     });

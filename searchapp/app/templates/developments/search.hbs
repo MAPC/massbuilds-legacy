@@ -1,4 +1,4 @@
-{{#filters-menu totalResults=totalResults reset="reset" filtersSet=filtersSet status=status}}
+{{#filters-menu totalResults=totalResults reset="reset" filtersSet=filtersSet status=status isLoggedIn=isLoggedIn successfulSave=successfulSave}}
   <div class="ui two column relaxed divided grid">
     <div class="column">
       <h4 class="ui header">Ranges</h4>
@@ -62,7 +62,7 @@
     {{#if placeSearchResults}}
       <div class="ui segment">
         <div class="ui divided link items" style="width: 100%;">
-{{!--           {{#each autocompleteResults as |result|}}
+          {{#each autocompleteResults as |result|}}
             <a class="item">
               <div class="ui tiny image">
                 <img src="http://semantic-ui.com/images/wireframe/image.png">
@@ -74,7 +74,7 @@
                 </div>
               </div>
             </a>
-          {{/each}} --}}
+          {{/each}}
           {{#each placeSearchResults as |result|}}
             <a class="item">
               <div class="ui tiny image">

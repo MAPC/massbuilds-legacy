@@ -1,5 +1,5 @@
-<div class="top-peek" style="position: fixed; bottom: calc(100vh - 110px); z-index: 100; background-color: white; width: 100%;">
-  <div class="ui menu" style="background-color: white; height: 70px; margin: 0rem; border-radius:0;">
+<div class="top-peek" style="position: fixed; bottom: calc(100vh - 110px); z-index: 100; width: 100%;">
+  <div class="ui menu" style="background-color: rgba(251, 251, 251, 0.9); height: 70px; margin: 0rem; border-radius:0;">
     <a class="browse item" {{action 'toggle'}}>
       <i class="filter icon"></i>
       Filters
@@ -22,14 +22,15 @@
           Clear Filters
         </a>
       {{/if}}
-      <a class="item">
-        <i class="star icon"></i>
-        Save Search
-      </a>
-      <a class="item">
-        <i class="history icon"></i>
-        Saved Searches
-      </a>
+      {{#if isLoggedIn}}
+        <a {{action 'nameSearch'}} class="item">
+          <i class="star icon"></i>
+          Save Search
+        </a>
+        <a  {{action 'saveSearchesOpen'}} class="item">
+          {{saved-search-flash successfulSave=successfulSave}}
+        </a>
+      {{/if}}
       <a class="item">
         <i class="download icon"></i>
         Export Results
