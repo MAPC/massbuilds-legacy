@@ -30,6 +30,7 @@ Rails.application.routes.draw do
 
   resources :developments, only: [:show] do
     get :image, on: :member
+    get :export, on: :collection
     resources :claims, only: [:new, :create]
     resources :flags,  only: [:new, :create] do
       post :close, on: :member

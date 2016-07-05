@@ -3,7 +3,7 @@ class Export::PDF
   def initialize(record, filename: :id, title: :title, **options)
     @record   = record
     @filename = @record.send(filename).to_s
-    @title    = @record.send(title).to_s
+    @title    = (@record.send(title) || 'Development Export').to_s
     @config   = default_config.merge(options)
   end
 

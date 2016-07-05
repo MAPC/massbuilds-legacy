@@ -9,13 +9,16 @@ class DevelopmentsController < ApplicationController
     @limits = Development.ranged_column_bounds.to_json
   end
 
-  def new
-  end
-
   def show
     if @development.out_of_date?
       flash.now[:partial] = { path: 'developments/out_of_date' }
     end
+  end
+
+  def new
+  end
+
+  def edit
   end
 
   def image
@@ -23,41 +26,23 @@ class DevelopmentsController < ApplicationController
       disposition: 'inline'
   end
 
-  def edit
-  end
-
-  def update
-    # Initialize the form, since we're capturing changes through
-    # the form and not acting on the development itself.
-    form = DevelopmentForm.new(devise_current_user)
-    if form.submit(@development.id, edit_development_params)
-      flash[:partial] = { path: 'developments/proposed_success' }
-      redirect_to @development
-    else
-      flash[:partial] = { path: 'developments/proposed_error' }
-      redirect_to edit_development_path(@development)
+  def export
+    @search = ReportPresenter.new Search.new(query: export_params)
+    respond_to do |format|
+      format.pdf  { render Export::PDF.new(@search).render }
+      format.html { render Export::PDF.new(@search, show_as_html: true).render }
+      format.csv  { send_data *Export::CSV.new(@search).render }
     end
   end
 
   private
 
   def load_record
-    @development = DevelopmentPresenter.new(
-      Development.find(params[:id])
-    )
+    @development = DevelopmentPresenter.new(Development.find(params[:id]))
   end
 
-  def development_params
-    params.require(:development).permit(:name)
-  end
-
-  def edit_development_params
-    params.require(:development).permit(:name, :total_cost, :rdv,
-      :address, :city, :state, :zip_code, :status)
-  end
-
-  def search_params
-    params.fetch(:q) { Hash.new }
+  def export_params
+    params.permit *Development.column_names.map(&:to_sym)
   end
 
 end

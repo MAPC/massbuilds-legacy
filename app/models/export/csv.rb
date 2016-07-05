@@ -15,6 +15,10 @@ class Export::CSV
   private
 
   def disposition
-    "attachment; filename=#{@record.title.to_s.parameterize}.csv"
+    "attachment; filename=export-#{filename}.csv"
+  end
+
+  def filename
+    @record.query.flatten.map(&:dasherize).first(4).join('-').gsub(/\[|\]/, '')
   end
 end
