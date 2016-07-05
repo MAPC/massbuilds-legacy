@@ -1,24 +1,12 @@
 {{#filters-menu totalResults=totalResults reset="reset" filtersSet=filtersSet status=status isLoggedIn=isLoggedIn successfulSave=successfulSave}}
-  <div class="ui two column relaxed divided grid">
+  <div class="ui one column relaxed divided grid">
     <div class="column">
       <h4 class="ui header">Ranges</h4>
-        <form class="ui form">
-          <div class="ui checkbox">
-            <input type="checkbox" name="example">
-            <label>Year Built</label>
-          </div>
-          <div class="yearbuilt" style="display:none;">
-            {{range-field-group from=yearFrom to=yearTo min=limits.year_compl.min max=limits.year_compl.max from_max=limits.year_compl.max label="Year:"}}
-          </div>
-          <div class="ui divider"></div>
-          {{range-field-group from=sqftFrom to=sqftTo min=limits.commsf.min max=limits.commsf.max from_max=limits.commsf.max label="Commercial Square Feet:"}}
-        </form>
-    </div>
-    <div class="column">
-      <h4 class="ui header">Project Status</h4>
-      <div class="ui link list">
+        {{range-field-group from=yearFrom to=yearTo min=limits.year_compl.min max=limits.year_compl.max from_max=limits.year_compl.max label="Year:"}}
+        <div class="ui divider"></div>
+        {{range-field-group from=sqftFrom to=sqftTo min=limits.commsf.min max=limits.commsf.max from_max=limits.commsf.max label="Commercial Square Feet:"}}
+        <div class="ui divider"></div>
         {{#ui-dropdown class="selection" onChange=(action 'update_selected') value=status}}
-
           <div class="default text">Select an Option</div>
           <i class="dropdown icon"></i>
           <div class="menu">
@@ -29,20 +17,19 @@
             {{/each}}
           </div>
         {{/ui-dropdown}}
-      </div>
-      <h4 class="ui header">Project Tags - Click to Select</h4>
-      <div class="ui tag labels">
-        {{toggle-label field=this.redevelopment label="Redevelopment"}}
-        {{toggle-label field=this.asofright label="As-of-Right"}}
-        {{toggle-label field=this.age_restricted label="Age Restricted"}}
-        {{toggle-label field=this.clusteros label="Cluster / Open Space"}}
-        {{toggle-label field=this.phased label="Phased"}}
-        {{toggle-label field=this.cancelled label="Cancelled"}}
-        {{toggle-label field=this.private label="Private"}}
-      </div>
-      <div class="ui divider"></div>
-      {{range-field-group from=tothuFrom to=tothuTo min=limits.tothu.min max=limits.tothu.max from_max=limits.tothu.max label="Total Housing Units:"}}
-      <button {{action "reset"}} class="fluid ui button red">Clear Filters</button>
+        <div class="ui divider"></div>
+        <div class="ui tag labels">
+          {{toggle-label field=this.redevelopment label="Redevelopment"}}
+          {{toggle-label field=this.asofright label="As-of-Right"}}
+          {{toggle-label field=this.age_restricted label="Age Restricted"}}
+          {{toggle-label field=this.clusteros label="Cluster / Open Space"}}
+          {{toggle-label field=this.phased label="Phased"}}
+          {{toggle-label field=this.cancelled label="Cancelled"}}
+          {{toggle-label field=this.private label="Private"}}
+        </div>
+        <div class="ui divider"></div>
+        {{range-field-group from=tothuFrom to=tothuTo min=limits.tothu.min max=limits.tothu.max from_max=limits.tothu.max label="Total Housing Units:"}}
+        <button {{action "reset"}} class="fluid ui button red">Clear Filters</button>
     </div>
   </div>
 {{/filters-menu}}
