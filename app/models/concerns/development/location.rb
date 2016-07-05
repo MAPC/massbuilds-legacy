@@ -27,6 +27,10 @@ class Development
       location.reverse
     end
 
+    def to_geojson
+      RGeo::GeoJSON.encode point
+    end
+
     def zip_code
       code = read_attribute(:zip_code).to_s
       code.length == 9 ? nine_digit_formatted_zip(code) : code

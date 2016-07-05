@@ -1,3 +1,5 @@
+require 'mapzen_search'
+
 module API
   module V1
     class SearchableResource < JSONAPI::Resource
@@ -5,13 +7,22 @@ module API
       abstract
       key_type :string
 
-      def self.find_by_key(id, options = {})
-        PgSearch.multisearch(id).limit(5).
+      def self.find_by_key(text, options = {})
+        search_results = PgSearch.multisearch(text).limit(5).
           map(&:searchable).
           map { |record| wrap_with_resource(record) }
+        location = MapzenSearch.new(text).result || null
+        if location.properties['confidence'] > 0.75
+          search_results.unshift LocationResource.new(location, context: {})
+        end
+        search_results
       end
 
       private
+
+      def self.null
+        OpenStruct.new(geometry: {}, properties: { 'confidence' => 0 })
+      end
 
       def self.wrap_with_resource(record)
         case record.class.name
@@ -27,3 +38,7 @@ module API
     end
   end
 end
+
+
+
+

@@ -2,8 +2,12 @@ class ReportPresenter < Burgundy::Item
 
   EXPORT_RESULT_LIMIT = 100
 
+  def id
+    item.id || nil
+  end
+
   def developments
-    item.results
+    item.results.limit(EXPORT_RESULT_LIMIT)
   end
 
   def fields
@@ -50,16 +54,14 @@ class ReportPresenter < Burgundy::Item
   end
 
   def to_csv
-    DevelopmentsSerializer.new(developments.first(EXPORT_RESULT_LIMIT)).to_csv
+    DevelopmentsSerializer.new(developments).to_csv
   end
 
   private
 
   def prepare_statuses
-    statuses = {}
-    Development.status.values.each {|status|
-      statuses[status.to_sym] = prepare_values(status)
-    }
+    statuses = {} # TODO: Replace with #inject
+    Development.status.values.each {|v| statuses[v.to_sym] = prepare_values(v) }
     statuses
   end
 

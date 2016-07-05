@@ -15,6 +15,7 @@ module API
 
                  :address, :city, :state, :zip_code,
                  :full_address, :location, :latitude, :longitude, :place_id,
+                 :geometry,
 
                  :height, :stories, :prjarea, :total_cost,
 
@@ -34,6 +35,7 @@ module API
       before_save do
         @model.creator_id = context[:current_user].id if @model.new_record?
       end
+
 
       has_many :team_memberships
 
@@ -61,6 +63,10 @@ module API
 
       def self.updatable_fields(context)
         super - [:mixed_use, :walkscore, :neighborhood, :city, :full_address]
+      end
+
+      def geometry
+        @model.to_geojson
       end
 
       def city

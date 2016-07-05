@@ -1,5 +1,5 @@
 %h1.ui.header.page-header
-  = @search.title
+  = @search.try :title
 %h3 Development Search Summary
 
 #map{style: 'height: 360px; width: 750px;'}
@@ -62,6 +62,7 @@
   %ul
     - @search.criteria.each do |field, v|
       %li #{Development.human_attribute_name(field)} = #{v}
+    %li Limited to the first 100 records
 
   %p
     Through the Development Database, the Metropolitan Area Planning Council
@@ -70,7 +71,8 @@
 
   %p
     View the latest version of this report at
-    = link_to search_url(@search), @search
+    - report_url = export_developments_url(@search.query.merge({ format: :pdf }))
+    = link_to report_url, report_url
   -# NOT QUITE READY
   -# %p
   -#   View and refine this search at
@@ -78,7 +80,7 @@
   -#   = link_to search_url, search_url
   %p
     Download the development data as CSV:
-    - csv_url = search_url(@search, { format: :csv })
+    - csv_url = export_developments_url(@search.query.merge({ format: :csv }))
     = link_to csv_url, csv_url
 %br
 %br
@@ -98,8 +100,8 @@
   }).addTo(map);
 
   var markers = [#{
-    @search.results.map(&:location)
-      .map { |loc| "L.marker(#{loc})" }.join(', ')
+    @search.developments.map(&:location).
+      map { |loc| "L.marker(#{loc})" }.join(', ')
   }]
 
   var group = new L.featureGroup(markers).addTo(map);
