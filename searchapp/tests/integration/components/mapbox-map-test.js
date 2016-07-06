@@ -1,5 +1,6 @@
 import { moduleForComponent, test } from 'ember-qunit';
 import hbs from 'htmlbars-inline-precompile';
+import Ember from 'ember';
 
 moduleForComponent('mapbox-map', 'Integration | Component | mapbox map', {
   integration: true
@@ -7,19 +8,21 @@ moduleForComponent('mapbox-map', 'Integration | Component | mapbox map', {
 
 test('it renders', function(assert) {
   
+  assert.expect(2);
   // Set any properties with this.set('myProperty', 'value');
   // Handle any actions with this.on('myAction', function(val) { ... });" + EOL + EOL +
+  var development = Ember.Object.extend({ longitude: 0, 
+                                          latitude: 0, 
+                                          name: 'Development', 
+                                          id: 1, 
+                                          year: 2000 }).create();
 
-  this.render(hbs`{{mapbox-map}}`);
+  this.set('developments', [development]);
 
-  assert.equal(this.$().text().trim(), '');
+  this.render(hbs`{{mapbox-map developments=developments}}`);
 
-  // Template block usage:" + EOL +
-  this.render(hbs`
-    {{#mapbox-map}}
-      template block text
-    {{/mapbox-map}}
-  `);
+  assert.equal(this.$().text().trim(), 'Name\n    Completion Year\n    Total Housing Units\n    Commercial Square Feet\n    Municipality');
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.ok(this.$('canvas').length);
+
 });

@@ -12,7 +12,7 @@ test('it renders', function(assert) {
 
   this.render(hbs`{{developments-list-component}}`);
 
-  assert.equal(this.$().text().trim(), '');
+  assert.equal(this.$().text().trim(), 'Name\n    Completion Year\n    Total Housing Units\n    Commercial Square Feet\n    Municipality');
 
   // Template block usage:" + EOL +
   this.render(hbs`
@@ -21,5 +21,5 @@ test('it renders', function(assert) {
     {{/developments-list-component}}
   `);
 
-  assert.equal(this.$().text().trim(), 'template block text');
+  assert.equal(this.$().text().trim(), 'Name\n    Completion Year\n    Total Housing Units\n    Commercial Square Feet\n    Municipality');
 });

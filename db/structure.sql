@@ -347,8 +347,7 @@ CREATE TABLE edits (
     updated_at timestamp without time zone NOT NULL,
     ignore_conflicts boolean DEFAULT false,
     moderated_at timestamp without time zone,
-    applied boolean DEFAULT false NOT NULL,
-    log_entry text
+    applied boolean DEFAULT false NOT NULL
 );
 
 
@@ -1665,8 +1664,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160613151630');
 INSERT INTO schema_migrations (version) VALUES ('20160614162551');
 
 INSERT INTO schema_migrations (version) VALUES ('20160615155856');
-
-INSERT INTO schema_migrations (version) VALUES ('20160615180427');
 
 INSERT INTO schema_migrations (version) VALUES ('20160624144930');
 

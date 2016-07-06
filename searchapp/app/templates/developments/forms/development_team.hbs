@@ -4,14 +4,14 @@
 <div class="ui segment">
   <table class="ui very basic celled table">
     <tbody>
-      {{#each this.groupedResults}}
+      {{#each this.groupedResults as |group|}}
         <tr>
           <td>
-            {{role}}
+            {{group.role}}
           </td>
           <td>
             <div class="ui middle aligned list">
-              {{#each contents as |content|}}
+              {{#each group.contents as |content|}}
                 <div class="item">
                   <div class="right floated content">
                     <button {{action "removeMembership" content}} class="ui mini basic icon button">

@@ -5,7 +5,7 @@ export default Ember.Route.extend({
     return this.store.createRecord('search');
   },
   actions: {
-    search: function(context) {
+    search: function() {
       var search = this.modelFor("searches.new");
       search.save().then((model) => {
         this.transitionTo("search", model);

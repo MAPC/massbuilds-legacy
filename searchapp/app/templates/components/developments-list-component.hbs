@@ -7,7 +7,7 @@
     <th>Municipality</th>
   </tr></thead>
   <tbody>
-    {{#each development in model}}
+    {{#each model as |development|}}
     <tr {{action "mouseover" development on='mouseEnter'}}>
       <td><a href="{{development.id}}">{{development.name}}</a></td>
       <td>{{development.year_compl}}</td>

@@ -6,7 +6,7 @@ export default Ember.Route.extend({
   },
   controllerName: "developmentsEdit",
   renderTemplate: function() {
-    this.render('developments/edit')         
+    this.render('developments/edit');   
   },
   setupController: function(controller, model) {
     this.controllerFor("developments.edit").set('model', model);
