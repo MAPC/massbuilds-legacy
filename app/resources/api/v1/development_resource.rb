@@ -28,14 +28,15 @@ module API
                  :street_view_latitude,
                  :street_view_longitude,
                  :street_view_heading,
-                 :street_view_pitch
+                 :street_view_pitch,
+
+                 :image_url
 
       has_one :place
 
       before_save do
         @model.creator_id = context[:current_user].id if @model.new_record?
       end
-
 
       has_many :team_memberships
 
@@ -71,6 +72,12 @@ module API
 
       def city
         @model.municipality.try :name
+      end
+
+      include Rails.application.routes.url_helpers
+
+      def image_url
+        image_development_url @model
       end
 
       # TODO: This is duplicated from the presenter.
