@@ -16,6 +16,7 @@
 .ui.middle.aligned.center.aligned.grid
   .column
     %h2 Log in to your account
+    = render 'shared/flash'
     = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'ui form new_user' }) do |f|
       .ui.stacked.segment
 
