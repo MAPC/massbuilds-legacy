@@ -1,6 +1,7 @@
 #header.ui.borderless.fixed.menu
   .ui.container
-    %a.header.item{ href: developments_path }
+    = link_to developments_path, class: 'header item' do
+      -# Logo goes here
       -# %img.logo{:src => "assets/images/logo.png"}
       %i.building.icon
       DD

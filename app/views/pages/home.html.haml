@@ -1,3 +1,11 @@
+:css
+  .ui.masthead.segment {
+     background-image: url('assets/images/historic-boston.jpg');
+     background-size: cover;
+     background-repeat: no-repeat;
+     background-position: center;
+   }
+
 / Following Menu
 .ui.large.top.fixed.borderless.hidden.menu
   .ui.container
@@ -6,11 +14,11 @@
     = link_to 'Teams', organizations_path, class: 'item'
     .right.menu
       .item
-        = link_to signup_path, class: 'ui blue button' do
+        = link_to signup_path, class: 'ui teal button' do
           %i.rocket.icon
           Sign Up
       .item
-        = link_to signup_path, class: 'ui button' do
+        = link_to signin_path, class: 'ui button' do
           %i.lock.icon
           Log in
 / Page Contents
@@ -22,17 +30,17 @@
         = link_to 'Developments', developments_path, class: 'item'
         = link_to 'Teams', organizations_path, class: 'item'
         .right.item
-          = link_to signup_path, class: 'ui blue inverted button' do
+          = link_to signup_path, class: 'ui inverted teal button' do
             %i.rocket.icon
             Sign Up
-          = link_to signup_path, class: 'ui button' do
+          = link_to signin_path, class: 'ui button' do
             %i.lock.icon
             Log in
     .ui.text.container
       %h1.ui.inverted.header
         MassBuild
       %h2
-        A growing library of past, present, and future of development projects in Massachusetts.
+        A growing library of past, present, and future development projects in Massachusetts.
       = link_to developments_path, class: 'ui huge primary button' do
         Get Started
         %i.right.arrow.icon
@@ -40,7 +48,7 @@
     .ui.text.container
       %h3.ui.header The development data you need, right now.
       %p
-        Most commercial real estate development databases provide data on developments of a certain size, or only those in Boston's inner core. MassBuild's mission is to provide comprehensive data set across all of Massachusetts &mdash; from the largest development to the smallest.
+        Most commercial real estate development databases only provide data on developments of a certain size, or only for Boston's inner core. MassBuild's mission is to provide comprehensive data for all of Massachusetts &mdash; from the largest development to the smallest.
       = link_to developments_path, class: 'ui large button' do
         Search
   .ui.vertical.stripe.segment
@@ -56,7 +64,7 @@
           %p
             Once you find what you are looking for, export it to a spreadsheet for further analysis, or to a PDF summary to bring to your next meeting.
         .six.wide.right.floated.column
-          %img.ui.large.bordered.rounded.image{:src => "assets/images/wireframe/white-image.png"}
+          %img.ui.large.bordered.rounded.image{src: 'assets/images/planning.png'}
       .row
         .center.aligned.column
           = link_to developments_path, class: 'ui huge button' do
@@ -69,9 +77,11 @@
       %p
         Keep your property data in one place by making MassBuild your property management system.
         = link_to 'Your agency, company, or team', organizations_path
-        can edit data and moderate changes to developments. Plus, more data in MassBuild supports the development of informed regional projections
+        can edit data and moderate changes to developments. Plus, more data in MassBuild results in better-informed
+        = succeed '.' do
+          = link_to 'regional employment and housing projections', 'http://mapc.org/projections', target: '_blank'
 
-      = link_to organizations_path, class: 'ui huge button' do
+      = link_to organizations_path, class: 'ui huge green button' do
         %i.add.icon
         Find or start your team
   .ui.vertical.stripe.segment
@@ -81,7 +91,7 @@
       %p
         Looking for development or property data solutions for your municipality?
         %br
-        Notice that there's some data missing?
+        Think of a feature you'd like to see?
         %br
         Need a deeper analysis?
         %br
