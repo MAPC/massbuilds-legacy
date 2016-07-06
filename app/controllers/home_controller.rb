@@ -4,7 +4,7 @@ class HomeController < ApplicationController
     if signed_in?
       redirect_to :developments
     else
-      render 'index.html', layout: false
+      redirect_to page_path('home')
     end
   end
 
