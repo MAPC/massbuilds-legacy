@@ -26,7 +26,8 @@ class MapzenSearch
   private
 
   def results
-    JSON.parse(response)['features'].map { |json| OpenStruct.new(json) }
+    # Array-ify nil caused by a URL error or missing MAPZEN_API_KEY
+    Array(JSON.parse(response)['features']).map { |json| OpenStruct.new(json) }
   end
 
   def response

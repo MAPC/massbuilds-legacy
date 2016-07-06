@@ -157,6 +157,7 @@ GEM
       html2haml (>= 1.0.1)
       railties (>= 4.0.1)
     hashdiff (0.3.0)
+    high_voltage (3.0.0)
     html2haml (2.0.0)
       erubis (~> 2.7.0)
       haml (~> 4.0.0)
@@ -414,6 +415,7 @@ DEPENDENCIES
   guard (>= 2.2.2)
   guard-minitest
   haml-rails
+  high_voltage (~> 3.0.0)
   jquery-rails
   jsonapi-resources
   kaminari

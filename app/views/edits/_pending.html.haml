@@ -1,6 +1,9 @@
 .ui.horizontal.divider
 
 = render partial: 'edits/edit', object: edit
+%p
+  %strong Reason:
+  = edit.log_entry
 
 - if edit.conflict?
   .ui.basic.black.button.launch-modal{ data: { modal: "conflict-#{edit.id}" } }

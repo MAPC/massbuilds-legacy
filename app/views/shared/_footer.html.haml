@@ -1,8 +1,23 @@
 .ui.horizontal.divider
 
-.ui.inverted.fixed.vertical.footer.segment#footer
-
-  - if Rails.env == 'development'
-    = debug(params)
-    -# = flash.inspect
-    = console
+.ui.inverted.vertical.footer.segment
+  .ui.container
+    .ui.stackable.inverted.divided.equal.height.stackable.grid
+      .three.wide.column
+        %h4.ui.inverted.header Resources
+        .ui.inverted.link.list
+          = link_to 'Developments', developments_path,  class: 'item'
+          = link_to 'Teams',        organizations_path, class: 'item'
+      .three.wide.column
+        %h4.ui.inverted.header Pages
+        .ui.inverted.link.list
+          = link_to 'Sign Up', signup_path, class: 'item'
+          = link_to 'Sign In', signin_path, class: 'item'
+          = link_to 'Home', page_path('home'), class: 'item'
+          -# %a.item{:href => "#"} Terms
+          = link_to 'Contact', 'mailto:massbuild@mapc.org', class: 'item'
+      .seven.wide.column
+        %h4.ui.inverted.header Search Developments
+        %p
+          = link_to developments_path do
+            Explore thousands of developments.
