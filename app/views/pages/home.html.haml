@@ -1,0 +1,115 @@
+/ Following Menu
+.ui.large.top.fixed.borderless.hidden.menu
+  .ui.container
+    %a.active.item Home
+    = link_to 'Developments', developments_path, class: 'item'
+    = link_to 'Teams', organizations_path, class: 'item'
+    .right.menu
+      .item
+        = link_to signup_path, class: 'ui blue button' do
+          %i.rocket.icon
+          Sign Up
+      .item
+        = link_to signup_path, class: 'ui button' do
+          %i.lock.icon
+          Log in
+/ Page Contents
+.pusher
+  .ui.inverted.vertical.masthead.center.aligned.segment
+    .ui.container
+      .ui.large.secondary.inverted.menu
+        %a.active.item Home
+        = link_to 'Developments', developments_path, class: 'item'
+        = link_to 'Teams', organizations_path, class: 'item'
+        .right.item
+          = link_to signup_path, class: 'ui blue inverted button' do
+            %i.rocket.icon
+            Sign Up
+          = link_to signup_path, class: 'ui button' do
+            %i.lock.icon
+            Log in
+    .ui.text.container
+      %h1.ui.inverted.header
+        MassBuild
+      %h2
+        A growing library of past, present, and future of development projects in Massachusetts.
+      = link_to developments_path, class: 'ui huge primary button' do
+        Get Started
+        %i.right.arrow.icon
+  .ui.vertical.stripe.segment
+    .ui.text.container
+      %h3.ui.header The development data you need, right now.
+      %p
+        Most commercial real estate development databases provide data on developments of a certain size, or only those in Boston's inner core. MassBuild's mission is to provide comprehensive data set across all of Massachusetts &mdash; from the largest development to the smallest.
+      = link_to developments_path, class: 'ui large button' do
+        Search
+  .ui.vertical.stripe.segment
+    .ui.middle.aligned.stackable.grid.container
+      .row
+        .eight.wide.column
+          %h3.ui.header
+            Explore Projects
+          %p
+            Dig into thousands of development projects, both large and small, through a powerful search interface. Find the development data you need by location, size, housing units, zoning tools, and many more attributes.
+          %h3.ui.header
+            Export Data
+          %p
+            Once you find what you are looking for, export it to a spreadsheet for further analysis, or to a PDF summary to bring to your next meeting.
+        .six.wide.right.floated.column
+          %img.ui.large.bordered.rounded.image{:src => "assets/images/wireframe/white-image.png"}
+      .row
+        .center.aligned.column
+          = link_to developments_path, class: 'ui huge button' do
+            Search Developments
+            %i.right.arrow.icon
+  .ui.vertical.stripe.segment
+    .ui.text.container
+      %h3.ui.header
+        Manage Your Developments
+      %p
+        Keep your property data in one place by making MassBuild your property management system.
+        = link_to 'Your agency, company, or team', organizations_path
+        can edit data and moderate changes to developments. Plus, more data in MassBuild supports the development of informed regional projections
+
+      = link_to organizations_path, class: 'ui huge button' do
+        %i.add.icon
+        Find or start your team
+  .ui.vertical.stripe.segment
+    .ui.text.container
+      %h3.ui.header
+        Need something else?
+      %p
+        Looking for development or property data solutions for your municipality?
+        %br
+        Notice that there's some data missing?
+        %br
+        Need a deeper analysis?
+        %br
+        Get in touch with us, and we'll see what we can do to help.
+
+      = link_to 'mailto:massbuild@mapc.org', class: 'ui huge button' do
+        %i.mail.icon
+        Contact us
+  -# .ui.vertical.stripe.quote.segment
+  -#   .ui.equal.width.stackable.internally.celled.grid
+  -#     .center.aligned.row
+  -#       .column
+  -#         %h3 "What a company"
+  -#         %p
+  -#           That's what they all say about us.
+  -#       .column
+  -#         %h3 "I shouldn't have gone with their competitor."
+  -#         %p
+  -#           %img.ui.avatar.image{:src => "assets/images/avatar/nan.jpg"}
+  -#             %b Nan
+  -#             Chief Fun Officer Acme Toys
+  -# .ui.vertical.stripe.segment
+  -#   .ui.text.container
+      -# %h4.ui.horizontal.header.divider
+        -# %a{:href => "#"} Case Studies
+      -# %h3.ui.header Coming Soon
+      -# %p
+      -#   %strong Stay up to date:
+      -#   sign up for notifications to learn about changes to developments you care about, the moment they happen.
+      -# = link_to page_path('upcoming'), class: 'ui large button' do
+      -#   Learn more about this feature

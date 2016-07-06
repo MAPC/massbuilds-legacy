@@ -13,7 +13,7 @@
 
     - unless signed_in?
 
-      -# = link_to '#static/pricing', class: 'item' do
+      -# = link_to page_path('pricing'), class: 'item' do
       -#   Pricing
 
       .right.compact.menu
@@ -37,9 +37,11 @@
           .menu
             .header
               Create new
-            = link_to new_development_path, class: 'item' do
+
+            = link_to new_development_path,  class: 'item' do
               %i.building.icon
               Development
+
             = link_to new_organization_path, class: 'item' do
               %i.users.icon
               Organization

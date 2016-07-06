@@ -43,12 +43,13 @@ gem 'sass-rails'
 gem 'coffee-rails'
 gem 'jquery-rails'
 gem 'uglifier', '>= 1.3.0' # Compress JavaScript
-gem 'kaminari'  # Pagination
+gem 'kaminari'      # Pagination
 gem 'leaflet-rails' # Maps
 gem 'wicked_pdf', '~> 1.0'    # PDF generation
 gem 'wkhtmltopdf-binary-edge' # PDF generation binary
 gem 'ember-cli-rails', git: 'https://github.com/allthesignals/ember-cli-rails'
-gem 'meta-tags' # SEO, Open Graph tags
+gem 'meta-tags'    # SEO, Open Graph tags
+gem 'high_voltage', '~> 3.0.0' # Static pages
 
 # Semantic UI
 gem 'therubyracer'

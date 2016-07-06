@@ -7,11 +7,9 @@
     = display_meta_tags site: 'DD', reverse: true
 
   %body
-    .pusher
-      #main.ui.main.grid.container
-        = render 'shared/flash'
-        = render 'shared/header'
-        = yield
+    = render 'shared/flash'
+    = render 'shared/header'
+    = yield
     = render 'shared/footer'
 
 :ruby
