@@ -36,7 +36,8 @@ class StreetView
   def self.null
     [
       "18bd8a05483bcc612f0891f94364d410",  # Rate-limited
-      "f4af83d510a83d5c480ecebe1cedaf6d"   # No imagery here
+      "f4af83d510a83d5c480ecebe1cedaf6d",  # No imagery here
+      "4346be5ac59a41baeeb8eaffd43e4a59"   # API server rejected your request
     ]
   end
 
