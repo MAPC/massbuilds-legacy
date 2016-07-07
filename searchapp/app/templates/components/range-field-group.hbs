@@ -1,12 +1,14 @@
 {{label}}
-<div class="two fields">
-  <div class="ui field fluid labeled input">
-    <div class="ui label">From</div>
-    {{input type="text" value=from}}
-  </div>
-  <div class="ui field fluid labeled input">
-    <div class="ui label">To</div>
-    {{input type="text" value=to}}
+<div class="ui form">
+  <div class="fields">
+    <div class="field">
+      <label>From</label>
+      {{input type="text" value=from}}
+    </div>
+    <div class="field">
+      <label>To</label>
+      {{input type="text" value=to}}
+    </div>
   </div>
 </div>
 {{ember-ion-rangeslider

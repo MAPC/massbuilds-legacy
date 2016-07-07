@@ -12,7 +12,7 @@ export default Ember.Controller.extend({
                 { "cancelled": { type: 'boolean' }}, 
                 { "private": { type: 'boolean' }}, 
 
-                "number", "size"],
+                "number", "size", "placeSearch"],
 
   itemActions: [{ name: "Projected", id: "projected" }, 
       { name: "Planning", id: "planning" }, 
@@ -32,8 +32,8 @@ export default Ember.Controller.extend({
   phased: null,
   cancelled: null,
   "private": null,
-  "number": 1,
-  "size": 15,
+  // "number": 1,
+  // "size": 15,
   saved: null,
   status: null,
   rangedProperties: [
@@ -63,6 +63,9 @@ export default Ember.Controller.extend({
     },
     previousPage() {
       this.set("number", this.get("number")-1);
+    },
+    clearSearch() {
+      this.set('placeSearch', null);
     }
   },
 
@@ -87,9 +90,61 @@ export default Ember.Controller.extend({
     });
   },
 
+  filtersSet: function() {
+    var set = false;
+    var params = this.get('queryParams');
+    params.forEach((param) => {
+      if (typeof param === 'string' && param !== 'number' && param !=='size' && param !== 'placeSearch') {
+        if (!!this.get(param)) {
+          set = true;
+        }
+      } else {
+        if (!!this.get(Object.keys(param)[0])) {
+          set = true;
+        }
+      }
+    });
+    
+    return set;
+  }.property("year_compl", "tothu", "commsf", "name", "address", "municipality", "redevelopment", "asofright", "age_restricted", "clusteros", "phased", "cancelled", "private", "number", "size", "saved", "status"),
+
+  placeSearch: null,
+  searchables: function() {
+    var adapter = this.container.lookup('adapter:searchable');
+
+    if (this.get('placeSearch')) {
+      adapter.ajax(this.completeTaskUrl(adapter, this.get('placeSearch')), 'GET')
+        .then((response) => {
+          this.set('placeSearchResults',response.data);
+        });
+
+    } else {
+      this.set('placeSearchResults', []);
+      this.set('placeSearch', null);
+    }
+  }.property('this.placeSearch'),
+  completeTaskUrl: function(adapter, query) {      
+    return adapter.buildURL('searchable') + '/' + query;
+  },
+  placeSearchResults: [],
+
   listenToChanges: function() {
     // this needs to be refactored. No observers.
     console.log("Observer Triggered")
     this.computeRanges();
-  }.observes("yearFrom", "yearTo", "sqftTo", "sqftFrom", "tothuFrom", "tothuTo")
+  }.observes("yearFrom", "yearTo", "sqftTo", "sqftFrom", "tothuFrom", "tothuTo"),
+
+  isLoggedIn: function() {
+    if (document.API_KEY) {
+      return true;
+    } else {
+      return false;
+    }
+  }.property(),
+
+  successfulSave: false,
+  currentParams: function () { 
+    var query = this.get("container").lookup("route:developments.search").get("getParsedQueryParamsURL");
+    return query;
+  }.property('')
 });

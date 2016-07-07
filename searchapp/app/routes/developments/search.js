@@ -1,12 +1,33 @@
 import Ember from 'ember';
 import App from '../../app';
+import InfinityRoute from "ember-infinity/mixins/route";
 
-export default Ember.Route.extend({
+export default Ember.Route.extend(InfinityRoute, {
+  perPageParam: 'page[size]',
+  pageParam: 'page[number]',
+  totalPagesParam: 'meta.record-count',
+  queryObject: {},
   storedParams: {},
-  queryParams: {
+  parsedQueryForServer: "",  
+  queryParams: { 
     number: {
       refreshModel: true
-    }
+    },
+    year_compl: { refreshModel: true },
+    tothu: { refreshModel: true },
+    commsf: { refreshModel: true },
+    name: { refreshModel: true },
+    address: { refreshModel: true },
+    municipality: { refreshModel: true },
+    redevelopment: { refreshModel: true },
+    status: { refreshModel: true },
+    asofright: { refreshModel: true },
+    age_restricted: { refreshModel: true },
+    clusteros: { refreshModel: true },
+    cancelled: { refreshModel: true },
+    'private': { refreshModel: true },
+    saved: { refreshModel: true },
+    status: { refreshModel: true }
   },
   filters: ["year_compl","tothu","commsf","name","address","municipality","redevelopment", 
                   "status", "asofright", "age_restricted", "clusteros", 
@@ -24,15 +45,13 @@ export default Ember.Route.extend({
       }
     });
 
-    queryObject.page = {};
-    queryObject.page["number"] = params["number"];
-    queryObject.page["size"] = params["size"];
+    // queryObject.page = {};
+    // queryObject.startingPage = 1;
+    queryObject.perPage = 15;
+    // queryObject.sort = '-start-time';
+    this.set('queryObject', queryObject);
 
-    return this.store.query("development", queryObject).then(function(model) {
-      console.log(App);
-      model.meta = App.storeMeta['development'];
-      return model;
-    });
+    return this.infinityModel("development", queryObject)
   },
   actions: {
     search() {
@@ -86,5 +105,22 @@ export default Ember.Route.extend({
         this.controllerFor('developments.search').set("limits", resolve);
         // process the result...
     });
-  }
+  },
+  getParsedQueryParamsURL: function() {
+    var queryObject = this.get('queryObject');
+    var stripped = this.get('filters').filter(function(property){
+      return queryObject[property] !== "perPage";
+    });
+    return this.set('parsedQueryForServer', Ember.$.param(stripped));
+  }.property('queryObject.{year_compl,tothu,commsf,name,address,municipality,redevelopment,status,asofright,age_restricted,clusteros,phased,cancelled,private,saved,status}'),
+  _canLoadMore: Ember.computed('currentPage', function() {
+    var currentPage = this.get('currentPage');
+    var perPage = this.get('_perPage');
+    var totalRecords = this.get('_totalPages');
+    if ((currentPage * perPage) > totalRecords + perPage) {
+      return false;
+    } else {
+      return true;
+    }
+  })
 });

@@ -1,0 +1,65 @@
+<div class="top-peek" style="position: fixed; bottom: calc(100vh - 110px); z-index: 100; width: 100%;">
+  <div class="ui menu" style="background-color: rgba(251, 251, 251, 0.9); height: 70px; margin: 0rem; border-radius:0;">
+    <a class="browse item" {{action 'toggle'}}>
+      <i class="filter icon"></i>
+      Filters
+      {{caret-toggle open=open}}
+    </a>
+    <div class="vertically fitted item">
+      Results: 
+      <div class="ui label">{{totalResults}}</div>
+    </div>
+    {{#if filtersSet}}
+      <div class="vertically fitted item active teal">
+        <i class="icon warning"></i>
+        Filtered View
+      </div>
+    {{/if}}
+    <div class="right menu">
+      {{#if filtersSet}}
+        <a {{action 'reset'}} class="item">
+          <i class="delete icon"></i>
+          Clear Filters
+        </a>
+      {{/if}}
+      {{#if isLoggedIn}}
+        <a {{action 'nameSearch'}} class="item">
+          <i class="star icon"></i>
+          Save Search
+        </a>
+        <a  {{action 'saveSearchesOpen'}} class="item">
+          {{saved-search-flash successfulSave=successfulSave}}
+        </a>
+      {{/if}}
+      <a {{action 'downloadSearchModal'}} class="item">
+        <i class="download icon"></i>
+        Export Results
+      </a>
+    </div>
+  </div>
+</div>
+<div class="ui flowing basic admission popup" style="max-width: 40%;">
+  {{yield}}
+</div>
+{{#ui-modal class="download-unsaved-search"}}
+  <div class="header">
+    Select format:
+  </div>
+  <div class="content">
+    Note: Exports will be limited to the first 100 records            
+  </div>
+  <div class="actions">
+    <a href="/developments/export.csv?{{currentParams}}" download class="ui positive approve red ok right labeled icon button">
+
+      CSV
+      <i class="file excel outline icon"></i>
+    </a>
+    <a href="/developments/export.pdf?{{currentParams}}" download class="ui positive approve red ok right labeled icon button">
+      PDF
+      <i class="file pdf outline  icon"></i>
+    </a>
+    <div class="ui black deny button">
+      Cancel
+    </div>
+  </div>
+{{/ui-modal}}
