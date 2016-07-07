@@ -2,7 +2,7 @@ import DS from 'ember-data';
 import Ember from 'ember';
 
 export default DS.JSONAPIAdapter.extend({
-  host: '//api.' + window.location.host,
+  host: '//api.' + window.location.host.replace('www.',''),
   headers: Ember.computed(function() {
     return {
       "Authorization": "Token " + Ember.get(document, "API_KEY")
