@@ -47,7 +47,7 @@ export default Ember.Route.extend(InfinityRoute, {
 
     // queryObject.page = {};
     // queryObject.startingPage = 1;
-    queryObject.perPage = 15;
+    queryObject.perPage = 1000;
     // queryObject.sort = '-start-time';
     this.set('queryObject', queryObject);
 
