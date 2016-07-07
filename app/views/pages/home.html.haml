@@ -1,6 +1,6 @@
 :css
   .ui.masthead.segment {
-     background-image: url('assets/images/historic-boston.jpg');
+     background-image: url('assets/images/skyline_cropped.jpg');
      background-size: cover;
      background-repeat: no-repeat;
      background-position: center;
@@ -25,12 +25,12 @@
 .pusher
   .ui.inverted.vertical.masthead.center.aligned.segment
     .ui.container
-      .ui.large.secondary.inverted.menu
+      .ui.large.secondary.menu
         %a.active.item Home
         = link_to 'Developments', developments_path, class: 'item'
         = link_to 'Teams', organizations_path, class: 'item'
         .right.item
-          = link_to signup_path, class: 'ui inverted teal button' do
+          = link_to signup_path, class: 'ui teal button' do
             %i.rocket.icon
             Sign Up
           = link_to signin_path, class: 'ui button' do
@@ -40,7 +40,7 @@
       %h1.ui.inverted.header
         MassBuild
       %h2
-        Understand development in Massachusetts through a collaborative inventory of past, present, and future projects.
+        Explore development in Massachusetts through a collaborative inventory of past, present, and future projects.
       = link_to developments_path, class: 'ui huge primary button' do
         Get Started
         %i.right.arrow.icon
@@ -57,9 +57,42 @@
         = succeed ', and' do
           %strong community advocates
         %strong real estate developers
-        with comprehensive data for over 3000 projects across Massachusetts &mdash; from the largest development to the smallest.
-      = link_to developments_path, class: 'ui large button' do
-        Search
+        with comprehensive data for
+        = Development.count
+        projects across Massachusetts &mdash; from the largest development to the smallest.
+
+  .ui.vertical.stripe.center.aligned.segment{style: 'padding-top: 2em; padding-bottom: 2em;'}
+    .ui.four.column.grid.container
+      .column
+        .ui.tiny.statistic
+          .value
+            = Development.count
+          .label
+            developments
+      .column
+        .ui.tiny.statistic
+          .value
+            = Development.sum(:tothu)
+          .label
+            housing units
+      .column
+        .ui.tiny.statistic
+          .value
+            = (Development.sum(:commsf) / 1_000_000).to_i
+            million
+          .label
+            commercial square feet
+      .column
+        .ui.tiny.statistic
+          .value
+            = (Development.sum(:total_cost) / 1_000_000_000).to_i
+            billion
+          .label
+            investment dollars
+
+  .ui.vertical.stripe.center.aligned.segment{style: "background-image: url('assets/images/map_snippet.png'); background-size: cover; background-repeat: no-repeat; background-position: center;"}
+    = link_to developments_path, class: 'ui huge green button' do
+      Search Developments
   .ui.vertical.stripe.segment
     .ui.middle.aligned.stackable.grid.container
       .row
@@ -79,8 +112,6 @@
             Anyone can propose changes to development data on any project.
             = link_to 'Municipal employees', '#municipal-employee'
             and MAPC staff moderate proposals, curating an accurate, up-to-date collection of development data.
-          %p
-            = link_to '(Are you a municipal employee?)', '#municipal-employee'
         .six.wide.right.floated.column
           %img.ui.large.bordered.rounded.image{src: 'assets/images/planning.png'}
       .row
@@ -92,9 +123,9 @@
     .ui.equal.width.stackable.internally.celled.grid
       .center.aligned.row
         .column
-          %h3#municipal-employee Municipal employee?
+          %h3#municipal-employee Are you a municipal employee?
           %p
-            We are looking for municipal employyes to help us moderate data contributions, and to help curate accurate, up-to-date information about your town or city. Build reliable data with us by becoming a moderator.
+            We are looking for municipal employees to help us moderate data contributions, and to help curate accurate, up-to-date information about your town or city. Build reliable data with us by becoming a moderator.
           = link_to 'mailto:massbuild@mapc.org', class: 'ui large button' do
             %i.mail.icon
             Get in touch
@@ -152,3 +183,16 @@
       -#   sign up for notifications to learn about changes to developments you care about, the moment they happen.
       -# = link_to page_path('upcoming'), class: 'ui large button' do
       -#   Learn more about this feature
+  .ui.basic.segment
+    .ui.text.container
+      %p
+        Photo credit:
+        %a{:href => "http://www.flickr.com/photos/62077150@N06/16230655573"} Boston, 2015
+        via
+        %a{:href => "http://photopin.com"} photopin
+        %a{:href => "https://creativecommons.org/licenses/by-nc-sa/2.0/"} (license)
+      %p
+        Map credit:
+        %a{:href => "https://www.flickr.com/photos/mapbox/7880636778"} Boston, Massachusetts
+        by Mapbox
+        %a{:href => "https://creativecommons.org/licenses/by/2.0/"} (license)
