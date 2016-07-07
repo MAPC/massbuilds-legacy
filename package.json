@@ -3,7 +3,8 @@
     "postinstall": "./bin/heroku_install"
   },
   "devDependencies": {
-    "bower": "*"
+    "bower": "*",
+    "ember-cli-sliding-menu": "1.0.1"
   },
   "cacheDirectories": [
     "searchapp/node_modules",

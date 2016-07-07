@@ -8,7 +8,31 @@ export default Ember.Component.extend({
     highlightPoint(e) {
       var projected = this.map.project([e.get("latitude"),e.get("longitude")]);
       this.drawPopup(projected);
+    },
+    zoomToGeoJSON: function(geojson) {
+      this.recalculateBounds(geojson);
+      this.addGeometry(geojson);
     }
+  },
+  addGeometry: function(geojson) {
+    this.geojson = new mapboxgl.GeoJSONSource({
+      cluster: false,
+      data: this.get("mapToGeoJSON") 
+    });
+
+    this.map.addSource("markers", this.geojson);
+
+    // Add a layer showing the markers.
+    this.map.addLayer({
+        "id": "markers",
+        "interactive": true,
+        "type": "symbol",
+        "source": "markers",
+        "layout": {
+            "icon-image": "circle-15",
+            "icon-allow-overlap": true
+        }
+    });
   },
   // define default map settings
   drawPopup(point) {
@@ -41,11 +65,14 @@ export default Ember.Component.extend({
             }
       };
   },
-  recalculateBounds() {
-    var geojsonLayer = L.geoJson(this.get("mapToGeoJSON")),   
+  recalculateBounds(geojson) {
+    var geojsonLayer = L.geoJson(geojson),   
       bounds = geojsonLayer.getBounds(),
       arraybounds = [[bounds.getWest(), bounds.getSouth()], [bounds.getEast(), bounds.getNorth()]];
-    this.map.fitBounds(arraybounds, { duration: 600 });
+      console.log(arraybounds);
+      arraybounds[0][1] += 0.000005;
+      arraybounds[1][0] += 0.000005;
+    this.map.fitBounds(arraybounds, { duration: 800 });
   },
   mapToGeoJSON: function() {
 
@@ -79,7 +106,7 @@ export default Ember.Component.extend({
     });
 
     // recalculate bounds
-    this.recalculateBounds();
+    this.recalculateBounds(this.get("mapToGeoJSON"));
 
   }.observes("developments"),
 
@@ -119,7 +146,7 @@ export default Ember.Component.extend({
       });
 
       // initialize setting of bounds
-      this.recalculateBounds();
+      this.recalculateBounds(this.get("mapToGeoJSON"));
 
       // mouseover popups
       this.popup = new mapboxgl.Popup({

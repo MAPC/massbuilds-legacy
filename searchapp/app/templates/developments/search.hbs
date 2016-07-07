@@ -1,26 +1,117 @@
-<div class="ui grid shadow master-grid">
-  <div class="four wide column blue search-grid">
-    <div class="ui grid row padded">
-      <div class="wide column">
-        {{partial "search"}}
+{{#filters-menu totalResults=totalResults reset="reset" filtersSet=filtersSet status=status isLoggedIn=isLoggedIn successfulSave=successfulSave currentParams=currentParams}}
+  <div class="ui two column relaxed divided grid">
+    <div class="column">
+      <h4 class="ui header">Completion Year</h4>
+      {{range-field-group from=yearFrom to=yearTo min=limits.year_compl.min max=limits.year_compl.max from_max=limits.year_compl.max}}
+      <div class="ui divider"></div>
+      <h4 class="ui header">Commercial Square Feet</h4>
+      {{range-field-group from=sqftFrom to=sqftTo min=limits.commsf.min max=limits.commsf.max from_max=limits.commsf.max}}
+      <div class="ui divider"></div>
+      <h4 class="ui header">Total Housing Units</h4>
+      {{range-field-group from=tothuFrom to=tothuTo min=limits.tothu.min max=limits.tothu.max from_max=limits.tothu.max}}
+    </div>
+    <div class="column">
+      <h4 class="ui header">Project Status</h4>
+      {{#ui-dropdown class="selection fluid" onChange=(action 'update_selected') value=status}}
+        <div class="default text">Select an Option</div>
+        <i class="dropdown icon"></i>
+        <div class="menu">
+          {{#each itemActions as |itemAction|}}
+            <div class="item" data-value="{{itemAction.id}}">
+              {{itemAction.name}}
+            </div>
+          {{/each}}
+        </div>
+      {{/ui-dropdown}}
+      <div class="ui divider"></div>
+      <h4 class="ui header">Project Tags</h4>
+      <div class="ui segment">
+        <div class="ui top attached label">Click to Select</div>
+        <div class="ui tag labels">
+          {{toggle-label field=this.redevelopment label="Redevelopment"}}
+          {{toggle-label field=this.asofright label="As-of-Right"}}
+          {{toggle-label field=this.age_restricted label="Age Restricted"}}
+          {{toggle-label field=this.clusteros label="Cluster / Open Space"}}
+          {{toggle-label field=this.phased label="Phased"}}
+          {{toggle-label field=this.cancelled label="Cancelled"}}
+          {{toggle-label field=this.private label="Private"}}
+        </div>
+      </div>
+      <button {{action "reset"}} class="fluid ui button red">Clear Filters</button>
+    </div>
+  </div>
+{{/filters-menu}}
+{{#mapbox-map developments=model model=model as |mapbox|}}
+  <div class="spatial-stats">
+    <div class="ui segment">
+      <div class="ui form">
+        <div class="ui icon input" style="width: 100%">
+          {{input type="text" value=placeSearch placeholder="Search for a Place"}}
+          {{#if placeSearch}}
+            <i class="circular delete link icon" {{action 'clearSearch'}}></i>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+    {{searchables}}
+    {{#if placeSearchResults}}
+      <div class="ui segment">
+        <div class="ui divided link items" style="width: 100%;">
+          {{#each placeSearchResults as |result|}}
+            <a {{action mapbox.zoomToGeoJSON result.attributes.geometry}} class="item">
+              <div class="ui tiny image" style="text-align: center;">
+                {{#if (eq result.type "locations")}}
+                  <i class="ui huge marker icon"></i>
+                {{/if}}
+                {{#if (eq result.type "developments")}}
+                  <img src="{{result.id}}/image">
+                {{/if}}
+                {{#if (eq result.type "places")}}
+                  <i class="ui huge map icon"></i>
+                {{/if}}
+              </div>
+              <div class="content">
+                {{#if (eq result.type "locations")}}
+                  <div class="header">{{result.attributes.properties.name}}</div>
+                {{/if}}
+                {{#if (eq result.type "developments")}}
+                  <div class="header">{{result.attributes.name}}</div>
+                {{/if}}
+                {{#if (eq result.type "places")}}
+                  <div class="header">{{result.attributes.name}}</div>
+                {{/if}}
+                <div class="meta">
+                  <span>Type: {{result.type}}</span>
+                </div>
+              </div>
+            </a>
+          {{/each}}
+        </div>
+      </div>
+    {{/if}}
+    <div class="ui segment" style="background-color: rgba(255,255,255,0.9);">
+      <div class="ui top attached label">Summary Statistics</div>
+      <div class="ui horizontal statistics">
+        <div class="ui statistic">
+          <div class="value">
+            {{totalResults}}
+          </div>
+          <div class="label">
+            Developments
+          </div>
+        </div>
+        <div class="ui statistic">
+          <div class="value">
+            10,543
+          </div>
+          <div class="label">
+            Housing Units
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <div class="twelve wide column white results">
-    <div class="ui two attached buttons">
-      {{#link-to "developments.search.table" class="ui button"}}Table{{/link-to}}
-      {{#link-to "developments.search.map" class="ui button"}}Map{{/link-to}}
-    </div>
-    <div class="ui inverted segment" style="margin-bottom:0; margin-top:0; border-radius:0">
-      <p>Total Results: {{totalResults}}</p>
-    </div>
-    <div class="container">
-      {{outlet}}
-
-    </div>
-    <div class="ui two bottom attached primary buttons">
-      <div {{action "previousPage"}} class="ui button">Previous Page</div>
-      <div {{action "nextPage"}} class="ui button">Next Page</div>
-    </div>
-  </div>
-</div>
+{{/mapbox-map}}
+{{#developments-list-component model=model}}
+  {{infinity-loader infinityModel=model triggerOffset=60 scrollable=".scrollable-table"}}
+{{/developments-list-component}}

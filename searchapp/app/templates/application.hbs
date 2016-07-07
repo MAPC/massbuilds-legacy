@@ -1,25 +1,55 @@
-{{#ui-sidebar class="ui left inverted sidebar" id="sidebar" searches=model.searches}}
-  <br/>
-  <br/>
+{{outlet}}
+{{#ui-modal class="save-search" onApprove=(action 'saveSearch')}}
+  {{error}}
+  <i class="close icon"></i>
+  <div class="header">
+    First, Title This Search:
+  </div>
+  <div class="image content">
+    <div class="description">
+      <div class="ui header">Give your search a descriptive title that's easy to remember.</div>
+
+        <div class="ui input fluid">
+          {{input value=title}}
+        </div>
+
+    </div>
+  </div>
+  <div class="actions">
+    <div class="ui black deny button">
+      Cancel
+    </div>
+    <div class="ui positive right labeled icon button">
+      Save
+      <i class="checkmark icon"></i>
+    </div>
+  </div>
+{{/ui-modal}}
+{{#ui-modal class="ui small basic test modal transition hidden" id="saved-searches-modal" searches=model.searches allowMultiple=true}}
+  <div class="ui icon header">
+    <i class="history icon"></i>
+    Saved Searches
+  </div>
+
   <div class="ui selection divided inverted large list">
-  	<div class="item" style="pointer-events: none;">
+    <div class="item" style="pointer-events: none;">
       <div class="content header">
         Your Saved Searches
       </div>
-  	</div>
+    </div>
     {{#each model key="@index" as |search|}}
-      <div class="item">
+      <div {{action 'transitionToSaved' search}} class="item">
         <div class="right floated content">
           <i {{action 'deleteSearch' search}} class="icon trash"></i>
         </div>
         <div class="right floated content">
           <i {{action 'downloadSearchModal' search}} class="icon download"></i>
         </div>
-        <div {{action 'transitionToSaved' search}} class="content">
+        <div class="content">
           {{search.title}}
         </div>
       </div>
-      {{#ui-modal class=""}}
+      {{#ui-modal class="" allowMultiple=true}}
         <div class="ui modal download-search-{{search.id}}">
           <div class="header">
             Select format:
@@ -44,10 +74,8 @@
       {{/ui-modal}}
     {{/each}}
   </div>
-{{/ui-sidebar}}
-<div class="ui pusher main">
-  {{outlet}}
-</div>
+{{/ui-modal}}
+
 {{#ui-modal class="delete-search"}}
   <div class="header">
     Are you sure?
@@ -62,5 +90,3 @@
     </div>
   </div>
 {{/ui-modal}}
-
-{{partial "save-search"}}

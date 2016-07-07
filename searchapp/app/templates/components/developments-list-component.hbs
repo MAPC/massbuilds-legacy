@@ -1,20 +1,33 @@
-<table class="ui padded selectable table">
-  <thead>
-    <tr><th>Name</th>
-    <th>Completion Year</th>
-    <th>Total Housing Units</th>
-    <th>Commercial Square Feet</th>
-    <th>Municipality</th>
-  </tr></thead>
-  <tbody>
-    {{#each model as |development|}}
-    <tr {{action "mouseover" development on='mouseEnter'}}>
-      <td><a href="{{development.id}}">{{development.name}}</a></td>
-      <td>{{development.year_compl}}</td>
-      <td>{{development.tothu}}</td>
-      <td>{{development.commsf}}</td>
-      <td>{{development.city}}</td>
-    </tr>
-    {{/each}}
-  </tbody>
-</table>
+<div class="bottom-table-drawer">
+  <div class="ui menu" style="background-color: rgba(251,251,251,0.9); height: 70px; border-radius:0; margin-bottom:0;">
+    <a class="browse item" {{action 'toggle'}}>
+      <i class="table icon"></i>
+      Table
+      {{caret-toggle open=open invert=true}}
+    </a>
+  </div>
+  <div style="overflow: scroll; height: 100%" class="scrollable-table">
+    <table class="ui padded selectable table">
+      <thead>
+        <tr><th>Name</th>
+        <th>Completion Year</th>
+        <th>Total Housing Units</th>
+        <th>Commercial Square Feet</th>
+        <th>Municipality</th>
+      </tr></thead>
+      <tbody>
+        {{#each model as |development|}}
+        <tr>
+          <td><a href="{{development.id}}">{{development.name}}</a></td>
+          <td>{{development.year_compl}}</td>
+          <td>{{development.tothu}}</td>
+          <td>{{development.commsf}}</td>
+          <td>{{development.city}}</td>
+        </tr>
+        {{/each}}
+        {{yield}}
+      </tbody>
+    </table>
+    
+  </div>
+</div>

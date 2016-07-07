@@ -34,28 +34,28 @@
     <div class="ui top attached label">Construction Status</div>
     <div class="grouped fields">
       <div class="field">
-        <div class="ui radio checkbox">
+        {{!-- <div class="ui radio checkbox"> --}}
           {{ui-radio name='status' value='projected' current=model.status}}
           <label><b>Projected:</b> Known opportunity or planning priority but no specific proposal or developer</label>
-        </div>
+        {{!-- </div> --}}
       </div>
       <div class="field">
-        <div class="ui radio checkbox">
+        {{!-- <div class="ui radio checkbox"> --}}
           {{ui-radio name='status' value='planning' current=model.status}}
           <label><b>Planning:</b> Specific proposal &amp; proponent, building permit not yet issued</label>
-        </div>
+     {{!--    </div> --}}
       </div>
       <div class="field">
-        <div class="ui radio checkbox">
+        {{!-- <div class="ui radio checkbox"> --}}
           {{ui-radio name='status' value='in_construction' current=model.status}}
           <label><b>In Construction:</b> Commencement of site work to receipt of final occupancy permit</label>
-        </div>
+       {{!--  </div> --}}
       </div>
       <div class="field">
-        <div class="ui radio checkbox">
+        {{!-- <div class="ui radio checkbox"> --}}
           {{ui-radio name='status' value='completed' current=model.status}}
           <label><b>Completed:</b> Development is occupied or available for occupancy</label>
-        </div>
+  {{!--       </div> --}}
       </div>
     </div>
   </div>
