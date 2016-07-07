@@ -9,30 +9,36 @@ export default Ember.Component.extend({
       var projected = this.map.project([e.get("latitude"),e.get("longitude")]);
       this.drawPopup(projected);
     },
-    zoomToGeoJSON: function(geojson) {
+    zoomToGeoJSON: function(geojson, type) {
       this.recalculateBounds(geojson);
-      this.addGeometry(geojson);
+      this.addGeometry(geojson, type);
     }
   },
+
+  boundaried: false,
   addGeometry: function(geojson) {
+    if (this.boundaried) {
+      this.map.removeSource('context');  
+      this.map.removeLayer('context');
+    }
     this.geojson = new mapboxgl.GeoJSONSource({
-      cluster: false,
-      data: this.get("mapToGeoJSON") 
+      data: geojson 
     });
 
-    this.map.addSource("markers", this.geojson);
+    this.map.addSource("context", this.geojson);
 
     // Add a layer showing the markers.
     this.map.addLayer({
-        "id": "markers",
-        "interactive": true,
-        "type": "symbol",
-        "source": "markers",
-        "layout": {
-            "icon-image": "circle-15",
-            "icon-allow-overlap": true
+        "id": "context",
+        "type": "fill",
+        "source": "context",
+        'paint': {
+            'fill-color': '#088',
+            'fill-opacity': 0.3
         }
     });
+
+    this.set('boundaried', true);
   },
   // define default map settings
   drawPopup(point) {
@@ -83,7 +89,9 @@ export default Ember.Component.extend({
       var properties = {  municipality: development.get("municipality"), 
                           name: development.get("name"), 
                           id: development.get("id"), 
-                          year: development.get("year")  };
+                          year: development.get("year"),
+                          status: development.get("status"),
+                          image: development.get("image-url")  };
 
       features.push(this.featureSchema(coordinates, properties));
     }); 
@@ -162,17 +170,38 @@ export default Ember.Component.extend({
     });
 
     this.map.on('click', (e) => {
-      this.map.queryRenderedFeatures(e.point, {       
-        radius: 15, // Half the marker size (15px).
-        includeGeometry: true,
-        layer: 'markers'
-      }, (err, features) => {
-        if (features.length) {
-          window.location = features[0].properties.id;
-        }
-      });
+      var features = this.map.queryRenderedFeatures(e.point, { layers: ['markers'] });
 
+      if (!features.length) {
+          return;
+      }
 
+      var feature = features[0];
+      console.log(feature.properties);
+      var propertyCardTemplate = `
+          <div class="ui card">
+            <div class="ui image">
+              <img src="${feature.properties.id}/image">
+            </div>
+            <div class="content">
+              <a href="${feature.properties.id}" class="header">${feature.properties.name}</a>
+              <div class="meta">
+                <span class="date">${feature.properties.status}</span>
+              </div>
+            </div>
+          </div>`;
+
+      // Populate the popup and set its coordinates
+      // based on the feature found.
+      var popup = new mapboxgl.Popup()
+          .setLngLat(feature.geometry.coordinates)
+          .setHTML(propertyCardTemplate)
+          .addTo(this.map);
+
+    });
+    this.map.on('mousemove', (e) => {
+        var features = this.map.queryRenderedFeatures(e.point, { layers: ['markers'] });
+        this.map.getCanvas().style.cursor = (features.length) ? 'pointer' : '';
     });
 
   }
