@@ -97,7 +97,7 @@ export default Ember.Component.extend({
     // map configuration
     this.map = new mapboxgl.Map({
         container: 'map', // container id
-        style: 'mapbox://styles/mapbox/bright-v8'
+        style: 'mapbox://styles/mapbox/basic-v8'
     });
     this.map.scrollZoom.disable();
     this.map.addControl(new mapboxgl.Navigation());
@@ -119,7 +119,7 @@ export default Ember.Component.extend({
           "type": "symbol",
           "source": "markers",
           "layout": {
-              "icon-image": "star-15",
+              "icon-image": "circle-15",
               "icon-allow-overlap": true
           }
       });
