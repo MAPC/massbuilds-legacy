@@ -29,6 +29,7 @@ export default Ember.Route.extend(InfinityRoute, {
     saved: { refreshModel: true },
     status: { refreshModel: true }
   },
+
   filters: ["year_compl","tothu","commsf","name","address","municipality","redevelopment", 
                   "status", "asofright", "age_restricted", "clusteros", 
                   "phased", "cancelled", "private","saved","status"],
@@ -48,12 +49,13 @@ export default Ember.Route.extend(InfinityRoute, {
     // queryObject.page = {};
     // queryObject.startingPage = 1;
     queryObject.perPage = 1000; 
-    queryObject['fields[developments]'] = "name,geometry,latitude,longitude,commsf,tothu,year-compl"
+    queryObject['fields[developments]'] = "name,geometry,status,latitude,longitude,commsf,tothu,year-compl"
     // queryObject.sort = '-start-time';
     this.set('queryObject', queryObject);
 
     return this.infinityModel("development", queryObject)
   },
+
   actions: {
     search() {
       this.refresh();
@@ -62,6 +64,7 @@ export default Ember.Route.extend(InfinityRoute, {
       this.resetController();
     }
   },
+
   setupController(controller, model, transition) {
     this._super(controller, model);
 
@@ -80,8 +83,10 @@ export default Ember.Route.extend(InfinityRoute, {
       var tothu = JSON.parse(transition.queryParams.tothu);  
       this.controllerFor('developments.search').setProperties({ "tothuFrom": tothu[0], "tothuTo": tothu[1] });
     }
+    this.controllerFor('developments.search').set('queryObject', this.get('queryObject'));
 
   },
+
   resetController: function () {
     var controller = this.controllerFor("developments.search");
     this.filters.forEach((param) => {
@@ -93,6 +98,7 @@ export default Ember.Route.extend(InfinityRoute, {
     });
     controller.computeRanges();
   },
+
   getSearchLimits: function() {
     //http://api.lvh.me:5000/searches/limits
     var host = this.store.adapterFor('application').get('host'),
@@ -107,13 +113,13 @@ export default Ember.Route.extend(InfinityRoute, {
         // process the result...
     });
   },
-  getParsedQueryParamsURL: function() {
+
+  getExportFilters: function() {
     var queryObject = this.get('queryObject');
-    var stripped = this.get('filters').filter(function(property){
-      return queryObject[property] !== "perPage";
-    });
-    return this.set('parsedQueryForServer', Ember.$.param(stripped));
-  }.property('queryObject.{year_compl,tothu,commsf,name,address,municipality,redevelopment,status,asofright,age_restricted,clusteros,phased,cancelled,private,saved,status}'),
+    console.log(queryObject);
+    this.controllerFor('developments.search').set("queryObject", queryObject);
+  }.property('queryObject.filter.{year_compl,tothu,commsf,name,address,municipality,redevelopment,status,asofright,age_restricted,clusteros,phased,cancelled,private,saved,status}'),
+
   _canLoadMore: Ember.computed('currentPage', function() {
     var currentPage = this.get('currentPage');
     var perPage = this.get('_perPage');

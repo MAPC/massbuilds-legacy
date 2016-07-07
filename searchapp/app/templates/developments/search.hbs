@@ -58,7 +58,7 @@
       <div class="ui segment">
         <div class="ui divided link items" style="width: 100%;">
           {{#each placeSearchResults as |result|}}
-            <a {{action mapbox.zoomToGeoJSON result.attributes.geometry}} class="item">
+            <a {{action mapbox.zoomToGeoJSON result.attributes.geometry result.type}} class="item">
               <div class="ui tiny image" style="text-align: center;">
                 {{#if (eq result.type "locations")}}
                   <i class="ui huge marker icon"></i>

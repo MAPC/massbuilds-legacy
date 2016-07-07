@@ -130,7 +130,6 @@ export default Ember.Controller.extend({
 
   listenToChanges: function() {
     // this needs to be refactored. No observers.
-    console.log("Observer Triggered")
     this.computeRanges();
   }.observes("yearFrom", "yearTo", "sqftTo", "sqftFrom", "tothuFrom", "tothuTo"),
 
@@ -143,8 +142,11 @@ export default Ember.Controller.extend({
   }.property(),
 
   successfulSave: false,
+
+
   currentParams: function () { 
-    var query = this.get("container").lookup("route:developments.search").get("getParsedQueryParamsURL");
-    return query;
-  }.property('')
+    var queryParams = this.get('queryObject.filter');
+    var parse = Ember.$.param(queryParams);
+    return parse;
+  }.property('queryObject')
 });
