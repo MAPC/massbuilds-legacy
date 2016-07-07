@@ -12,7 +12,7 @@
     = @development.zip_code
 %p.tagline
   = @development.tagline
-  - if @development.website
+  - if @development.website.present? # Can be an empty string
     = link_to @development.website, target: '_blank' do
       %i.icon.linkify
       = @development.website

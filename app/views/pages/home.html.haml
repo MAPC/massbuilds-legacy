@@ -38,7 +38,7 @@
             Log in
     .ui.text.container
       %h1.ui.inverted.header
-        MassBuild
+        MassBuilds
       %h2
         Explore development in Massachusetts through a collaborative inventory of past, present, and future projects.
       = link_to developments_path, class: 'ui huge primary button' do
@@ -48,7 +48,7 @@
     .ui.text.container
       %h3.ui.header Gain insight on development in our region.
       %p
-        MassBuild provides
+        MassBuilds provides
 
         = succeed ',' do
           %strong analysts
@@ -62,27 +62,27 @@
         projects across Massachusetts &mdash; from the largest development to the smallest.
 
   .ui.vertical.stripe.center.aligned.segment{style: 'padding-top: 2em; padding-bottom: 2em;'}
-    .ui.four.column.grid.container
-      .column
+    .ui.sixteen.column.grid.container
+      .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
             = Development.count
           .label
             developments
-      .column
+      .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
             = Development.sum(:tothu)
           .label
             housing units
-      .column
+      .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
             = (Development.sum(:commsf) / 1_000_000).to_i
             million
           .label
             commercial square feet
-      .column
+      .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
             = (Development.sum(:total_cost) / 1_000_000_000).to_i
@@ -90,8 +90,9 @@
           .label
             investment dollars
 
-  .ui.vertical.stripe.center.aligned.segment{style: "background-image: url('assets/images/map_snippet.png'); background-size: cover; background-repeat: no-repeat; background-position: center;"}
-    = link_to developments_path, class: 'ui huge green button' do
+  .ui.vertical.stripe.center.aligned.segment{style: "background-image: url('assets/images/mapbox_snippet.jpg'); background-size: cover; background-repeat: no-repeat; background-position: center;"}
+    = link_to developments_path, class: 'ui huge black button' do
+      %i.search.icon
       Search Developments
   .ui.vertical.stripe.segment
     .ui.middle.aligned.stackable.grid.container
@@ -126,7 +127,7 @@
           %h3#municipal-employee Are you a municipal employee?
           %p
             We are looking for municipal employees to help us moderate data contributions, and to help curate accurate, up-to-date information about your town or city. Build reliable data with us by becoming a moderator.
-          = link_to 'mailto:massbuild@mapc.org', class: 'ui large button' do
+          = link_to 'mailto:massbuilds@mapc.org', class: 'ui large button' do
             %i.mail.icon
             Get in touch
         .column
@@ -144,9 +145,9 @@
       %h3.ui.header
         Manage Your Developments
       %p
-        Keep your property data in one place by making MassBuild your property management system.
+        Keep your property data in one place by making MassBuilds your property management system.
         = link_to 'Your agency, company, or team', organizations_path
-        can edit data and moderate changes to developments. Plus, more data in MassBuild results in better-informed
+        can edit data and moderate changes to developments. Plus, more data in MassBuilds results in better-informed
         = succeed '.' do
           = link_to 'regional employment and housing projections', 'http://mapc.org/projections', target: '_blank'
 
@@ -170,7 +171,7 @@
 
       %p Get in touch with us, and we'll see what we can do to help.
 
-      = link_to 'mailto:massbuild@mapc.org', class: 'ui huge button' do
+      = link_to 'mailto:massbuilds@mapc.org', class: 'ui huge button' do
         %i.mail.icon
         Contact us
   -# .ui.vertical.stripe.segment

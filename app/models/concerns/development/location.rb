@@ -79,8 +79,6 @@ class Development
       url << "api_key=#{ENV['MBTA_API_KEY']}"
       url << "&lat=#{latitude.to_f}&lon=#{longitude.to_f}&format=json"
 
-      puts url
-
       json = JSON.parse(Net::HTTP.get_response(URI(url)).body)
 
       station = json['stop'].detect { |e| e[key].present? }

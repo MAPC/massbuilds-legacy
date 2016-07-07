@@ -12,7 +12,8 @@ class Development
         :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst, :fa_other, :fa_hotel
 
       boolean_scopes :rdv, :asofright, :ovr55, :clusteros, :phased,
-        :stalled, :cancelled, :hidden
+        :stalled, :cancelled, :hidden, :cluster_or_open_space_development,
+        :redevelopment, :as_of_right, :age_restricted, :hidden
 
       scope :close_to, CloseToQuery.new(self).scope
     end
