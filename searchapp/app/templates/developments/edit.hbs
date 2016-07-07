@@ -1,44 +1,43 @@
-<div class="ui grid container">
-  <div class="row">
-    <div class="ten wide column">
-      {{partial "developments/forms/general"}}
-    </div>
-    <div class="six wide column">
-      {{#if model.id}}
-        {{partial "developments/forms/development_team"}}
-      {{/if}}
-    </div>
-  </div>
-  <div class="row">
-    <div class="sixteen wide column">
-      {{partial "developments/forms/spatial"}}
-    </div>
-  </div>
-  <div class="row">
-    <div class="ten wide centered column">
-
-      {{partial "developments/forms/physical"}}
-
-      {{partial "developments/forms/residential"}}
-
-      {{partial "developments/forms/commercial"}}
-
-      {{partial "developments/forms/employment"}}
-
-      <button class="ui primary button" {{action "save" model}}>
-        {{#if isInEdit}}
-          Propose Changes
-        {{else}}
-          Create
+<br />
+<br />
+<br />
+<div id="mainbody">
+  {{sticky-semantic-component content=model.errors}}
+  <div class="ui grid container">
+    <div class="row">
+      <div class="ten wide column">
+        {{partial "developments/forms/general"}}
+      </div>
+      <div class="six wide column">
+        {{#if model.id}}
+          {{partial "developments/forms/development_team"}}
         {{/if}}
-      </button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="sixteen wide column">
+        {{partial "developments/forms/spatial"}}
+      </div>
+    </div>
+    <div class="row">
+      <div class="ten wide centered column">
+
+        {{partial "developments/forms/physical"}}
+
+        {{partial "developments/forms/residential"}}
+
+        {{partial "developments/forms/commercial"}}
+
+        {{partial "developments/forms/employment"}}
+
+        <button class="ui primary button" {{action "save" model}}>
+          {{#if isInEdit}}
+            Propose Changes
+          {{else}}
+            Create
+          {{/if}}
+        </button>
+      </div>
     </div>
   </div>
 </div>
-
-Errors: 
-{{#each model.errors as |error|}}
-  <div class="error">
-    {{error.message}}
-  </div>
-{{/each}}

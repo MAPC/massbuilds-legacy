@@ -2,17 +2,19 @@
   <div class="ui horizontal divider">Details</div>
 </div>
 <table class="ui celled table">
-  <tbody>
+  <tbody class="ui form">
     <tr>
-      <td>Total Housing Units</td>
+      <td><div class="ui form"><div class="required field input"><label>Total Housing Units</label></div></div></td>
       <td>
-        <div class="ui required input">
-          {{input type="text" value=model.tothu}}
+        <div class="ui form">
+          <div class="required field input">
+            {{input type="text" value=model.tothu}}
+          </div>
         </div>
       </td>
     </tr>
     <tr>
-      <td>Commercial Square Feet</td>
+      <td><div class="ui form"><div class="required field input"><label>Commercial Square Feet</label></div></div></td>
       <td>
         <div class="ui input">
           {{input type="text" value=model.commsf}}

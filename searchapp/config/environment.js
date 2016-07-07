@@ -24,6 +24,9 @@ module.exports = function(environment) {
       include: false,
       apiKey: 'AIzaSyAWrW13SqSU3BRD81HFXS0c1EP3p_wb6Rc'
     },
+    'place-autocomplete': {
+      key: 'AIzaSyAWrW13SqSU3BRD81HFXS0c1EP3p_wb6Rc'
+    },
     mapbox: {
       accessToken: 'pk.eyJ1Ijoid2lsYnVybmZvcmNlIiwiYSI6InUzTmxaNHcifQ.TfoRyRJIHvzqV3HwSGEp9w',
     },
