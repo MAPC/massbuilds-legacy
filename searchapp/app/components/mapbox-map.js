@@ -11,7 +11,28 @@ export default Ember.Component.extend({
     },
     zoomToGeoJSON: function(geojson) {
       this.recalculateBounds(geojson);
+      this.addGeometry(geojson);
     }
+  },
+  addGeometry: function(geojson) {
+    this.geojson = new mapboxgl.GeoJSONSource({
+      cluster: false,
+      data: this.get("mapToGeoJSON") 
+    });
+
+    this.map.addSource("markers", this.geojson);
+
+    // Add a layer showing the markers.
+    this.map.addLayer({
+        "id": "markers",
+        "interactive": true,
+        "type": "symbol",
+        "source": "markers",
+        "layout": {
+            "icon-image": "circle-15",
+            "icon-allow-overlap": true
+        }
+    });
   },
   // define default map settings
   drawPopup(point) {
