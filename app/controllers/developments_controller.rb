@@ -42,7 +42,7 @@ class DevelopmentsController < ApplicationController
   end
 
   def export_params
-    params.permit *Development.column_names.map(&:to_sym)
+    params.permit *(Development.column_names.map(&:to_sym) + Development::FieldAliases::ALIASES.keys)
   end
 
 end
