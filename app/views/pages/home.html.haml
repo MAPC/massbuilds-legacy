@@ -62,27 +62,27 @@
         projects across Massachusetts &mdash; from the largest development to the smallest.
 
   .ui.vertical.stripe.center.aligned.segment{style: 'padding-top: 2em; padding-bottom: 2em;'}
-    .ui.four.column.grid.container
-      .column
+    .ui.sixteen.column.grid.container
+      .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
             = Development.count
           .label
             developments
-      .column
+      .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
             = Development.sum(:tothu)
           .label
             housing units
-      .column
+      .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
             = (Development.sum(:commsf) / 1_000_000).to_i
             million
           .label
             commercial square feet
-      .column
+      .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
             = (Development.sum(:total_cost) / 1_000_000_000).to_i
