@@ -174,3 +174,12 @@
 .mapboxgl-popup {
   z-index: 102;
 }
+
+.mapboxgl-popup-content {
+  padding-bottom: 0;
+  background: none;
+}
+
+.mapboxgl-popup-close-button {
+  font-size: 1.5em;
+}
