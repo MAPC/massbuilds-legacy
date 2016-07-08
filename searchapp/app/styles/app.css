@@ -170,3 +170,7 @@
 .ui.fixed.sticky + p {
   margin-top: 80px;
 }
+
+.mapboxgl-popup {
+  z-index: 102;
+}
