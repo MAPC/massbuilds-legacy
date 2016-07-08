@@ -52,6 +52,10 @@ export default Ember.Controller.extend({
       model.save().then((model) => {
         // this.transitionToRoute('developments', model);  
         window.location.replace(model.get("id"));
+      },() => {
+        $('.ui.basic.errors.modal')
+          .modal('show')
+        ;
       });
     },
     update_selected(component, id, value) {

@@ -166,3 +166,7 @@
 .filters-full-menu {
   margin-bottom: 10%;
 }
+
+.ui.fixed.sticky + p {
+  margin-top: 80px;
+}

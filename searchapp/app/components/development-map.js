@@ -60,7 +60,7 @@ export default Ember.Component.extend({
     var model = this.get("model");
     var center = [150, 250];
     
-    this.map.featuresAt(center, { radius: 1 }, function(err, features) {
+    this.map.queryRenderedFeatures(center, { radius: 1 }, function(err, features) {
       if(features[0]) {
         model.set("parcel_id", features[0].properties.parloc_id);
       }

@@ -1,0 +1,20 @@
+<i class="close icon"></i>
+<div class="header">
+  Missing or Invalid Data
+</div>
+<div class="image content">
+  <div class="image">
+    <i class="warning icon"></i>
+  </div>
+  <div class="description">
+    <p>There was something wrong with the input. Either data is missing or invalid. See messages below:</p>
+    <ul class="ui list">
+      {{#each content as |error|}}
+        <li class="error">
+          Message: {{error.message}}
+        </li>
+      {{/each}}
+    </ul>
+    {{yield}}
+  </div>
+</div>
