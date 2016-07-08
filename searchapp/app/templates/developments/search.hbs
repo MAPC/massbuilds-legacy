@@ -2,13 +2,15 @@
   <div class="ui two column relaxed divided grid">
     <div class="column">
       <h4 class="ui header">Completion Year</h4>
-      {{range-field-group from=yearFrom to=yearTo min=limits.year_compl.min max=limits.year_compl.max from_max=limits.year_compl.max}}
+      {{range-field-group full_range=year_compl min=limits.year_compl.min max=limits.year_compl.max from_max=limits.year_compl.max}}
       <div class="ui divider"></div>
+
       <h4 class="ui header">Commercial Square Feet</h4>
-      {{range-field-group from=sqftFrom to=sqftTo min=limits.commsf.min max=limits.commsf.max from_max=limits.commsf.max}}
+      {{range-field-group full_range=commsf min=limits.commsf.min max=limits.commsf.max from_max=limits.commsf.max}}
       <div class="ui divider"></div>
+
       <h4 class="ui header">Total Housing Units</h4>
-      {{range-field-group from=tothuFrom to=tothuTo min=limits.tothu.min max=limits.tothu.max from_max=limits.tothu.max}}
+      {{range-field-group full_range=tothu min=0 max=limits.tothu.max from_max=0}}
     </div>
     <div class="column">
       <h4 class="ui header">Project Status</h4>
@@ -44,6 +46,7 @@
 {{#mapbox-map developments=model model=model as |mapbox|}}
   <div class="spatial-stats">
     <div class="ui segment">
+      {{filter.another_test}}
       <div class="ui form">
         <div class="ui icon input" style="width: 100%">
           {{input type="text" value=placeSearch placeholder="Search for a Place"}}

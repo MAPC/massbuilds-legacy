@@ -46,11 +46,8 @@ export default Ember.Route.extend(InfinityRoute, {
       }
     });
 
-    // queryObject.page = {};
-    // queryObject.startingPage = 1;
     queryObject.perPage = 1000; 
     queryObject['fields[developments]'] = "name,geometry,status,latitude,longitude,commsf,tothu,year-compl"
-    // queryObject.sort = '-start-time';
     this.set('queryObject', queryObject);
 
     return this.infinityModel("development", queryObject)
@@ -68,54 +65,39 @@ export default Ember.Route.extend(InfinityRoute, {
   setupController(controller, model, transition) {
     this._super(controller, model);
 
-    this.controllerFor("developments.search").computeRanges();
-    if(transition.queryParams.year_compl !== undefined) {
-      var year = JSON.parse(transition.queryParams.year_compl);  
-      this.controllerFor('developments.search').setProperties({ "yearFrom": year[0], "yearTo": year[1] });
-    }
-
-    if(transition.queryParams.commsf !== undefined) {
-      var commsf = JSON.parse(transition.queryParams.commsf); 
-      this.controllerFor('developments.search').setProperties({ "sqftFrom": commsf[0], "sqftTo": commsf[1] });
-    }
-
-    if(transition.queryParams.tothu !== undefined) {
-      var tothu = JSON.parse(transition.queryParams.tothu);  
-      this.controllerFor('developments.search').setProperties({ "tothuFrom": tothu[0], "tothuTo": tothu[1] });
-    }
     this.controllerFor('developments.search').set('queryObject', this.get('queryObject'));
   },
 
-  resetController: function () {
+  resetController: function (controller, isExiting) {
+    console.log("during controller reset");
     var controller = this.controllerFor("developments.search");
-    this.filters.forEach((param) => {
-      controller.set(param, null);
-    });
-    controller.rangedProperties.forEach(function(property) { 
-      controller.set(property.min, null);
-      controller.set(property.max, null);
-    });
-    controller.computeRanges();
+    if (!isExiting) {
+      console.log("isExiting");
+      controller.get('queryParams').forEach((param) => {
+        if (typeof param === "object") {
+          controller.set(Object.keys(param)[0], null);
+        }
+        if (typeof param === "string") {
+          controller.set(param, null);
+        }
+      });
+    }
   },
 
   getSearchLimits: function() {
-    //http://api.lvh.me:5000/searches/limits
     var host = this.store.adapterFor('application').get('host'),
     endpoint = 'searches/limits';
 
     Ember.$.ajax({
-        url: `${host}/${endpoint}`,
-        // your other details...
+      url: `${host}/${endpoint}`,
     }).then((resolve) => {
-        // self.set('name', resolve.doc.name);
-        this.controllerFor('developments.search').set("limits", resolve);
-        // process the result...
+      this.controllerFor('developments.search')
+          .set("limits", resolve);
     });
   },
 
   getExportFilters: function() {
     var queryObject = this.get('queryObject');
-    console.log(queryObject);
     this.controllerFor('developments.search').set("queryObject", queryObject);
   }.property('queryObject.filter.{year_compl,tothu,commsf,name,address,municipality,redevelopment,status,asofright,age_restricted,clusteros,phased,cancelled,private,saved,status}'),
 
