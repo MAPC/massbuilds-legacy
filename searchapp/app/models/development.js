@@ -6,7 +6,8 @@ export default DS.Model.extend({
   description: DS.attr("string"),
   status: DS.attr("string"),
   year_compl: DS.attr("number"),
-
+  log_entry: DS.attr("string"),
+  
   redevelopment: DS.attr("boolean"),
   asofright: DS.attr("boolean"), 
   age_restricted: DS.attr("boolean"), 
@@ -14,6 +15,7 @@ export default DS.Model.extend({
   phased: DS.attr("boolean"), 
   cancelled: DS.attr("boolean"), 
   "private": DS.attr("boolean"), 
+  onsitepark: DS.attr("number"),
 
   address: DS.attr("string"),
   latitude: DS.attr("number"),

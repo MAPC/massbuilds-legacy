@@ -3,17 +3,19 @@
 </div>
 <div class="ui form">
   <div class="required field huge fluid input">
-    <label>Project Name</label>
+    {{#ui-popup tagName="label" content="If the project is not named please use the street address, such as '2 Adams Street.' If a multi-phase project, use a single project name and add 'Phase 1,' etc."}}
+      Project Name
+    {{/ui-popup}}
     {{input value=model.name class="huge" placeholder="Descriptive name for development project"}}
   </div>
 
   <div class="required field fluid huge input">
-    <label>Tagline</label>
+    {{#ui-popup tagName="label" content="Short sentence describing project. e.g. 'Luxury hotel with ground-floor retail.'"}}Tagline{{/ui-popup}}
     {{input value=model.tagline class="huge" placeholder="Project tagline"}}
   </div>
 
   <div class="required field">
-    <label>Description</label>
+    {{#ui-popup tagName="label" content="Brief summary of the project."}}Description{{/ui-popup}}
     {{textarea value=model.description cols="80" rows="10" placeholder="e.g. 'Transit-oriented affordable housing complex with ground-floor retail and restaurant spaces.'"}}
   </div>
 
@@ -60,7 +62,11 @@
     </div>
   </div>
   <div class="required field fluid huge input">
-    <label>Year Completed (YYYY)</label>
+    {{#ui-popup tagName="label" content="Estimated year of completion (approximate estimate OK)"}}Year Completed (YYYY){{/ui-popup}}
     {{input value=model.year_compl class="huge" placeholder="Project tagline"}}
+  </div>
+  <div class="required field fluid huge input">
+    {{#ui-popup tagName="label" content="Number of on-site parking spaces"}}On-site parking spaces{{/ui-popup}}
+    {{input value=model.onsitepark class="huge"}}
   </div>
 </div>

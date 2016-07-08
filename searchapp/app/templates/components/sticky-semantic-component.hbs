@@ -11,6 +11,7 @@
     <ul class="ui list">
       {{#each content as |error|}}
         <li class="error">
+          Title: {{error.title}}<br/>
           Message: {{error.message}}
         </li>
       {{/each}}

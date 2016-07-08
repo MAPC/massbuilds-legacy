@@ -128,7 +128,6 @@ export default Ember.Component.extend({
         container: 'map', // container id
         style: 'mapbox://styles/mapbox/basic-v8'
     });
-    this.map.scrollZoom.disable();
     this.map.addControl(new mapboxgl.Navigation());
 
     // wrap geojson source

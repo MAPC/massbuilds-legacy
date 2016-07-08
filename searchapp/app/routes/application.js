@@ -12,9 +12,9 @@ export default Ember.Route.extend({
     },
     transitionToSaved: function(search) {
       var query = search.get("query");
-      this.transitionTo({queryParams: query });
+      // this.get("container").lookup("route:developments.search").resetController();
+      this.transitionTo("/?" + $.param(query));
       this.refresh();
-      this.send("toggle");
       Ember.$('.ui.modal').modal('hide');
     },
     nameSearch() {

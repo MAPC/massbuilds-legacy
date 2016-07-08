@@ -84,7 +84,6 @@ export default Ember.Route.extend(InfinityRoute, {
       this.controllerFor('developments.search').setProperties({ "tothuFrom": tothu[0], "tothuTo": tothu[1] });
     }
     this.controllerFor('developments.search').set('queryObject', this.get('queryObject'));
-
   },
 
   resetController: function () {
