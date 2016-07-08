@@ -178,7 +178,7 @@ export default Ember.Component.extend({
       var feature = features[0];
       console.log(feature.properties);
       var propertyCardTemplate = `
-          <div class="ui raised card">
+          <div class="ui raised card" style="margin-top: 0;">
             <div class="ui image">
               <img src="${feature.properties.id}/image">
             </div>
