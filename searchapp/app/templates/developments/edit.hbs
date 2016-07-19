@@ -30,6 +30,13 @@
 
         {{partial "developments/forms/employment"}}
 
+        <div class="ui form">
+          <div class="field">
+            <label>What is the reason for this proposal?</label>
+            {{textarea value=model.log_entry rows=2}}
+          </div>
+        </div>
+
         <button class="ui primary button" {{action "save" model}}>
           {{#if isInEdit}}
             Propose Changes
@@ -41,3 +48,6 @@
     </div>
   </div>
 </div>
+<br />
+<br />
+<br />

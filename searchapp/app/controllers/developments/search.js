@@ -12,13 +12,14 @@ export default Ember.Controller.extend({
                 { "cancelled": { type: 'boolean' }}, 
                 { "private": { type: 'boolean' }}, 
 
-                "number", "size", "placeSearch"],
+               "placeSearch"],
 
   itemActions: [{ name: "Projected", id: "projected" }, 
       { name: "Planning", id: "planning" }, 
       { name: "In Construction", id: "in_construction" }, 
       { name: "Completed", id: "completed" }],
 
+  alias_another_test: null,
   year_compl: null,
   tothu: null,
   commsf: null,
@@ -32,27 +33,10 @@ export default Ember.Controller.extend({
   phased: null,
   cancelled: null,
   "private": null,
-  // "number": 1,
-  // "size": 15,
+  "number": null,
+  "size": null,
   saved: null,
   status: null,
-  rangedProperties: [
-    {
-      name: "year_compl",
-      min: "yearFrom",
-      max: "yearTo"
-    },
-    {
-      name: "commsf",
-      min: "sqftFrom",
-      max: "sqftTo"
-    },
-    {
-      name: "tothu",
-      min: "tothuFrom",
-      max: "tothuTo"
-    }
-  ],
 
   actions: {
     update_selected(component, id, value) {
@@ -69,26 +53,11 @@ export default Ember.Controller.extend({
     }
   },
 
-  toRangeString(min,max) {
-    return "[" + min + ',' + max + "]";
-  },
+
   totalResults: function() {
     var meta = this.get('model.meta');
     return meta["record-count"];
   }.property("model"),
-  // since a range isn't strictly a type, we need some parsing logic
-  computeRanges() {
-    this.rangedProperties.forEach((property) => {
-      var from = this.get(property.min);
-      var to = this.get(property.max);
-      if ((from !== undefined || to !== undefined)) {
-        this.set(property.name, this.toRangeString(from,to));
-      }
-      if (from == null || to == null) {
-        this.set(property.name, null);
-      }
-    });
-  },
 
   filtersSet: function() {
     var set = false;
@@ -128,10 +97,6 @@ export default Ember.Controller.extend({
   },
   placeSearchResults: [],
 
-  listenToChanges: function() {
-    // this needs to be refactored. No observers.
-    this.computeRanges();
-  }.observes("yearFrom", "yearTo", "sqftTo", "sqftFrom", "tothuFrom", "tothuTo"),
 
   isLoggedIn: function() {
     if (document.API_KEY) {

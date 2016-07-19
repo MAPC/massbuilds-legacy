@@ -7,14 +7,9 @@ export default Ember.Route.extend({
     }
   },
   actions: {
-    toggle: function() {
-      Ember.$('.ui.sidebar').sidebar('toggle');
-    },
     transitionToSaved: function(search) {
       var query = search.get("query");
-      this.transitionTo({queryParams: query });
-      this.refresh();
-      this.send("toggle");
+      window.location.href = `?${$.param(query)}`
       Ember.$('.ui.modal').modal('hide');
     },
     nameSearch() {

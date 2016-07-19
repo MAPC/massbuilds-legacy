@@ -128,7 +128,6 @@ export default Ember.Component.extend({
         container: 'map', // container id
         style: 'mapbox://styles/mapbox/basic-v8'
     });
-    this.map.scrollZoom.disable();
     this.map.addControl(new mapboxgl.Navigation());
 
     // wrap geojson source
@@ -179,7 +178,7 @@ export default Ember.Component.extend({
       var feature = features[0];
       console.log(feature.properties);
       var propertyCardTemplate = `
-          <div class="ui card">
+          <div class="ui raised card" style="margin-top: 0;">
             <div class="ui image">
               <img src="${feature.properties.id}/image">
             </div>

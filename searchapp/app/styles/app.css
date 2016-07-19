@@ -170,3 +170,18 @@
 .ui.fixed.sticky + p {
   margin-top: 80px;
 }
+
+.mapboxgl-popup {
+  z-index: 102;
+}
+
+.mapboxgl-popup-content {
+  padding-bottom: 0;
+  padding-top: 0;
+  background: none;
+}
+
+.mapboxgl-popup-close-button {
+  font-size: 1.5em;
+  top: -20px;
+}
