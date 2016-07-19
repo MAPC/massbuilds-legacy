@@ -12,6 +12,21 @@ class Place < ActiveRecord::Base
     ")
   end
 
+  def self.like(text)
+    reverse_scope.where('name ILIKE ?', "#{text}%")
+  end
+
+  def self.reverse_scope
+    unscope(:order).
+    order("
+      CASE
+        WHEN type = 'Municipality' THEN '1'
+        WHEN type = 'Neighborhood' THEN '2'
+        ELSE '3'
+      END
+    ")
+  end
+
   def developments
     Development.within(self.geom)
   end
