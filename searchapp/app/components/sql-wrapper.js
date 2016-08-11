@@ -26,6 +26,32 @@ export default Ember.Component.extend({
       sql_new.where("tothu BETWEEN " + this.get('tothuFrom') + " and " + this.get('tothuTo'));
     }
 
+    if(this.get('status')) {
+      sql_new.where("status = '" + this.get('status') + "'");
+    }
+
+    if(this.get('redevelopment')) {
+      sql_new.where("rdv = true");
+    }
+    if(this.get('asofright')) {
+      sql_new.where("asofright = true");
+    }
+    if(this.get('age_restricted')) {
+      sql_new.where("ovr55 = true");
+    }
+    if(this.get('clusteros')) {
+      sql_new.where("clusteros = true");
+    }
+    if(this.get('phased')) {
+      sql_new.where("phased = true");
+    }
+    if(this.get('cancelled')) {
+      sql_new.where("cancelled = true");
+    }
+    if(this.get('private')) {
+      sql_new.where("private = true");
+    }
+
     return sql_new.toString();
   }.property('yearFrom,yearTo,sqftFrom,sqftTo,tothuFrom,tothuTo,status,redevelopment,asofright,age_restricted,clusteros,phased,cancelled,private')
 });
