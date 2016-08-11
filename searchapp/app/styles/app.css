@@ -170,3 +170,7 @@
 .ui.fixed.sticky + p {
   margin-top: 80px;
 }
+
+.leaflet-container {
+  height: calc(100vh);
+}
