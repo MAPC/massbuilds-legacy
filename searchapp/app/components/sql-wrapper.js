@@ -6,6 +6,7 @@ export default Ember.Component.extend({
     var sql_new = squel.select()
                       .from('developments')
                       .field('name')
+                      .field('id')
                       .field('to_date(year_compl::varchar, \'yyyy\')')
                       .field('status')
                       .field('cartodb_id')

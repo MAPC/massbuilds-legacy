@@ -50,6 +50,7 @@ export default BaseLayer.extend({
         var initial = squel.select()
                       .from('developments')
                       .field('cartodb_id')
+                      .field('id')
                       .field('ST_GeomFromEWKT(point)', 'the_geom')
                       .field('ST_Transform(ST_GeomFromEWKT(point),3857)', 'the_geom_webmercator')
                       .toString();
