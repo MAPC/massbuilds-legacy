@@ -1,14 +1,13 @@
-/ .ui.warning.message
-/   %i.close.icon
-/   .header
-/     %i.warning.sign.icon
-/     Help keep this page up to date!
-/   .p
-/     Do you know what's happened with this development since
-/     = succeed '?' do
-/       = @development.last_updated
+.ui.warning.message
+  %i.close.icon
+  .header
+    %i.warning.sign.icon
+    Help keep this page up to date!
+  .p
+    Do you know what's happened with this development since
+    = succeed '?' do
+      = @development.last_updated
 
-/     If so, please
-/     = succeed '.' do
-/       = link_to 'contribute data', edit_development_path(@development)
-
+    If so, please
+    = succeed '.' do
+      = link_to 'contribute data', edit_development_path(@development)

@@ -6,7 +6,7 @@ export default DS.Model.extend({
   description: DS.attr("string"),
   status: DS.attr("string"),
   year_compl: DS.attr("number"),
-  log_entry: DS.attr("string"),
+  // log_entry: DS.attr("string"),
   
   redevelopment: DS.attr("boolean"),
   asofright: DS.attr("boolean"), 
