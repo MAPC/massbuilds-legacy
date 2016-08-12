@@ -174,3 +174,7 @@
 .leaflet-container {
   height: calc(100vh);
 }
+
+.cartodb-logo{
+   display:none!important;
+}

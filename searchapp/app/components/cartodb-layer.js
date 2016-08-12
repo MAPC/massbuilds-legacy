@@ -25,7 +25,7 @@ export default BaseLayer.extend({
   ],
 
   leafletOptions: [
-    'zIndex', 'opacity', 'zoomToGeoJSON'
+    'zIndex', 'opacity', 'zoomToGeoJSON', 'carto_logo'
   ],
 
   leafletEvents: [
@@ -33,7 +33,7 @@ export default BaseLayer.extend({
   ],
 
   leafletProperties: [
-    'url', 'zIndex', 'opacity', 'zoomToGeoJSON'
+    'url', 'zIndex', 'opacity', 'zoomToGeoJSON', 'carto_logo'
   ],
 
   layerSetup() {
@@ -99,7 +99,7 @@ export default BaseLayer.extend({
 
   createLayer() {
     let map = Ember.get(this, 'containerLayer')._layer;
-
-    return cartodb.createLayer(map, ...this.get('requiredOptions'), this.getProperties('legends'));
+    console.log(this.getProperties('legends','carto_logo'));
+    return cartodb.createLayer(map, ...this.get('requiredOptions'), this.getProperties('legends','carto_logo'));
   }
 });
