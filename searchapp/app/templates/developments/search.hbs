@@ -41,77 +41,82 @@
     </div>
   </div>
 {{/filters-menu}}
-{{#mapbox-map developments=model model=model as |mapbox|}}
-  <div class="spatial-stats">
-    <div class="ui segment">
-      <div class="ui form">
-        <div class="ui icon input" style="width: 100%">
-          {{input type="text" value=placeSearch placeholder="Search for a Place"}}
-          {{#if placeSearch}}
-            <i class="circular delete link icon" {{action 'clearSearch'}}></i>
-          {{/if}}
+{{#sql-wrapper yearFrom=yearFrom yearTo=yearTo sqftFrom=sqftFrom sqftTo=sqftTo tothuFrom=tothuFrom tothuTo=tothuTo status=status redevelopment=redevelopment asofright=asofright age_restricted=age_restricted clusteros=clusteros phased=phased cancelled=cancelled private=private as |filters|}}
+  {{#leaflet-map lat=42.1 lng=-71 zoom=10 as |layers|}}
+    {{layers.tile url='//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'}}
+    {{#cartodb-layer url='//mapc-maps.carto.com/api/v2/viz/514bfbb0-5f60-11e6-b76e-0ecd1babdde5/viz.json' sql=filters.sql zIndex=1 as |carto|}}
+      <div class="spatial-stats">
+        <div class="ui segment">
+          <div class="ui form">
+            <div class="ui icon input" style="width: 100%">
+              {{input type="text" value=placeSearch placeholder="Search for a Place"}}
+              {{#if placeSearch}}
+                <i class="circular delete link icon" {{action 'clearSearch'}}></i>
+              {{/if}}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-    {{searchables}}
-    {{#if placeSearchResults}}
-      <div class="ui segment">
-        <div class="ui divided link items" style="width: 100%;">
-          {{#each placeSearchResults as |result|}}
-            <a {{action mapbox.zoomToGeoJSON result.attributes.geometry result.type}} class="item">
-              <div class="ui tiny image" style="text-align: center;">
-                {{#if (eq result.type "locations")}}
-                  <i class="ui huge marker icon"></i>
-                {{/if}}
-                {{#if (eq result.type "developments")}}
-                  <img src="{{result.id}}/image">
-                {{/if}}
-                {{#if (eq result.type "places")}}
-                  <i class="ui huge map icon"></i>
-                {{/if}}
+        {{searchables}}
+        {{#if placeSearchResults}}
+          <div class="ui segment">
+            <div class="ui divided link items" style="width: 100%;">
+              {{#each placeSearchResults as |result|}}
+                <a {{action carto.zoomToGeoJSON result.attributes.geometry result.type}} class="item">
+                  <div class="ui tiny image" style="text-align: center;">
+                    {{#if (eq result.type "locations")}}
+                      <i class="ui huge marker icon"></i>
+                    {{/if}}
+                    {{#if (eq result.type "developments")}}
+                      <img src="{{result.id}}/image">
+                    {{/if}}
+                    {{#if (eq result.type "places")}}
+                      <i class="ui huge map icon"></i>
+                    {{/if}}
+                  </div>
+                  <div class="content">
+                    {{#if (eq result.type "locations")}}
+                      <div class="header">{{result.attributes.properties.name}}</div>
+                    {{/if}}
+                    {{#if (eq result.type "developments")}}
+                      <div class="header">{{result.attributes.name}}</div>
+                    {{/if}}
+                    {{#if (eq result.type "places")}}
+                      <div class="header">{{result.attributes.name}}</div>
+                    {{/if}}
+                    <div class="meta">
+                      <span>Type: {{result.type}}</span>
+                    </div>
+                  </div>
+                </a>
+              {{/each}}
+            </div>
+          </div>
+        {{/if}}
+        <div class="ui segment" style="background-color: rgba(255,255,255,0.9);">
+          <div class="ui top attached label">Summary Statistics</div>
+          <div class="ui horizontal statistics">
+            <div class="ui statistic">
+              <div class="value">
+                {{totalResults}}
               </div>
-              <div class="content">
-                {{#if (eq result.type "locations")}}
-                  <div class="header">{{result.attributes.properties.name}}</div>
-                {{/if}}
-                {{#if (eq result.type "developments")}}
-                  <div class="header">{{result.attributes.name}}</div>
-                {{/if}}
-                {{#if (eq result.type "places")}}
-                  <div class="header">{{result.attributes.name}}</div>
-                {{/if}}
-                <div class="meta">
-                  <span>Type: {{result.type}}</span>
-                </div>
+              <div class="label">
+                Developments
               </div>
-            </a>
-          {{/each}}
-        </div>
-      </div>
-    {{/if}}
-    <div class="ui segment" style="background-color: rgba(255,255,255,0.9);">
-      <div class="ui top attached label">Summary Statistics</div>
-      <div class="ui horizontal statistics">
-        <div class="ui statistic">
-          <div class="value">
-            {{totalResults}}
-          </div>
-          <div class="label">
-            Developments
-          </div>
-        </div>
-        <div class="ui statistic">
-          <div class="value">
-            10,543
-          </div>
-          <div class="label">
-            Housing Units
+            </div>
+            <div class="ui statistic">
+              <div class="value">
+                10,543
+              </div>
+              <div class="label">
+                Housing Units
+              </div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-{{/mapbox-map}}
+    {{/cartodb-layer}}
+  {{/leaflet-map}}
+{{/sql-wrapper}}
 {{#developments-list-component model=model}}
   {{infinity-loader infinityModel=model triggerOffset=60 scrollable=".scrollable-table"}}
 {{/developments-list-component}}
