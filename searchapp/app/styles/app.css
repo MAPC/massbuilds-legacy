@@ -24,13 +24,6 @@
   padding-left: 0 !important;
 }
 
-/*.ui.button {
-  border-radius: 0 !important;
-}*/
-
-/*.ui.massive.button {
-  font-size: 3rem;
-}*/
 
 #map { position:absolute; top:41px; bottom:0; width:100%; }
 
@@ -177,4 +170,8 @@
 
 .cartodb-logo{
    display:none!important;
+}
+
+.leaflet-control-attribution {
+  display: none!important;
 }

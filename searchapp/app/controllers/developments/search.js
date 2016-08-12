@@ -1,4 +1,5 @@
 import Ember from 'ember';
+import d3 from 'npm:d3-format';
 
 export default Ember.Controller.extend({
   queryParams: ["year_compl", "tothu", "commsf", 
@@ -73,8 +74,9 @@ export default Ember.Controller.extend({
     return "[" + min + ',' + max + "]";
   },
   totalResults: function() {
+    let thousands = d3.format(",");
     var meta = this.get('model.meta');
-    return meta["record-count"];
+    return thousands(meta["record-count"]);
   }.property("model"),
   // since a range isn't strictly a type, we need some parsing logic
   computeRanges() {
