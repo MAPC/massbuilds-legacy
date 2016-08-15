@@ -10,15 +10,18 @@
         = f.hidden_field :reset_password_token
 
         .field
-          .ui.input
-            = f.label :password, "New password"
-            = f.password_field :password, autofocus: true, autocomplete: "off", placeholder: "at least #{@minimum_password_length} characters"
+          %p
+            Must be at least #{@minimum_password_length} characters long
+          .ui.left.icon.input
+            %i.lock.icon
+            = f.password_field :password, autofocus: true, autocomplete: "off", placeholder: "New password"
+
+
 
         .field
-          .ui.input
-            = f.label :password_confirmation, "Confirm new password"
-            %br/
-            = f.password_field :password_confirmation, autocomplete: "off"
+          .ui.left.icon.input
+            %i.lock.icon
+            = f.password_field :password_confirmation, autocomplete: "off", placeholder: "Confirm new password"
 
         .actions
           = f.submit "Change my password", class: 'ui fluid large teal submit button'
