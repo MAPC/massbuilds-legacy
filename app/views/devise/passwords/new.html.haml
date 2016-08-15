@@ -1,0 +1,24 @@
+.ui.middle.aligned.center.aligned.grid
+  .column
+    .ui.stacked.segment
+      %h2 Forgot your password?
+
+      %p
+        Enter the email address you used to sign up for MassBuilds,
+        and we'll send you an email with a link to create a new password.
+
+      = render 'shared/flash'
+      = form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post, class: 'ui form new_password' }) do |f|
+
+        = devise_error_messages!
+
+        .field
+          .ui.left.icon.input
+            %i.mail.icon
+            = f.email_field :email, placeholder: 'Email address', autofocus: true
+
+        .actions
+          = f.submit "Send me reset password instructions", class: 'ui fluid large teal submit button'
+
+    .ui.message
+      = render "devise/shared/links"
