@@ -10,19 +10,12 @@
         = f.hidden_field :reset_password_token
 
         .field
-          .ui.left.icon.input
-            %i.lock.icon
+          .ui.input
             = f.label :password, "New password"
-            %br/
-            - if @minimum_password_length
-              %em
-                (#{@minimum_password_length} characters minimum)
-              %br/
-            = f.password_field :password, autofocus: true, autocomplete: "off"
+            = f.password_field :password, autofocus: true, autocomplete: "off", placeholder: "at least #{@minimum_password_length} characters"
 
         .field
-          .ui.left.icon.input
-            %i.lock.icon
+          .ui.input
             = f.label :password_confirmation, "Confirm new password"
             %br/
             = f.password_field :password_confirmation, autocomplete: "off"
