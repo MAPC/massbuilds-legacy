@@ -1,18 +1,3 @@
-:css
-  body {
-    background-color: #DADADA;
-  }
-  body > .grid {
-    height: 100%;
-  }
-  .image {
-    margin-top: -100px;
-  }
-  .column {
-    max-width: 450px;
-  }
-
-
 .ui.middle.aligned.center.aligned.grid
   .column
     %h2 Log in to your account
@@ -35,7 +20,8 @@
             .ui.checkbox
               = f.check_box :remember_me, checked: true
               = f.label     :remember_me
-          = f.submit 'Log in',  class: 'ui fluid large teal submit button'
+          = f.submit 'Log in', class: 'ui fluid large teal submit button'
       .ui.error.message
+        = devise_error_messages!
     .ui.message
       = render "devise/shared/links"

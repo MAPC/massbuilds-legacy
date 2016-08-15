@@ -7,6 +7,19 @@
     = display_meta_tags site: 'MassBuilds', reverse: true
 
   %body
+    :css
+      body {
+        background-color: #DADADA;
+      }
+      body > .grid {
+        height: 100%;
+      }
+      .image {
+        margin-top: -100px;
+      }
+      .column {
+        max-width: 450px;
+      }
     = render 'shared/header'
     = yield
     = render 'shared/footer'
