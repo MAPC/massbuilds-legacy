@@ -6,7 +6,7 @@ before_script:
   - export TZ=America/New_York
   - psql -c 'create database ddmodels2_test;' -U postgres
   - bundle exec rake db:create db:structure:load db:migrate
-  - cd /home/travis/build/MAPC/developmentdatabase/searchapp
+  - cd /home/travis/build/MAPC/massbuilds/searchapp
   - npm install
 script:
   - bundle exec rake test
