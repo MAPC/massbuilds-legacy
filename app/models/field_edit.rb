@@ -35,14 +35,7 @@ class FieldEdit < ActiveRecord::Base
   private
 
   def valid_change
-    errors.add(:change, 'needs a key :to') unless has_right_keys?
     errors.add(:change, 'needs to be different') unless difference?
-  end
-
-  def has_right_keys?
-    !change.fetch(:to).nil?
-  rescue # doesn't have the key
-    false
   end
 
   def difference?
