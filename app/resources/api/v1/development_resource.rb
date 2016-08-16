@@ -58,6 +58,8 @@ module API
         records.within_box(top: north, right: east, bottom: south, left: west)
       }
 
+      filter :place_id
+
       def self.creatable_fields(context)
         super - [:mixed_use, :walkscore, :neighborhood, :city, :full_address]
       end
