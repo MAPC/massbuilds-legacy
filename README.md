@@ -1,17 +1,16 @@
-# Development Database
-_(Name may change)_
+# MassBuilds
 
-[![Build Status](https://travis-ci.org/MAPC/developmentdatabase.svg?branch=develop)](https://travis-ci.org/MAPC/developmentdatabase)
-[![Code Climate](https://codeclimate.com/github/MAPC/developmentdatabase/badges/gpa.svg)](https://codeclimate.com/github/MAPC/developmentdatabase)
-[![Test Coverage](https://codeclimate.com/github/MAPC/developmentdatabase/badges/coverage.svg)](https://codeclimate.com/github/MAPC/developmentdatabase/coverage)
-[![Inline docs](http://inch-ci.org/github/MAPC/developmentdatabase.png)](http://inch-ci.org/github/MAPC/developmentdatabase)
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MAPC/developmentdatabase?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
+[![Build Status](https://travis-ci.org/MAPC/massbuilds.svg?branch=develop)](https://travis-ci.org/MAPC/massbuilds)
+[![Code Climate](https://codeclimate.com/github/MAPC/massbuilds/badges/gpa.svg)](https://codeclimate.com/github/MAPC/massbuilds)
+[![Test Coverage](https://codeclimate.com/github/MAPC/massbuilds/badges/coverage.svg)](https://codeclimate.com/github/MAPC/massbuilds/coverage)
+[![Inline docs](http://inch-ci.org/github/MAPC/massbuilds.png)](http://inch-ci.org/github/MAPC/massbuilds)
+[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/MAPC/massbuilds?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-The Development Database is a crowdsourced collection of recent ongoing and completed commercial and residential developments in Massachusetts.
+MassBuilds is a crowdsourced collection of recent ongoing and completed commercial and residential developments in Massachusetts.
 
 We're hard at work developing a new release that gives planners, developers, and enthusiasts advanced tools to find and understand developments, as well as the context in which they are built.
 
-The Development Database is very important to the work we do at MAPC. High-quality data gathered from the Development Database fuels our regional projections, which helps us understand the future of the Metro Boston region. Municipalities and other public agencies use MAPC's projections to set housing and economic development goals. The data you contribute here will contribute to a better Metro Boston region for everyone.
+MassBuilds is very important to the work we do at MAPC. High-quality data gathered from MassBuilds fuels our regional projections, which helps us understand the future of the Metro Boston region. Municipalities and other public agencies use MAPC's projections to set housing and economic development goals. The data you contribute here will contribute to a better Metro Boston region for everyone.
 
 ### Actively working on:
 
@@ -37,11 +36,11 @@ The Development Database is very important to the work we do at MAPC. High-quali
 
 If you have a GitHub account, [get in touch with us via Gitter chat][gitter].
 
-Are you interested in learning more about the Development Database? Contact Matt Cloyd, Web Developer at mcloyd@mapc.org.
+Are you interested in learning more about MassBuilds? Contact Matt Cloyd, Web Developer at mcloyd@mapc.org.
 
 
 ### Contributing
 
 Is there a feature you'd like to see? Would you like to get involved in a fairly complex Rails application? First, [get in touch on Gitter][gitter], and we'll go from there!
 
-[gitter]: https://gitter.im/MAPC/developmentdatabase
+[gitter]: https://gitter.im/MAPC/massbuilds
