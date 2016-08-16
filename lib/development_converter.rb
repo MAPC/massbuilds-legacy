@@ -5,22 +5,31 @@ class DevelopmentConverter
 
   SQ_FT_PER_ACRE = 43560
 
-  def initialize(attributes)
+  def initialize(attributes, id: false)
     @old = OpenStruct.new attributes.to_h
+    @keep_id = id
+  end
+
+  def development
+    Development.new to_h
   end
 
   def to_h
-    # If the attribute value is a symbol, call that method on the old development.
+    # If the attribute value is a symbol, call that method on the old record.
     # Otherwise, if the attribute is a method, just let the method be called.
-    Hash[
+    attrs = Hash[
       attribute_converters.map do |k, attribute|
-        if attribute.is_a? Symbol
-          [k, @old.send(attribute)]
-        else
-          [k, attribute]
-        end
+        attribute.is_a?(Symbol) ? [k, @old.send(attribute)] : [k, attribute]
       end
     ]
+    attrs.merge!({ id: @old.dd_id }) if keep_id?
+    attrs
+  end
+
+  private
+
+  def keep_id?
+    @keep_id
   end
 
   def attribute_converters
@@ -46,9 +55,9 @@ class DevelopmentConverter
       rptdemp:     :rptdemp,
       emploss:     :emploss,
       hotelrms:    :hotelrms,
-      name:        :ddname,
+      name:        @old.ddname.to_s.first(140),
       description: :description,
-      project_url: :url,
+      project_url: @old.url.to_s.first(140),
       year_compl:  :complyr,
       mixed_use:   :mxduse,
       rdv:         :rdv,
@@ -68,7 +77,8 @@ class DevelopmentConverter
       zip_code:    zip_code,
       tagline:     :projecttype_detail,
       status:      status,
-      creator:     User.first
+      creator:     User.first,
+      point:       :location
     }
   end
 
@@ -85,6 +95,7 @@ class DevelopmentConverter
   end
 
   # TODO: What needs to occur before this step?
+  # Nothing, but development team memberships DO need to be created after.
   def relationships
     {
       programs: [
@@ -122,11 +133,12 @@ class DevelopmentConverter
   end
 
   def address
-    if @old.ddname.match(/^(\d+)/)
+    addr = if @old.ddname.match(/^(\d+)/)
       @old.ddname
     else
       geo['formatted_address'].partition(',').first.strip
     end
+    addr.first(140)
   end
 
   def geo
@@ -156,8 +168,6 @@ class DevelopmentConverter
     # TODO: This attribute.
     raise NotImplementedError
   end
-
-  private
 
   def floor_area_from_percents(attribute)
     (@old.send(attribute).to_i / 100) * @old.commsf.to_i

@@ -77,6 +77,25 @@ class DevelopmentConverterTest < ActiveSupport::TestCase
     end
   end
 
+  def test_row_with_id
+    stub_geocoder
+    stub_street_view
+    stub_walkscore lat: 42.4123, lon: -71.0462
+    stub_mbta lat: 42.4123, lon: -71.0462
+    dev = Development.new(DevelopmentConverter.new(row, id: true).to_h)
+    assert_equal 3665, dev.id
+    dev.save!(validate: false)
+    dev.reload
+    assert_equal 3665, dev.id
+  ensure
+    dev.destroy if dev
+  end
+
+  def test_row_without_id
+    dev = Development.new(DevelopmentConverter.new(row, id: false).to_h)
+    assert_equal nil, dev.id
+  end
+
   private
 
   def fixture_file
