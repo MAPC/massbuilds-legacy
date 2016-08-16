@@ -12,7 +12,12 @@ export default Ember.Component.extend({
   }),
   click: function() {
     console.log(this.get("blue"));
-    this.toggleProperty("field");
+    // this.toggleProperty("field");
+    if (!!this.get('field')) {
+      this.set('field', null);
+    } else {
+      this.set('field', true);
+    }
   },
   didInsertElement: function() {
     console.log(this.get("blue"));
