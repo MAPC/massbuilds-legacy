@@ -1,6 +1,6 @@
 class ReportPresenter < Burgundy::Item
 
-  EXPORT_RESULT_LIMIT = 100
+  EXPORT_RESULT_LIMIT = nil # formerly 100
 
   def id
     item.id || nil
@@ -54,7 +54,8 @@ class ReportPresenter < Burgundy::Item
   end
 
   def to_csv
-    DevelopmentsSerializer.new(developments).to_csv
+    raise NoMethodError, 'This method has been disabled in favor of Carto'
+    # DevelopmentsSerializer.new(developments).to_csv
   end
 
   private
