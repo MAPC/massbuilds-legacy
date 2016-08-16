@@ -481,7 +481,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   test 'requires extra housing information' do
     # If it's in construction or completed, and there's more than
     # one housing unit, require extra housing information.
-    housing_fields = [:singfamhu, :twnhsmmult, :lgmultifam, :gqpop]
+    housing_fields = Development::HOUSING_FIELDS
 
     [:in_construction, :completed].each do |status|
       d.status = status
@@ -503,11 +503,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'requires extra nonres information if in_construction or completed' do
-    nonres_fields = [
-      :fa_ret,   :fa_ofcmd, :fa_indmf,
-      :fa_whs,   :fa_rnd,   :fa_edinst,
-      :fa_other, :fa_hotel
-    ]
+    nonres_fields = Development::COMMERCIAL_FIELDS
 
     [:in_construction, :completed].each do |status|
       d.status = status

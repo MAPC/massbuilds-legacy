@@ -39,9 +39,6 @@ class Development
       validate :housing_units_equal_total_coerced,   if: :requires_detailed_housing?
       validate :commercial_sqft_equal_total_coerced, if: :requires_detailed_nonres?
 
-      validate :housing_units_equal_total
-      validate :commercial_sqft_equal_total
-
       # Location
 
       lat_range = {
@@ -65,7 +62,7 @@ class Development
                 allow_blank:  true,
                 numericality: lon_range
 
-      # private
+      private
 
       def requires_detailed_housing?
         (in_construction? || completed?) && tothu.to_i > 0
@@ -76,38 +73,22 @@ class Development
       end
 
       def housing_units_equal_total_coerced
-        if housing_unit_fields.map(&:to_i).reduce(:+) != tothu
+        if housing_unit_values.map(&:to_i).reduce(:+) != tothu
           errors.add(:tothu, 'must equal the sum of unit types')
         end
       end
 
       def commercial_sqft_equal_total_coerced
-        if commercial_area_fields.map(&:to_i).reduce(:+) != commsf
+        if commercial_area_values.map(&:to_i).reduce(:+) != commsf
           errors.add(:commsf, 'must equal the sum of floor area types')
         end
       end
 
-      def housing_units_equal_total
-        if housing_unit_fields.compact.any?
-          if housing_unit_fields.compact.reduce(:+).to_i != tothu
-            errors.add(:tothu, 'must equal the sum of unit types')
-          end
-        end
-      end
-
-      def commercial_sqft_equal_total
-        if commercial_area_fields.compact.any?
-          if commercial_area_fields.compact.reduce(:+).to_i != commsf
-            errors.add(:commsf, 'must equal the sum of floor area types')
-          end
-        end
-      end
-
-      def housing_unit_fields
+      def housing_unit_values
         [singfamhu, twnhsmmult, lgmultifam]
       end
 
-      def commercial_area_fields
+      def commercial_area_values
         [fa_ret, fa_ofcmd, fa_indmf, fa_whs, fa_rnd, fa_edinst, fa_other, fa_hotel]
       end
 
