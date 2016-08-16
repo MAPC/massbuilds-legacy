@@ -4,8 +4,18 @@ import squel from 'npm:squel';
 
 export default BaseLayer.extend({
   actions: {
-    zoomToGeoJSON: function(geojson, type) {
-      this.recalculateBounds(geojson);
+    selectPlace: function(geojson, type, place_id, neighborhood_ids) {
+      if (type == "places") {
+        console.log(place_id);  
+        console.log(this.get("place_id"));
+        this.set("place_id", place_id);
+        this.set("neighborhood_ids", neighborhood_ids);
+
+      }
+      if (geojson) {
+        this.recalculateBounds(geojson);  
+      }
+      
     }
   },
 
@@ -25,15 +35,15 @@ export default BaseLayer.extend({
   ],
 
   leafletOptions: [
-    'zIndex', 'opacity', 'zoomToGeoJSON', 'carto_logo'
+    'zIndex', 'opacity', 'selectPlace', 'carto_logo'
   ],
 
   leafletEvents: [
-   'zoomToGeoJSON'
+   'selectPlace'
   ],
 
   leafletProperties: [
-    'url', 'zIndex', 'opacity', 'zoomToGeoJSON', 'carto_logo'
+    'url', 'zIndex', 'opacity', 'selectPlace', 'carto_logo'
   ],
 
   layerSetup() {
@@ -77,7 +87,7 @@ export default BaseLayer.extend({
     let cartoSql = new cartodb.SQL({ user: 'mapc-maps' });
     let SQL = this.get('sql');
     let map = this.get('containerLayer')._layer;
-
+    console.log(SQL);
     cartoSql.getBounds(SQL).done((bounds) => {
       console.log(bounds);
       map.fitBounds(bounds);

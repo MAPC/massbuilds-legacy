@@ -13,7 +13,7 @@ export default Ember.Controller.extend({
                 { "cancelled": { type: 'boolean' }}, 
                 { "private": { type: 'boolean' }}, 
 
-                "number", "size", "placeSearch"],
+                "number", "size", "placeSearch", "place_id", "neighborhood_ids"],
 
   itemActions: [{ name: "Projected", id: "projected" }, 
       { name: "Planning", id: "planning" }, 
@@ -33,6 +33,8 @@ export default Ember.Controller.extend({
   phased: null,
   cancelled: null,
   "private": null,
+  place_id: null,
+  neighborhood_ids: null,
   // "number": 1,
   // "size": 15,
   saved: null,
@@ -67,6 +69,8 @@ export default Ember.Controller.extend({
     },
     clearSearch() {
       this.set('placeSearch', null);
+      this.set('place_id', null);
+      this.set('neighborhood_ids', null);
     }
   },
 
