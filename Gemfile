@@ -10,7 +10,6 @@ gem 'rails', '4.2.5.1'
 gem 'pg'
 gem 'periscope-activerecord' # Makes filtering simpler
 gem 'seed-fu', '~> 2.3'      # Manages fixtures
-gem 'faker', require: false  # Fake sample data
 gem 'enumerize' # Store options in a string field
 gem 'activerecord-postgis-adapter'
 gem 'rgeo'
@@ -79,6 +78,8 @@ group :development do
   gem 'rb-fsevent', require: RUBY_PLATFORM.include?('darwin') && 'rb-fsevent'
   gem 'brakeman', require: false # Assess security
   gem 'rubocop'
+
+  gem 'faker', require: false  # Fake sample data
 end
 
 group :development, :test do
