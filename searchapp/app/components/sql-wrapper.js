@@ -62,13 +62,13 @@ export default Ember.Component.extend({
     }
 
     if(this.get('place_id') || this.get('neighborhood_ids')) {
-      if (this.get('neighborhood_ids') !== '') {
-        var ids = this.get('neighborhood_ids').split(',');
-        ids.push(this.get('place_id'));
-      } else {
-        var ids = this.get('place_id');
+      console.log(this.get('neighborhood_ids'));
+      console.log(!Ember.isEmpty(this.get('neighborhood_ids')));
+      var ids = [];
+      if (!Ember.isEmpty(this.get('neighborhood_ids'))) {
+        ids.push(this.get('neighborhood_ids'));
       }
-
+      ids.push(this.get('place_id'));
       sql_new.where('place_id IN (' + ids.toString() + ')');
     }
     this.set('sql_obj', sql_new);

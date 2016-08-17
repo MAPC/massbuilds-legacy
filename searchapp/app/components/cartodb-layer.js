@@ -6,11 +6,15 @@ export default BaseLayer.extend({
   actions: {
     selectPlace: function(geojson, type, place_id, neighborhood_ids) {
       if (type == "places") {
-        console.log(place_id);  
-        console.log(this.get("place_id"));
-        this.set("place_id", place_id);
-        this.set("neighborhood_ids", neighborhood_ids);
+        if (place_id) {
+          this.set("place_id", place_id);  
+        }
 
+        if(neighborhood_ids) {
+          this.set("neighborhood_ids", neighborhood_ids);  
+        } else {
+          this.set('neighborhood_ids', '')
+        }
       }
       if (geojson) {
         this.recalculateBounds(geojson);  
@@ -23,11 +27,6 @@ export default BaseLayer.extend({
     let geojsonLayer = L.geoJson(geojson),   
       map = this.get('containerLayer')._layer,
       bounds = geojsonLayer.getBounds();
-      // arraybounds = [[bounds.getWest(), bounds.getSouth()], [bounds.getEast(), bounds.getNorth()]];
-      console.log(geojson,bounds);
-      // arraybounds[0][1] += 0.000005;
-      // arraybounds[1][0] += 0.000005;
-
     map.fitBounds(bounds);
   },
   leafletRequiredOptions: [
