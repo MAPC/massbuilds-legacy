@@ -166,7 +166,9 @@ export default Ember.Controller.extend({
 
   currentParams: function () { 
     var queryParams = this.get('queryObject.filter');
-    queryParams.place_id += this.get('neighborhood_ids').toString();
+    if (queryParams.place_id) {
+      queryParams.place_id += this.get('neighborhood_ids').toString();
+    }
     var parse = Ember.$.param(queryParams);
     return parse;
   }.property('queryObject')
