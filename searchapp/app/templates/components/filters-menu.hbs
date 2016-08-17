@@ -49,9 +49,16 @@
     Note: Exports will be limited to the first 100 records            
   </div>
   <div class="actions">
-    <a href="/developments/export.csv?{{currentParams}}" download class="ui positive approve red ok right labeled icon button">
-
-      CSV
+    <a href="https://mapc-maps.carto.com/api/v2/sql?q={{sql_export}}&format=csv" download class="ui positive approve red ok right labeled icon button">
+      Spreadsheet (CSV)
+      <i class="file excel outline icon"></i>
+    </a>
+    <a href="https://mapc-maps.carto.com/api/v2/sql?q={{sql_export}}&format=shp" download class="ui positive approve red ok right labeled icon button">
+      Shapefile
+      <i class="file excel outline icon"></i>
+    </a>
+    <a href="https://mapc-maps.carto.com/api/v2/sql?q={{sql_export}}&format=geojson" download class="ui positive approve red ok right labeled icon button">
+      GeoJSON
       <i class="file excel outline icon"></i>
     </a>
     <a href="/developments/export.pdf?{{currentParams}}" download class="ui positive approve red ok right labeled icon button">
