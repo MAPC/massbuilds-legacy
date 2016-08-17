@@ -4,6 +4,6 @@ class OrganizationPresenter < Burgundy::Item
   end
 
   def developments
-    municipal? ? place.developments : item.developments
+    _developments.unscope(:select)
   end
 end

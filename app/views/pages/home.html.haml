@@ -66,27 +66,25 @@
       .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
-            = Development.count
+            = number_with_delimiter Development.count
           .label
             developments
       .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
-            = Development.sum(:tothu)
+            = number_with_delimiter Development.sum(:tothu)
           .label
             housing units
       .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
-            = (Development.sum(:commsf) / 1_000_000).to_i
-            million
+            = number_to_human Development.sum(:commsf)
           .label
             commercial square feet
       .four.wide.computer.eight.wide.tablet.sixteen.wide.mobile.column
         .ui.tiny.statistic
           .value
-            = (Development.sum(:total_cost) / 1_000_000_000).to_i
-            billion
+            = number_to_human Development.sum(:total_cost)
           .label
             investment dollars
 

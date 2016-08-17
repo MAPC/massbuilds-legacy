@@ -25,6 +25,18 @@ class DevelopmentsControllerTest < ActionController::TestCase
     assert_response :success
   end
 
+  test 'should get show and have a flash' do
+    get :show, id: development.id, proposal: 'success'
+    assert_response :success
+    assert_equal 'developments/proposed_success', flash[:partial][:path]
+  end
+
+  test 'should get show and not have a flash' do
+    get :show, id: development.id, proposal: 'meh'
+    assert_response :success
+    refute_equal 'developments/proposed_success', flash[:partial].fetch(:path, nil)
+  end
+
   test 'should get edit' do
     skip 'replaced by Ember'
     sign_in users(:normal)

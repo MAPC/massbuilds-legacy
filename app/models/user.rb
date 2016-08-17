@@ -15,9 +15,18 @@ class User < ActiveRecord::Base
   attr_readonly :api_key
 
   has_one  :api_key, dependent: :destroy
+
+  has_many :edits, foreign_key: :editor_id
+  has_many :contributions,
+    -> { where(applied: true) },
+    class_name: 'Edit',
+    foreign_key: :editor_id
+
   has_many :searches, -> { where(saved: true) }
   has_many :memberships, dependent: :destroy
-  has_many :organizations, through: :memberships
+  has_many :organizations,
+    -> { includes(:memberships).where(memberships: { state: :active }) },
+    through: :memberships
 
   has_many :subscriptions
 
@@ -27,8 +36,13 @@ class User < ActiveRecord::Base
   enumerize :mail_frequency, in: [:never, :daily, :weekly],
     predicates: true, default: :weekly
 
-  def contributions
-    Edit.applied.where(editor_id: id)
+  # TODO: Rewrite as SQL or relation
+  def moderated_developments
+    organizations.flat_map(&:_developments)
+  end
+
+  def owned_organizations
+    organizations.includes(:memberships).where(memberships: { role: :admin })
   end
 
   def member_of?(organization, state: :active)
@@ -54,14 +68,14 @@ class User < ActiveRecord::Base
   end
 
   # Is the user a member of a municipal organization whose municipality
-  # contains this development?
+  # contains this development
   def member_of_municipal_org?(development)
     organizations.municipal_in(development.municipality).any?
   end
 
+  # Do the organizations this user belongs to intersect with the organizations
+  # that have admin privileges?
   def member_of_admin_org?
-    # Do the organizations this user belongs to intersect with the organizations
-    #   that have admin privileges?
     (organizations & Organization.admin).any?
   end
 
@@ -77,9 +91,9 @@ class User < ActiveRecord::Base
     subscriptions.where(subscribable: subscribable).present?
   end
 
-  alias_method :subscribe_to, :subscribe
+  alias_method :subscribe_to,     :subscribe
   alias_method :unsubscribe_from, :unsubscribe
-  alias_method :subscribed_to?, :subscribed?
+  alias_method :subscribed_to?,   :subscribed?
 
   def subscriptions_needing_update
     Subscription.where(id: subscriptions.select(&:needs_update?).map(&:id))

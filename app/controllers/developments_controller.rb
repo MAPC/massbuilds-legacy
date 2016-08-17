@@ -13,6 +13,9 @@ class DevelopmentsController < ApplicationController
     if @development.out_of_date?
       flash.now[:partial] = { path: 'developments/out_of_date' }
     end
+    if params[:proposal] == 'success'
+      flash.now[:partial] = { path: 'developments/proposed_success' }
+    end
   end
 
   def new

@@ -157,6 +157,10 @@ class OrganizationTest < ActiveSupport::TestCase
     refute Organization.new.municipal?
   end
 
+  test 'cannot be an admin on more organizations than you are a member of' do
+    refute org.admins > org.members
+  end
+
   private
 
   def webster

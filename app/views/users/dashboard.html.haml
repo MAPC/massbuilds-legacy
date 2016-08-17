@@ -1,0 +1,65 @@
+:ruby
+  set_meta_tags title: 'Moderation'
+
+%h3.ui.header Developments needing moderation
+
+.row
+  .ui.divided.items
+    = render partial: 'developments/moderated',
+      collection: DevelopmentPresenter.wrap(@user.moderated_developments),
+      as: :development
+
+
+%ui.horizontal.divider
+
+%h3.ui.header Organizations with open membership requests
+
+.row
+  .ui.divided.items
+    = render partial: 'organizations/moderated',
+      collection: DevelopmentPresenter.wrap(@user.organizations),
+      as: :organization
+
+
+-# .ui.divided.items
+-#   .item
+-#     .image
+-#       %img{:src => "/images/wireframe/image.png"}/
+-#     .content
+-#       %a.header 12 Years a Slave
+-#       .meta
+-#         %span.cinema Union Square 14
+-#       .description
+-#         %p
+-#       .extra
+-#         .ui.label IMAX
+-#         .ui.label
+-#           %i.globe.icon
+-#           Additional Languages
+-#   .item
+-#     .image
+-#       %img{:src => "/images/wireframe/image.png"}/
+-#     .content
+-#       %a.header My Neighbor Totoro
+-#       .meta
+-#         %span.cinema IFC Cinema
+-#       .description
+-#         %p
+-#       .extra
+-#         .ui.right.floated.primary.button
+-#           Buy tickets
+-#           %i.right.chevron.icon
+-#         .ui.label Limited
+-#   .item
+-#     .image
+-#       %img{:src => "/images/wireframe/image.png"}/
+-#     .content
+-#       %a.header Watchmen
+-#       .meta
+-#         %span.cinema IFC
+-#       .description
+-#         %p
+-#       .extra
+-#         .ui.right.floated.primary.button
+-#           Buy tickets
+-#           %i.right.chevron.icon

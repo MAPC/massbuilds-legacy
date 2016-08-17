@@ -10,9 +10,6 @@ class Organization < ActiveRecord::Base
 
   # has_many :crosswalks, dependent: :nullify
 
-  # This should be scoped for unique, but our Postgres version (9.3)
-  # cannot SELECT DISTINCT on tables with JSON data types.
-  has_many :developments, through: :development_team_memberships
   belongs_to :creator, class_name: :User
 
   # Must have a place (Municipality) if it is a municipal organization
@@ -20,16 +17,27 @@ class Organization < ActiveRecord::Base
   validates  :place, presence: true, if: 'municipal?'
 
   validates :name,       presence: true
-  # validates :website,    presence: true
   validates :short_name, presence: true
 
   validates :creator, presence: true
+
+  # validates :website, presence: true
+  # validates :existence_of_website
+
   validate  :valid_email, if: 'email.present?'
   validate  :valid_url_template, if: 'url_template.present?'
 
-  # TODO: validates :existence_of_website
-
   alias_attribute :admin, :creator
+
+  # This should be scoped to return unique records, but our Postgres (v 9.3)
+  # cannot SELECT DISTINCT on tables with JSON data types.
+  has_many :developments,
+    -> { select("DISTINCT ON (developments.id) developments.*") },
+    through: :development_team_memberships
+
+  def _developments
+    (municipal? ? place.developments : developments)
+  end
 
   def self.search(text)
     where('name ILIKE ?', "%#{text}%");
@@ -49,7 +57,7 @@ class Organization < ActiveRecord::Base
   end
 
   def admins
-    members.joins(:memberships).where(memberships: { role: :admin })
+    members.includes(:memberships).where(memberships: { role: :admin })
   end
 
   def active_members
@@ -62,11 +70,6 @@ class Organization < ActiveRecord::Base
 
   def has_url_template?
     url_template.present?
-  end
-
-  def developments
-    DevelopmentTeamMembership.where(organization_id: id).
-      includes(:development).map(&:development).uniq
   end
 
   def gravatar_url
