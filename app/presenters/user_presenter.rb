@@ -47,4 +47,18 @@ class UserPresenter < Burgundy::Item
     end
   end
 
+  def notification_count
+    edit_notification_count + membership_notification_count
+  end
+
+  def edit_notification_count
+    Edit.pending.where(development_id: moderated_developments.map(&:id)).count
+  end
+
+  # TODO: Redo this in SQL
+  def membership_notification_count
+    owned_organizations.inject(0) {|sum, o| o.memberships.pending.count + sum }
+  end
+
+
 end

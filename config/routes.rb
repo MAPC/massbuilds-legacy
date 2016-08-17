@@ -64,6 +64,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: [:show] do
+    get :dashboard, on: :member
     resources :memberships, only: [:deactivate, :activate] do
       put :deactivate
       post :activate

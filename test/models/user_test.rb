@@ -163,4 +163,8 @@ class UserTest < ActiveSupport::TestCase
     mem.destroy if mem
   end
 
+  test 'cannot be an admin on more organizations than you are a member of' do
+    refute user.owned_organizations > user.organizatons
+  end
+
 end

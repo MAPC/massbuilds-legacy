@@ -1,8 +1,32 @@
 - user = UserPresenter.new(current_user)
 
+.ui.right.floated.dropdown.item#notifications
+  - if user.notification_count > 0
+    %i.orange.alarm.outline.icon
+    = pluralize user.notification_count, 'notification'
+  - else
+    %i.grey.alarm.outline.icon
+  .menu
+    - if user.notification_count > 0
+      = link_to dashboard_user_path(user), class: 'item' do
+        .ui.orange.basic.label
+          = user.edit_notification_count
+        = 'pending edit'.pluralize(user.edit_notification_count)
+
+      = link_to dashboard_user_path(user, anchor: 'memberships'), class: 'item' do
+        .ui.teal.basic.label
+          = user.membership_notification_count
+        = 'membership request'.pluralize(user.membership_notification_count)
+    - else
+      .item
+        No new notifications.
+
+
+
 .ui.right.floated.dropdown.item#profile
   %img.contributor.ui.mini.avatar.image{ src: user.gravatar_url(size: 50) }
   .menu
+    .divider
     = link_to 'My Profile', user_path(current_user), class: 'item'
     = link_to 'Edit Profile', edit_user_registration_path, class: 'item'
     = link_to 'Log out', destroy_user_session_path, method: :delete,
