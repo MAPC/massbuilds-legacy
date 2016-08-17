@@ -32,6 +32,15 @@ MassBuilds is very important to the work we do at MAPC. High-quality data gather
 - :left_right_arrow: __Public API and Webhooks__, to enable custom integrations.
 
 
+### Developing
+
+We use [Guard](https://github.com/guard/guard) to watch files for changes and run appropriate tests. Because we're running a Node/Ember project in conjunction with a Rails app, we're getting [duplicate directory errors](https://github.com/guard/listen/wiki/Duplicate-directory-errors). Avoid this error by watching only certain directories using the `-w` or `--watchdirs` option:
+
+```
+guard -w app lib test config
+```
+
+
 ### Contact
 
 If you have a GitHub account, [get in touch with us via Gitter chat][gitter].

@@ -9,15 +9,13 @@
 
     -# Consider making this a partial, passing the path, icon, and text
 
-    -# TODO: Can edit if ... ?
     = link_to edit_development_path(@development) do
-      %a.href
-        .ui.green.vertical.animated.button{ tabindex: '1' }
-          .visible.content{style: 'padding: 0 25px 0'}
-            %i.pencil.icon
-            Edit
-          .hidden.content
-            Propose a Change
+      .ui.green.vertical.animated.button{ tabindex: '1' }
+        .visible.content{style: 'padding: 0 25px 0'}
+          %i.pencil.icon
+          Edit
+        .hidden.content
+          Propose a Change
 
     -# TODO: Can flag if you are signed in.
     = link_to new_development_flag_path(@development) do

@@ -1,3 +1,5 @@
+require 'development_converter'
+
 namespace :migrate do
 
   namespace :users do
@@ -38,11 +40,18 @@ namespace :migrate do
 
     task memberships: :environment do
       CSV.foreach organizations_file, headers: true do |row|
-        dev = Development.find_by(name: row['ddname'])
-        development.create_development_team_membership!(
-          role: :developer,
-          organization: Organization.find_by(name: canonical_name(row))
-        )
+        print "----> Adding #{row['organization_name']} for dd #{row['dd_id']}"
+        development  = Development.find_by(name: row['ddname'])
+        organization = Organization.find_by(name: canonical_name(row))
+        next if development.nil? || organization.nil?
+        begin
+          development.team_memberships.create!(
+            role: :developer,
+            organization: organization
+          )
+        rescue ActiveRecord::RecordInvalid
+          puts '(skipping, duplicate)'
+        end
       end
     end
 
@@ -69,15 +78,41 @@ namespace :migrate do
       # with a COPY statement.
     end
 
-    task upload: :environment do
+    desc "Upload developments from spreadsheet. Set to production database first."
+    task :upload, [:slowly] => [:environment] do |task, args|
       # For each row in the resulting CSV
-        # Initialize or create a new development from the DevelopmentConverter attributes
-        # Add relationships from the DevelopmentConverter relationships
+      # Initialize or create a new development from the DevelopmentConverter attributes
+      # Add relationships from the DevelopmentConverter relationships
+      slowly = args[:slowly] || false
+      time = (slowly ? 1 : 0.1)
+      CSV.foreach('db/import/developments.csv', headers: true, converters: :all) do |row|
+        print "----> Importing #{row['dd_id']}"
+        DevelopmentConverter.new(row, id: true).development.save!(validate: false)
+        sleep time
+        print "\r"
+        print " " * 90  # Clear line
+        print "\r" # Return to head of line
+      end
+      puts "INFO:"
+      puts "You should run rake orgs:memberships to create development team memberships"
     end
   end
 
 end
 
+
+
+# Running this:
+#  ----------------------------------------------------------------------------
+#
+# Run the below query to export to CSV.
+# Copy the CSV from the server to db/import/developments.csv
+# Download the developments.
+# rake developments:upload to production environment (set db url in .env)
+# Delete all organization memberships
+# rake orgs:memberships
+
+# How to download the development data from the old database.
 # query = <<-EOS
 #   SELECT
 #     development_project.dd_id,
@@ -101,5 +136,5 @@ end
 #   INNER JOIN
 #     development_walkscore ON
 #       development_project.walkscore_id = development_walkscore.id
-#   LIMIT 1;
+#   ;
 # EOS

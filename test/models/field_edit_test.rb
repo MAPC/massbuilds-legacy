@@ -33,7 +33,6 @@ class FieldEditTest < ActiveSupport::TestCase
   end
 
   test 'requires a change that has, at least, :to' do
-
     field.change = { from: 100, to: 101 }
     assert field.valid?
     field.change = { to: true }
@@ -46,13 +45,12 @@ class FieldEditTest < ActiveSupport::TestCase
     field.change = { from: nil, to: false }
     assert field.valid?
     field.change = { from: false, to: nil }
-    assert_not field.valid?
+    assert field.valid?
   end
 
   test 'change a string to an empty string' do
-    skip 'Not yet sure what to do about this.'
     field.change = { from: 'x', to: '' }
-    assert_not field.valid?
+    assert field.valid?
   end
 
   test 'requires a change that is really a change' do

@@ -39,7 +39,6 @@ class EditTest < ActiveSupport::TestCase
     assert_not edit.valid?
   end
 
-  focus
   test 'requires a log message' do
     edit.log_entry = ''
     assert_not edit.valid?
