@@ -27,12 +27,13 @@ export default Ember.Route.extend(InfinityRoute, {
     cancelled: { refreshModel: true },
     'private': { refreshModel: true },
     saved: { refreshModel: true },
-    status: { refreshModel: true }
+    status: { refreshModel: true },
+    place_id: { refreshModel: true }
   },
 
   filters: ["year_compl","tothu","commsf","name","address","municipality","redevelopment", 
                   "status", "asofright", "age_restricted", "clusteros", 
-                  "phased", "cancelled", "private","saved","status"],
+                  "phased", "cancelled", "private","saved","status", "place_id"],
   model(params) {
     this.set("storedParams", params);
     var queryObject = { filter: {} };
@@ -96,6 +97,7 @@ export default Ember.Route.extend(InfinityRoute, {
       controller.set(property.max, null);
     });
     controller.computeRanges();
+    controller.set('neighborhood_ids', null);
   },
 
   getSearchLimits: function() {

@@ -1,50 +1,51 @@
-{{#filters-menu totalResults=totalResults reset="reset" filtersSet=filtersSet status=status isLoggedIn=isLoggedIn successfulSave=successfulSave currentParams=currentParams}}
-  <div class="ui two column relaxed divided grid">
-    <div class="column">
-      <h4 class="ui header">Completion Year</h4>
-      {{range-field-group from=yearFrom to=yearTo min=limits.year_compl.min max=limits.year_compl.max from_max=limits.year_compl.max}}
-      <div class="ui divider"></div>
-      <h4 class="ui header">Commercial Square Feet</h4>
-      {{range-field-group from=sqftFrom to=sqftTo min=limits.commsf.min max=limits.commsf.max from_max=limits.commsf.max}}
-      <div class="ui divider"></div>
-      <h4 class="ui header">Total Housing Units</h4>
-      {{range-field-group from=tothuFrom to=tothuTo min=limits.tothu.min max=limits.tothu.max from_max=limits.tothu.max}}
-    </div>
-    <div class="column">
-      <h4 class="ui header">Project Status</h4>
-      {{#ui-dropdown class="selection fluid" onChange=(action 'update_selected') value=status}}
-        <div class="default text">Select an Option</div>
-        <i class="dropdown icon"></i>
-        <div class="menu">
-          {{#each itemActions as |itemAction|}}
-            <div class="item" data-value="{{itemAction.id}}">
-              {{itemAction.name}}
-            </div>
-          {{/each}}
-        </div>
-      {{/ui-dropdown}}
-      <div class="ui divider"></div>
-      <h4 class="ui header">Project Tags</h4>
-      <div class="ui segment">
-        <div class="ui top attached label">Click to Select</div>
-        <div class="ui tag labels">
-          {{toggle-label field=this.redevelopment label="Redevelopment"}}
-          {{toggle-label field=this.asofright label="As-of-Right"}}
-          {{toggle-label field=this.age_restricted label="Age Restricted"}}
-          {{toggle-label field=this.clusteros label="Cluster / Open Space"}}
-          {{toggle-label field=this.phased label="Phased"}}
-          {{toggle-label field=this.cancelled label="Cancelled"}}
-          {{toggle-label field=this.private label="Private"}}
-        </div>
+{{#sql-wrapper yearFrom=yearFrom yearTo=yearTo sqftFrom=sqftFrom sqftTo=sqftTo tothuFrom=tothuFrom tothuTo=tothuTo status=status redevelopment=redevelopment asofright=asofright age_restricted=age_restricted clusteros=clusteros phased=phased cancelled=cancelled private=private place_id=place_id neighborhood_ids=neighborhood_ids as |filters|}}
+  {{#filters-menu totalResults=totalResults reset="reset" filtersSet=filtersSet status=status isLoggedIn=isLoggedIn successfulSave=successfulSave currentParams=currentParams sql_export=filters.sql_export}}
+    <div class="ui two column relaxed divided grid">
+      <div class="column">
+        <h4 class="ui header">Completion Year</h4>
+        {{range-field-group from=yearFrom to=yearTo min=limits.year_compl.min max=limits.year_compl.max from_max=limits.year_compl.max}}
+        <div class="ui divider"></div>
+        <h4 class="ui header">Commercial Square Feet</h4>
+        {{range-field-group from=sqftFrom to=sqftTo min=limits.commsf.min max=limits.commsf.max from_max=limits.commsf.max}}
+        <div class="ui divider"></div>
+        <h4 class="ui header">Total Housing Units</h4>
+        {{range-field-group from=tothuFrom to=tothuTo min=limits.tothu.min max=limits.tothu.max from_max=limits.tothu.max}}
       </div>
-      <button {{action "reset"}} class="fluid ui button red">Clear Filters</button>
+      <div class="column">
+        <h4 class="ui header">Project Status</h4>
+        {{#ui-dropdown class="selection fluid" onChange=(action 'update_selected') value=status}}
+          <div class="default text">Select an Option</div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            {{#each itemActions as |itemAction|}}
+              <div class="item" data-value="{{itemAction.id}}">
+                {{itemAction.name}}
+              </div>
+            {{/each}}
+          </div>
+        {{/ui-dropdown}}
+        <div class="ui divider"></div>
+        <h4 class="ui header">Project Tags</h4>
+        <div class="ui segment">
+          <div class="ui top attached label">Click to Select</div>
+          <div class="ui tag labels">
+            {{toggle-label field=this.redevelopment label="Redevelopment"}}
+            {{toggle-label field=this.asofright label="As-of-Right"}}
+            {{toggle-label field=this.age_restricted label="Age Restricted"}}
+            {{toggle-label field=this.clusteros label="Cluster / Open Space"}}
+            {{toggle-label field=this.phased label="Phased"}}
+            {{toggle-label field=this.cancelled label="Cancelled"}}
+            {{toggle-label field=this.private label="Private"}}
+          </div>
+        </div>
+        <button {{action "reset"}} class="fluid ui button red">Clear Filters</button>
+      </div>
     </div>
-  </div>
-{{/filters-menu}}
-{{#sql-wrapper yearFrom=yearFrom yearTo=yearTo sqftFrom=sqftFrom sqftTo=sqftTo tothuFrom=tothuFrom tothuTo=tothuTo status=status redevelopment=redevelopment asofright=asofright age_restricted=age_restricted clusteros=clusteros phased=phased cancelled=cancelled private=private as |filters|}}
+  {{/filters-menu}}
+
   {{#leaflet-map lat=42.1 lng=-71 zoom=10 maxZoom=18 zoomControl=false as |layers|}}
     {{layers.tile url='//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'}}
-    {{#cartodb-layer url='//mapc-maps.carto.com/api/v2/viz/514bfbb0-5f60-11e6-b76e-0ecd1babdde5/viz.json' carto_logo=false sql=filters.sql zIndex=1 as |carto|}}
+    {{#cartodb-layer url='//mapc-maps.carto.com/api/v2/viz/514bfbb0-5f60-11e6-b76e-0ecd1babdde5/viz.json' place_id=place_id neighborhood_ids=neighborhood_ids carto_logo=false sql=filters.sql zIndex=1 as |carto|}}
       <div class="spatial-stats">
         <div class="ui segment">
           <div class="ui form">
@@ -61,7 +62,7 @@
           <div class="ui segment">
             <div class="ui divided link items" style="width: 100%;">
               {{#each placeSearchResults as |result|}}
-                <a {{action carto.zoomToGeoJSON result.attributes.geometry result.type}} class="item">
+                <a {{action carto.selectPlace result.attributes.geometry result.type result.id result.attributes.neighborhood-ids}} class="item">
                   <div class="ui tiny image" style="text-align: center;">
                     {{#if (eq result.type "locations")}}
                       <i class="ui huge marker icon"></i>
@@ -108,7 +109,8 @@
       </div>
     {{/cartodb-layer}}
   {{/leaflet-map}}
+
+  {{#developments-list-component model=model}}
+    {{infinity-loader infinityModel=model triggerOffset=60 scrollable=".scrollable-table"}}
+  {{/developments-list-component}}
 {{/sql-wrapper}}
-{{#developments-list-component model=model}}
-  {{infinity-loader infinityModel=model triggerOffset=60 scrollable=".scrollable-table"}}
-{{/developments-list-component}}
