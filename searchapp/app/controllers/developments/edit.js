@@ -51,7 +51,7 @@ export default Ember.Controller.extend({
     save(model) {
       model.save().then((model) => {
         // this.transitionToRoute('developments', model);  
-        window.location.replace(model.get("id"));
+        window.location.replace(model.get("id") + '?proposal=success');
       },() => {
         $('.ui.basic.errors.modal')
           .modal('show')

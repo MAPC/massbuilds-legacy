@@ -45,7 +45,7 @@
 
   {{#leaflet-map lat=42.1 lng=-71 zoom=10 maxZoom=18 zoomControl=false as |layers|}}
     {{layers.tile url='//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'}}
-    {{#cartodb-layer url='//mapc-maps.carto.com/api/v2/viz/ec97ef34-64ab-11e6-bdfc-0e3ebc282e83/viz.json' place_id=place_id neighborhood_ids=neighborhood_ids carto_logo=false sql=filters.sql zIndex=1 as |carto|}}
+    {{#cartodb-layer url='https://mapc-maps.carto.com/api/v2/viz/ec97ef34-64ab-11e6-bdfc-0e3ebc282e83/viz.json' place_id=place_id neighborhood_ids=neighborhood_ids carto_logo=false sql=filters.sql zIndex=1 as |carto|}}
       <div class="spatial-stats">
         <div class="ui segment">
           <div class="ui form">
