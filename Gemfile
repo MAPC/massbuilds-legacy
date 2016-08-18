@@ -101,4 +101,5 @@ end
 group :staging, :production do
   gem 'rails_12factor'
   gem 'newrelic_rpm'
+  gem 'scout_apm'
 end
