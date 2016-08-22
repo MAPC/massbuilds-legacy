@@ -24,6 +24,13 @@ class Development
         :fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs, :fa_rnd, :fa_edinst,
         :fa_other, :fa_hotel
       ].freeze
+
+      NUMERIC_FIELDS = %i( tothu singfamhu twnhsmmult lgmultifam commsf fa_ret
+        fa_ofcmd fa_indmf fa_whs fa_rnd fa_edinst fa_other fa_hotel hotelrms ).
+        freeze
+
+      BOOLEAN_FIELDS = %i( rdv asofright phased cancelled ovr55 clusteros
+        stalled ).freeze
     end
 
   end

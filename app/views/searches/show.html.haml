@@ -62,7 +62,6 @@
   %ul
     - @search.criteria.each do |field, v|
       %li #{Development.human_attribute_name(field)} = #{v}
-    %li Limited to the first 100 records
 
   %p
     Through MassBuilds, the Metropolitan Area Planning Council
@@ -103,10 +102,7 @@
     iconUrl: 'https://camo.githubusercontent.com/137174e450145056378a39e3c3f065c8927c8a01/687474703a2f2f73746f726167652e676f6f676c65617069732e636f6d2f737570706f72742d6b6d732d70726f642f534e505f323735323036385f656e5f7630'
   })
 
-  var markers = [#{
-    @search.developments.map(&:location).
-      map { |loc| "L.marker(#{loc}, {icon: dotIcon})" }.join(', ')
-  }]
+  var markers = [#{@search.markers}]
 
   var group = new L.featureGroup(markers).addTo(map);
 
