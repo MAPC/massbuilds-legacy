@@ -8,6 +8,9 @@ class Export::PDF
   end
 
   def render
+    # Generate summary statistics here, using find_in_batches with a smallish
+    # batch size. This -- well, the view -- is where memory bloat appears to
+    # happen the most. Then, use the summary stats in the view.
     @config
   end
 
