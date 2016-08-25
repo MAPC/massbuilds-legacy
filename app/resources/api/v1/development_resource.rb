@@ -79,7 +79,7 @@ module API
       include Rails.application.routes.url_helpers
 
       def image_url
-        image_development_url @model
+        image_development_url @model unless @model.street_view.null?
       end
 
       # TODO: This is duplicated from the presenter.

@@ -18,11 +18,8 @@ class Development
       scope :close_to, CloseToQuery.new(self).scope
       # scope_accessible :close_to
 
-      scope :place_id, proc { |id| where(place_id: id) }
+      scope :place_id, proc { |id| where(place_id: id.split(',')) }
       scope_accessible :place_id
-
-      scope :neighborhood_ids, proc { |ids| where(place_id: ids) }
-      scope_accessible :neighborhood_ids
     end
 
   end
