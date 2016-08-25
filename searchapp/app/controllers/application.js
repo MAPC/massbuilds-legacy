@@ -27,8 +27,11 @@ export default Ember.Controller.extend({
     }
 	},
   searches: function() {
-    var model = this.get("model.searches");
-    console.log(model);
-    return model;
+    // if (document.API_KEY !== '') {
+    //   console.log("test")
+    //   var model = this.get("model.searches");
+    // }
+    // console.log(model);
+    // return model;
   }.property("model.searches")
 });

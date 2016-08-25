@@ -12,7 +12,7 @@ module.exports = function(environment) {
     },    
     modulePrefix: 'searchapp',
     environment: environment,
-    baseURL: '/developments',
+    baseURL: '/',
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
