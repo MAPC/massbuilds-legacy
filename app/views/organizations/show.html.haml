@@ -9,6 +9,7 @@
 
   set_meta_tags twitter: {
     label1: 'Developments',
+    # Revert to #count (without #pluck) when upgraded to Postgres 9.4+
     data1: @organization.developments.pluck(:id).count,
     label2: 'Members',
     data2: @organization.members.count

@@ -13,4 +13,5 @@
       = pluralize(organization.active_members.count, 'member')
       - if organization.developments.any?
         &bull;
-        = pluralize(organization.developments.count, 'development')
+        -# Revert to #count (without #pluck) when upgraded to Postgres 9.4+
+        = pluralize(organization.developments.pluck(:id).count, 'development')

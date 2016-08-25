@@ -44,7 +44,8 @@ class DigestPresenterTest < ActiveSupport::TestCase
     skip
     assert_respond_to pres, :developments
     expected = item.subscriptions_needing_update.count
-    actual   = pres.developments.count
+    # Revert to #count (without #pluck) when upgraded to Postgres 9.4+
+    actual   = pres.developments.pluck(:id).count
 
     assert_equal expected, actual
     assert_equal 2, actual
