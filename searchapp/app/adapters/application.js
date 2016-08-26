@@ -4,9 +4,13 @@ import Ember from 'ember';
 export default DS.JSONAPIAdapter.extend({
   host: '//api.' + window.location.host.replace('www.',''),
   headers: Ember.computed(function() {
-    return {
-      "Authorization": "Token " + Ember.get(document, "API_KEY")
-    };
+    var token = Ember.get(document, "API_KEY");
+    if (token) {
+      console.log("Token " + token);
+      return {
+        "Authorization": "Token " + token
+      }
+    }
   }).volatile(),
   
   urlForFindRecord(id, modelName, snapshot) {

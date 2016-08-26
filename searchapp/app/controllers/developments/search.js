@@ -113,7 +113,7 @@ export default Ember.Controller.extend({
   }.property("year_compl", "tothu", "commsf", "name", "address", "municipality", "redevelopment", "asofright", "age_restricted", "clusteros", "phased", "cancelled", "private", "number", "size", "saved", "status"),
 
   filter: '',
-  placeSearch: '',
+  // placeSearch: '',
 
   onFilterTextChange: function() {
     // wait 1 second before applying the filter
