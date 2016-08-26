@@ -6,7 +6,6 @@ export default DS.JSONAPIAdapter.extend({
   headers: Ember.computed(function() {
     var token = Ember.get(document, "API_KEY");
     if (token) {
-      console.log("Token " + token);
       return {
         "Authorization": "Token " + token
       }
