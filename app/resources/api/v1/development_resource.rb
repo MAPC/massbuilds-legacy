@@ -53,12 +53,19 @@ module API
 
       filter :status
 
-      filter :bbox, apply: -> (records, value, _options) {
-        west, south, east, north = value.map(&:to_f)
+      filter :bbox, apply: -> (records, values, _options) {
+        west, south, east, north = values.map(&:to_f)
         records.within_box(top: north, right: east, bottom: south, left: west)
       }
 
-      filter :place_id
+      filter :place_id, apply: -> (records, values, _options) {
+        if Place.where(id: values).municipality.any?
+          municipal_and_neighborhood_ids = Place.where(id: values).map {|p| p.neighborhoods.pluck(:id) }.push(values).flatten.uniq
+          records.where(place_id: municipal_and_neighborhood_ids)
+        else
+          records.where(place_id: values)
+        end
+      }
 
       def self.creatable_fields(context)
         super - [:mixed_use, :walkscore, :neighborhood, :city, :full_address]
