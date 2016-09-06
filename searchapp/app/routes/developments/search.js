@@ -20,7 +20,7 @@ export default Ember.Route.extend(InfinityRoute, {
     address: { refreshModel: true },
     municipality: { refreshModel: true },
     redevelopment: { refreshModel: true },
-    status: { refreshModel: true },
+
     asofright: { refreshModel: true },
     age_restricted: { refreshModel: true },
     clusteros: { refreshModel: true },
