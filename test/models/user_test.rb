@@ -164,7 +164,7 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test 'cannot be an admin on more organizations than you are a member of' do
-    refute user.owned_organizations > user.organizatons
+    refute user.owned_organizations.count > user.organizations.count
   end
 
 end
