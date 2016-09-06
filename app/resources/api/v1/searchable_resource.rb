@@ -13,7 +13,11 @@ module API
           map(&:searchable).
           map { |record| wrap_with_resource(record) }
         loc = MapzenSearch.new(text).result || null
-        search_results.unshift place_resource(text) if no_place?(search_results)
+
+        if place = Place.like(text).first
+          search_results.unshift PlaceResource.new(place, context: {})
+        end
+
         search_results.unshift location_resource(loc) if confident_in_location?(loc)
         search_results
       end
@@ -26,12 +30,6 @@ module API
 
       def self.confident_in_location?(location)
         location.properties['confidence'] > 0.75
-      end
-
-      def self.place_resource(text)
-        PlaceResource.new(
-          Place.like(text).first, context: {}
-        )
       end
 
       def self.no_place?(search_results)
