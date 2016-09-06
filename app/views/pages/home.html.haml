@@ -12,15 +12,29 @@
     %a.active.item Home
     = link_to 'Developments', developments_path, class: 'item'
     = link_to 'Teams', organizations_path, class: 'item'
-    .right.menu
-      .item
-        = link_to signup_path, class: 'ui teal button' do
-          %i.rocket.icon
-          Sign Up
-      .item
-        = link_to signin_path, class: 'ui button' do
-          %i.lock.icon
-          Log in
+    - unless signed_in?
+      .right.compact.menu
+      = link_to signup_path, class: 'active teal item' do
+        %i.rocket.icon
+        Sign up
+      = link_to signin_path, class: 'item' do
+        %i.door.icon
+        Log in
+    - if signed_in?
+      .right.menu
+        .ui.dropdown.item
+          %i.add.icon
+          .menu
+            .header
+              Create new
+            = link_to new_development_path,  class: 'item' do
+              %i.building.icon
+              Development
+            = link_to new_organization_path, class: 'item' do
+              %i.users.icon
+              Organization
+        = render 'users/header'
+
 / Page Contents
 .pusher
   .ui.inverted.vertical.masthead.center.aligned.segment
@@ -29,13 +43,28 @@
         %a.active.item Home
         = link_to 'Developments', developments_path, class: 'item'
         = link_to 'Teams', organizations_path, class: 'item'
-        .right.item
-          = link_to signup_path, class: 'ui teal button' do
+        - unless signed_in?
+          .right.compact.menu
+          = link_to signup_path, class: 'active teal item' do
             %i.rocket.icon
-            Sign Up
-          = link_to signin_path, class: 'ui button' do
-            %i.lock.icon
+            Sign up
+          = link_to signin_path, class: 'item' do
+            %i.door.icon
             Log in
+        - if signed_in?
+          .right.menu
+            .ui.dropdown.item
+              %i.add.icon
+              .menu
+                .header
+                  Create new
+                = link_to new_development_path,  class: 'item' do
+                  %i.building.icon
+                  Development
+                = link_to new_organization_path, class: 'item' do
+                  %i.users.icon
+                  Organization
+            = render 'users/header'
     .ui.text.container
       %h1.ui.inverted.header
         MassBuilds
