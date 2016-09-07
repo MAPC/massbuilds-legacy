@@ -1,6 +1,5 @@
 import Ember from 'ember';
 import BaseLayer from 'ember-leaflet/components/base-layer';
-import squel from 'npm:squel';
 
 export default BaseLayer.extend({
   actions: {
@@ -56,14 +55,10 @@ export default BaseLayer.extend({
 
       this._layer.on('done', (layer) => {
         
-        var initial = squel.select()
-                      .from('developments')
-                      .field('cartodb_id')
-                      .field('id')
-                      .field('ST_GeomFromEWKT(point)', 'the_geom')
-                      .field('ST_Transform(ST_GeomFromEWKT(point),3857)', 'the_geom_webmercator')
-                      .toString();
-
+        var initial = `SELECT cartodb_id, id, ST_GeomFromEWKT(point) AS the_geom, 
+                              ST_Transform(ST_GeomFromEWKT(point),3857) AS the_geom_webmercator 
+                              FROM developments`;
+        console.log(initial);
         cartoSql.getBounds(initial).done((bounds) => {
           console.log(bounds);
           map.fitBounds(bounds);

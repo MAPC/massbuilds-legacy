@@ -10,6 +10,20 @@ module.exports = function(environment) {
         'style-src': "'self' 'unsafe-inline' *.cloudflare.com fonts.googleapis.com *.googleapis.com",
         'script-src': "'self' 'unsafe-eval' *.mapbox.com *.cloudflare.com *.googleapis.com"
     },    
+    sqlFields: ["creator_id", "created_at", "updated_at", "rdv", "asofright", 
+                "ovr55", "clusteros", "phased", "stalled", "_desc", "project_url", 
+                "mapc_notes", "tagline", "address", "state", "zip_code", "height", 
+                "stories", "year_compl", "prjarea", "singfamhu", "twnhsmmult", "lgmultifam", 
+                "tothu", "gqpop", "rptdemp", "emploss", "estemp", "commsf", "hotelrms", "onsitepark", 
+                "total_cost", "team_membership_count", "cancelled", "private", "fa_ret", "fa_ofcmd", 
+                "fa_indmf", "fa_whs", "fa_rnd", "fa_edinst", "fa_other", "fa_hotel", "other_rate", 
+                "affordable", "latitude", "longitude", "place_id", "street_view_heading", "street_view_pitch", 
+                "street_view_latitude", "street_view_longitude", "parcel_id", "walkscore", "mixed_use", 
+                "nearest_transit", "massbuilds_url", "point", "name","id",
+                "to_date(year_compl::varchar, \'yyyy\')","status","cartodb_id","ST_GeomFromEWKT(point) AS the_geom",
+                "ST_Transform(ST_GeomFromEWKT(point),3857) AS the_geom_webmercator"],
+
+
     modulePrefix: 'searchapp',
     environment: environment,
     baseURL: '/developments',

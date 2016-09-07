@@ -20,7 +20,7 @@ export default Ember.Route.extend(InfinityRoute, {
     address: { refreshModel: true },
     municipality: { refreshModel: true },
     redevelopment: { refreshModel: true },
-    status: { refreshModel: true },
+
     asofright: { refreshModel: true },
     age_restricted: { refreshModel: true },
     clusteros: { refreshModel: true },
@@ -33,7 +33,7 @@ export default Ember.Route.extend(InfinityRoute, {
 
   filters: ["year_compl","tothu","commsf","name","address","municipality","redevelopment", 
                   "status", "asofright", "age_restricted", "clusteros", 
-                  "phased", "cancelled", "private","saved","status", "place_id"],
+                  "phased", "cancelled", "private","saved","status", "place_id", "neighborhood_ids"],
   model(params) {
     this.set("storedParams", params);
     var queryObject = { filter: {} };
