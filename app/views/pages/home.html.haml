@@ -12,15 +12,8 @@
     %a.active.item Home
     = link_to 'Developments', developments_path, class: 'item'
     = link_to 'Teams', organizations_path, class: 'item'
-    .right.menu
-      .item
-        = link_to signup_path, class: 'ui teal button' do
-          %i.rocket.icon
-          Sign Up
-      .item
-        = link_to signin_path, class: 'ui button' do
-          %i.lock.icon
-          Log in
+    = render partial: 'shared/signed_in_header'
+
 / Page Contents
 .pusher
   .ui.inverted.vertical.masthead.center.aligned.segment
@@ -29,13 +22,7 @@
         %a.active.item Home
         = link_to 'Developments', developments_path, class: 'item'
         = link_to 'Teams', organizations_path, class: 'item'
-        .right.item
-          = link_to signup_path, class: 'ui teal button' do
-            %i.rocket.icon
-            Sign Up
-          = link_to signin_path, class: 'ui button' do
-            %i.lock.icon
-            Log in
+        = render partial: 'shared/signed_in_header'
     .ui.text.container
       %h1.ui.inverted.header
         MassBuilds

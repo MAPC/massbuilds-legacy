@@ -18,6 +18,7 @@ class SearchesControllerTest < ActionController::TestCase
   end
 
   test 'renders CSV' do
+    skip 'in favor of CARTO'
     get :show, id: search.id, format: :csv
     assert_response :success
     content_type = response.headers['Content-Transfer-Encoding']

@@ -16,6 +16,10 @@ class Development
         :redevelopment, :as_of_right, :age_restricted, :hidden
 
       scope :close_to, CloseToQuery.new(self).scope
+      # scope_accessible :close_to
+
+      scope :place_id, proc { |id| where(place_id: id.split(',')) }
+      scope_accessible :place_id
     end
 
   end

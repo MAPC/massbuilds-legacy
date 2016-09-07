@@ -12,6 +12,9 @@ class Place < ActiveRecord::Base
     ")
   end
 
+  scope :municipality, -> { where type: 'Municipality' }
+  scope :neighborhood, -> { where type: 'Neighborhood' }
+
   def self.like(text)
     reverse_scope.where('name ILIKE ?', "#{text}%")
   end

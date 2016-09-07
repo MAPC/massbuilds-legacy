@@ -81,11 +81,13 @@ Rails.application.routes.draw do
     end
   end
 
+  # Custom routes for High Voltage
+  #   See: https://github.com/thoughtbot/high_voltage#override
+  get "/pages/*id" => 'pages#show', as: :page, format: false
+
+  root to: 'pages#show', id: 'home'
+
   # get 'home/index', to: 'home#index'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
-
-  # You can have the root of your site routed with "root"
-  # root 'high_voltage/pages#show', id: 'about'
-
 end

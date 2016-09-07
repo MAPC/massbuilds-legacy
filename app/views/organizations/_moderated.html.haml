@@ -1,0 +1,19 @@
+- if organization.memberships.pending.count > 0
+  = link_to organization, class: 'item' do
+    .ui.tiny.image
+      %img{ src: organization.gravatar_url }
+    .middle.aligned.content
+      .header
+        - if organization.municipal?
+          %i.university.icon
+        = organization.name
+      .meta
+        - if organization.location.present?
+          = organization.location
+      .extra
+        .ui.right.floated.teal.button
+          Moderate
+          %i.right.chevron.icon
+        .ui.label
+          = organization.memberships.pending.count
+          requests

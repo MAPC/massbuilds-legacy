@@ -3,23 +3,19 @@ module JSONAPI
   class Resource
     class << self
       def range_filters(*filter_attributes)
-        Array(filter_attributes).flatten.each { |attribute|
-          filter(attribute, apply: ->(records, value, options) {
-            records.where(attribute => RangeParser.parse(value))
+        Array(filter_attributes).flatten.each do |attribute|
+          filter(attribute, apply: ->(records, values, options) {
+            records.where(attribute => RangeParser.parse(values))
           })
-        }
+        end
       end
 
       def boolean_filters(*filter_attributes)
-        Array(filter_attributes).flatten.each { |attribute|
-          filter(attribute, apply: ->(records, value, options) {
-            if [false, nil].include? value.first.to_b
-              records.where(attribute => [false, nil])
-            else
-              records.where(attribute => true)
-            end
+        Array(filter_attributes).flatten.each do |attribute|
+          filter(attribute, apply: ->(records, values, options) {
+            records.where(attribute => values.map(&:to_b))
           })
-        }
+        end
       end
 
       alias_method :range_filter,   :range_filters

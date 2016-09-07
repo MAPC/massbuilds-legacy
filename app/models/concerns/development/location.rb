@@ -15,7 +15,7 @@ class Development
       end
 
       def within(geometry)
-        where("ST_Intersects(point, ?)", geometry)
+        where("ST_Intersects(point, ?)", geometry.to_s.presence)
       end
     end
 
