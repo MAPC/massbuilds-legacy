@@ -11,7 +11,7 @@
   </thead>
   <tbody>
     <tr>
-      <td>Single family homes</td>
+      <td>{{#ui-popup tagName="label" content="Units in single family homes."}}Single family homes <i class="help circle icon"></i>{{/ui-popup}}</td>
       <td>
         <div class="ui input">
           {{input type="text" value=model.singfamhu}}
@@ -19,7 +19,7 @@
       </td>
     </tr>
     <tr>
-      <td>Small Multi-Family</td>
+      <td>{{#ui-popup tagName="label" content="Units in townhouses, attached single family, or small multifamily buildings (2 - 4 units."}}Small Multi-Family <i class="help circle icon"></i>{{/ui-popup}}</td>
       <td>
         <div class="ui input">
           {{input type="text" value=model.twnhsmmult}}
@@ -27,7 +27,7 @@
       </td>
     </tr>
     <tr>
-      <td>Large Multi-Family</td>
+      <td>{{#ui-popup tagName="label" content="Units in mixed use buildings or buildings with 5 or more residential units."}}Large Multi-Family <i class="help circle icon"></i>{{/ui-popup}}</td>
       <td>
         <div class="ui input">
           {{input type="text" value=model.lgmultifam}}
@@ -35,7 +35,7 @@
       </td>
     </tr>
     <tr>
-      <td>Affordable housing units (percent of total)</td>
+      <td>{{#ui-popup tagName="label" content="Percent of subsidized or deed-restricted affordable units."}}Affordable housing units (percent of total) <i class="help circle icon"></i>{{/ui-popup}}</td>
       <td>
         <div class="ui input">
           {{input type="text" value=model.affordable}}
@@ -48,7 +48,7 @@
 <table class="ui very basic collapsing celled table">
   <tbody>
     <tr>
-      <td>Group Quarters (i.e. dorms, nursing homes, etc.)</td>
+      <td>{{#ui-popup tagName="label" content="Number of beds in a Dormitory, Nursing Home, Assisted Living, or other group quarters situation."}}Group Quarters (i.e. dorms, nursing homes, etc.) <i class="help circle icon"></i>{{/ui-popup}}</td>
       <td>
         <div class="ui right labeled input">
           {{input type="text" value=model.gqpop}}

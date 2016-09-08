@@ -5,7 +5,7 @@
 <table class="ui very basic collapsing celled table">
   <tbody>
     <tr>
-      <td>Employment (reported)</td>
+      <td>{{#ui-popup tagName="label" content="Anticipated net change in employment, if known."}}Employment (reported) <i class="help circle icon"></i>{{/ui-popup}}</td>
       <td>
         <div class="ui input">
           {{input type="text" value=model.rptdemp}}
@@ -13,7 +13,7 @@
       </td>
     </tr>
     <tr>
-      <td>Employment Losses</td>
+      <td>{{#ui-popup tagName="label" content="Estimated employment losses, if known."}}Employment Losses <i class="help circle icon"></i>{{/ui-popup}}</td>
       <td>
         <div class="ui input">
           {{input type="text" value=model.emploss}}

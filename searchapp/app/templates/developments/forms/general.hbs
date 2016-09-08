@@ -5,30 +5,44 @@
   <div class="required field huge fluid input">
     {{#ui-popup tagName="label" content="If the project is not named please use the street address, such as '2 Adams Street.' If a multi-phase project, use a single project name and add 'Phase 1,' etc."}}
       Project Name
-    {{/ui-popup}}
+    <i class="help circle icon"></i>{{/ui-popup}}
     {{input value=model.name class="huge" placeholder="Descriptive name for development project"}}
   </div>
 
   <div class="required field fluid huge input">
-    {{#ui-popup tagName="label" content="Short sentence describing project. e.g. 'Luxury hotel with ground-floor retail.'"}}Tagline{{/ui-popup}}
+    {{#ui-popup tagName="label" content="Short sentence describing project. e.g. 'Luxury hotel with ground-floor retail.'"}}Tagline <i class="help circle icon"></i>{{/ui-popup}}
     {{input value=model.tagline class="huge" placeholder="Project tagline"}}
   </div>
 
   <div class="required field">
-    {{#ui-popup tagName="label" content="Brief summary of the project."}}Description{{/ui-popup}}
+    {{#ui-popup tagName="label" content="Brief summary of the project."}}Description <i class="help circle icon"></i>{{/ui-popup}}
     {{textarea value=model.description cols="80" rows="10" placeholder="e.g. 'Transit-oriented affordable housing complex with ground-floor retail and restaurant spaces.'"}}
   </div>
 
   <div class="ui segment">
     <div class="ui top attached label">Project Tags - Click to Select</div>
     <div class="ui tag labels">
-      {{toggle-label field=model.redevelopment label="Redevelopment"}}
-      {{toggle-label field=model.asofright label="As-of-Right"}}
-      {{toggle-label field=model.age_restricted label="Age Restricted"}}
-      {{toggle-label field=model.clusteros label="Cluster / Open Space"}}
-      {{toggle-label field=model.phased label="Phased"}}
-      {{toggle-label field=model.cancelled label="Cancelled"}}
-      {{toggle-label field=model.private label="Private"}}
+      {{#ui-popup tagName="label" content="Toggle if the project is on a previously developed site."}}
+        {{toggle-label field=model.redevelopment label="Redevelopment"}}
+      {{/ui-popup}}
+      {{#ui-popup tagName="label" content="Toggle if the project required no special permit or zoning variance (site plan review OK."}}
+        {{toggle-label field=model.asofright label="As-of-Right"}}
+      {{/ui-popup}}
+      {{#ui-popup tagName="label" content="Toggle if any units are restricted to residents 55 and older."}}
+        {{toggle-label field=model.age_restricted label="Age Restricted"}}
+      {{/ui-popup}}
+      {{#ui-popup tagName="label" content="Toggle if homes are clustered on the site and substantial portions of undeveloped land are preserved."}}
+        {{toggle-label field=model.clusteros label="Cluster / Open Space"}}
+      {{/ui-popup}}
+      {{#ui-popup tagName="label" content="Toggle if part of a multi-phase project."}}
+        {{toggle-label field=model.phased label="Phased"}}
+      {{/ui-popup}}
+      {{#ui-popup tagName="label" content="Toggle if the project was cancelled."}}
+        {{toggle-label field=model.cancelled label="Cancelled"}}
+      {{/ui-popup}}
+      {{#ui-popup tagName="label" content="Toggle if the project is private."}}
+        {{toggle-label field=model.private label="Private"}}
+      {{/ui-popup}}
     </div>
   </div>
 
@@ -62,11 +76,11 @@
     </div>
   </div>
   <div class="required field fluid huge input">
-    {{#ui-popup tagName="label" content="Estimated year of completion (approximate estimate OK)"}}Year Completed (YYYY){{/ui-popup}}
+    {{#ui-popup tagName="label" content="Estimated year of completion (approximate estimate OK)"}}Year Completed (YYYY) <i class="help circle icon"></i>{{/ui-popup}}
     {{input value=model.year_compl class="huge" placeholder="Project tagline"}}
   </div>
   <div class="required field fluid huge input">
-    {{#ui-popup tagName="label" content="Number of on-site parking spaces"}}On-site parking spaces{{/ui-popup}}
+    {{#ui-popup tagName="label" content="Number of on-site parking spaces"}}On-site parking spaces <i class="help circle icon"></i>{{/ui-popup}}
     {{input value=model.onsitepark class="huge"}}
   </div>
 </div>
