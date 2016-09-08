@@ -4,7 +4,7 @@
 <table class="ui celled table">
   <tbody class="ui form">
     <tr>
-      <td><div class="ui form"><div class="required field input"><label>Total Housing Units</label></div></div></td>
+      <td><div class="ui form"><div class="required field input"><label>{{#ui-popup tagName="label" content="Enter the total number of housing units, not including hotel rooms."}}Total Housing Units <i class="help circle icon"></i>{{/ui-popup}}</label></div></div></td>
       <td>
         <div class="ui form">
           <div class="required field input">
@@ -14,7 +14,7 @@
       </td>
     </tr>
     <tr>
-      <td><div class="ui form"><div class="required field input"><label>Commercial Square Feet</label></div></div></td>
+      <td><div class="ui form"><div class="required field input"><label>{{#ui-popup tagName="label" content="Nonresidential share of commercial use."}}Commercial Square Feet <i class="help circle icon"></i>{{/ui-popup}}</label></div></div></td>
       <td>
         <div class="ui input">
           {{input type="text" value=model.commsf}}
@@ -22,7 +22,7 @@
       </td>
     </tr>
     <tr>
-      <td>Project Area (in Square Feet)</td>
+      <td>{{#ui-popup tagName="label" content="Project Site Area in Square Feet"}}Project Area (in Square Feet) <i class="help circle icon"></i>{{/ui-popup}}</td>
       <td>
         <div class="ui right labeled input">
           {{input type="text" value=model.prjarea}}
@@ -41,10 +41,13 @@
       </td>
     </tr>
     <tr>
-      <td>Height</td>
+      <td>{{#ui-popup tagName="label" content="Building height in Feet."}}Height <i class="help circle icon"></i>{{/ui-popup}}</td>
       <td>
-        <div class="ui input">
+        <div class="ui right labeled input">
           {{input type="text" value=model.height}}
+          <div class="ui basic label">
+            Feet
+          </div>
         </div>
       </td>
     </tr>
