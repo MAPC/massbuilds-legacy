@@ -85,6 +85,8 @@ Rails.application.routes.draw do
   #   See: https://github.com/thoughtbot/high_voltage#override
   get "/pages/*id" => 'pages#show', as: :page, format: false
 
+  get '/upgrade' => 'pages#show', id: 'upgrade', as: :upgrade
+
   root to: 'pages#show', id: 'home'
 
   # get 'home/index', to: 'home#index'

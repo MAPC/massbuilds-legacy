@@ -75,6 +75,7 @@ GEM
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
     brakeman (3.3.0)
+    browser (2.2.0)
     builder (3.2.2)
     bullet (4.14.10)
       activesupport (>= 3.0.0)
@@ -401,6 +402,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   brakeman
+  browser
   bullet (= 4.14.10)
   bundler (= 1.11.2)
   burgundy
