@@ -17,6 +17,8 @@ class Development < ActiveRecord::Base
   STATUSES = [:projected, :planning, :in_construction, :completed].freeze
   enumerize :status, in: STATUSES, predicates: true
 
+  serialize :walkscore, JSON
+
   def to_s
     name
   end
