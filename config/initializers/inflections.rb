@@ -12,5 +12,5 @@
 
 # These inflection rules are supported but not enabled by default:
 ActiveSupport::Inflector.inflections(:en) do |inflect|
-  %w( API CSV PDF ).each { |word| inflect.acronym word }
+  %w( API CSV PDF JSON ).each { |e| inflect.acronym e }
 end
