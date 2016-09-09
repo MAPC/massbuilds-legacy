@@ -55,7 +55,8 @@ class User < ActiveRecord::Base
 
   def moderator_for?(development)
     [
-      member_of_development_team?(development),
+      # Development team members cannot moderate developments at this time.
+      # member_of_development_team?(development),
       member_of_municipal_org?(development),
       member_of_admin_org?
     ].any?
