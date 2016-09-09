@@ -12,8 +12,12 @@
 !/log/.keep
 /tmp
 
-notes.txt
-
 node_modules/
 .env
 .DS_Store
+
+public/assets/*
+db/import/*
+*.csv*
+.notes.md
+notes.txt
