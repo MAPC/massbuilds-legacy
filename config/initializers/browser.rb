@@ -1,8 +1,7 @@
+# Matches /developments, /developments/new, and /developments/:id/edit
+EMBER_PATH_REGEX = /^\/developments\/?(new|\d+\/?edit|\/?$)/.freeze
+
 Rails.configuration.middleware.use Browser::Middleware do
-
-  # Matches /developments, /developments/new, and /developments/:id/edit
-  EMBER_PATH_REGEX = /^\/developments\/?(new|\d+\/?edit|\/?$)/.freeze
-
   # TODO: Add developments#edit and developments#new path to matchers.
   if request.env['PATH_INFO'].match(EMBER_PATH_REGEX)
     # The "modern" detection allows IE9, but we can't support IE9.
