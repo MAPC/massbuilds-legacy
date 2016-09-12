@@ -2,9 +2,9 @@ import Ember from 'ember';
 
 export default Ember.Route.extend({
   model() {
-    // if (document.API_KEY !== '') {
-    //   return  this.store.findAll("search");
-    // }
+    if (document.API_KEY !== '') {
+      return  this.store.findAll("search");
+    }
   },
   actions: {
     toggle: function() {
