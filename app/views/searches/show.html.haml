@@ -61,8 +61,12 @@
 
   %ul
     - @search.criteria.each do |field, v|
-      %li #{Development.human_attribute_name(field)} = #{v}
-    %li Limited to the first 100 records
+      - if field.to_s == 'place_id'
+        %li
+          Places =
+          = Place.where(id: v.split(',')).pluck(:name).join(', ')
+      - else
+        %li #{Development.human_attribute_name(field)} = #{v}
 
   %p
     Through MassBuilds, the Metropolitan Area Planning Council

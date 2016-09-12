@@ -1,0 +1,17 @@
+= link_to pending_development_edits_path(development), class: 'development item' do
+  - unless development.street_view.null?
+    .ui.tiny.image
+      %img{ src: development.street_view.data }
+  .middle.aligned.content
+    .header= development.name
+    .meta
+      %span.address= development.display_address(short: true)
+    .description
+      = development.tagline
+    .extra
+      .ui.right.floated.teal.button
+        Moderate
+        %i.right.chevron.icon
+      .ui.label
+        = development.edits.pending.count
+        edits

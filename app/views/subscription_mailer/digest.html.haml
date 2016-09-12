@@ -30,7 +30,8 @@
       .item
         %i.orange.building.outline.icon
         .content
-          = @digest.developments.count
+          -# Revert to #count (without #pluck) when upgraded to Postgres 9.4+
+          = @digest.developments.pluck(:id).count
           developments
 
 %br

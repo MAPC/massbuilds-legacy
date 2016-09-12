@@ -158,7 +158,7 @@ class OrganizationTest < ActiveSupport::TestCase
   end
 
   test 'cannot be an admin on more organizations than you are a member of' do
-    refute org.admins > org.members
+    refute org.admins.count > org.members.count
   end
 
   private

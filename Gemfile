@@ -29,6 +29,7 @@ gem 'geometry' # Simple geometry constructor
 gem 'wannabe_bool', '0.3.0' # Convert to boolean
 gem 'stamp' # Easier timestamps
 gem 'geocoder'
+gem 'browser' # Detect browser version
 
 # Forms & Presenters
 gem 'virtus'       # Form objects
@@ -101,4 +102,5 @@ end
 group :staging, :production do
   gem 'rails_12factor'
   gem 'newrelic_rpm'
+  gem 'scout_apm'
 end

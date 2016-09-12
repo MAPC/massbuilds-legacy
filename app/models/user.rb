@@ -38,7 +38,11 @@ class User < ActiveRecord::Base
 
   # TODO: Rewrite as SQL or relation
   def moderated_developments
-    organizations.flat_map(&:_developments)
+    if member_of_admin_org?
+      Development.includes(:edits).where(edits: { state: :pending })
+    else
+      organizations.flat_map(&:_developments)
+    end
   end
 
   def owned_organizations
@@ -51,7 +55,8 @@ class User < ActiveRecord::Base
 
   def moderator_for?(development)
     [
-      member_of_development_team?(development),
+      # Development team members cannot moderate developments at this time.
+      # member_of_development_team?(development),
       member_of_municipal_org?(development),
       member_of_admin_org?
     ].any?

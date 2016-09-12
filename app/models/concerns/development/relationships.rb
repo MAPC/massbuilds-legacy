@@ -16,7 +16,11 @@ class Development
         dependent:     :destroy
 
       has_many :team_members, through: :team_memberships, source: :organization
-      has_many :moderators,   through: :team_members,     source: :members
+
+      # This relationship name is only accurate if the organization is municipal.
+      # Since the check is on the user model (#moderator_for?), we don't change
+      # the scope here.
+      has_many :moderators, through: :team_members, source: :members
 
       has_many :subscriptions, as: :subscribable
       has_many :subscribers,   through: :subscriptions, source: :user

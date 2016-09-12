@@ -6,7 +6,7 @@ module SessionHelpers
 
     visit signup_path if visit
 
-    fill_in 'Email',    with: email
+    fill_in 'Email address',    with: email
     fill_in 'Password', with: password
     fill_in 'Password confirmation', with: password
     click_button 'Sign up' if submit
@@ -14,7 +14,7 @@ module SessionHelpers
 
   def sign_in(user, options = {})
     visit signin_path if options.fetch(:visit, false)
-    fill_in 'Email',    with: options.fetch(:email)    { user.email }
+    fill_in 'Email address',    with: options.fetch(:email)    { user.email }
     fill_in 'Password', with: options.fetch(:password) { user.password }
     check_remember_box(options)
     click_button 'Log in' if options.fetch(:submit, false)
@@ -27,7 +27,7 @@ module SessionHelpers
 
   def request_password_reset_for(user, options = {})
     visit new_password_reset_path
-    fill_in 'Email', with: options.fetch(:email) { user.email }
+    fill_in 'Email address', with: options.fetch(:email) { user.email }
     click_button 'Request password reset'
   end
 

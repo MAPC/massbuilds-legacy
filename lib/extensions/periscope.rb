@@ -29,9 +29,9 @@ module Periscope
   #   WHERE NUMERIC_VALUE BETWEEN 100 AND 200
   # Otherwise, if there is only one value, it will look up the value, like
   #   WHERE NUMERIC_VALUE = 100
-  def range_or_value_scope(name)
+  def range_or_value_scope(attribute)
     Proc.new do |min, max|
-      max ? where(name => min..max) : where(name => min)
+      max ? where(attribute => min..max) : where(attribute => min)
     end
   end
 
@@ -39,13 +39,9 @@ module Periscope
   # the attribute name is present in the Periscope query.
   # TODO: It might be more reliable to cast this to a boolean before working
   #   with it, but this is a good first pass.
-  def _boolean_scope(name)
+  def _boolean_scope(attribute)
     Proc.new do |*bools|
-      if [false, nil].include? bools.first.to_b
-        where(name => [false, nil])
-      else
-        where(name => true)
-      end
+      where(attribute => bools.map(&:to_b))
     end
   end
 

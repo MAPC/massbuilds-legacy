@@ -20,8 +20,8 @@ class Development
 
       def column_range(col)
         minmax = {
-          max: Development.maximum(col.name),
-          min: Development.minimum(col.name)
+          max: Development.unscope(:includes).maximum(col.name),
+          min: Development.unscope(:includes).minimum(col.name)
         }
         [col.name.to_sym, minmax]
       end

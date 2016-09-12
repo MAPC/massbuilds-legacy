@@ -1,0 +1,51 @@
+:css
+  .ui.masthead.segment {
+     background-color: white;
+     color: black;
+   }
+
+:ruby
+
+  @browsers = [
+    ['firefox', 'https://www.mozilla.org/en-US/firefox/new/'],
+    ['internet-explorer', 'https://www.microsoft.com/en-us/download/internet-explorer.aspx'],
+    ['chrome', 'https://www.google.com/chrome/browser/desktop/']
+  ]
+
+
+/ Following Menu
+.ui.large.top.fixed.borderless.hidden.menu
+  .ui.container
+    %a.active.item Home
+    = link_to 'Developments', developments_path, class: 'item'
+    = link_to 'Teams', organizations_path, class: 'item'
+    = render partial: 'shared/signed_in_header'
+
+/ Page Contents
+.pusher
+  .ui.inverted.vertical.masthead.center.aligned.segment
+    .ui.container
+      .ui.large.secondary.menu
+        %a.active.item Home
+        = link_to 'Developments', developments_path, class: 'item'
+        = link_to 'Teams', organizations_path, class: 'item'
+        = render partial: 'shared/signed_in_header'
+    .ui.text.container
+      %h1.ui.header
+        Sorry&mdash;
+      %h2
+        It looks like your browser doesn't have the features we need in order to
+        give you a great MassBuilds experience.
+      %h2
+        We recommend upgrading to any one of these browsers.
+
+      - @browsers.each do |slug, browser_url|
+        = link_to browser_url do
+          - src = "https://raw.githubusercontent.com/alrra/browser-logos/master/#{slug}/#{slug}_128x128.png"
+          = image_tag src, target: '_blank', style: 'max-width: 100px; padding: 10px;'
+
+      %p
+        You are currently using
+        = succeed '.' do
+          = browser.name.presence || 'Unknown browser'
+          = browser.version.presence || ', unknown version'
