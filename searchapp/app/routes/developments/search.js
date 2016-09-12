@@ -33,7 +33,7 @@ export default Ember.Route.extend(InfinityRoute, {
 
   filters: ["year_compl","tothu","commsf","name","address","municipality","redevelopment", 
                   "status", "asofright", "age_restricted", "clusteros", 
-                  "phased", "cancelled", "private","saved","status", "place_id", "neighborhood_ids"],
+                  "phased", "cancelled", "private","saved","status", "place_id"],
   model(params) {
     this.set("storedParams", params);
     var queryObject = { filter: {} };
