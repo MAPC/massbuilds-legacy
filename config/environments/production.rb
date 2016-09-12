@@ -35,6 +35,11 @@ Rails.application.configure do
   # yet still be able to expire them through the digest params.
   config.assets.digest = true
 
+  # Suppress output of asset requests, per
+  #   https://github.com/rails/sprockets-rails/pull/355
+  #   https://github.com/evrone/quiet_assets
+  config.assets.quiet = true
+
   # `config.assets.precompile` and `config.assets.version` have moved to config/initializers/assets.rb
 
   # Specifies the header that your server uses for sending files.
@@ -46,7 +51,7 @@ Rails.application.configure do
 
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
-  config.log_level = :debug
+  config.log_level = (ENV['LOG_LEVEL'] || 'debug').downcase.to_sym
 
   # Prepend all log lines with the following tags.
   # config.log_tags = [ :subdomain, :uuid ]
