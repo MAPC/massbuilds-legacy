@@ -260,6 +260,8 @@ GEM
       slop (~> 3.4)
     puma (3.4.0)
     rack (1.6.4)
+    rack-attack (5.0.1)
+      rack
     rack-cors (0.4.0)
     rack-test (0.6.3)
       rack (>= 1.0)
@@ -439,6 +441,7 @@ DEPENDENCIES
   pg
   pg_search
   puma
+  rack-attack
   rack-cors
   rails (= 4.2.5.1)
   rails_12factor
