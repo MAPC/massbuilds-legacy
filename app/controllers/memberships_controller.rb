@@ -15,7 +15,7 @@ class MembershipsController < ApplicationController
   end
 
   def deactivate
-    membership = membership_by_params
+    membership = Membership.find(membership_params[:id])
     if membership.deactivated.save
       flash[:success] = 'Membership deactivated.'
     else
@@ -28,7 +28,7 @@ class MembershipsController < ApplicationController
     membership = Membership.find(params[:id])
     membership.activated
     if membership.save
-      flash[:success] = "Membership approved."
+      flash[:success] = "Membership approved / activated."
     else
       flash[:error] = "Something went wrong."
     end

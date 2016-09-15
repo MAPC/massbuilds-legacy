@@ -51,7 +51,7 @@ Rails.application.routes.draw do
 
   resources :organizations, except: [:destroy] do
     post :join,  to: 'memberships#join',       on: :member
-    post :leave, to: 'memberships#deactivate', on: :member
+    put  :leave, to: 'memberships#deactivate', on: :member
     get  :admin, to: 'memberships#admin',      on: :member
   end
 
@@ -67,17 +67,17 @@ Rails.application.routes.draw do
     get :dashboard, on: :member
     resources :memberships, only: [:deactivate, :activate] do
       put :deactivate
-      post :activate
+      put :activate
     end
   end
 
   resources :memberships do
     member do
-      post :approve
-      post :activate, to: 'memberships#approve'
-      put  :decline
-      post :promote
-      put  :deactivate
+      put :approve
+      put :activate, to: 'memberships#approve'
+      put :decline
+      put :promote
+      put :deactivate
     end
   end
 

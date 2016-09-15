@@ -40,5 +40,7 @@ module Ddmodels2
         resource '*', headers: :any, methods: [:get, :post, :put, :patch, :delete]
       end
     end
+
+    config.middleware.use Rack::Attack
   end
 end

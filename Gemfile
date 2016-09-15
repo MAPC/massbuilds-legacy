@@ -65,6 +65,7 @@ gem 'versionist'
 gem 'puma'
 gem 'airbrake', '~> 5.2'              # Error reporting
 gem 'rack-cors', require: 'rack/cors' # CORS Headers
+gem 'rack-attack' # Block abusive clients
 
 group :development do
   gem 'foreman', require: false
