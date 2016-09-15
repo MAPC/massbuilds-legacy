@@ -6,7 +6,7 @@ export default DS.Model.extend({
   description: DS.attr("string"),
   status: DS.attr("string"),
   year_compl: DS.attr("number"),
-  // log_entry: DS.attr("string"),
+  program: DS.attr("string"),
   
   redevelopment: DS.attr("boolean"),
   asofright: DS.attr("boolean"), 
@@ -15,6 +15,7 @@ export default DS.Model.extend({
   phased: DS.attr("boolean"), 
   cancelled: DS.attr("boolean"), 
   "private": DS.attr("boolean"), 
+
   onsitepark: DS.attr("number"),
 
   address: DS.attr("string"),
@@ -27,8 +28,11 @@ export default DS.Model.extend({
      if (longitude && latitude) { return [longitude, latitude]; } else 
                                 { return undefined; }
   }.property("latitude", "longitude"),
-  street_view_latitude: DS.attr("number"),
-  street_view_longitude: DS.attr("number"),
+
+  street_view_latitude: DS.attr("number", { defaultValue: (model) => { return model.get('latitude'); } }),
+  favoriteThings: DS.attr('object', { defaultValue: () => {} }),
+  street_view_longitude: DS.attr("number", { defaultValue: (model) => { return model.get('longitude'); } }),
+
   street_view_heading: DS.attr("number"),
   street_view_pitch: DS.attr("number"),
 

@@ -32,8 +32,8 @@ export default Ember.Controller.extend({
     },
     positionChanged(state) {
       var model = this.get("model");
-      model.set("latitude", state.lat)
-      model.set("longitude", state.lng)
+      model.set("street_view_latitude", state.lat)
+      model.set("street_view_longitude", state.lng)
     },
     removeMembership(item) {
       item.destroyRecord();
@@ -71,6 +71,8 @@ export default Ember.Controller.extend({
   // sets defaults in case undefined. defaults should be set on the model.
   pointOfView: function() {
     var model = this.get("model");
+    var lat = this.get("latitude");
+    var lon = this.get("longitude")
     return {
       heading: model.get("street_view_heading") || 30,
       pitch: model.get("street_view_pitch") || 5
@@ -121,7 +123,7 @@ export default Ember.Controller.extend({
 
   resetRefinements: function() {
     var model = this.get("model");
-    model.set("street_view_latitude", model.get("latitude"));
-    model.set("street_view_longitude", model.get("longitude"));
+    // model.set("street_view_latitude", model.get("latitude"));
+    // model.set("street_view_longitude", model.get("longitude"));
   }.observes("this.model.location")
 });

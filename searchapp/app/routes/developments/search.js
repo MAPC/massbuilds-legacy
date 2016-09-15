@@ -27,13 +27,13 @@ export default Ember.Route.extend(InfinityRoute, {
     cancelled: { refreshModel: true },
     'private': { refreshModel: true },
     saved: { refreshModel: true },
-    status: { refreshModel: true },
+    // status: { refreshModel: true },
     place_id: { refreshModel: true }
   },
 
   filters: ["year_compl","tothu","commsf","name","address","municipality","redevelopment", 
                   "status", "asofright", "age_restricted", "clusteros", 
-                  "phased", "cancelled", "private","saved","status", "place_id", "neighborhood_ids"],
+                  "phased", "cancelled", "private","saved","status", "place_id"],
   model(params) {
     this.set("storedParams", params);
     var queryObject = { filter: {} };
@@ -102,17 +102,17 @@ export default Ember.Route.extend(InfinityRoute, {
 
   getSearchLimits: function() {
     //http://api.lvh.me:5000/searches/limits
-    var host = this.store.adapterFor('application').get('host'),
-    endpoint = 'searches/limits';
+    // var host = this.store.adapterFor('application').get('host'),
+    // endpoint = 'searches/limits';
 
-    Ember.$.ajax({
-        url: `${host}/${endpoint}`,
-        // your other details...
-    }).then((resolve) => {
-        // self.set('name', resolve.doc.name);
-        this.controllerFor('developments.search').set("limits", resolve);
-        // process the result...
-    });
+    // Ember.$.ajax({
+    //     url: `${host}/${endpoint}`,
+    //     // your other details...
+    // }).then((resolve) => {
+    //     // self.set('name', resolve.doc.name);
+    //     this.controllerFor('developments.search').set("limits", resolve);
+    //     // process the result...
+    // });
   },
 
   getExportFilters: function() {
