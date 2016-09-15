@@ -1,3 +1,6 @@
+- confirm_promote = "Are you sure you want to make this user an administrator? You cannot undo this action."
+- confirm_deactivate = "Are you sure you want to deactivate this member?"
+- confirm_activate = "Are you sure you want to reactivate this member?"
 
 %h2.ui.header.page-header Memberships
 
@@ -18,7 +21,7 @@
           %tr
             %td= link_to "#{membership.user.first_name} #{membership.user.last_name} (View Profile)", membership.user
             %td
-              = link_to approve_membership_path(membership), method: :post do
+              = link_to approve_membership_path(membership), method: :put do
                 %button.ui.green.button
                   %i.checkmark.icon
                   Approve
@@ -30,7 +33,7 @@
 
 .row
 
-  %h3 Active Members
+  %h3 Members
 
   %table.ui.compact.table
     %thead
@@ -38,11 +41,19 @@
         %th Name
         %th
         %th
+        %th
     %tbody
-      - @memberships.select(&:active?).each do |membership|
+      - @memberships.map {|m| [m, m.user] }.each do |membership, user|
         %tr
-          %td= link_to "#{membership.user.first_name} #{membership.user.last_name} (View Profile)", membership.user
+          %td= link_to "#{user.first_name} #{user.last_name} (#{user.email})", user
+          %td.collapsing
+            = link_to user do
+              %button.ui.basic.button
+                %i.user.icon
+                View
+
           - if membership.user.admin_of?(membership.organization)
+
             %td.collapsing
               %button.ui.blue.disabled.button
                 %i.circle.chevron.up.icon
@@ -51,14 +62,26 @@
               %button.ui.red.basic.disabled.button
                 %i.angle.down.icon
                 Deactivate
+
           - else
-            %td.collapsing
-              = link_to promote_membership_path(membership), method: :post, data: { confirm: "Are you sure you want to make this user an administrator?" } do
-                %button.ui.blue.button
+            - if membership.active?
+              %td.collapsing
+                = link_to promote_membership_path(membership), method: :put, data: { confirm: confirm_promote } do
+                  %button.ui.blue.button
+                    %i.circle.chevron.up.icon
+                    Promote
+              %td.collapsing
+                = link_to deactivate_membership_path(membership), method: :put, data: { confirm: confirm_deactivate } do
+                  %button.ui.red.basic.button
+                    %i.angle.down.icon
+                    Deactivate
+            - else
+              %td.collapsing
+                %button.ui.disabled.blue.button
                   %i.circle.chevron.up.icon
                   Promote
-            %td.collapsing
-              = link_to deactivate_membership_path(membership), method: :put, data: { confirm: "Are you sure you want to remove this member from your organization? You cannot undo this action." } do
-                %button.ui.red.basic.button
-                  %i.angle.down.icon
-                  Deactivate
+              %td.collapsing
+                = link_to activate_membership_path(membership), method: :put, data: { confirm: confirm_activate } do
+                  %button.ui.green.basic.button
+                    %i.angle.up.icon
+                    Reactivate

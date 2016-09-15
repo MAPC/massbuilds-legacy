@@ -4,12 +4,12 @@
   .ui.container
     .ui.stackable.inverted.divided.equal.height.stackable.grid
       .three.wide.column
-        %h4.ui.inverted.header Resources
+        -# %h4.ui.inverted.header Resources
         .ui.inverted.link.list
-          = link_to 'Developments', developments_path,  class: 'item'
-          = link_to 'Teams',        organizations_path, class: 'item'
+          = link_to 'Developments',  developments_path,  class: 'item'
+          = link_to 'Organizations', organizations_path, class: 'item'
       .three.wide.column
-        %h4.ui.inverted.header Pages
+        -# %h4.ui.inverted.header Pages
         .ui.inverted.link.list
           = link_to 'Sign Up', signup_path, class: 'item'
           = link_to 'Sign In', signin_path, class: 'item'
