@@ -2,9 +2,15 @@ import Ember from 'ember';
 import ENV from "../config/environment";
 
 export default Ember.Component.extend({
+  wheres: [],
   sql_export: function() {
     let string = ENV.sqlFields.toString();
-    let sql = "SELECT " + string + " FROM developments";
+    let sql = "SELECT " + string + " FROM developments ";
+    let wheres = this.get('wheres');
+    if (wheres[0]) {
+      sql += "WHERE";
+      sql += wheres.join(' AND ');
+    }
     return sql.toString();
   }.property('sql'),
   sql_obj: function() {
@@ -16,7 +22,8 @@ export default Ember.Component.extend({
                           "ST_Transform(ST_GeomFromEWKT(point),3857) AS the_geom_webmercator"];
 
     var sql = "SELECT " + baseSqlFields.toString() + " FROM developments ";
-    var wheres = [];
+    var wheres = this.get('wheres');
+    console.log(this.get('yearFrom'));
     if(this.get('yearFrom') && this.get('yearTo')) {
       wheres.push(" year_compl BETWEEN " + this.get('yearFrom') + " and " + this.get('yearTo'));
     }
