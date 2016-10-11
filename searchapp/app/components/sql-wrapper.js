@@ -17,13 +17,13 @@ export default Ember.Component.extend({
     return this.get('sql_obj')
   }.property('sql'),
   sql: function() {
+    this.wheres = [];
     let baseSqlFields = ["id", "name", "to_date(year_compl::varchar, \'yyyy\')",
                           "status","cartodb_id","ST_GeomFromEWKT(point) AS the_geom", 
                           "ST_Transform(ST_GeomFromEWKT(point),3857) AS the_geom_webmercator"];
 
     var sql = "SELECT " + baseSqlFields.toString() + " FROM developments ";
     var wheres = this.get('wheres');
-    console.log(this.get('yearFrom'));
     if(this.get('yearFrom') && this.get('yearTo')) {
       wheres.push(" year_compl BETWEEN " + this.get('yearFrom') + " and " + this.get('yearTo'));
     }
@@ -73,6 +73,7 @@ export default Ember.Component.extend({
 
     // order by
     sql += " ORDER BY status DESC";
+    console.log(sql);
     return sql;
   }.property('yearFrom,yearTo,sqftFrom,sqftTo,tothuFrom,tothuTo,status,redevelopment,asofright,age_restricted,clusteros,phased,cancelled,private,place_id')
 });

@@ -14,7 +14,7 @@ export default Ember.Component.extend({
     console.log(this.get("blue"));
     // this.toggleProperty("field");
     if (!!this.get('field')) {
-      this.set('field', null);
+      this.set('field', false);
     } else {
       this.set('field', true);
     }
