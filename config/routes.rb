@@ -1,5 +1,5 @@
 require 'api_version'
-require 'subdomain_constraint'
+require 'constraint'
 
 Rails.application.routes.draw do
 
@@ -13,9 +13,9 @@ Rails.application.routes.draw do
     action:     'new',
     as:         :new_development
 
-  namespace :api, constraints: SubdomainConstraint.new(/^api/), path: '' do
+  namespace :api, constraints: [Constraint.new(/^api/, :host)], path: '' do
     get 'searches/limits', to: 'searches#limits'
-    api_version(APIVersion.new(version: 1, default: true).params) do
+    api_version APIVersion.v(1, default: true) do
       jsonapi_resources :developments,  except: [:destroy]
       jsonapi_resources :searches,      only: [:index, :show, :create, :destroy]
       jsonapi_resources :subscriptions, only: [:create, :destroy]
@@ -25,8 +25,15 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'developments/map',  to: 'developments#index', rest: '/map',  ember_app: :searchapp
-  get 'developments/table', to: 'developments#index', rest: '/table', ember_app: :searchapp
+  get 'developments/map',
+    to:        'developments#index',
+    rest:      '/map',
+    ember_app: :searchapp
+
+  get 'developments/table',
+    to:        'developments#index',
+    rest:      '/table',
+    ember_app: :searchapp
 
   resources :developments, only: [:show] do
     get :image, on: :member
