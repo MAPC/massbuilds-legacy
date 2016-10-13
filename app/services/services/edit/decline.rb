@@ -4,8 +4,12 @@ class Services::Edit::Decline < Services::Edit::Moderate
     @edit.moderatable?
   end
 
+  def state
+    :declined
+  end
+
   def perform(*args)
-    @edit.declined
+    @edit.send state
     @edit.save!
   end
 

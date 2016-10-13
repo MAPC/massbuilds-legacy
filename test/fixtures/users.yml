@@ -1,6 +1,6 @@
 normal:
   email: mcloyd@mapc.org
-  encrypted_password: <%= BCrypt::Password.create("password", cost: BCrypt::Engine::MIN_COST) %>
+  encrypted_password: <%= default_password_digest %>
   first_name: Matt
   last_name: Cloyd
 

@@ -15,6 +15,12 @@ class Services::Edit::Moderate
     _call(*args)
   end
 
+  def state
+    raise NotImplementedError, %q{
+      What method should be sent to set the state at the end of this service?
+    }
+  end
+
   protected
 
   # In subclasses, override #perform to describe what the service should do.

@@ -57,6 +57,7 @@ class User < ActiveRecord::Base
     [
       # Development team members cannot moderate developments at this time.
       # member_of_development_team?(development),
+      moderated_developments.include?(development),
       member_of_municipal_org?(development),
       member_of_admin_org?
     ].any?

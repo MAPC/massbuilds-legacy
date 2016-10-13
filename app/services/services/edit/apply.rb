@@ -4,10 +4,14 @@ class Services::Edit::Apply < Services::Edit::Moderate
     @edit.applyable?
   end
 
+  def state
+    :applied
+  end
+
   def perform
     ActiveRecord::Base.transaction do
       if @development.update_attributes(@edit.assignable)
-        @edit.applied
+        @edit.send state
         @edit.save!
       end
     end
