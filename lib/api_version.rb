@@ -1,13 +1,18 @@
-class APIVersion
+module APIVersion
 
   attr_reader :version, :default
 
-  def initialize(version: , default: false)
+  def self.version(version, default: false)
     @version = version.to_i
     @default = default
+    return params
   end
 
-  def params
+  class << self
+    alias_method :v, :version
+  end
+
+  def self.params
     {
       module:    module_name,
       header:    header,
@@ -18,18 +23,18 @@ class APIVersion
 
   private
 
-  def module_name
+  def self.module_name
     "V#{@version}"
   end
 
-  def header
+  def self.header
     {
       name:  "Accept",
-      value: "application/vnd.api+json; application/org.dd.v#{@version}"
+      value: "application/vnd.api+json; application/org.massbuilds.v#{@version}"
     }
   end
 
-  def parameter
+  def self.parameter
     { name: "version", value: @version.to_s }
   end
 
