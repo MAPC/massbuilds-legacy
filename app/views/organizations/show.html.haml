@@ -22,7 +22,7 @@
         .ui.fluid.card
           - if current_user.member_of? @organization
             -# TODO: Partial me
-            %a.image{ href: 'https://en.gravatar.com/site/login', target: '_blank' }
+            %a.image{ href: 'https://en.gravatar.com/site/login', target: '_blank', rel: :nofollow }
               %img{ src: @organization.gravatar_url }
           - else
             .image
@@ -42,13 +42,13 @@
             %span#website
               - if @organization.website.present?
                 %i.linkify.icon
-                = link_to @organization.website
+                = link_to @organization.website, rel: :nofollow
                 &nbsp;
                 &nbsp;
             %span#email
               - if @organization.email.present?
                 %i.mail.outline.icon
-                = link_to @organization.email
+                = mail_to @organization.email
                 &nbsp;
                 &nbsp;
             %span#status

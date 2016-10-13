@@ -84,8 +84,8 @@ Rails.application.routes.draw do
   # Custom routes for High Voltage
   #   See: https://github.com/thoughtbot/high_voltage#override
   get "/pages/*id" => 'pages#show', as: :page, format: false
-
   get '/upgrade' => 'pages#show', id: 'upgrade', as: :upgrade
+  get '/robots.txt' => 'pages#robots'
 
   root to: 'pages#show', id: 'home'
 

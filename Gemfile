@@ -62,13 +62,14 @@ gem 'api-pagination'    # Paginates API in headers
 gem 'versionist'
 
 # Server
-gem 'puma'
-gem 'airbrake', '~> 5.2'              # Error reporting
+gem 'puma' # Concurrent web server
+gem 'airbrake', '~> 5.2' # Error reporting
 gem 'rack-cors', require: 'rack/cors' # CORS Headers
 gem 'rack-attack' # Block abusive clients
 
 group :development do
-  gem 'foreman', require: false
+  gem 'dotenv-rails'      # Load environment without Foreman
+  gem 'foreman'           # Run processes
   gem 'spring'            # Keeps environment in background
   gem 'better_errors'     # Clearer error messages
   gem 'binding_of_caller' # REPL & more in error page

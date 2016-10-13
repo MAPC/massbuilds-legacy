@@ -1,2 +1,20 @@
+languages:
+  Ruby: true
+  JavaScript: true
+  Python: false
+  PHP: false
+
+engines:
+  rubocop:
+    enabled: true
+  eslint:
+    enabled: true
+
+ratings:
+   paths:
+   - "app/**/*"
+   - "lib/**/*"
+   - "**.rb"
+
 exclude_paths:
   - searchapp/**/*
