@@ -101,18 +101,18 @@ export default Ember.Route.extend(InfinityRoute, {
   },
 
   getSearchLimits: function() {
-    //http://api.lvh.me:5000/searches/limits
-    // var host = this.store.adapterFor('application').get('host'),
-    // endpoint = 'searches/limits';
+    http://api.lvh.me:5000/searches/limits
+    var host = this.store.adapterFor('application').get('host'),
+    endpoint = 'searches/limits';
 
-    // Ember.$.ajax({
-    //     url: `${host}/${endpoint}`,
-    //     // your other details...
-    // }).then((resolve) => {
-    //     // self.set('name', resolve.doc.name);
-    //     this.controllerFor('developments.search').set("limits", resolve);
-    //     // process the result...
-    // });
+    Ember.$.ajax({
+        url: `${host}/${endpoint}`,
+        // your other details...
+    }).then((resolve) => {
+        // self.set('name', resolve.doc.name);
+        this.controllerFor('developments.search').set("limits", resolve);
+        // process the result...
+    });
   },
 
   getExportFilters: function() {

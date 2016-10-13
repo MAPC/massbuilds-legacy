@@ -6,7 +6,7 @@ export default DS.Model.extend({
   description: DS.attr("string"),
   status: DS.attr("string"),
   year_compl: DS.attr("number"),
-  program: DS.attr("string"),
+  // program: DS.attr("string"),
   
   redevelopment: DS.attr("boolean"),
   asofright: DS.attr("boolean"), 
@@ -30,7 +30,6 @@ export default DS.Model.extend({
   }.property("latitude", "longitude"),
 
   street_view_latitude: DS.attr("number", { defaultValue: (model) => { return model.get('latitude'); } }),
-  favoriteThings: DS.attr('object', { defaultValue: () => {} }),
   street_view_longitude: DS.attr("number", { defaultValue: (model) => { return model.get('longitude'); } }),
 
   street_view_heading: DS.attr("number"),
