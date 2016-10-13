@@ -79,6 +79,12 @@ class Edit < ActiveRecord::Base
     fields.map { |field| { name: field.name }.merge(field.change) }
   end
 
+  def assignable
+    # Could also be written referencing #diff, and rejecting a key.
+    # Or send a parameter to diff to reject a key.
+    Hash[fields.map { |f| [f.name, f.to] }]
+  end
+
   alias_method :conflict,  :conflicts
   alias_method :conflict?, :conflicts?
 
