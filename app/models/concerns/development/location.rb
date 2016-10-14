@@ -50,46 +50,27 @@ class Development
       OpenStruct.new(id: 123)
     end
 
-    def street_view
-      @street_view ||= StreetView.new(self)
-    end
-
     def walkscore
       @walkscore ||= WalkScore.new content: read_attribute(:walkscore)
     end
 
-    def get_walkscore
-      self.walkscore = WalkScore.new(lat: latitude, lon: longitude).to_h
+    def street_view
+      @street_view_client
     end
 
-    # TODO: Refactor into fully-tested (> 90%) service object.
-    #
-    #   Spec:
-    #     - If there is a subway stop in the list, use it.
-    #     - If there is no subway stop in the list, use the nearest bus stop.
-    #     - If there are no nearby transit results, return nil.
-    #  Additionally:
-    #  - Remember to add a 'none' display in the view if there is no transit.
-    #  - Keep using Net::HTTP - no gem needed for something this simple.
-    #
-    def get_nearest_transit
-      key = 'parent_station_name'
+    # In tests, we can set the clients for external services to fakes.
+    attr_writer :nearest_transit_client, :street_view_client, :walkscore_client
 
-      url = "http://realtime.mbta.com/developer/api/v2/stopsbylocation?"
-      url << "api_key=#{ENV['MBTA_API_KEY']}"
-      url << "&lat=#{latitude.to_f}&lon=#{longitude.to_f}&format=json"
+    def nearest_transit_client
+      @nearest_transit_client ||= NearestTransit.new(lat: self.latitude, lon: self.longitude)
+    end
 
-      json = JSON.parse(Net::HTTP.get_response(URI(url)).body)
+    def street_view_client
+      @street_view_client ||= StreetView.new(self)
+    end
 
-      station = json['stop'].detect { |e| e[key].present? }
-      name = if station
-        station[key]
-      else
-        "Bus stop: #{json['stop'].first['stop_name']}"
-      end
-      self.nearest_transit = name
-    rescue StandardError => e
-      self.nearest_transit = "" # Return current value or empty string
+    def walkscore_client
+      @walkscore_client ||= WalkScore.new(lat: latitude, lon: longitude)
     end
 
   end

@@ -19,6 +19,10 @@ class StreetView
     end
   end
 
+  def sendable_data
+    [image, type: 'image/jpg', disposition: 'inline']
+  end
+
   def data
     "data:image/jpg;base64,#{Base64.encode64(image)}"
   end
@@ -91,12 +95,12 @@ class StreetView
 
   def defaults
     OpenStruct.new(
-      latitude: 42.3547661,
+      latitude:   42.3547661,
       longitude: -71.0615689,
-      size: 600,
-      pitch: 28,
-      heading: 35,
-      fov: 100
+      size:      600,
+      pitch:      28,
+      heading:    35,
+      fov:       100
     )
   end
 

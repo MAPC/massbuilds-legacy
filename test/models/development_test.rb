@@ -2,14 +2,15 @@ require 'test_helper'
 
 class DevelopmentTest < ActiveSupport::TestCase
 
-  def setup
-    stub_street_view
-    stub_walkscore
-    stub_mbta
-  end
+  include ExternalServices::Fakes
 
   def development
     @development ||= developments :one
+    mock_out @development
+  end
+
+  def new_development(*args)
+    mock_out Development.new(*args)
   end
 
   alias_method :d, :development
@@ -28,24 +29,10 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_not d.valid?
   end
 
-  test 'can read attributes from fields, as methods' do
-    assert_nothing_raised { d.name }
-    assert_equal 'Godfrey Hotel', d.name
-  end
-
-  test 'raises NoMethodError when attribute not present' do
-    assert_raises(NoMethodError) { d.blerg }
-  end
-
-  test 'raises when attribute absent' do
-    assert_raises(NoMethodError) {
-      d.assign_attributes ov_hupipe_not: 10
-    }
-  end
-
   test 'literal attributes' do
+    # Could move this into the i18n settings / locales
     %i( affordable asofright cancelled clusteros commsf
-        created_at crosswalks desc emploss estemp fa_edinst
+        created_at desc emploss estemp fa_edinst
         fa_hotel fa_indmf fa_ofcmd fa_other fa_ret fa_rnd fa_whs
         gqpop lgmultifam location mapc_notes onsitepark other_rate
         ovr55 phased private prjarea project_url rdv
@@ -68,12 +55,14 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_respond_to d, :zip_code
     assert_respond_to d, :zip
     d.zip_code = '02139'
+    assert d.valid?
   end
 
   test 'accepts 9-digit zip codes' do
     d.zip_code = input = '02139-1112'
+    assert d.valid?
     d.save!
-    assert_equal '021391112',  d.read_attribute(:zip_code)
+    assert_equal '021391112', d.read_attribute(:zip_code)
     assert_equal input, d.zip_code
   end
 
@@ -81,87 +70,82 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'associations' do
     # #recent_changes -> presenter
-    %i( contributors creator crosswalks edits flags history
-        parcel team_members
+    %i(
+        contributors creator edits editors flags history parcel team_members
         team_memberships walkscore programs
       ).each do |attribute|
       assert_respond_to d, attribute
     end
   end
 
-  test '#mixed_use?' do
-    assert_respond_to Development.new, :mixed_use?
-    assert_respond_to Development.new, :mixed_use
-    refute Development.new.mixed_use?
-    refute Development.new(tothu:  1).mixed_use?
-    refute Development.new(commsf: 1).mixed_use?
-    assert Development.new(tothu: 1, commsf: 1).mixed_use?
+  test '#mixed_use? responds to attributes' do
+    assert_respond_to new_development, :mixed_use?
+    assert_respond_to new_development, :mixed_use
+    refute new_development.mixed_use?
+    refute new_development(tothu:  1).mixed_use?
+    refute new_development(commsf: 1).mixed_use?
+    assert new_development(tothu: 1, commsf: 1).mixed_use?
   end
 
-  test '#mixed_use? saves' do
-    stub_street_view lat: 42.3547661, lon: -71.0615689, heading: 0, pitch: 35
-    stub_walkscore lat: 0.0, lon: 0.0
-    stub_mbta lat: 0.0, lon: 0.0
-    dev = Development.new(tothu: 1, commsf: 1)
+  test '#mixed_use? prioritizes changed values over persisted values' do
+    dev = new_development(tothu: 1, commsf: 1)
     assert dev.mixed_use?
-    dev.save!(validate: false)
+    dev.save! validate: false
     assert dev.mixed_use?
     dev.tothu = 0
     refute dev.mixed_use?
   end
 
-  test '#edits' do
-    d.edits = []
-    assert_empty d.edits
-    d.edits << Edit.new
-    assert_not_empty d.edits
-  end
-
-  test '#history' do
+  test '#history is a collection of applied edits' do
     d.edits.new(applied: true).save(validate: false)
     assert_not_empty d.history
   end
 
   test '#pending' do
+    # These are set up in the fixtures.
     assert_not_empty d.edits.pending
   end
 
-  test '#contributors' do
-    user = users :normal
-    d.edits.new(editor: user, state: 'applied').save(validate: false)
-    assert_includes d.contributors, user
+  test '#contributors contains the creator' do
+    assert_includes d.contributors, d.creator
   end
 
-  test '#contributors pulls in unique users' do
+  test '#contributors is a collection of unique users with applied edits' do
     user = users :tim
+    refute_includes d.contributors, user # Is not the creator.
     3.times {
       d.edits.new(editor: user, state: 'applied').save(validate: false)
     }
-    d.creator = user
+    # Appears only once in the contributors list
     assert_equal 1, d.contributors.count, d.contributors
   end
 
-  test '#contributors does not include unapplied edits' do
+  test '#contributors excludes unapplied edits' do
     user = users :tim
-    d.edits.new(editor: user, state: 'pending').save(validate: false)
+    [:approved, :declined, :pending].each do |status|
+      d.edits.new(editor: user, state: status).save(validate: false)
+    end
     refute_includes d.contributors, user
   end
 
   test '#team_members' do
     org = organizations :mapc
     d.team_memberships.new(
-      organization: org, role: :developer
+      organization: org,
+      role: :developer
     ).save(validate: false)
     assert_includes d.team_members, org
   end
 
   test '#crosswalks' do
+    skip 'not yet implemented'
     org = organizations :mapc
     d.crosswalks.new(organization: org, internal_id: '1-1')
     assert_not_empty d.crosswalks
   end
 
   test '#programs' do
+    skip 're-implement this with Enumerize'
     d.programs << programs(:massworks)
     d.programs << programs(:forty_b)
     assert_equal 2, d.programs.count
@@ -219,18 +203,14 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'nearby developments' do
-    far_dev = developments(:one)
+    far_dev = mock_out(developments(:one))
     far_dev.latitude  =  40.000000
     far_dev.longitude = -77.000000
-    stub_walkscore(lat: far_dev.latitude, lon: far_dev.longitude)
-    stub_mbta(lat: far_dev.latitude, lon: far_dev.longitude)
     far_dev.save!
 
-    close_dev = developments(:two)
+    close_dev = mock_out(developments(:two))
     close_dev.latitude  =  39.010000
     close_dev.longitude = -75.990000
-    stub_walkscore(lat: close_dev.latitude, lon: close_dev.longitude)
-    stub_mbta(lat: close_dev.latitude, lon: close_dev.longitude)
     close_dev.save!
 
     close_devs = Development.close_to(39.000000, -76.000000).load
@@ -397,13 +377,14 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'street view' do
+    skip 'extract this'
     assert_respond_to development, :street_view
     assert_respond_to development.street_view, :url
     assert_respond_to development.street_view, :image
   end
 
   test 'cache street view' do
-    stub_street_view
+    skip 'should go elsewhere'
     assert_difference 'development.street_view_image.size', 21904 do
       development.update_attributes street_view_attrs
     end
@@ -414,10 +395,10 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'cache walk score' do
-    skip
+    skip 'extract this or simplify it'
     assert_respond_to development, :walkscore
     attrs = { 'id' => nil, street_view_heading: 0, street_view_pitch: 11 }
-    dev = Development.new(d.attributes.merge(attrs))
+    dev = new_development(d.attributes.merge(attrs))
     assert_empty dev.walkscore
     dev.save!
     assert_equal 98, dev.walkscore.score
@@ -425,8 +406,6 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'associate place' do
-    stub_walkscore(lat: 0.00)
-    stub_mbta lat: 0.0, lon: 71.000001
     place = places(:boston)
     d.place = nil
     Place.stub :contains, [place] do
@@ -436,8 +415,6 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'associate no place' do
-    stub_walkscore(lat: 0.00)
-    stub_mbta lat: 0.0, lon: 71.000001
     d.place = nil
     Place.stub :contains, [] do
       d.update_attribute(:latitude, 0.00)
@@ -446,6 +423,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'estimates employment' do
+    skip 'this an external service does this'
     d.estemp = nil
     d.commsf = d.fa_ret = 0
     d.save!
@@ -559,6 +537,7 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'nearest transit station' do
+    skip 'this is an external service'
     d.latitude_will_change! # This prompts an update.
     d.save
     assert_respond_to d, :nearest_transit
@@ -566,37 +545,15 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'infer project type' do
-    skip
+    skip 'not doing'
   end
 
   test 'applied edits result in contributors' do
-    skip
+    skip "there's already a test for this, and it's not good"
   end
 
   test 'description' do
     skip
-  end
-
-
-  private
-
-  def stub_street_view(lat: 42.000001, lon: 71.000001, heading: 0, pitch: 11)
-    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
-    stub_request(:get, "http://maps.googleapis.com/maps/api/streetview?fov=100&heading=#{heading}&key=loLOLol&location=#{lat},#{lon}&pitch=#{pitch}&size=600x600").
-      to_return(status: 200, body: file)
-  end
-
-  def stub_walkscore(lat: 42.000001, lon: 71.000001)
-    file = File.read('test/fixtures/walkscore/200.json')
-    stub_request(:get, "http://api.walkscore.com/score?format=json&lat=#{lat}&lon=#{lon}&wsapikey=").
-          with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'api.walkscore.com', 'User-Agent'=>'Ruby'}).
-          to_return(:status => 200, :body => file)
-  end
-
-  def stub_mbta(lat: 42.000001, lon: 71.000001)
-    file = File.read('test/fixtures/mbta/stopsbylocation.json')
-    stub_request(:get, "http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key=&format=json&lat=#{lat}&lon=#{lon}")
-      .to_return(status: 200, body: file)
   end
 
 end

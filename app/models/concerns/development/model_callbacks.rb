@@ -44,19 +44,19 @@ class Development
 
       def cache_street_view
         if street_view_fields_changed? || new_record?
-          self.street_view_image = street_view.image(cached: false)
+          self.street_view_image = self.street_view.image(cached: false)
         end
       end
 
       def update_walkscore
         if location_fields_changed? || new_record?
-          self.get_walkscore
+          self.walkscore = walkscore_client.get
         end
       end
 
       def update_nearest_transit
         if location_fields_changed? || new_record?
-          self.get_nearest_transit
+          self.nearest_transit = nearest_transit_client.get
         end
       end
 
@@ -65,9 +65,12 @@ class Development
       end
 
       def location_fields_changed?
-        [:latitude, :longitude, :street_view_latitude, :street_view_longitude].select { |f|
-          send("#{f}_changed?")
-        }.any?
+        [
+          :latitude,
+          :longitude,
+          :street_view_latitude,
+          :street_view_longitude
+        ].select { |field| send("#{field}_changed?") }.any?
       end
 
       def street_view_fields_changed?

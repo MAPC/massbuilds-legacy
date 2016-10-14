@@ -21,21 +21,24 @@ gem 'pg_search'
 # Users
 gem 'bcrypt'
 gem 'devise'
-gem 'authority'
+# Uncomment when we start needing authorizers
+# gem 'authority'
 
 # Utilities
 gem 'mailgun_rails'
-gem 'geometry' # Simple geometry constructor
+gem 'mbta-realtime', '0.1.4'
+# Uncomment when we start the KnowPlace integration
+# gem 'geometry' # Simple geometry constructor
 gem 'wannabe_bool', '0.3.0' # Convert to boolean
 gem 'stamp' # Easier timestamps
 gem 'geocoder'
 gem 'browser' # Detect browser version
 
 # Forms & Presenters
-gem 'virtus'       # Form objects
 gem 'burgundy'     # Tiny decorator/presenter library
-gem 'escape_utils' # Speeds up uri_template
-gem 'uri_template' # Rendering dynamic URLs
+# TODO: Uncomment these when we have crosswalks with dynamic URLs.
+# gem 'escape_utils' # Speeds up uri_template
+# gem 'uri_template' # Rendering dynamic URLs
 
 # Views
 gem 'haml-rails'   # Use HAML views
