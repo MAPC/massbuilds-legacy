@@ -1,4 +1,4 @@
-Authority.configure do |config|
+# Authority.configure do |config|
 
   # USER_METHOD
   # ===========
@@ -39,11 +39,11 @@ Authority.configure do |config|
   #
   # Defaults are as follows:
   #
-  config.abilities =  {
-    create:  'creatable',
-    read:    'readable',
-    update:  'updatable',
-    delete:  'deletable',
+  # config.abilities =  {
+  #   create:  'creatable',
+  #   read:    'readable',
+  #   update:  'updatable',
+  #   delete:  'deletable',
 
     # claim:   'claimable',
     # flag:    'flagable',
@@ -54,7 +54,7 @@ Authority.configure do |config|
 
     # join:       'joinable',
     # deactivate: 'deactivatable'
-  }
+  # }
 
   # Flags, Claims, and Memberships are all created resources. You should check
   # permissions on them with:
@@ -80,4 +80,4 @@ Authority.configure do |config|
   # config.logger = Logger.new('log/authority.log')  # Use this file
   # config.logger = Logger.new('/dev/null')          # Don't log at all (on a Unix system)
 
-end
+# end

@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  include Authority::UserAbilities
+  # include Authority::UserAbilities
   extend Enumerize
 
   before_save :hash_email
