@@ -8,7 +8,11 @@ class Development
 
       has_many :edits, dependent: :destroy
       has_many :flags, dependent: :destroy
-      has_many :crosswalks
+      # has_many :crosswalks
+
+      has_many :editors, -> { where edits: { applied: true } },
+        through:    :edits,
+        class_name: :User
 
       has_many :team_memberships,
         class_name:    :DevelopmentTeamMembership,
