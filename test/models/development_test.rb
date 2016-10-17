@@ -30,6 +30,17 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_not d.valid?
   end
 
+  test 'project url website' do
+    d.project_url = 'http://examp.le'
+    stub_request(:get, d.project_url).to_return(status: 200)
+    assert d.validate!
+
+    stub_request(:get, d.project_url).to_return(status: 500)
+    assert_raises ActiveRecord::RecordInvalid do
+      d.validate!
+    end
+  end
+
   test 'literal attributes' do
     # Could move this into the i18n settings / locales
     %i( affordable asofright cancelled clusteros commsf

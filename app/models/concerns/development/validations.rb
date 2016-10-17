@@ -20,6 +20,8 @@ class Development
                 allow_blank: true,
                 length: { minimum: 30, maximum: 500 }
 
+      validates_uri_existence_of :project_url, if: 'project_url.present?'
+
       # Advanced information
 
       with_options if: :requires_detailed_housing? do |record|
