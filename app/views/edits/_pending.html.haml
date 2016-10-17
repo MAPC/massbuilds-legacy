@@ -5,7 +5,7 @@
   %strong Reason:
   = edit.log_entry
 
-- if edit.conflict?
+- if edit.conflicts.any?
   .ui.basic.black.button.launch-modal{ data: { modal: "conflict-#{edit.id}" } }
     %i.right.arrow.icon
     Review Conflict

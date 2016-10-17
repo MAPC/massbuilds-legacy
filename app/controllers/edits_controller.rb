@@ -10,9 +10,6 @@ class EditsController < ApplicationController
   end
 
   def approve
-    # TODO: Get rid of this first line and the whole ignoring conflicts control.
-    # That can all be presentation logic.
-    @edit.update_attribute(:ignore_conflicts, true)
     moderate Services::Edit::Approve, @edit
   end
 

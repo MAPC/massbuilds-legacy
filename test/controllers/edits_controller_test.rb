@@ -33,7 +33,6 @@ class EditsControllerTest < ActionController::TestCase
   end
 
   test 'should approve' do
-    refute edit.conflict?, edit.conflict.inspect
     assert_difference 'Edit.applied.count', +1 do
       post :approve, development_id: development.id, id: edit.id
     end
