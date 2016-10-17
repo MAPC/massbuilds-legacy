@@ -59,13 +59,15 @@ class StreetView
   end
 
   def build_url
-    u =  "http://maps.googleapis.com/maps/api/streetview?"
-    u << "size=#{@width}x#{@height}"
-    u << "&location=#{latitude},#{longitude}"
-    u << "&fov=#{field_of_view}"
-    u << "&heading=#{heading}"
-    u << "&pitch=#{pitch}"
-    u << "&key=#{ENV['GOOGLE_API_KEY']}"
+    %W(
+      http://maps.googleapis.com/maps/api/streetview?
+      size=#{@width}x#{@height}
+      &location=#{latitude},#{longitude}
+      &fov=#{field_of_view}
+      &heading=#{heading}
+      &pitch=#{pitch}
+      &key=#{ENV['GOOGLE_API_KEY']}
+    )
   end
 
   def latitude

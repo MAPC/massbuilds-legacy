@@ -51,7 +51,7 @@ class Development
     end
 
     def street_view
-      @street_view_client
+      street_view_client
     end
 
     # In tests, we can set the clients for external services to fakes.
