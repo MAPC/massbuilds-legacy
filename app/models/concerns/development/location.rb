@@ -50,10 +50,6 @@ class Development
       OpenStruct.new(id: 123)
     end
 
-    def walkscore
-      @walkscore ||= WalkScore.new content: read_attribute(:walkscore)
-    end
-
     def street_view
       @street_view_client
     end
@@ -70,7 +66,7 @@ class Development
     end
 
     def walkscore_client
-      @walkscore_client ||= WalkScore.new(lat: latitude, lon: longitude)
+      @walkscore_client ||= WalkScore.new(self)
     end
 
   end

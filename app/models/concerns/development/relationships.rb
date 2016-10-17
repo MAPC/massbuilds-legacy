@@ -29,7 +29,13 @@ class Development
       has_many :subscriptions, as: :subscribable
       has_many :subscribers,   through: :subscriptions, source: :user
 
-      has_and_belongs_to_many :programs
+      # has_and_belongs_to_many :programs
+      enumerize :programs, in: [
+        "40B",
+        "40R",
+        "43D",
+        "MassWorks Infrastructure Program"
+      ], multiple: true
     end
 
   end

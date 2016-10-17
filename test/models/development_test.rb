@@ -3,6 +3,7 @@ require 'test_helper'
 class DevelopmentTest < ActiveSupport::TestCase
 
   include ExternalServices::Fakes
+  # TODO include DevelopmentTests::ValidationTest
 
   def development
     @development ||= developments :one
@@ -64,6 +65,17 @@ class DevelopmentTest < ActiveSupport::TestCase
     d.save!
     assert_equal '021391112', d.read_attribute(:zip_code)
     assert_equal input, d.zip_code
+  end
+
+  test 'description' do
+    d.description = ''
+    assert d.valid?
+
+    d.description = 'too short'
+    refute d.valid?
+
+    d.description = 'This is a property with some information about things.'
+    assert d.valid?
   end
 
   # Associations
@@ -130,27 +142,14 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test '#team_members' do
     org = organizations :mapc
-    d.team_memberships.new(
-      organization: org,
-      role: :developer
-    ).save(validate: false)
+    d.team_memberships.new(organization: org, role: :developer).
+      save(validate: false)
     assert_includes d.team_members, org
   end
 
-  test '#crosswalks' do
-    skip 'not yet implemented'
-    org = organizations :mapc
-    d.crosswalks.new(organization: org, internal_id: '1-1')
-    assert_not_empty d.crosswalks
-  end
-
   test '#programs' do
-    skip 're-implement this with Enumerize'
-    d.programs << programs(:massworks)
-    d.programs << programs(:forty_b)
+    d.programs = ["40B", "MassWorks Infrastructure Program"]
     assert_equal 2, d.programs.count
-    assert_equal 1, d.programs.incentive.count
-    assert_equal 1, d.programs.regulatory.count
   end
 
   test '#status' do
@@ -233,40 +232,6 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_includes d.subscribers, users(:normal)
   end
 
-  test 'range scopes, dates' do
-    range_scopes = %i( created_at updated_at )
-    range_scopes.each { |scope| assert_respond_to Development, scope }
-  end
-
-  test 'range scopes, float and integer' do
-    ranged_scopes.each { |scope| assert_respond_to Development, scope }
-  end
-
-
-  test 'boolean scopes' do
-    boolean_scopes.each { |s| assert_respond_to Development, s }
-  end
-
-  test 'boolean scope definition' do
-    skip
-    assert_equal 1, Development.hidden(true).count
-    assert_equal 1, Development.hidden.count
-    assert_equal 3, Development.hidden(false).count
-    assert_equal Development.hidden(true), Development.hidden
-    refute_equal Development.hidden(true), Development.hidden(false)
-  end
-
-  # These tests and the params methods could stand some refactoring
-  test 'periscope' do
-    sql = Development.periscope(periscope_params).to_sql
-    all_scopes.each { |scope| assert_includes sql, scope.to_s }
-  end
-
-  test 'periscope alt' do
-    sql = Development.periscope(periscope_params_alt).to_sql
-    all_scopes.each { |scope| assert_includes sql, scope.to_s }
-  end
-
   test '#updated_since?' do
     Time.stub :now, Time.new(2001) do
       edit = d.edits.pending.first
@@ -293,116 +258,31 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal [], d.history.since(Time.new(2000, 1, 2))
   end
 
-  test '#place' do
+  test 'responds to place-related methods' do
     assert_respond_to d, :place
-    city = places(:boston)
-    d.place = city
-    assert d.place
-    assert_equal d.city, d.place
-  end
-
-  test '#municipality if assigned a municipality' do
     assert_respond_to d, :municipality
-    muni = places(:boston)
-    d.place = muni
-    assert_equal muni, d.municipality
-  end
-
-  test '#municipality if assigned a neighborhood' do
-    hood = places(:back_bay)
-    d.place = hood
-    assert_equal hood.municipality, d.municipality
-  end
-
-  test '#neighborhood if assigned a neighborhood' do
     assert_respond_to d, :neighborhood
-    hood = places(:back_bay)
-    d.place = hood
-    assert_equal hood, d.neighborhood
   end
 
-  test '#neighborhood if assigned a municipality' do
-    muni = places(:boston)
-    d.place = muni
-    assert_equal nil, d.neighborhood
-  end
-
-  test 'column bounds' do
-    expected = column_bound_keys
-    actual = Development.ranged_column_bounds.keys
-    assert_equal expected, actual
-  end
-
-  def column_bound_keys
-    [:created_at, :updated_at, :height, :stories, :year_compl, :prjarea,
-     :singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop, :rptdemp,
-     :emploss, :estemp, :commsf, :hotelrms, :onsitepark, :total_cost,
-     :team_membership_count, :fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs,
-     :fa_rnd, :fa_edinst, :fa_other, :fa_hotel, :other_rate, :affordable,
-     :latitude, :longitude]
-  end
-
-  def periscope_params
-    hash = Hash.new
-    ranged_scopes.each { |key| hash[key] = [0,1] }
-    hash.merge(mergeable_hash)
-  end
-
-  def periscope_params_alt
-    hash = Hash.new
-    ranged_scopes.each { |key| hash[key] = 1_234 }
-    hash.merge(mergeable_hash)
-  end
-
-  def mergeable_hash
-    { rdv:   true, asofright: false,  phased:  'false', cancelled: true,
-      ovr55: nil,  clusteros: 'true', stalled: 'NULL',  hidden: true }
-  end
-
-  def ranged_scopes
-    %i( height stories year_compl affordable
-      prjarea singfamhu twnhsmmult lgmultifam tothu gqpop rptdemp
-      emploss estemp commsf hotelrms onsitepark total_cost fa_ret
-      fa_ofcmd fa_indmf fa_whs fa_rnd fa_edinst fa_other fa_hotel )
-  end
-
-  def boolean_scopes
-    %i(rdv asofright ovr55 clusteros phased stalled cancelled hidden)
-  end
-
-  def all_scopes
-    array = [ranged_scopes, boolean_scopes].flatten
-    array.delete(:hidden) # Ignores hidden because of the alias, for now.
-    array
+  test 'neighborhood and city' do
+    d.place = nil
+    refute d.place
+    d.place = places(:roxbury)
+    assert d.place
+    assert_equal d.city, d.place.municipality
+    assert_equal d.neighborhood, d.place
   end
 
   test 'street view' do
-    skip 'extract this'
     assert_respond_to development, :street_view
-    assert_respond_to development.street_view, :url
-    assert_respond_to development.street_view, :image
-  end
-
-  test 'cache street view' do
-    skip 'should go elsewhere'
-    assert_difference 'development.street_view_image.size', 21904 do
-      development.update_attributes street_view_attrs
-    end
-  end
-
-  def street_view_attrs
-    { street_view_heading: 0, street_view_pitch: 11 }
   end
 
   test 'cache walk score' do
-    skip 'extract this or simplify it'
-    assert_respond_to development, :walkscore
-    attrs = { 'id' => nil, street_view_heading: 0, street_view_pitch: 11 }
-    dev = new_development(d.attributes.merge(attrs))
-    assert_empty dev.walkscore
-    dev.save!
-    assert_equal 98, dev.walkscore.score
-    assert_equal "Walker's Paradise", dev.walkscore.to_h['description']
+    d.update_attribute :walkscore, {}
+    assert_empty d.walkscore
+    d.latitude_will_change!
+    d.save!
+    assert_not_empty d.walkscore
   end
 
   test 'associate place' do
@@ -423,14 +303,9 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'estimates employment' do
-    skip 'this an external service does this'
     d.estemp = nil
-    d.commsf = d.fa_ret = 0
     d.save!
-    assert_equal 0, d.estemp
-    d.commsf = d.fa_ret = 750
-    d.save!
-    assert d.estemp > 0
+    assert_not_nil d.estemp
   end
 
   test 'out of date' do
@@ -438,6 +313,11 @@ class DevelopmentTest < ActiveSupport::TestCase
     development.updated_at = 7.months.ago
     assert development.out_of_date?
 
+    create_recent_edit(development)
+    refute development.out_of_date?
+  end
+
+  def create_recent_edit(development)
     opts = {
       applied:      true,
       applied_at:   Time.now,
@@ -446,114 +326,22 @@ class DevelopmentTest < ActiveSupport::TestCase
       moderated_at: Time.now
     }
     development.edits.create!(opts)
-    refute development.out_of_date?
-  end
-
-  test 'requires housing units and commercial square feet' do
-    d.tothu = d.commsf = nil
-    refute d.valid?
-    d.tothu = d.commsf = 0
-    assert d.valid?, d.errors.full_messages
-  end
-
-  test 'requires extra housing information' do
-    # If it's in construction or completed, and there's more than
-    # one housing unit, require extra housing information.
-    housing_fields = Development::HOUSING_FIELDS
-
-    [:in_construction, :completed].each do |status|
-      d.status = status
-      d.tothu  = 1
-      d.commsf = 0
-      housing_fields.each { |attrib| d.send("#{attrib}=", nil) }
-      refute d.valid?
-      housing_fields.each { |attrib| d.send("#{attrib}=", 0) }
-      d.singfamhu = 1 # for sum validation
-      assert d.valid?, d.errors.full_messages
-    end
-
-    [:in_construction, :completed].each do |status|
-      d.status = status
-      d.tothu = d.commsf = 0
-      housing_fields.each { |attrib| d.send("#{attrib}=", nil) }
-      assert d.valid?, d.errors.full_messages
-    end
-  end
-
-  test 'requires extra nonres information if in_construction or completed' do
-    nonres_fields = Development::COMMERCIAL_FIELDS
-
-    [:in_construction, :completed].each do |status|
-      d.status = status
-      d.tothu  = 0
-      d.commsf = 1
-      nonres_fields.each { |attrib| d.send("#{attrib}=", nil) }
-      refute d.valid?
-      nonres_fields.each { |attrib| d.send("#{attrib}=", 0) }
-      d.fa_ret = 1 # For sum validation
-      assert d.valid?, d.errors.full_messages
-    end
-
-    [:in_construction, :completed].each do |status|
-      d.status = status
-      d.tothu = d.commsf = 0
-      nonres_fields.each { |attrib| d.send("#{attrib}=", nil) }
-      assert d.valid?, d.errors.full_messages
-    end
-  end
-
-  test 'housing units must add up' do
-    d.status = :in_construction
-    d.tothu  = 100
-    d.commsf = d.gqpop = 0
-    d.singfamhu = d.twnhsmmult = d.lgmultifam = 0
-    refute d.valid?
-    d.singfamhu = 100
-    assert d.valid?, d.errors.full_messages
-    d.singfamhu = d.twnhsmmult = 25
-    d.lgmultifam = 50
-    assert d.valid?, d.errors.full_messages
-  end
-
-  test 'commercial square feet must add up' do
-    d.status = :in_construction
-    d.tothu = 0
-    d.commsf = 1000
-
-    d.fa_ret    = 0
-    d.fa_ofcmd  = 0
-    d.fa_indmf  = 0
-    d.fa_whs    = 0
-    d.fa_rnd    = 0
-    d.fa_edinst = 0
-    d.fa_other  = 0
-    d.fa_hotel  = 0
-
-    refute d.valid?
-    d.fa_ret = 1000
-    assert d.valid?, d.errors.full_messages
-    d.fa_ret = d.fa_ofcmd = d.fa_hotel = d.fa_other = 250
-    assert d.valid?, d.errors.full_messages
   end
 
   test 'nearest transit station' do
-    skip 'this is an external service'
-    d.latitude_will_change! # This prompts an update.
-    d.save
     assert_respond_to d, :nearest_transit
-    assert_equal d.nearest_transit, 'Boylston'
+    assert_nil d.nearest_transit
+    d.latitude_will_change! # Mark latitude as changing to prompt an update.
+    d.save!(validate: false)
+    assert d.nearest_transit.is_a?(String)
   end
 
-  test 'infer project type' do
-    skip 'not doing'
-  end
+  # Crosswalks
+  # test '#crosswalks' do
+  #   org = organizations :mapc
+  #   d.crosswalks.new(organization: org, internal_id: '1-1')
+  #   assert_not_empty d.crosswalks
+  # end
 
-  test 'applied edits result in contributors' do
-    skip "there's already a test for this, and it's not good"
-  end
-
-  test 'description' do
-    skip
-  end
 
 end

@@ -46,6 +46,7 @@ module Periscope
   end
 
   def periscope_range_parser
+    # TODO: Use RangeParser?
     # Expects a numeric array [min,max] or a string '[min,max]'
     Proc.new do |range|
       array = range.to_s.delete('[ ]').split(',')

@@ -33,4 +33,29 @@ class PlaceTest < ActiveSupport::TestCase
     assert place.updated_since?(Time.new(1999))
   end
 
+  # test '#municipality if assigned a municipality' do
+  #   muni = places(:boston)
+  #   d.place = muni
+  #   assert_equal muni, d.municipality
+  # end
+
+  # test '#municipality if assigned a neighborhood' do
+  #   hood = places(:back_bay)
+  #   d.place = hood
+  #   assert_equal hood.municipality, d.municipality
+  # end
+
+  # test '#neighborhood if assigned a neighborhood' do
+  #   hood = places(:back_bay)
+  #   d.place = hood
+  #   assert_equal hood, d.neighborhood
+  # end
+
+  # test '#neighborhood if assigned a municipality' do
+  #   muni = places(:boston)
+  #   d.place = muni
+  #   assert_equal nil, d.neighborhood
+  # end
+
+
 end

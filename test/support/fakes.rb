@@ -1,19 +1,30 @@
 module ExternalServices
   module Fakes
 
+
     class FakeStreetView
       def initialize(*args)
       end
-
       def image(*args)
+      end
+      def is_a?(klass)
+        klass == StreetView
       end
     end
 
+
     class FakeWalkScore
-      def initialize(*args)
+      def initialize(obj)
+        @obj = obj
       end
 
-      def get(*args)
+      def get
+        remote_content
+      end
+
+      private
+
+      def remote_content
         {
           status: 1,
           walkscore: 97,
@@ -30,18 +41,20 @@ module ExternalServices
       end
     end
 
+
     class FakeNearestTransit
       def initialize(*args)
       end
-
       def get(*args)
+        "Faker Station"
       end
     end
 
+
     def mock_out(resource)
       resource.nearest_transit_client = FakeNearestTransit.new
-      resource.street_view_client = FakeStreetView.new
-      resource.walkscore_client = FakeWalkScore.new
+      resource.street_view_client = FakeStreetView.new(resource)
+      resource.walkscore_client = FakeWalkScore.new(resource)
       resource
     end
 
