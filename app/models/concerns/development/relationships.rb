@@ -30,12 +30,13 @@ class Development
       has_many :subscribers,   through: :subscriptions, source: :user
 
       # has_and_belongs_to_many :programs
-      enumerize :programs, in: [
-        "40B",
-        "40R",
-        "43D",
-        "MassWorks Infrastructure Program"
-      ], multiple: true
+      enumerize :programs, in: {
+        "40B" => 1,
+        "40R" => 2,
+        "43D" => 3,
+        "MassWorks Infrastructure Program" => 4
+      }, multiple: true
+      serialize :programs, Array
     end
 
   end

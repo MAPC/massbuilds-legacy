@@ -13,11 +13,11 @@ module SessionHelpers
   end
 
   def sign_in(user, options = {})
-    visit signin_path if options.fetch(:visit, false)
-    fill_in 'Email address',    with: options.fetch(:email)    { user.email }
+    visit signin_path if options.fetch(:visit, true)
+    fill_in 'Email address', with: options.fetch(:email) { user.email }
     fill_in 'Password', with: options.fetch(:password) { user.password }
     check_remember_box(options)
-    click_button 'Log in' if options.fetch(:submit, false)
+    click_button 'Log in' if options.fetch(:submit, true)
   end
 
   def sign_out(*)

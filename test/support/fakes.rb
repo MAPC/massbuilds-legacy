@@ -46,7 +46,7 @@ module ExternalServices
       def initialize(*args)
       end
       def get(*args)
-        "Faker Station"
+        "Fake Station"
       end
     end
 

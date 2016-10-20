@@ -82,6 +82,8 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-slow_finder_errors (0.1.4)
+      capybara (~> 2.5)
     climate_control (0.0.3)
       activesupport (>= 3.0)
     cocaine (0.5.8)
@@ -398,6 +400,7 @@ DEPENDENCIES
   bundler (= 1.11.2)
   burgundy
   byebug
+  capybara-slow_finder_errors
   codeclimate-test-reporter
   coffee-rails
   devise

@@ -1,3 +1,5 @@
+require 'nearest_transit'
+
 class Development
   module Location
 
@@ -52,6 +54,10 @@ class Development
 
     def street_view
       street_view_client
+    end
+
+    def walkscore
+      walkscore_client
     end
 
     # In tests, we can set the clients for external services to fakes.

@@ -3,11 +3,6 @@ require 'constraint'
 
 Rails.application.routes.draw do
 
-  mount_ember_app :searchapp, to: 'developments/:id/edit/',
-    controller: 'developments',
-    action:     'edit',
-    as:         :edit_development
-
   mount_ember_app :searchapp, to: 'developments/new',
     controller: 'developments',
     action:     'new',
@@ -35,7 +30,7 @@ Rails.application.routes.draw do
     rest:      '/table',
     ember_app: :searchapp
 
-  resources :developments, only: [:show] do
+  resources :developments, only: [:show, :edit, :update] do
     get :image, on: :member
     get :export, on: :collection
     resources :claims, only: [:new, :create]

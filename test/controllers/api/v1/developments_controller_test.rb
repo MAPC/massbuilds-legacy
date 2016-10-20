@@ -184,6 +184,7 @@ class API::V1::DevelopmentsControllerTest < ActionController::TestCase
     }
   end
 
+  # TODO: Replace the need for stubs with fakes.
   def stub_street_view
     file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
     stub_request(:get, 'http://maps.googleapis.com/maps/api/streetview?fov=100&heading=0&key=loLOLol&location=42.301,-71.01&pitch=35&size=600x600').

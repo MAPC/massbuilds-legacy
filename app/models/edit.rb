@@ -44,6 +44,14 @@ class Edit < ActiveRecord::Base
     assign_attributes(applied_at: Time.now, applied: true)
   end
 
+  def approve!
+    Services::Edit::Approve.new(self).call
+  end
+
+  def decline!
+    Services::Edit::Decline.new(self).call
+  end
+
   # The edit can be applied if:
   # - it's not already applied AND
   # - there's no conflict OR there is a conflict but it is ignored.

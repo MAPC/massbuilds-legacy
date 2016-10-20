@@ -14,8 +14,9 @@
           -# can personalize a flash
 
           - if key.to_s.match /partial/
-            = render partial: "flashes/#{message[:path]}",
-                locals: { key: key, object: message['object'] }
+            - obj = Hash[[message]].with_indifferent_access
+            = render partial: "flashes/#{obj[:path]}",
+                locals: { key: key, object: obj['object'] }
 
 
           - else

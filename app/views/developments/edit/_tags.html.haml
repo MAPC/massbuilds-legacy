@@ -1,33 +1,54 @@
-%br
+.ui.horizontal.divider
+
+%h5 Project Attributes
+
+-# %p
+-#   Click on tags to select them.
+
 .fields
   -# = f.check_box :private,                      :class => 'checkable'
   -# = f.label :private, "Private",               :class => 'teal'
 
-  = f.check_box :rdv,                          :class => 'checkable'
-  = f.label :rdv, "Redevelopment",             :class => 'red'
+  .inline.field
+    = f.check_box :rdv,                          :class => 'checkable'
+    = f.label :rdv, "Redevelopment",             :class => 'red'
 
-  = f.check_box :asofright,                    :class => 'checkable'
-  = f.label :asofright, "As of Right",         :class => 'green'
+  .inline.field
+    = f.check_box :asofright,                    :class => 'checkable'
+    = f.label :asofright, "As of Right",         :class => 'green'
 
-  = f.check_box :ovr55,                        :class => 'checkable'
-  = f.label :ovr55, "Age-Restricted",          :class => 'blue'
+  .inline.field
+    = f.check_box :ovr55,                        :class => 'checkable'
+    = f.label :ovr55, "Age-Restricted",          :class => 'blue'
 
-  = f.check_box :clusteros,                    :class => 'checkable'
-  = f.label :clusteros, "Cluster Development", :class => 'purple'
+  .inline.field
+    = f.check_box :clusteros,                    :class => 'checkable'
+    = f.label :clusteros, "Cluster Development", :class => 'purple'
 
-  = f.check_box :phased,                       :class => 'checkable'
-  = f.label :phased, "Phased",                 :class => 'pink'
+  .inline.field
+    = f.check_box :phased,                       :class => 'checkable'
+    = f.label :phased, "Phased",                 :class => 'pink'
 
-  = f.check_box :stalled,                      :class => 'checkable'
-  = f.label :stalled, "Stalled",               :class => 'black'
+  .inline.field
+    = f.check_box :stalled,                      :class => 'checkable'
+    = f.label :stalled, "Stalled",               :class => 'black'
 
 
-:javascript
-  $(document).ready(function() {
-    $('input.checkable + label').addClass('ui small basic label');
-    $('input.checkable:checked + label').removeClass('basic');
-    $('input.checkable + label').css('cursor', 'pointer');
-    $('input.checkable + label').click(function() {
-      $(this).toggleClass('basic');
-    });
-  });
+
+.ui.horizontal.divider
+
+%h5 Incentive Programs
+
+.fields
+  .field
+    = f.select :programs, Development.programs.options.map {|k,v| [k.titleize, v]}, { multiple: true }, { class: 'ui fluid dropdown', multiple: '' }
+
+-# :javascript
+-#   $(document).ready(function() {
+-#     $('input.checkable + label').addClass('ui small basic label');
+-#     $('input.checkable:checked + label').removeClass('basic');
+-#     $('input.checkable + label').css('cursor', 'pointer');
+-#     $('input.checkable + label').click(function() {
+-#       $(this).toggleClass('basic');
+-#     });
+-#   });

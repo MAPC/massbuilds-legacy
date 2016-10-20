@@ -10,11 +10,19 @@ class EditsController < ApplicationController
   end
 
   def approve
-    moderate Services::Edit::Approve, @edit
+    if @edit.approve!
+      follow_up
+    else
+      default_rescue_action(object)
+    end
   end
 
   def decline
-    moderate Services::Edit::Decline, @edit
+    if @edit.decline!
+      follow_up
+    else
+      default_rescue_action(object)
+    end
   end
 
   private
@@ -26,20 +34,13 @@ class EditsController < ApplicationController
     end
   end
 
-  def moderate(moderator_class, object)
-    moderation = moderator_class.new(object)
-    if moderation.call
-      obj = partial_object(moderation.state)
-
-      if object.development.edits.pending.empty?
-        obj[:object][:none_left] = true
-      end
-
-      flash[:partial] = obj
-      redirect_to :pending_development_edits
-    else
-      default_rescue_action(object)
+  def follow_up
+    partial = partial_object(@edit.state)
+    if @edit.development.edits.pending.empty?
+      partial[:object][:none_left] = true
     end
+    flash[:partial] = partial
+    redirect_to :pending_development_edits
   end
 
   def load_parent

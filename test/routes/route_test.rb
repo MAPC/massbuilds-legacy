@@ -34,7 +34,7 @@ class RouteTest < ActionDispatch::IntegrationTest
   test 'development edit goes to Ember app' do
     edit_route = 'http://test.host/developments/1/edit'
     assert_routing edit_route, {
-      ember_app: :searchapp, controller: 'developments', action: 'edit', id: '1'
+      controller: 'developments', action: 'edit', id: '1'
     }
   end
 

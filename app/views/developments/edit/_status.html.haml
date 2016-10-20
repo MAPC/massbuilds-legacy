@@ -1,23 +1,27 @@
-.two.fields
-  .three.wide.field
-    = f.select :status, Development.status.options, :class => 'ui floating labeled icon dropdown button'
-    -# %i.angle.down.icon
-    -# %span.text Select Status
-    -# .menu
-    -#   .item
-    -#     %i.icon.checkmark
-    -#     Completed
-    -#   .item
-    -#     %i.icon.find
-    -#     Projected
-    -#   .item
-    -#     %i.icon.calendar
-    -#     Planning
-    -#   .item
-    -#     %i.icon.configure
-    -#     In Construction
-  .five.wide.field
-    .ui.right.labeled.input
-      .ui.label $
-      = f.text_field :total_cost
-      .ui.label .00
+.fields
+  .eight.wide.field
+    = f.label :year_compl, 'Actual or estimated year of completion'
+    = f.number_field :year_compl
+
+  .eight.wide.field
+    = f.label :status, 'Project status'
+    = f.select :status, Development.status.options.map{|k,v| [k.titleize,v]}, { selected: @development.status }, { class: 'ui search dropdown' }
+
+
+
+
+-# %i.angle.down.icon
+-# %span.text Select Status
+-# .menu
+-#   .item
+-#     %i.icon.checkmark
+-#     Completed
+-#   .item
+-#     %i.icon.find
+-#     Projected
+-#   .item
+-#     %i.icon.calendar
+-#     Planning
+-#   .item
+-#     %i.icon.configure
+-#     In Construction

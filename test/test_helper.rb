@@ -34,6 +34,7 @@ end
 
 class Capybara::Rails::TestCase
   include SessionHelpers
+  include TestPasswordHelper
 end
 
 class ActiveSupport::TestCase
