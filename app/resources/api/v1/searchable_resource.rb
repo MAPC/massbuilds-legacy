@@ -29,7 +29,7 @@ module API
       end
 
       def self.confident_in_location?(location)
-        location.properties['confidence'] > 0.75
+        location.properties['confidence'].to_f > 0.75
       end
 
       def self.no_place?(search_results)
