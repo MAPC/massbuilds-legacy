@@ -4,34 +4,36 @@ require 'development_converter'
 
 class DevelopmentConverterTest < ActiveSupport::TestCase
 
+  include ExternalServices::Fakes
+
+  FIXTURE_FILE = './test/fixtures/csvs/developments.csv'
+
   def setup
     stub_geocoder
   end
 
   def development
-    @_development ||= Development.new(
-      DevelopmentConverter.new(row).to_h
-    )
+    @_development ||= mock_out(Development.new(DevelopmentConverter.new(row).to_h))
   end
 
   def row
-    CSV.read(fixture_file, headers: true, converters: :all).first
+    CSV.read(FIXTURE_FILE, headers: true, converters: :all).first
   end
 
   alias_method :d, :development
 
-  def test_development_valid
+  test 'valid' do
     assert development.valid?, development.errors.full_messages
   end
 
-  def test_lat_lon
+  test 'lat and lon' do
     assert_equal 'POINT(-71.0462 42.4122999999998)', row['location']
     assert_equal [-71.0462, 42.4122999999998], DevelopmentConverter.new(row).location
     assert_equal 42.4123, development.latitude.to_f
     assert_equal -71.0462, development.longitude.to_f
   end
 
-  def test_convert_floor_areas
+  test 'convert_floor_areas' do
     expected = {
       fa_ret:     50,
       fa_ofcmd:  100,
@@ -41,10 +43,12 @@ class DevelopmentConverterTest < ActiveSupport::TestCase
       fa_edinst: 280,
       fa_other:    0
     }
-    assert_hash expected
+    expected.each_pair do |key, expected_value|
+      assert_equal expected_value, d.send(key)
+    end
   end
 
-  def test_location
+  test 'location' do
     expected = {
       latitude:   42.4123,
       longitude: -71.0462,
@@ -53,36 +57,22 @@ class DevelopmentConverterTest < ActiveSupport::TestCase
       street_view_heading:     0,
       street_view_pitch:      35
     }
-    assert_hash_float expected
+    expected.each_pair do |key, expected_value|
+      assert_equal expected_value, d.send(key)
+    end
   end
 
-  def test_updated_timestamp_persists
-    stub_street_view
-    stub_walkscore lat: 42.4123, lon: -71.0462
-    stub_mbta lat: 42.4123, lon: -71.0462
+  test 'updated_timestamp_persists' do
+    # Make sure that when we save this record, we're using the value of 'updated_at'
+    # that we're converting from, and not setting it to right now.
     assert 1.minute.ago > d.updated_at
     d.save!
     assert 1.minute.ago > d.updated_at
   end
 
-  def test_convert_from_csv
-    skip 'failing'
-    CSV.foreach(fixture_file, headers: true, converters: :all) do |row|
-      loc = row['location'].delete('POINT(').delete(')').split(' ')
-      lat = loc.last
-      lon = loc.first
-      stub_geocoder(lat: lat, lon: lon)
-      dev = Development.new(DevelopmentConverter.new(row).to_h)
-      assert dev.valid?, dev.errors.full_messages
-    end
-  end
-
-  def test_row_with_id
+  def test_keeps_original_id
     stub_geocoder
-    stub_street_view
-    stub_walkscore lat: 42.4123, lon: -71.0462
-    stub_mbta lat: 42.4123, lon: -71.0462
-    dev = Development.new(DevelopmentConverter.new(row, id: true).to_h)
+    dev = mock_out(Development.new(DevelopmentConverter.new(row, id: true).to_h))
     assert_equal 3665, dev.id
     dev.save!(validate: false)
     dev.reload
@@ -91,28 +81,17 @@ class DevelopmentConverterTest < ActiveSupport::TestCase
     dev.destroy if dev
   end
 
-  def test_row_without_id
+  test 'row_without_id' do
     dev = Development.new(DevelopmentConverter.new(row, id: false).to_h)
     assert_equal nil, dev.id
   end
 
+  test 'programs' do
+    expected = ["40B"]
+    assert_equal development.programs, expected
+  end
+
   private
-
-  def fixture_file
-    './test/fixtures/csvs/developments.csv'
-  end
-
-  def assert_hash(hash)
-    hash.each_pair do |key, expected_value|
-      assert_equal expected_value, d.send(key)
-    end
-  end
-
-  def assert_hash_float(hash)
-    hash.each_pair do |key, expected_value|
-      assert_equal expected_value, d.send(key).to_f
-    end
-  end
 
   def stub_geocoder(lat: 42.4122999999998, lon: -71.0462)
     stub_request(:get, "http://maps.googleapis.com/maps/api/geocode/json?language=en&latlng=#{lat},#{lon}&sensor=false").
@@ -123,23 +102,5 @@ class DevelopmentConverterTest < ActiveSupport::TestCase
         :headers => {'Content-Type' => 'application/json'}
       )
   end
-
-  def stub_street_view
-    stub_request(:get, "http://maps.googleapis.com/maps/api/streetview?fov=100&heading=0&key=loLOLol&location=42.4123,-71.0462&pitch=35&size=600x600")
-  end
-
-  def stub_walkscore(lat: 42.000001, lon: -71.000001)
-    file = File.read('test/fixtures/walkscore/200.json')
-    stub_request(:get, "http://api.walkscore.com/score?format=json&lat=#{lat}&lon=#{lon}&wsapikey=").
-          with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'api.walkscore.com', 'User-Agent'=>'Ruby'}).
-          to_return(:status => 200, :body => file)
-  end
-
-  def stub_mbta(lat: 42.000001, lon: 71.000001)
-    file = File.read('test/fixtures/mbta/stopsbylocation.json')
-    stub_request(:get, "http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key=&format=json&lat=#{lat}&lon=#{lon}")
-      .to_return(status: 200, body: file)
-  end
-
 
 end
