@@ -1,9 +1,9 @@
 class Constraint
-  def initialize(regex, host_method=:host)
-    @regex = regex
+  def initialize(subdomain)
+    @subdomain = subdomain
   end
 
   def matches?(request)
-    @regex.match request.send(host_method)
+    @subdomain.match request.host
   end
 end

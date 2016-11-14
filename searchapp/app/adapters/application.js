@@ -7,7 +7,12 @@ export default DS.JSONAPIAdapter.extend({
     var token = Ember.get(document, "API_KEY");
     if (token) {
       return {
-        "Authorization": "Token " + token
+        "Authorization": "Token " + token,
+        "Accept": "application/vnd.api+json; application/org.massbuilds.v1"
+      }
+    } else {
+      return {
+        "Accept": "application/vnd.api+json; application/org.massbuilds.v1"
       }
     }
   }).volatile(),

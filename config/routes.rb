@@ -8,9 +8,9 @@ Rails.application.routes.draw do
     action:     'new',
     as:         :new_development
 
-  namespace :api, constraints: [Constraint.new(/^api/, :host)], path: '' do
+  namespace :api, constraints: Constraint.new(/^api/), path: '' do
     get 'searches/limits', to: 'searches#limits'
-    api_version APIVersion.v(1, default: true) do
+    api_version(APIVersion.new(version: 1, default: true).params) do
       jsonapi_resources :developments,  except: [:destroy]
       jsonapi_resources :searches,      only: [:index, :show, :create, :destroy]
       jsonapi_resources :subscriptions, only: [:create, :destroy]
