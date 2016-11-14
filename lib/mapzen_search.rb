@@ -26,7 +26,7 @@ class MapzenSearch
   private
 
   def results
-    # Array-ify nil caused by a URL error or missing MAPZEN_API_KEY
+    # Array-ify nil caused by a URL error
     Array(JSON.parse(response)['features']).map { |json| OpenStruct.new(json) }
   end
 
@@ -35,13 +35,14 @@ class MapzenSearch
   end
 
   def base
-    @base ||= "http://search.mapzen.com/v1/autocomplete"
-    @base +=  "?api_key=#{ENV['MAPZEN_API_KEY']}"
-    @base +=  "&focus.point.lat=42.357&focus.point.lon=-71.056"
-    @base +=  "&sources=openstreetmap"
-    @base +=  "&layers=address,microhood,neighbourhood,macrohood"
-    @base +=  "&text="
-    @base.freeze
+    @base ||= %W(
+      http://search.mapzen.com/v1/autocomplete
+      ?api_key=#{ENV.fetch('MAPZEN_API_KEY')}
+      &focus.point.lat=42.357&focus.point.lon=-71.056
+      &sources=openstreetmap
+      &layers=address,microhood,neighbourhood,macrohood
+      "&text="
+    ).join.freeze
   end
 
 end

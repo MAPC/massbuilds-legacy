@@ -1,0 +1,14 @@
+# (moved from public/robots.txt)
+#
+# See http://www.robotstxt.org/wc/norobots.html for documentation on how to use the robots.txt file
+#
+
+User-Agent: *
+Disallow: /developments/
+Disallow: /developments/new/
+Disallow: /developments/*/edit/
+Disallow: /developments/*/flags/*/
+Disallow: /sign*/
+Disallow: /*/*/edit/
+Disallow: /*/*/new/
+Disallow: /*/*/destroy/

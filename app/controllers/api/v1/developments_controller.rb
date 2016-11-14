@@ -14,8 +14,8 @@ module API
           development = Development.find params[:id]
           development.assign_attributes(update_params)
           if development.changes.any? && development.valid?
-            persist!(development)
-            render json:         serialized_resource(development),
+            Services::Edit::Extractor.new(development, current_user).call
+            render json:         wrap(development),
                    content_type: JSONAPI::MEDIA_TYPE,
                    status:      :accepted
           else
@@ -32,29 +32,13 @@ module API
 
       private
 
-      def serialized_resource(development)
+      def wrap(development)
         JSONAPI::ResourceSerializer.new(DevelopmentResource).
           serialize_to_hash(resource(development))
       end
 
       def resource(development)
         DevelopmentResource.new(development, nil)
-      end
-
-      def persist!(development)
-        # Without a transaction, this can become a dangling edit with
-        # no changes, which causes an error in our timid pending edits template.
-        ActiveRecord::Base.transaction do
-          edit = development.edits.create!(editor: current_user)
-          development.changes.each_pair do |name, diff|
-            edit.fields.create!(
-              name:   name,
-              change: { from: diff.first, to: diff.last }
-            )
-          end
-          # edit.save
-        end
-        development.reload # Clear out changes before rendering.
       end
 
       def log_search
@@ -68,6 +52,7 @@ module API
         params.fetch(:filter) { Hash.new }
       end
 
+      # DOC: What is this doing?
       def update_params
         Hash[
           params.fetch(:data).fetch(:attributes).map { |k, v|

@@ -6,11 +6,11 @@ class ApplicationController < ActionController::Base
   layout :layout_by_resource
 
   # Send 'em back where they came from with a slap on the wrist
-  def authority_forbidden(error)
-    Authority.logger.warn(error.message)
-    flash[:alert] = 'You are not authorized to complete that action.'
-    redirect_to request.referrer.presence || root_path
-  end
+  # def authority_forbidden(error)
+  #   Authority.logger.warn(error.message)
+  #   flash[:alert] = 'You are not authorized to complete that action.'
+  #   redirect_to request.referrer.presence || root_path
+  # end
 
   rescue_from 'BCrypt::Errors::InvalidHash' do |exception|
     flash[:partial] = { path: 'users/reset_password' }

@@ -1,78 +1,67 @@
+%br
+.ui.horizontal.divider Commercial
+
 %h3.ui.header
   Commercial
   .sub.header
     Non-residential attributes
 
-  %table.ui.very.basic.celled.table
-    %thead
-      %th
-        %h4.ui.header
-          .content
-            Use Type
-      %th
-        %h4.ui.header
-          .content
-            Floor Area
-            .sub.header
-              square feet
-      %th
-        %h4.ui.header
-          .content
-            Percent
-            .sub.header
-              of total floor area
+%table.ui.very.basic.celled.table
+  %thead
+    %th
+      %h4.ui.header
+        .content
+          Use Type
+    %th
+      %h4.ui.header
+        .content
+          Floor Area
+          .sub.header
+            square feet
 
-    -# %tbody
-    -#   - @development.commercial_table_fields.each do |field|
-    -#     - if use_value = @development.send(field)
-    -#       %tr
-    -#         %td
-    -#           %h4.ui.header
-    -#             .content
-    -#               = @development.human_name_for(field)
-    -#               .sub.header
-    -#                 = @development.description_for(field)
-    -#         %td= f.text_field field
-    -#         %td= f.text_field field
-    -#   %tr
-    -#     %td
-    -#       %h4.ui.header
-    -#         .content
-    -#           = @development.human_name_for(:commsf)
-    -#           .sub.header
-    -#             = @development.description_for(:commsf)
-    -#     %td
-    -#       = f.text_field :commsf
-    -#     %td
-    -#       .disabled.field
-    -#         100%
+  %tbody
+    - Development::COMMERCIAL_FIELDS.each do |field|
+      %tr
+        %td
+          .field
+            = f.label field, Development.human_attribute_name(field)
+        %td
+          .field
+            .ui.right.labeled.input
+              = f.number_field field, min: 0
+              .ui.basic.label square feet
 
 %table.ui.very.basic.celled.table
-  -# %tbody
-  -#   %tr
-  -#     %td
-  -#       %h4.ui.header
-  -#         .content
-  -#           = @development.human_name_for(:hotelrms)
-  -#           .sub.header
-  -#             = @development.description_for(:hotelrms)
-  -#     %td= f.text_field :hotelrms
-  -#   %tr
-  -#     %td
-  -#       %h4.ui.header
-  -#         .content
-  -#           Employment
-  -#           .sub.header
-  -#             reported
-  -#     %td= f.text_field :rptdemp
+  %tbody
+    %tr
+      %td
+        .inline.field
+          = f.label :hotelrms, Development.human_attribute_name(:hotelrms)
+          .ui.compact.mini.circular.basic.icon.button{ data: { content: 'Number of hotel rooms' }}
+            %i.info.icon
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.number_field :hotelrms, min: 0
+            .ui.basic.label rooms
+    %tr
+      %td
+        .inline.field
+          = f.label :rptdemp, 'Employment (reported)'
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.number_field :rptdemp
+            .ui.basic.label jobs
 
-  -#   %tr
-  -#     %td
-  -#       %h4.ui.header
-  -#         .content
-  -#           Employment
-  -#           .sub.header
-  -#             estimated
-  -#     %td
-  -#       .disabled.field
-  -#         = f.text_field :estemp
+    %tr
+      %td
+        .inline.field
+          = f.label :estemp, 'Employment (estimated)'
+          .ui.compact.mini.circular.basic.icon.button{ data: { content: 'MAPC estimates employment based on commercial floor area composition.' }}
+            %i.info.icon
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.text_field :estemp, readonly: ''
+            .ui.basic.label jobs

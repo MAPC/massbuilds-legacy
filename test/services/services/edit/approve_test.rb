@@ -1,12 +1,17 @@
 require 'test_helper'
 
-class EditApprovalTest < ActiveSupport::TestCase
+class ApproveTest < ActiveSupport::TestCase
+
+  def approve_service
+    Services::Edit::Approve
+  end
+
   def approval
-    @_approval ||= EditApproval.new(edits(:one))
+    @_approval ||= approve_service.new(edit)
   end
 
   def edit
-    approval.edit
+    @_edit ||= edits(:one)
   end
 
   def development
@@ -19,7 +24,7 @@ class EditApprovalTest < ActiveSupport::TestCase
 
   test 'raises with invalid edit' do
     assert_raises(StandardError) do
-      EditApproval.new(Edit.new)
+      approve_service.new(Edit.new)
     end
   end
 
@@ -31,24 +36,24 @@ class EditApprovalTest < ActiveSupport::TestCase
     assert_equal approval.development.id, developments(:one).id
   end
 
-  test '#performable?' do
-    assert approval.performable?, [edit.inspect]
+  test '#callable?' do
+    assert approval.callable?
   end
 
-  test 'not #performable?' do
+  test 'not #callable?' do
     edit.applied = true
-    refute approval.performable?, [edit.inspect, edit.conflict?]
+    refute approval.callable?
   end
 
-  test '#perform! approves the edit' do
-    approval.perform!
+  test '#call approves the edit' do
+    approval.call
     assert_equal 'approved', edit.state
     assert edit.approved?
     assert edit.moderated_at
   end
 
-  test '#perform! applies the changes' do
-    approval.perform!
+  test '#call applies the changes' do
+    approval.call
     assert edit.applied?
     assert edit.applied_at
   end

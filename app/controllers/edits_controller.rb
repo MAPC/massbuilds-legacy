@@ -6,39 +6,41 @@ class EditsController < ApplicationController
 
   before_action :load_unmoderated_record, only: [:approve, :decline]
 
-
   def pending
   end
 
   def approve
-    @edit.update_attribute(:ignore_conflicts, true)
-    moderate(EditApproval, @edit, :approved)
+    if @edit.approve!
+      follow_up
+    else
+      default_rescue_action(object)
+    end
   end
 
   def decline
-    moderate(EditDecline,  @edit, :declined)
+    if @edit.decline!
+      follow_up
+    else
+      default_rescue_action(object)
+    end
   end
 
   private
 
   def assert_moderator
-    unless devise_current_user.moderator_for? @development
+    unless devise_current_user.moderator_for? @development.item
       flash[:error] = "You are not a moderator for #{@development.name}."
       redirect_to @development
     end
   end
 
-  def moderate(moderator_class, object, partial_ref)
-    if moderator_class.new(object).perform!
-      obj = partial_object(partial_ref)
-      if object.development.edits.pending.empty?
-        obj[:object][:none_left] = true
-      end
-      flash[:partial] = obj
-      redirect_to :pending_development_edits
-    else
-      default_rescue_action(object)
+  def follow_up
+    partial = partial_object(@edit.state)
+    if @edit.development.edits.pending.empty?
+      partial[:object][:none_left] = true
     end
+    flash[:partial] = partial
+    redirect_to :pending_development_edits
   end
 
   def load_parent

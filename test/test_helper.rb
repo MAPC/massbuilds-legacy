@@ -31,10 +31,15 @@ Minitest::Reporters.use!(
 class ActionController::TestCase
   include Devise::TestHelpers
 end
+
 class Capybara::Rails::TestCase
   include SessionHelpers
+  include TestPasswordHelper
 end
+
 class ActiveSupport::TestCase
   fixtures :all # Set up all fixtures for all tests in alpha order.
   # Add more helper methods to be used by all tests here...
 end
+
+ActiveRecord::FixtureSet.context_class.send :include, TestPasswordHelper

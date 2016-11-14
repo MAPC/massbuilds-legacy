@@ -1,3 +1,6 @@
+%br
+.ui.horizontal.divider Residential
+
 %h3.ui.header
   Residential
   .sub.header
@@ -17,36 +20,56 @@
   %tbody
     %tr
       %td
-        %h4.ui.header
-          .content
-            Single-family homes
-      %td= f.text_field :singfamhu
+        .inline.field
+          = f.label :singfamhu, 'Single-family homes'
+          .ui.compact.mini.circular.basic.icon.button{ data: { content: 'Units in single family homes' }}
+            %i.info.icon
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.number_field :singfamhu, min: 0
+            .ui.basic.label homes
     %tr
       %td
-        %h4.ui.header
-          .content
-            Small multifamily units
-      %td= f.text_field :twnhsmmult
+        .inline.field
+          = f.label :twnhsmmult, 'Small multifamily units'
+          .ui.compact.mini.circular.basic.icon.button{ data: { content: 'Units in townhouses, attached single-family, or small multifamily buildings (2-4 units)' }}
+            %i.info.icon
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.number_field :twnhsmmult, min: 0
+            .ui.basic.label units
     %tr
       %td
-        %h4.ui.header
-          .content
-            Large multifamily
-      %td= f.text_field :lgmultifam
+        .inline.field
+          = f.label :lgmultifam, 'Large multifamily units'
+          .ui.compact.mini.circular.basic.icon.button{ data: { content: 'Units in mixed-use buildings or buildings with 5 or more residential units' }}
+            %i.info.icon
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.number_field :lgmultifam, min: 0
+            .ui.basic.label units
     %tr
       %td
-        %h4.ui.header
-          .content
-            Affordable percent
-      %td= f.text_field :affordable
+        .inline.field
+          = f.label :affordable, 'Affordable housing units (percent of total)'
+          .ui.compact.mini.circular.basic.icon.button{ data: { content: 'Percent of total units that are subsidized or deed-restricted affordable units' }}
+            %i.info.icon
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.number_field :affordable, min: 0
+            .ui.basic.label %
     %tr
       %td
-        %h4.ui.header
-          .content
-            Group Quarters
-            %a{href: '#what-are-group-quarters'}
-              %i.help.circle.icon
-              -# Modal
-            .sub.header
-              Number of Beds
-      %td= f.text_field :gqpop
+        .inline.field
+          = f.label :gqpop, 'Group Quarters'
+          .ui.compact.mini.circular.basic.icon.button{ data: { content: 'Number of beds in a dormitory, nursing home, assisted living facility, barracks, or other group quarters arrangement.' }}
+            %i.info.icon
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.number_field :gqpop, min: 0
+            .ui.basic.label beds

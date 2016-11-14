@@ -3,19 +3,52 @@
   .sub.header
     Physical Attributes
 
-.ui.form
-  .required.inline.field
-    = f.label :tothu, "Total Housing Units"
-    = f.number_field :tothu, min: 0
-  .required.inline.field
-    = f.label :commsf, "Total Commercial Floor Area (in sqft.)"
-    = f.number_field :commsf, min: 0
-  .inline.field
-    = f.label :prjarea, "Project Area (in sqft.)"
-    = f.number_field :prjarea, min: 0
-  .inline.field
-    = f.label :stories, "Stories"
-    = f.number_field :stories, min: 0
-  .inline.field
-    = f.label :height, "Height (in feet)"
-    = f.number_field :height, min: 0
+%table.ui.very.basic.celled.table
+  %tbody
+    %tr
+      %td
+        .required.inline.field
+          = f.label :tothu, "Total Housing Units"
+          .ui.compact.mini.circular.basic.icon.button{ data: { content: 'Total number of housing units, not including hotel rooms' }}
+            %i.info.icon
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.number_field :tothu, min: 0
+            .ui.basic.label units
+    %tr
+      %td
+        .required.inline.field
+          = f.label :commsf, "Total Commercial Floor Area"
+          .ui.compact.mini.circular.basic.icon.button{ data: { content: 'Nonresidential share of commercial use' }}
+            %i.info.icon
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.number_field :commsf, min: 0
+            .ui.basic.label square feet
+    %tr
+      %td
+        .inline.field
+          = f.label :prjarea, "Project Area (total)"
+      %td
+        .field
+          .ui.right.labeled.input
+            = f.number_field :prjarea, min: 0
+            .ui.basic.label square feet
+    %tr
+      %td
+        .inline.field
+          = f.label :stories, "Stories"
+      %td
+        = f.number_field :stories, min: 0, class: :text_field, step: 0.5
+    %tr
+      %td
+        .inline.field
+          = f.label :height, "Height"
+          .ui.compact.mini.circular.basic.icon.button{ data: { content: 'Building height in feet' }}
+            %i.info.icon
+      %td
+        .ui.right.labeled.input
+          = f.number_field :height, min: 0
+          .ui.basic.label feet

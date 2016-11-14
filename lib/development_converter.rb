@@ -26,6 +26,10 @@ class DevelopmentConverter
     attrs
   end
 
+  def location
+    @old.location.delete('POINT(').delete(')').split(' ').map(&:to_f)
+  end
+
   private
 
   def keep_id?
@@ -78,7 +82,8 @@ class DevelopmentConverter
       tagline:     :projecttype_detail,
       status:      status,
       creator:     User.first,
-      point:       :location
+      point:       :location,
+      programs:    programs(@old.ch40_id)
     }
   end
 
@@ -88,10 +93,6 @@ class DevelopmentConverter
 
   def longitude
     location.first
-  end
-
-  def location
-    @old.location.delete('POINT(').delete(')').split(' ').map(&:to_f)
   end
 
   # TODO: What needs to occur before this step?
@@ -170,9 +171,14 @@ class DevelopmentConverter
   end
 
   def floor_area_from_percents(attribute)
-    (@old.send(attribute).to_i / 100) * @old.commsf.to_i
+    (@old.send(attribute).to_f / 100) * @old.commsf.to_f
   rescue ZeroDivisionError
     0
+  end
+
+  def programs(ch40_id)
+    ch40_ids = { '1' => '40B', '2' => '40R', '3' => '43D' }
+    Array(ch40_ids[ch40_id.to_s])
   end
 
 end

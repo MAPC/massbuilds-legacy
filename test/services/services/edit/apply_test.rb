@@ -1,12 +1,17 @@
 require 'test_helper'
 
-class EditApplicationTest < ActiveSupport::TestCase
+class ApplyTest < ActiveSupport::TestCase
+
+  def apply_service
+    Services::Edit::Apply
+  end
+
   def application
-    @_application ||= EditApplication.new(edits(:one))
+    @_application ||= apply_service.new(edit)
   end
 
   def edit
-    application.edit
+    @_edit ||= edits(:one)
   end
 
   def development
@@ -17,45 +22,45 @@ class EditApplicationTest < ActiveSupport::TestCase
     assert_equal application.edit.id, edits(:one).id
   end
 
-  test '#performable?' do
-    assert application.performable?, "Is edit applyable? #{application.edit.applyable?}"
+  test '#callable?' do
+    assert application.callable?, "Is edit applyable? #{application.edit.applyable?}"
   end
 
-  test 'not #performable?' do
+  test 'not #callable?' do
     edit.applied = true
-    refute application.performable?
+    refute application.callable?
   end
 
-  test 'perform! sets :applied' do
-    application.perform!
+  test 'sets state to :applied' do
+    application.call
     assert edit.applied?, edit.state.inspect
     assert edit.applied_at
   end
 
-  test 'perform! applies edits' do
+  test 'applies edits' do
     assert_equal 0, development.commsf
-    application.perform!
+    application.call
     assert_equal 1000, development.commsf
   end
 
-  test 'perform! applies and saves edits' do
+  test 'applies and saves edits' do
     assert_equal 0, development.commsf
-    application.perform!
+    application.call
     assert_equal 1000, development.reload.commsf
   end
 
-  test 'perform! when conflict returns false' do
-    conflict = EditApplication.new(edits(:conflict))
-    refute conflict.perform! # Should not change anything
+  test 'when conflict returns false' do
+    conflict = apply_service.new(edits(:conflict))
+    refute conflict.call # Should not change anything
     assert_equal 'pending', conflict.edit.state
     assert_equal 0, conflict.development.commsf
   end
 
   test 'ignore conflict and apply edit' do
-    conflict = EditApplication.new(edits(:conflict))
-    refute conflict.perform!
+    conflict = apply_service.new(edits(:conflict))
+    refute conflict.call
     conflict.edit.ignore_conflicts = true
-    conflict.perform!
+    conflict.call
     assert conflict.edit.applied?
     assert_equal 100, conflict.development.commsf
   end

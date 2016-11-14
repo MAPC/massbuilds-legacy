@@ -5,8 +5,8 @@
 module RangeParser
 
   def self.parse(value)
+    return infinity_range unless value.present?
     @value = value
-    return infinity_range unless @value.present?
     if @value.is_a? Array
       return parse_rejoined_string if @value.first.is_a?(String)
       Range.new *@value.map(&:to_f)

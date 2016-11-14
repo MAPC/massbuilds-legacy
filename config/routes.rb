@@ -1,19 +1,14 @@
 require 'api_version'
-require 'subdomain_constraint'
+require 'constraint'
 
 Rails.application.routes.draw do
-
-  mount_ember_app :searchapp, to: 'developments/:id/edit/',
-    controller: 'developments',
-    action:     'edit',
-    as:         :edit_development
 
   mount_ember_app :searchapp, to: 'developments/new',
     controller: 'developments',
     action:     'new',
     as:         :new_development
 
-  namespace :api, constraints: SubdomainConstraint.new(/^api/), path: '' do
+  namespace :api, constraints: Constraint.new(/^api/), path: '' do
     get 'searches/limits', to: 'searches#limits'
     api_version(APIVersion.new(version: 1, default: true).params) do
       jsonapi_resources :developments,  except: [:destroy]
@@ -25,10 +20,17 @@ Rails.application.routes.draw do
     end
   end
 
-  get 'developments/map',  to: 'developments#index', rest: '/map',  ember_app: :searchapp
-  get 'developments/table', to: 'developments#index', rest: '/table', ember_app: :searchapp
+  get 'developments/map',
+    to:        'developments#index',
+    rest:      '/map',
+    ember_app: :searchapp
 
-  resources :developments, only: [:show] do
+  get 'developments/table',
+    to:        'developments#index',
+    rest:      '/table',
+    ember_app: :searchapp
+
+  resources :developments, only: [:show, :edit, :update] do
     get :image, on: :member
     get :export, on: :collection
     resources :claims, only: [:new, :create]
@@ -84,8 +86,8 @@ Rails.application.routes.draw do
   # Custom routes for High Voltage
   #   See: https://github.com/thoughtbot/high_voltage#override
   get "/pages/*id" => 'pages#show', as: :page, format: false
-
   get '/upgrade' => 'pages#show', id: 'upgrade', as: :upgrade
+  get '/robots.txt' => 'pages#robots'
 
   root to: 'pages#show', id: 'home'
 

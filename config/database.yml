@@ -2,7 +2,7 @@ default: &default
   adapter: postgis
   encoding: unicode
   pool: 5
-  database: <%= ENV.fetch 'DB_NAME', 'ddmodels2_development' %>
+  database: <%= ENV.fetch 'DB_NAME', 'massbuilds_dev' %>
   username: <%= ENV.fetch 'DB_USERNAME', nil %>
   password: <%= ENV.fetch 'DB_PASSWORD', nil %>
   host:     <%= ENV.fetch 'DB_PORT_5432_TCP_ADDR', 'localhost' %>
@@ -17,7 +17,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: ddmodels2_test
+  database: massbuilds_test
 
 production:
   <<: *default

@@ -10,7 +10,7 @@
     %h4
       = @development.pending_edits_count
       pending edits,
-      = @development.pending_edits.select(&:conflict?).count
+      = @development.pending_edits.select { |e| e.conflicts.any? }.count
       with conflicts
 
     .ui.large.feed

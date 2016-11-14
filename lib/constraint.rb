@@ -1,4 +1,4 @@
-class SubdomainConstraint
+class Constraint
   def initialize(subdomain)
     @subdomain = subdomain
   end

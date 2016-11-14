@@ -44,15 +44,19 @@ class Edit < ActiveRecord::Base
     assign_attributes(applied_at: Time.now, applied: true)
   end
 
+  def approve!
+    Services::Edit::Approve.new(self).call
+  end
+
+  def decline!
+    Services::Edit::Decline.new(self).call
+  end
+
   # The edit can be applied if:
   # - it's not already applied AND
   # - there's no conflict OR there is a conflict but it is ignored.
   def applyable?
-    if applied? || unignored_conflict?
-      false
-    else
-      true
-    end
+    applied? ? false : true
   end
 
   def moderated?
@@ -65,27 +69,18 @@ class Edit < ActiveRecord::Base
 
   def conflicts
     fields.map do |field|
-      if field.conflict?
-        { name: field.name, conflict: field.conflict }
-      end
+      { name: field.name, conflict: field.conflict } if field.conflict?
     end.compact
-  end
-
-  def conflicts?
-    conflicts.any?
   end
 
   def diff
     fields.map { |field| { name: field.name }.merge(field.change) }
   end
 
-  alias_method :conflict,  :conflicts
-  alias_method :conflict?, :conflicts?
-
-  # Returns true if there is a conflict,
-  # and we aren't explicitly ignoring it.
-  def unignored_conflict?
-    conflict? && !ignore_conflicts?
+  def assignable
+    # Could also be written referencing #diff, and rejecting a key.
+    # Or send a parameter to diff to reject a key.
+    Hash[fields.map { |f| [f.name, f.to] }]
   end
 
   private

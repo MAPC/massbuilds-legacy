@@ -11,13 +11,22 @@ class EmploymentEstimatorTest < ActiveSupport::TestCase
     @_subject ||= Development.new(fa_ret: 750)
   end
 
-  def test_breakdown
+  test 'breakdown' do
     breakdown = { fa_ret: 1 }
     assert_equal breakdown, estimator.breakdown
   end
 
-  def test_perform
+  test 'perform' do
     assert_equal 1, estimator.estimate
+  end
+
+  test 'calculation' do
+    d.commsf = d.fa_ret = 0
+    d.save!
+    assert_equal 0, d.estemp
+    d.commsf = d.fa_ret = 750
+    d.save!
+    assert d.estemp > 0
   end
 
 end

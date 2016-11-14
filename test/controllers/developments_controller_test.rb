@@ -26,9 +26,9 @@ class DevelopmentsControllerTest < ActionController::TestCase
   end
 
   test 'should get show and have a flash' do
-    get :show, id: development.id, proposal: 'success'
+    get :show, id: development.id
     assert_response :success
-    assert_equal 'developments/proposed_success', flash[:partial][:path]
+    assert_equal 'developments/out_of_date', flash[:partial][:path]
   end
 
   test 'should get show and not have a flash' do
@@ -53,9 +53,5 @@ class DevelopmentsControllerTest < ActionController::TestCase
   #   end
   #   assert_response :redirect
   # end
-
-  test 'should convert the right floor areas - not divided by 100' do
-    skip 'Not yet implemented'
-  end
 
 end

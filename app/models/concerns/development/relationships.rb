@@ -8,7 +8,11 @@ class Development
 
       has_many :edits, dependent: :destroy
       has_many :flags, dependent: :destroy
-      has_many :crosswalks
+      # has_many :crosswalks
+
+      has_many :editors, -> { where edits: { applied: true } },
+        through:    :edits,
+        class_name: :User
 
       has_many :team_memberships,
         class_name:    :DevelopmentTeamMembership,
@@ -25,7 +29,14 @@ class Development
       has_many :subscriptions, as: :subscribable
       has_many :subscribers,   through: :subscriptions, source: :user
 
-      has_and_belongs_to_many :programs
+      # has_and_belongs_to_many :programs
+      enumerize :programs, in: {
+        "40B" => 1,
+        "40R" => 2,
+        "43D" => 3,
+        "MassWorks Infrastructure Program" => 4
+      }, multiple: true
+      serialize :programs, Array
     end
 
   end

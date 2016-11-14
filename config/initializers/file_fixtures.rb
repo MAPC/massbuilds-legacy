@@ -1,3 +1,4 @@
+# Load binary files (images) from fixtures.
 require 'active_record/fixtures'
 
 module FileFixtureExtension

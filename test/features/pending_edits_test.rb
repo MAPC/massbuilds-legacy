@@ -33,4 +33,17 @@ class PendingEditsTest < Capybara::Rails::TestCase
     assert_content 'declined' # in the flash
     refute_content 'changed Commercial Square Feet from 12 to 1000'
   end
+
+  test 'conflicts require an extra review step' do
+    skip
+  end
+
+  test 'approved and declined edits do not appear' do
+    skip
+  end
+
+  test 'approve and decline a flag' do
+    skip
+  end
+
 end

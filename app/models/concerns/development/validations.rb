@@ -2,6 +2,8 @@ class Development
   module Validations
     extend ActiveSupport::Concern
 
+    include Development::FieldAliases
+
     included do
 
       validates :tothu,      presence: true
@@ -16,22 +18,20 @@ class Development
 
       validates :description,
                 allow_blank: true,
-                length: { minimum: 141, maximum: 500 }
+                length: { minimum: 30, maximum: 500 }
+
+      validates_uri_existence_of :project_url, if: 'project_url.present?'
 
       # Advanced information
 
       with_options if: :requires_detailed_housing? do |record|
-        [:singfamhu, :twnhsmmult, :lgmultifam, :gqpop].each do |attribute|
+        Development::HOUSING_FIELDS.each do |attribute|
           record.validates attribute, presence: true, numericality: { minimum: 0 }
         end
       end
 
       with_options if: :requires_detailed_nonres? do |record|
-        [
-          :fa_ret,   :fa_ofcmd, :fa_indmf,
-          :fa_whs,   :fa_rnd,   :fa_edinst,
-          :fa_other, :fa_hotel
-        ].each do |attribute|
+        Development::COMMERCIAL_FIELDS.each do |attribute|
           record.validates attribute, presence: true, numericality: { minimum: 0 }
         end
       end
@@ -89,7 +89,7 @@ class Development
       end
 
       def commercial_area_values
-        [fa_ret, fa_ofcmd, fa_indmf, fa_whs, fa_rnd, fa_edinst, fa_other, fa_hotel]
+        Development::COMMERCIAL_FIELDS.map { |field| self.send(field) }
       end
 
     end

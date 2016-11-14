@@ -5,8 +5,10 @@ class Development
       edits.applied
     end
 
+    # N+1 query (`editors` triggers a second call),
+    # but a big improvement over the last iteration.
     def contributors
-      ContributorQuery.new(self).find.map(&:editor).push(creator).compact.uniq
+      User.where(id: editors.pluck(:id) << creator_id)
     end
 
     def updated_since?(time = Time.current)
@@ -22,6 +24,7 @@ class Development
       created_at > time
     end
 
+    # TODO: Make this configurable through admin
     OUT_OF_DATE_THRESHHOLD = 6.months.ago
 
     def out_of_date?
