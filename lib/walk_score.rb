@@ -1,31 +1,25 @@
 class WalkScore
 
-  BASE_URL = 'http://api.walkscore.com/score?format=json'.freeze
-
   attr_reader :content
 
-  # Pass in content if we're trying to wrap and not look up live values.
-  # Pass in a lat and lon if we're trying to get a live value.
-  def initialize(lat: nil, lon: nil, content: nil)
-    @content ||= if content
-      content
-    else
-      @lat, @lon = lat.to_f, lon.to_f
-      JSON.parse(response).with_indifferent_access
-    end
+  BASE_URL = 'http://api.walkscore.com/score?format=json'.freeze
+
+  def initialize(resource, cached: true)
+    @resource = resource
+    @cached = cached
+    @lat, @lon = resource.latitude.to_f, resource.longitude.to_f
+    @content = {}
   end
 
-  def score
-    @content['walkscore']
-  end
-
-  def to_h
-    @content
+  def get
+    @content ||= JSON.parse(response).with_indifferent_access
   end
 
   def empty?
     @content.keys.count <= 1 # Status key is always present
   end
+
+  private
 
   def response
     Net::HTTP.get_response(URI(url)).body

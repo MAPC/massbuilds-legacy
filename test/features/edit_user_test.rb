@@ -4,13 +4,11 @@ class EditUserTest < Capybara::Rails::TestCase
 
   def user
     @user ||= users :normal
-    @user.password = 'password'
-    @user
   end
 
   test 'signed in user can edit name' do
     skip 'unclear why this is failing'
-    sign_in user, visit: true, submit: true
+    sign_in user, password: default_password
     visit edit_user_registration_path
     fill_in 'First name', with: 'William'
     assert_equal 'William', find_field('First name').value

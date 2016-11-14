@@ -19,6 +19,8 @@ class Development < ActiveRecord::Base
 
   serialize :walkscore, JSON
 
+  attr_accessor :log_message # Allows us to create the field in the form.
+
   def to_s
     name
   end

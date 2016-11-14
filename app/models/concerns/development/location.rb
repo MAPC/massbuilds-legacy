@@ -1,3 +1,5 @@
+require 'nearest_transit'
+
 class Development
   module Location
 
@@ -51,45 +53,26 @@ class Development
     end
 
     def street_view
-      @street_view ||= StreetView.new(self)
+      street_view_client
     end
 
     def walkscore
-      @walkscore ||= WalkScore.new content: read_attribute(:walkscore)
+      walkscore_client
     end
 
-    def get_walkscore
-      self.walkscore = WalkScore.new(lat: latitude, lon: longitude).to_h
+    # In tests, we can set the clients for external services to fakes.
+    attr_writer :nearest_transit_client, :street_view_client, :walkscore_client
+
+    def nearest_transit_client
+      @nearest_transit_client ||= NearestTransit.new(lat: self.latitude, lon: self.longitude)
     end
 
-    # TODO: Refactor into fully-tested (> 90%) service object.
-    #
-    #   Spec:
-    #     - If there is a subway stop in the list, use it.
-    #     - If there is no subway stop in the list, use the nearest bus stop.
-    #     - If there are no nearby transit results, return nil.
-    #  Additionally:
-    #  - Remember to add a 'none' display in the view if there is no transit.
-    #  - Keep using Net::HTTP - no gem needed for something this simple.
-    #
-    def get_nearest_transit
-      key = 'parent_station_name'
+    def street_view_client
+      @street_view_client ||= StreetView.new(self)
+    end
 
-      url = "http://realtime.mbta.com/developer/api/v2/stopsbylocation?"
-      url << "api_key=#{ENV['MBTA_API_KEY']}"
-      url << "&lat=#{latitude.to_f}&lon=#{longitude.to_f}&format=json"
-
-      json = JSON.parse(Net::HTTP.get_response(URI(url)).body)
-
-      station = json['stop'].detect { |e| e[key].present? }
-      name = if station
-        station[key]
-      else
-        "Bus stop: #{json['stop'].first['stop_name']}"
-      end
-      self.nearest_transit = name
-    rescue StandardError => e
-      self.nearest_transit = "" # Return current value or empty string
+    def walkscore_client
+      @walkscore_client ||= WalkScore.new(self)
     end
 
   end

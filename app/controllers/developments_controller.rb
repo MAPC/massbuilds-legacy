@@ -1,8 +1,8 @@
 class DevelopmentsController < ApplicationController
 
-  layout 'search', except: [:show]
+  layout 'search', only: [:index]
 
-  before_action :load_record, only: [:show, :image, :edit, :update]
+  before_action :load_record, only: [:show, :image, :edit]
   before_action :authenticate_user!, only: [:edit, :update]
 
   def index
@@ -13,9 +13,6 @@ class DevelopmentsController < ApplicationController
     if @development.out_of_date?
       flash.now[:partial] = { path: 'developments/out_of_date' }
     end
-    if params[:proposal] == 'success'
-      flash.now[:partial] = { path: 'developments/proposed_success' }
-    end
   end
 
   def new
@@ -24,17 +21,34 @@ class DevelopmentsController < ApplicationController
   def edit
   end
 
+  def update
+    @development = Development.find params[:id]
+    # TODO: Update params
+    log_entry = params[:development][:log_message]
+    @development.assign_attributes update_params
+    # Turn assigned changes on Development into Edits
+    Services::Edit::Extractor.new(@development, current_user, log_entry).call
+    # TODO: Get this working, then do the log message
+    flash[:partial] = { path: 'developments/proposed_success' }
+    redirect_to @development
+  end
+
   def image
-    send_data @development.street_view.image, type: 'image/jpg',
-      disposition: 'inline'
+    send_data *@development.street_view.sendable_data
   end
 
   def export
     @search = ReportPresenter.new Search.new(query: export_params)
     respond_to do |format|
-      format.pdf  { render Export::PDF.new(@search).render }
-      format.html { render Export::PDF.new(@search, show_as_html: true).render }
-      format.csv  { send_data *Export::CSV.new(@search).render }
+      format.pdf  {
+        render Export::PDF.new(@search).render
+      }
+      format.html {
+        render Export::PDF.new(@search, show_as_html: true).render
+      }
+      format.csv  {
+        send_data *Export::CSV.new(@search).render
+      }
     end
   end
 
@@ -45,7 +59,18 @@ class DevelopmentsController < ApplicationController
   end
 
   def export_params
-    params.permit *(Development.column_names.map(&:to_sym) + Development::FieldAliases::ALIASES.keys)
+    params.permit *(
+      Development.column_names.map(&:to_sym) +
+        Development::FieldAliases::ALIASES.keys
+    )
+  end
+
+  def update_params
+    params.require(:development).permit *(
+      Development.column_names.map(&:to_sym) +
+        Development::FieldAliases::ALIASES.keys +
+          [:log_message]
+    )
   end
 
 end

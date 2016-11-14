@@ -15,6 +15,18 @@
   .row
     .ten.wide.column
       #tags
+        %h5 Project Attributes
         - tags.each do |b|
           .ui.basic.label{ class: b.last }
             = Development.human_attribute_name(b.first)
+
+
+.row
+  .ten.wide.column
+    %h5 Incentive Programs
+    - if @development.programs.any?
+      - @development.programs.each do |program|
+        .ui.basic.label
+          = program
+    - else
+      &mdash;

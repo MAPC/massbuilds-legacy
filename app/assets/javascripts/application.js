@@ -29,6 +29,7 @@ $( document ).on('page:load',function() {
 function semanticInitializers() {
   $('.ui.dropdown').dropdown();
   $('img.contributor').popup();
+  $('.button').popup();
   $('.menu .item').tab();
   $('.message .close')
     .on('click', function() {

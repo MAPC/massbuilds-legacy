@@ -2,14 +2,16 @@ require 'test_helper'
 
 class DevelopmentTest < ActiveSupport::TestCase
 
-  def setup
-    stub_street_view
-    stub_walkscore
-    stub_mbta
-  end
+  include ExternalServices::Fakes
+  # TODO include DevelopmentTests::ValidationTest
 
   def development
     @development ||= developments :one
+    mock_out @development
+  end
+
+  def new_development(*args)
+    mock_out Development.new(*args)
   end
 
   alias_method :d, :development
@@ -28,24 +30,21 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_not d.valid?
   end
 
-  test 'can read attributes from fields, as methods' do
-    assert_nothing_raised { d.name }
-    assert_equal 'Godfrey Hotel', d.name
-  end
+  test 'project url website' do
+    d.project_url = 'http://examp.le'
+    stub_request(:get, d.project_url).to_return(status: 200)
+    assert d.validate!
 
-  test 'raises NoMethodError when attribute not present' do
-    assert_raises(NoMethodError) { d.blerg }
-  end
-
-  test 'raises when attribute absent' do
-    assert_raises(NoMethodError) {
-      d.assign_attributes ov_hupipe_not: 10
-    }
+    stub_request(:get, d.project_url).to_return(status: 500)
+    assert_raises ActiveRecord::RecordInvalid do
+      d.validate!
+    end
   end
 
   test 'literal attributes' do
+    # Could move this into the i18n settings / locales
     %i( affordable asofright cancelled clusteros commsf
-        created_at crosswalks desc emploss estemp fa_edinst
+        created_at desc emploss estemp fa_edinst
         fa_hotel fa_indmf fa_ofcmd fa_other fa_ret fa_rnd fa_whs
         gqpop lgmultifam location mapc_notes onsitepark other_rate
         ovr55 phased private prjarea project_url rdv
@@ -68,105 +67,100 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_respond_to d, :zip_code
     assert_respond_to d, :zip
     d.zip_code = '02139'
+    assert d.valid?
   end
 
   test 'accepts 9-digit zip codes' do
     d.zip_code = input = '02139-1112'
+    assert d.valid?
     d.save!
-    assert_equal '021391112',  d.read_attribute(:zip_code)
+    assert_equal '021391112', d.read_attribute(:zip_code)
     assert_equal input, d.zip_code
+  end
+
+  test 'description' do
+    d.description = ''
+    assert d.valid?
+
+    d.description = 'too short'
+    refute d.valid?
+
+    d.description = 'This is a property with some information about things.'
+    assert d.valid?
   end
 
   # Associations
 
   test 'associations' do
     # #recent_changes -> presenter
-    %i( contributors creator crosswalks edits flags history
-        parcel team_members
+    %i(
+        contributors creator edits editors flags history parcel team_members
         team_memberships walkscore programs
       ).each do |attribute|
       assert_respond_to d, attribute
     end
   end
 
-  test '#mixed_use?' do
-    assert_respond_to Development.new, :mixed_use?
-    assert_respond_to Development.new, :mixed_use
-    refute Development.new.mixed_use?
-    refute Development.new(tothu:  1).mixed_use?
-    refute Development.new(commsf: 1).mixed_use?
-    assert Development.new(tothu: 1, commsf: 1).mixed_use?
+  test '#mixed_use? responds to attributes' do
+    assert_respond_to new_development, :mixed_use?
+    assert_respond_to new_development, :mixed_use
+    refute new_development.mixed_use?
+    refute new_development(tothu:  1).mixed_use?
+    refute new_development(commsf: 1).mixed_use?
+    assert new_development(tothu: 1, commsf: 1).mixed_use?
   end
 
-  test '#mixed_use? saves' do
-    stub_street_view lat: 42.3547661, lon: -71.0615689, heading: 0, pitch: 35
-    stub_walkscore lat: 0.0, lon: 0.0
-    stub_mbta lat: 0.0, lon: 0.0
-    dev = Development.new(tothu: 1, commsf: 1)
+  test '#mixed_use? prioritizes changed values over persisted values' do
+    dev = new_development(tothu: 1, commsf: 1)
     assert dev.mixed_use?
-    dev.save!(validate: false)
+    dev.save! validate: false
     assert dev.mixed_use?
     dev.tothu = 0
     refute dev.mixed_use?
   end
 
-  test '#edits' do
-    d.edits = []
-    assert_empty d.edits
-    d.edits << Edit.new
-    assert_not_empty d.edits
-  end
-
-  test '#history' do
+  test '#history is a collection of applied edits' do
     d.edits.new(applied: true).save(validate: false)
     assert_not_empty d.history
   end
 
   test '#pending' do
+    # These are set up in the fixtures.
     assert_not_empty d.edits.pending
   end
 
-  test '#contributors' do
-    user = users :normal
-    d.edits.new(editor: user, state: 'applied').save(validate: false)
-    assert_includes d.contributors, user
+  test '#contributors contains the creator' do
+    assert_includes d.contributors, d.creator
   end
 
-  test '#contributors pulls in unique users' do
+  test '#contributors is a collection of unique users with applied edits' do
     user = users :tim
+    refute_includes d.contributors, user # Is not the creator.
     3.times {
       d.edits.new(editor: user, state: 'applied').save(validate: false)
     }
-    d.creator = user
+    # Appears only once in the contributors list
     assert_equal 1, d.contributors.count, d.contributors
   end
 
-  test '#contributors does not include unapplied edits' do
+  test '#contributors excludes unapplied edits' do
     user = users :tim
-    d.edits.new(editor: user, state: 'pending').save(validate: false)
+    [:approved, :declined, :pending].each do |status|
+      d.edits.new(editor: user, state: status).save(validate: false)
+    end
     refute_includes d.contributors, user
   end
 
   test '#team_members' do
     org = organizations :mapc
-    d.team_memberships.new(
-      organization: org, role: :developer
-    ).save(validate: false)
+    d.team_memberships.new(organization: org, role: :developer).
+      save(validate: false)
     assert_includes d.team_members, org
   end
 
-  test '#crosswalks' do
-    org = organizations :mapc
-    d.crosswalks.new(organization: org, internal_id: '1-1')
-    assert_not_empty d.crosswalks
-  end
-
   test '#programs' do
-    d.programs << programs(:massworks)
-    d.programs << programs(:forty_b)
+    d.programs = ["40B", "MassWorks Infrastructure Program"]
     assert_equal 2, d.programs.count
-    assert_equal 1, d.programs.incentive.count
-    assert_equal 1, d.programs.regulatory.count
   end
 
   test '#status' do
@@ -219,18 +213,14 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'nearby developments' do
-    far_dev = developments(:one)
+    far_dev = mock_out(developments(:one))
     far_dev.latitude  =  40.000000
     far_dev.longitude = -77.000000
-    stub_walkscore(lat: far_dev.latitude, lon: far_dev.longitude)
-    stub_mbta(lat: far_dev.latitude, lon: far_dev.longitude)
     far_dev.save!
 
-    close_dev = developments(:two)
+    close_dev = mock_out(developments(:two))
     close_dev.latitude  =  39.010000
     close_dev.longitude = -75.990000
-    stub_walkscore(lat: close_dev.latitude, lon: close_dev.longitude)
-    stub_mbta(lat: close_dev.latitude, lon: close_dev.longitude)
     close_dev.save!
 
     close_devs = Development.close_to(39.000000, -76.000000).load
@@ -251,40 +241,6 @@ class DevelopmentTest < ActiveSupport::TestCase
   test '#subscribers' do
     refute_empty d.subscribers
     assert_includes d.subscribers, users(:normal)
-  end
-
-  test 'range scopes, dates' do
-    range_scopes = %i( created_at updated_at )
-    range_scopes.each { |scope| assert_respond_to Development, scope }
-  end
-
-  test 'range scopes, float and integer' do
-    ranged_scopes.each { |scope| assert_respond_to Development, scope }
-  end
-
-
-  test 'boolean scopes' do
-    boolean_scopes.each { |s| assert_respond_to Development, s }
-  end
-
-  test 'boolean scope definition' do
-    skip
-    assert_equal 1, Development.hidden(true).count
-    assert_equal 1, Development.hidden.count
-    assert_equal 3, Development.hidden(false).count
-    assert_equal Development.hidden(true), Development.hidden
-    refute_equal Development.hidden(true), Development.hidden(false)
-  end
-
-  # These tests and the params methods could stand some refactoring
-  test 'periscope' do
-    sql = Development.periscope(periscope_params).to_sql
-    all_scopes.each { |scope| assert_includes sql, scope.to_s }
-  end
-
-  test 'periscope alt' do
-    sql = Development.periscope(periscope_params_alt).to_sql
-    all_scopes.each { |scope| assert_includes sql, scope.to_s }
   end
 
   test '#updated_since?' do
@@ -313,120 +269,34 @@ class DevelopmentTest < ActiveSupport::TestCase
     assert_equal [], d.history.since(Time.new(2000, 1, 2))
   end
 
-  test '#place' do
+  test 'responds to place-related methods' do
     assert_respond_to d, :place
-    city = places(:boston)
-    d.place = city
-    assert d.place
-    assert_equal d.city, d.place
-  end
-
-  test '#municipality if assigned a municipality' do
     assert_respond_to d, :municipality
-    muni = places(:boston)
-    d.place = muni
-    assert_equal muni, d.municipality
-  end
-
-  test '#municipality if assigned a neighborhood' do
-    hood = places(:back_bay)
-    d.place = hood
-    assert_equal hood.municipality, d.municipality
-  end
-
-  test '#neighborhood if assigned a neighborhood' do
     assert_respond_to d, :neighborhood
-    hood = places(:back_bay)
-    d.place = hood
-    assert_equal hood, d.neighborhood
   end
 
-  test '#neighborhood if assigned a municipality' do
-    muni = places(:boston)
-    d.place = muni
-    assert_equal nil, d.neighborhood
-  end
-
-  test 'column bounds' do
-    expected = column_bound_keys
-    actual = Development.ranged_column_bounds.keys
-    assert_equal expected, actual
-  end
-
-  def column_bound_keys
-    [:created_at, :updated_at, :height, :stories, :year_compl, :prjarea,
-     :singfamhu, :twnhsmmult, :lgmultifam, :tothu, :gqpop, :rptdemp,
-     :emploss, :estemp, :commsf, :hotelrms, :onsitepark, :total_cost,
-     :team_membership_count, :fa_ret, :fa_ofcmd, :fa_indmf, :fa_whs,
-     :fa_rnd, :fa_edinst, :fa_other, :fa_hotel, :other_rate, :affordable,
-     :latitude, :longitude]
-  end
-
-  def periscope_params
-    hash = Hash.new
-    ranged_scopes.each { |key| hash[key] = [0,1] }
-    hash.merge(mergeable_hash)
-  end
-
-  def periscope_params_alt
-    hash = Hash.new
-    ranged_scopes.each { |key| hash[key] = 1_234 }
-    hash.merge(mergeable_hash)
-  end
-
-  def mergeable_hash
-    { rdv:   true, asofright: false,  phased:  'false', cancelled: true,
-      ovr55: nil,  clusteros: 'true', stalled: 'NULL',  hidden: true }
-  end
-
-  def ranged_scopes
-    %i( height stories year_compl affordable
-      prjarea singfamhu twnhsmmult lgmultifam tothu gqpop rptdemp
-      emploss estemp commsf hotelrms onsitepark total_cost fa_ret
-      fa_ofcmd fa_indmf fa_whs fa_rnd fa_edinst fa_other fa_hotel )
-  end
-
-  def boolean_scopes
-    %i(rdv asofright ovr55 clusteros phased stalled cancelled hidden)
-  end
-
-  def all_scopes
-    array = [ranged_scopes, boolean_scopes].flatten
-    array.delete(:hidden) # Ignores hidden because of the alias, for now.
-    array
+  test 'neighborhood and city' do
+    d.place = nil
+    refute d.place
+    d.place = places(:roxbury)
+    assert d.place
+    assert_equal d.city, d.place.municipality
+    assert_equal d.neighborhood, d.place
   end
 
   test 'street view' do
     assert_respond_to development, :street_view
-    assert_respond_to development.street_view, :url
-    assert_respond_to development.street_view, :image
-  end
-
-  test 'cache street view' do
-    stub_street_view
-    assert_difference 'development.street_view_image.size', 21904 do
-      development.update_attributes street_view_attrs
-    end
-  end
-
-  def street_view_attrs
-    { street_view_heading: 0, street_view_pitch: 11 }
   end
 
   test 'cache walk score' do
-    skip
-    assert_respond_to development, :walkscore
-    attrs = { 'id' => nil, street_view_heading: 0, street_view_pitch: 11 }
-    dev = Development.new(d.attributes.merge(attrs))
-    assert_empty dev.walkscore
-    dev.save!
-    assert_equal 98, dev.walkscore.score
-    assert_equal "Walker's Paradise", dev.walkscore.to_h['description']
+    d.update_attribute :walkscore, {}
+    assert_empty d.walkscore
+    d.latitude_will_change!
+    d.save!
+    assert_not_empty d.walkscore
   end
 
   test 'associate place' do
-    stub_walkscore(lat: 0.00)
-    stub_mbta lat: 0.0, lon: 71.000001
     place = places(:boston)
     d.place = nil
     Place.stub :contains, [place] do
@@ -436,8 +306,6 @@ class DevelopmentTest < ActiveSupport::TestCase
   end
 
   test 'associate no place' do
-    stub_walkscore(lat: 0.00)
-    stub_mbta lat: 0.0, lon: 71.000001
     d.place = nil
     Place.stub :contains, [] do
       d.update_attribute(:latitude, 0.00)
@@ -447,12 +315,8 @@ class DevelopmentTest < ActiveSupport::TestCase
 
   test 'estimates employment' do
     d.estemp = nil
-    d.commsf = d.fa_ret = 0
     d.save!
-    assert_equal 0, d.estemp
-    d.commsf = d.fa_ret = 750
-    d.save!
-    assert d.estemp > 0
+    assert_not_nil d.estemp
   end
 
   test 'out of date' do
@@ -460,6 +324,11 @@ class DevelopmentTest < ActiveSupport::TestCase
     development.updated_at = 7.months.ago
     assert development.out_of_date?
 
+    create_recent_edit(development)
+    refute development.out_of_date?
+  end
+
+  def create_recent_edit(development)
     opts = {
       applied:      true,
       applied_at:   Time.now,
@@ -468,135 +337,22 @@ class DevelopmentTest < ActiveSupport::TestCase
       moderated_at: Time.now
     }
     development.edits.create!(opts)
-    refute development.out_of_date?
-  end
-
-  test 'requires housing units and commercial square feet' do
-    d.tothu = d.commsf = nil
-    refute d.valid?
-    d.tothu = d.commsf = 0
-    assert d.valid?, d.errors.full_messages
-  end
-
-  test 'requires extra housing information' do
-    # If it's in construction or completed, and there's more than
-    # one housing unit, require extra housing information.
-    housing_fields = Development::HOUSING_FIELDS
-
-    [:in_construction, :completed].each do |status|
-      d.status = status
-      d.tothu  = 1
-      d.commsf = 0
-      housing_fields.each { |attrib| d.send("#{attrib}=", nil) }
-      refute d.valid?
-      housing_fields.each { |attrib| d.send("#{attrib}=", 0) }
-      d.singfamhu = 1 # for sum validation
-      assert d.valid?, d.errors.full_messages
-    end
-
-    [:in_construction, :completed].each do |status|
-      d.status = status
-      d.tothu = d.commsf = 0
-      housing_fields.each { |attrib| d.send("#{attrib}=", nil) }
-      assert d.valid?, d.errors.full_messages
-    end
-  end
-
-  test 'requires extra nonres information if in_construction or completed' do
-    nonres_fields = Development::COMMERCIAL_FIELDS
-
-    [:in_construction, :completed].each do |status|
-      d.status = status
-      d.tothu  = 0
-      d.commsf = 1
-      nonres_fields.each { |attrib| d.send("#{attrib}=", nil) }
-      refute d.valid?
-      nonres_fields.each { |attrib| d.send("#{attrib}=", 0) }
-      d.fa_ret = 1 # For sum validation
-      assert d.valid?, d.errors.full_messages
-    end
-
-    [:in_construction, :completed].each do |status|
-      d.status = status
-      d.tothu = d.commsf = 0
-      nonres_fields.each { |attrib| d.send("#{attrib}=", nil) }
-      assert d.valid?, d.errors.full_messages
-    end
-  end
-
-  test 'housing units must add up' do
-    d.status = :in_construction
-    d.tothu  = 100
-    d.commsf = d.gqpop = 0
-    d.singfamhu = d.twnhsmmult = d.lgmultifam = 0
-    refute d.valid?
-    d.singfamhu = 100
-    assert d.valid?, d.errors.full_messages
-    d.singfamhu = d.twnhsmmult = 25
-    d.lgmultifam = 50
-    assert d.valid?, d.errors.full_messages
-  end
-
-  test 'commercial square feet must add up' do
-    d.status = :in_construction
-    d.tothu = 0
-    d.commsf = 1000
-
-    d.fa_ret    = 0
-    d.fa_ofcmd  = 0
-    d.fa_indmf  = 0
-    d.fa_whs    = 0
-    d.fa_rnd    = 0
-    d.fa_edinst = 0
-    d.fa_other  = 0
-    d.fa_hotel  = 0
-
-    refute d.valid?
-    d.fa_ret = 1000
-    assert d.valid?, d.errors.full_messages
-    d.fa_ret = d.fa_ofcmd = d.fa_hotel = d.fa_other = 250
-    assert d.valid?, d.errors.full_messages
   end
 
   test 'nearest transit station' do
-    d.latitude_will_change! # This prompts an update.
-    d.save
     assert_respond_to d, :nearest_transit
-    assert_equal d.nearest_transit, 'Boylston'
+    assert_nil d.nearest_transit
+    d.latitude_will_change! # Mark latitude as changing to prompt an update.
+    d.save!(validate: false)
+    assert d.nearest_transit.is_a?(String)
   end
 
-  test 'infer project type' do
-    skip
-  end
+  # Crosswalks
+  # test '#crosswalks' do
+  #   org = organizations :mapc
+  #   d.crosswalks.new(organization: org, internal_id: '1-1')
+  #   assert_not_empty d.crosswalks
+  # end
 
-  test 'applied edits result in contributors' do
-    skip
-  end
-
-  test 'description' do
-    skip
-  end
-
-
-  private
-
-  def stub_street_view(lat: 42.000001, lon: 71.000001, heading: 0, pitch: 11)
-    file = ActiveRecord::FixtureSet.file('street_view/godfrey.jpg')
-    stub_request(:get, "http://maps.googleapis.com/maps/api/streetview?fov=100&heading=#{heading}&key=loLOLol&location=#{lat},#{lon}&pitch=#{pitch}&size=600x600").
-      to_return(status: 200, body: file)
-  end
-
-  def stub_walkscore(lat: 42.000001, lon: 71.000001)
-    file = File.read('test/fixtures/walkscore/200.json')
-    stub_request(:get, "http://api.walkscore.com/score?format=json&lat=#{lat}&lon=#{lon}&wsapikey=").
-          with(:headers => {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'Host'=>'api.walkscore.com', 'User-Agent'=>'Ruby'}).
-          to_return(:status => 200, :body => file)
-  end
-
-  def stub_mbta(lat: 42.000001, lon: 71.000001)
-    file = File.read('test/fixtures/mbta/stopsbylocation.json')
-    stub_request(:get, "http://realtime.mbta.com/developer/api/v2/stopsbylocation?api_key=&format=json&lat=#{lat}&lon=#{lon}")
-      .to_return(status: 200, body: file)
-  end
 
 end

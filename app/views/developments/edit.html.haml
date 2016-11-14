@@ -1,7 +1,64 @@
-= render_ember_app :searchapp do |head|
-  :javascript
+:ruby
+  set_meta_tags title: @development.name
+  set_meta_tags og: {
+    title:       "Editing #{@development.name}",
+    url:         edit_development_url(@development),
+    description: @development.tagline,
+    image:       image_development_url(@development),
+    type:        'development'
+  }
+  set_meta_tags twitter: { card: 'summary_large_image' }
 
-    document.API_KEY = '#{current_user.try(:api_key)}'
+.row
+  = form_for @development do |f|
+    .ten.wide.column#title-area
+      .ui.form
+        = render partial: 'developments/edit/title', locals: { f: f }
+        #status
+          = render partial: 'developments/edit/status', locals: { f: f }
 
-  = head.append do
-    = csrf_meta_tags
+        #tags
+          = render partial: 'developments/edit/tags', locals: { f: f }
+
+        -# #images
+        -#   %img.ui.large.image{src: 'http://semantic-ui.com/images/wireframe/image.png'}
+        -#   Street View Editor
+
+        #data
+          .ui.horizontal.divider Details
+          = render partial: 'developments/edit/physical',       locals: { f: f }
+          = render partial: 'developments/edit/residential',    locals: { f: f }
+          = render partial: 'developments/edit/commercial',     locals: { f: f }
+          = render partial: 'developments/edit/transportation', locals: { f: f }
+
+        #submit
+          .ui.horizontal.divider Review & Submit
+          .fields
+            .twelve.wide.field
+              .ui.message
+                .header
+                  Please summarize your changes.
+                %p
+                  A moderator will review your comment when deciding whether
+                  to accept your proposed changes.
+              = f.text_area :log_message, rows: 3, placeholder: 'Summary of changes'
+
+          .fields
+            .field
+              = f.submit 'Propose Changes', class: 'ui button primary'
+
+    -# .six.wide.column#sidebar
+      -# #map=     render partial: 'developments/edit/map',          locals: { f: f }
+      -# #team=    render partial: 'developments/edit/team',         locals: { f: f }
+
+-# :javascript
+
+-#   $(document).ready(function() {
+-#     $('.checkable.label').css('cursor', 'pointer');
+-#     $('.checkable.label').click(function() {
+-#       $(this).toggleClass('basic');
+-#     });
+
+
+
+-#   });

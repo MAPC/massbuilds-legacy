@@ -19,6 +19,10 @@ class StreetView
     end
   end
 
+  def sendable_data
+    [image, type: 'image/jpg', disposition: 'inline']
+  end
+
   def data
     "data:image/jpg;base64,#{Base64.encode64(image)}"
   end
@@ -55,13 +59,15 @@ class StreetView
   end
 
   def build_url
-    u =  "http://maps.googleapis.com/maps/api/streetview?"
-    u << "size=#{@width}x#{@height}"
-    u << "&location=#{latitude},#{longitude}"
-    u << "&fov=#{field_of_view}"
-    u << "&heading=#{heading}"
-    u << "&pitch=#{pitch}"
-    u << "&key=#{ENV['GOOGLE_API_KEY']}"
+    %W(
+      http://maps.googleapis.com/maps/api/streetview?
+      size=#{@width}x#{@height}
+      &location=#{latitude},#{longitude}
+      &fov=#{field_of_view}
+      &heading=#{heading}
+      &pitch=#{pitch}
+      &key=#{ENV['GOOGLE_API_KEY']}
+    )
   end
 
   def latitude
@@ -91,12 +97,12 @@ class StreetView
 
   def defaults
     OpenStruct.new(
-      latitude: 42.3547661,
+      latitude:   42.3547661,
       longitude: -71.0615689,
-      size: 600,
-      pitch: 28,
-      heading: 35,
-      fov: 100
+      size:      600,
+      pitch:      28,
+      heading:    35,
+      fov:       100
     )
   end
 

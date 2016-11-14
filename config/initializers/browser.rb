@@ -1,5 +1,5 @@
-# Matches /developments, /developments/new, and /developments/:id/edit
-EMBER_PATH_REGEX = /^\/developments\/?(new|\d+\/?edit|\/?$)/.freeze
+# Matches /developments, the search page
+EMBER_PATH_REGEX = /^\/developments\/?/.freeze
 
 Rails.configuration.middleware.use Browser::Middleware do
   # TODO: Add developments#edit and developments#new path to matchers.

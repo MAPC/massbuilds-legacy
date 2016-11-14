@@ -1,26 +1,42 @@
 .fields
-  .sixteen.wide.field
-    %h1.ui.header#title
+  .four.wide.field
+    %h2.ui.header#title
+      Editing
+  .twelve.wide.field
+    %h2.ui.header
       = f.text_field :name, placeholder: 'Project Name'
 
 .fields#address
-  .four.wide.field
+  .eleven.wide.field
     .ui.left.icon.input
-      = f.text_field :address,  placeholder: '99 Street Address'
+      = f.text_field :address,  placeholder: 'Street Address'
       %i.marker.icon
-  .two.wide.field
-    = f.text_field :city,     placeholder: 'Boston'
-  .two.wide.disabled.field
-    = f.text_field :state,    placeholder: 'MA'
-  .two.wide.field
-    = f.text_field :zip_code, placeholder: '01010'
+  .five.wide.field
+    = f.select :place_id, Municipality.order(:name).pluck(:name, :id), { selected: @development.municipality.id }, { class: 'ui search dropdown' }
+  .three.wide.field
+    = f.text_field :state,    placeholder: 'MA', readonly: ''
+  .four.wide.field
+    = f.text_field :zip_code
 
 .fields
-  .six.wide.field
-  -#   .ui.disabled.input#tagline
-  -#     = f.text_field :tagline # Don't need tagline in #edit
-  -# .four.wide.field
-    .ui.labeled.input#website
-      .ui.label
+  .sixteen.wide.field
+    .ui.left.labeled.input#tagline
+      .ui.basic.label Tagline
+      = f.text_field :tagline, placeholder: 'Tagline (short description)'
+
+.fields
+  .eight.wide.field
+    .ui.right.labeled.input
+      .ui.basic.label Total Cost $
+      = f.number_field :total_cost
+      .ui.basic.label .00
+  .eight.wide.field
+    .ui.basic.labeled.input#website
+      .ui.basic.label
         %i.linkify.icon
-      = f.text_field :project_url
+      = f.text_field :project_url, placeholder: 'Project Website'
+
+.fields
+  .sixteen.wide.field
+    .ui.input#description
+      = f.text_area :description, size: '80x3', placeholder: 'Description of project'

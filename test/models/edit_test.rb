@@ -57,20 +57,8 @@ class EditTest < ActiveSupport::TestCase
     }
   end
 
-  test '#conflict' do
-    assert_empty edit.conflict
-    edit.development.commsf = 13
-    refute_empty edit.conflict
-  end
-
-  test '#conflict?' do
-    refute edit.conflict?
-    edit.development.commsf = 13
-    assert edit.conflict?
-  end
-
   test '#applyable' do
-    assert edit.applyable?, [edit.inspect, edit.conflict?]
+    assert edit.applyable?, [edit.inspect, edit.conflicts]
   end
 
   test 'approved' do
@@ -101,6 +89,10 @@ class EditTest < ActiveSupport::TestCase
     assert edit.moderatable?, edit.inspect
     edit.declined
     refute edit.moderatable?
+  end
+
+  test 'applyable despite conflict' do
+    assert edits(:conflict).applyable?
   end
 
 end
