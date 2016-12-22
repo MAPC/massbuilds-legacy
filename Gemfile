@@ -2,9 +2,9 @@ source 'https://rubygems.org'
 
 ruby '2.3.1'
 
-gem 'bundler', '1.11.2'
+gem 'bundler'
 
-gem 'rails', '4.2.5.1'
+gem 'rails', '~> 4.2'
 
 # Database
 gem 'pg'

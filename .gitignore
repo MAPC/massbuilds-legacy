@@ -17,7 +17,6 @@ node_modules/
 .DS_Store
 
 public/assets/*
-db/import/*
 *.csv*
 .notes.md
 notes.txt
