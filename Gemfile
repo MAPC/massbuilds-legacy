@@ -90,6 +90,8 @@ end
 
 group :development, :test do
   gem 'bullet', '4.14.10' # SQL diagnostics
+  gem 'pry-rails'
+  gem 'pry-byebug'
 end
 
 group :test do
