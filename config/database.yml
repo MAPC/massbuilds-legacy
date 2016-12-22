@@ -2,7 +2,7 @@ default: &default
   adapter: postgis
   encoding: unicode
   pool: 5
-  database: <%= ENV.fetch 'DB_NAME', 'massbuilds_dev' %>
+  database: <%= ENV.fetch 'DB_NAME', 'ddmodels2_development' %>
   username: <%= ENV.fetch 'DB_USERNAME', nil %>
   password: <%= ENV.fetch 'DB_PASSWORD', nil %>
   host:     <%= ENV.fetch 'DB_PORT_5432_TCP_ADDR', 'localhost' %>
