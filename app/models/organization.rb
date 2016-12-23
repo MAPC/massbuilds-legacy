@@ -22,10 +22,10 @@ class Organization < ActiveRecord::Base
   validates :creator, presence: true
 
   # validates :website, presence: true
-  validates_uri_existence_of :website, if: 'website.present?'
+  # validates :existence_of_website
 
   validate  :valid_email, if: 'email.present?'
-  # validate  :valid_url_template, if: 'url_template.present?'
+  validate  :valid_url_template, if: 'url_template.present?'
 
   alias_attribute :admin, :creator
 
