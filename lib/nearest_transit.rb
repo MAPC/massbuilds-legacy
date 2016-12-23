@@ -14,7 +14,7 @@ class NearestTransit
   private
 
   def stop_name
-    subway_station || bus_sotp
+    subway_station || bus_stop
   end
 
   def subway_station

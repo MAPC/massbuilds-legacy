@@ -25,6 +25,8 @@ guard -w app lib test config
 
 First clone the repository. Then setup the database using the special instructions below. Finally you can start the app using `foreman start`. You should visit the app from your web browser by going to http://lvh.me:5000/. lvh.me points to localhost but allows the application to reference and resolve sub-domains when developing on localhost.
 
+Creating new developments requires obtaining an [MBTA API Key](http://realtime.mbta.com/portal) and setting MBTA_API_KEY to this key in your .env file.
+
 #### Setting Up the Database
 
 You will need to have Postgres installed with PostGIS. On Mac OS X you can add PostGIS to Postgres with homebrew by running `brew install postgis`.
