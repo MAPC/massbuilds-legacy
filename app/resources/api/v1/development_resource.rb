@@ -7,7 +7,8 @@ module API
       attributes :name, :status, :tagline, :description, :project_url,
                  :year_compl,
 
-                 :mixed_use, :rdv, :asofright, :ovr55, :clusteros, :hidden,
+                 :mixed_use, :rdv, :asofright, :ovr55, :clusteros, :hidden, 
+                 :forty_b, :residential, :commercial,
 
                  :redevelopment, :as_of_right, :age_restricted,
                  :cluster_or_open_space_development, :phased, :stalled,
@@ -49,7 +50,7 @@ module API
 
       boolean_filters :rdv, :asofright, :ovr55, :clusteros, :phased,
         :stalled, :cancelled, :hidden, :redevelopment, :age_restricted,
-        :private, :as_of_right, :cluster_os
+        :private, :as_of_right, :cluster_os, :forty_b, :residential, :commercial
 
       filter :status
 

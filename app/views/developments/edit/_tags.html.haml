@@ -33,6 +33,18 @@
     = f.check_box :stalled,                      :class => 'checkable'
     = f.label :stalled, "Stalled",               :class => 'black'
 
+  .inline.field
+    = f.check_box :mixed_use,                      :class => 'read-only'
+    = f.label :mixed_use, "Mixed Use",               :class => 'black'
+
+  .inline.field
+    = f.check_box :commercial,                      :class => 'checkable'
+    = f.label :commercial, "Commercial",               :class => 'black'
+
+  .inline.field
+    = f.check_box :residential,                      :class => 'checkable'
+    = f.label :residential, "Residential",               :class => 'black'
+
 
 
 .ui.horizontal.divider
