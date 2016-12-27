@@ -26,16 +26,6 @@ class UserTest < ActiveSupport::TestCase
     assert new_user.valid?, new_user.errors.full_messages
   end
 
-  test 'requires a first name' do
-    new_user.first_name = nil
-    assert_not new_user.valid?
-  end
-
-  test 'requires a last name' do
-    new_user.last_name = nil
-    assert_not new_user.valid?
-  end
-
   test 'hashes email before saving' do
     user.save
     assert_not_empty user.hashed_email

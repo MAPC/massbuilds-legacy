@@ -19,7 +19,10 @@
       %tbody
         - pending_memberships.each do |membership|
           %tr
-            %td= link_to "#{membership.user.first_name} #{membership.user.last_name} (View Profile)", membership.user
+            - if membership.user.first_name.present? || membership.user.last_name.present?
+              %td= link_to "#{membership.user.try(:first_name)} #{membership.user.try(:last_name)} (View Profile)", membership.user
+            - else
+              %td= link_to "#{membership.user.email} (View Profile)", membership.user
             %td
               = link_to approve_membership_path(membership), method: :put do
                 %button.ui.green.button
@@ -45,7 +48,7 @@
     %tbody
       - @memberships.map {|m| [m, m.user] }.each do |membership, user|
         %tr
-          %td= link_to "#{user.first_name} #{user.last_name} (#{user.email})", user
+          %td= link_to "#{user.try(:first_name)} #{user.try(:last_name)} (#{user.email})", user
           %td.collapsing
             = link_to user do
               %button.ui.basic.button

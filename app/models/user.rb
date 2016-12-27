@@ -30,9 +30,6 @@ class User < ActiveRecord::Base
 
   has_many :subscriptions
 
-  validates :first_name, presence: true, if: :new_record?
-  validates :last_name,  presence: true, if: :new_record?
-
   enumerize :mail_frequency, in: [:never, :daily, :weekly],
     predicates: true, default: :weekly
 
