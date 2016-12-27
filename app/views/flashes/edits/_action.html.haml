@@ -4,10 +4,13 @@
     Edit
     = "#{object['action']}." if object
   .p
-    You
-    = object['action'] if object
-    = succeed "'s" do
-      = object['name'] if object
-    edit.
+    - if object
+      You
+      = object['action']
+      = succeed "'s" do
+        = object['name']
+      edit.
+    - else
+      Your edit succeeded.
   -# Rendering issue: says 'missing partial'
   -# = render partial: 'edits/none_left' if object['none_left']
