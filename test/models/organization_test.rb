@@ -6,12 +6,6 @@ class OrganizationTest < ActiveSupport::TestCase
   end
   alias_method :org, :organization
 
-  def setup
-    # To pass all the tests.
-    # Could also pass {on: :save} to validation config.
-    stub_request(:get, org.website).to_return(status: 200)
-  end
-
   test 'valid' do
     assert org.valid?, org.errors.full_messages
   end
@@ -74,26 +68,22 @@ class OrganizationTest < ActiveSupport::TestCase
   test 'requires a URL that exists' do
     # Read https://www.igvita.com/2006/09/07/validating-url-in-ruby-on-rails/
     # and http://stackoverflow.com/questions/5908017/check-if-url-exists-in-ruby
-    [200, 301, 302].each do |good_status|
-      stub_request(:get, org.website).to_return(status: good_status)
-      assert org.valid?
-    end
-
-    [404, 500].each do |bad_status|
-      stub_request(:get, org.website).to_return(status: bad_status)
-      assert_not org.valid?
-    end
+    skip
+    org.website = 'https://lo.lllll'
+    assert_not org.valid?
+    org.website = 'http://homestarrunner.com'
+    assert org.valid?
   end
 
-  # test 'has an activity log' do
-  #   skip "
-  #     Tracks when:
-  #       - A member invites another member.
-  #       - An invited member accepts.
-  #       - A member leaves.
-  #       - A member is kicked out.
-  #   "
-  # end
+  test 'has a log' do
+    skip "
+      Tracks when:
+        - A member invites another member.
+        - An invited member accepts.
+        - A member leaves.
+        - A member is kicked out.
+    "
+  end
 
   test 'can have many members through memberships' do
     org.memberships.create user: users(:normal)
@@ -114,31 +104,31 @@ class OrganizationTest < ActiveSupport::TestCase
     assert massit.members << user
   end
 
-  # test 'URL template' do
-  #   org.url_template = template('?project={id}')
-  #   expanded = org.url_parser.expand(id: 45)
-  #   expected = template('?project=45')
-  #   assert_equal expanded, expected
-  # end
+  test 'URL template' do
+    org.url_template = template('?project={id}')
+    expanded = org.url_parser.expand(id: 45)
+    expected = template('?project=45')
+    assert_equal expanded, expected
+  end
 
-  # test 'requires valid URL template' do
-  #   org.url_template = template('?project=')
-  #   assert_not org.valid?
-  # end
+  test 'requires valid URL template' do
+    org.url_template = template('?project=')
+    assert_not org.valid?
+  end
 
-  # test '#has_url_template?' do
-  #   org.url_template = 'x'
-  #   assert org.has_url_template?
-  #   org.url_template = ' '
-  #   assert_not org.has_url_template?
-  # end
+  test '#has_url_template?' do
+    org.url_template = 'x'
+    assert org.has_url_template?
+    org.url_template = ' '
+    assert_not org.has_url_template?
+  end
 
-  # test 'crosswalks' do
-  #   skip 'not there'
-  #   dev = developments :one
-  #   org.crosswalks.new(development: dev, internal_id: '1-0')
-  #   assert_not_empty org.crosswalks
-  # end
+  test 'crosswalks' do
+    skip 'not there'
+    dev = developments :one
+    org.crosswalks.new(development: dev, internal_id: '1-0')
+    assert_not_empty org.crosswalks
+  end
 
   test 'related developments custom method responds correctly' do
     assert_respond_to(org, :developments)

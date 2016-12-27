@@ -2,12 +2,15 @@
   %i.close.icon
   .header
     Edit
-    = "#{object['action']}."
+    = "#{object['action']}." if object
   .p
-    You
-    = object['action']
-    = succeed "'s" do
-      = object['name']
-    edit.
+    - if object
+      You
+      = object['action']
+      = succeed "'s" do
+        = object['name']
+      edit.
+    - else
+      You successfully approved the edit.
   -# Rendering issue: says 'missing partial'
   -# = render partial: 'edits/none_left' if object['none_left']
