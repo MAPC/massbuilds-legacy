@@ -1,6 +1,6 @@
 class DevelopmentsController < ApplicationController
 
-  layout 'search', only: [:index]
+  layout 'search', only: [:index, :new]
 
   before_action :load_record, only: [:show, :image, :edit]
   before_action :authenticate_user!, only: [:edit, :update]
