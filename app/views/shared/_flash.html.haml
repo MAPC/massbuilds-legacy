@@ -16,7 +16,7 @@
           - if key.to_s.match /partial/
             - obj = Hash[[message]].with_indifferent_access
             = render partial: "flashes/#{obj[:path]}",
-                locals: { key: key, object: obj['object'] }
+                locals: { key: key, object: obj['object'] } if obj[:path]
 
 
           - else
