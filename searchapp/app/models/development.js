@@ -16,7 +16,7 @@ export default DS.Model.extend({
   cancelled: DS.attr("boolean"), 
   "private": DS.attr("boolean"), 
 
-  onsitepark: DS.attr("number"),
+  onsitepark: DS.attr("number", { defaultValue: 0 }),
 
   address: DS.attr("string"),
   latitude: DS.attr("number"),

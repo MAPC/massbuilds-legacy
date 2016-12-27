@@ -24,15 +24,15 @@
 
         {{partial "developments/forms/physical"}}
 
-        {{partial "developments/forms/residential"}}
+        {{!-- {{partial "developments/forms/residential"}} --}}
 
-        {{partial "developments/forms/commercial"}}
+        {{!-- {{partial "developments/forms/commercial"}} --}}
 
         {{partial "developments/forms/employment"}}
 
         <div class="ui form">
           <div class="field">
-            <label>What is the reason for this proposal?</label>
+            <label>What is the reason for this proposal?<span style="color: red;">*</span></label>
             {{textarea value=model.log_entry rows=2}}
           </div>
         </div>
