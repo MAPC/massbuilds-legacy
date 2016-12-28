@@ -279,7 +279,10 @@ CREATE TABLE developments (
     nearest_transit character varying,
     point geography(Point,4326),
     walkscore character varying DEFAULT '{}'::character varying NOT NULL,
-    programs character varying
+    programs character varying,
+    forty_b boolean,
+    residential boolean,
+    commercial boolean
 );
 
 
@@ -1676,4 +1679,6 @@ INSERT INTO schema_migrations (version) VALUES ('20160629201015');
 INSERT INTO schema_migrations (version) VALUES ('20160908174046');
 
 INSERT INTO schema_migrations (version) VALUES ('20161017141013');
+
+INSERT INTO schema_migrations (version) VALUES ('20161227223911');
 

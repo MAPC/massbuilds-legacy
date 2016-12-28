@@ -15,6 +15,10 @@ export default DS.Model.extend({
   phased: DS.attr("boolean"), 
   cancelled: DS.attr("boolean"), 
   "private": DS.attr("boolean"), 
+  forty_b: DS.attr("boolean"),
+  // mixed_use: DS.attr("boolean"),
+  residential: DS.attr("boolean"),
+  commercial: DS.attr("boolean"),
 
   onsitepark: DS.attr("number"),
 
