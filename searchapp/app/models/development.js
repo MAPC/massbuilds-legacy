@@ -20,7 +20,7 @@ export default DS.Model.extend({
   residential: DS.attr("boolean"),
   commercial: DS.attr("boolean"),
 
-  onsitepark: DS.attr("number"),
+  onsitepark: DS.attr("number", { defaultValue: 0 }),
 
   address: DS.attr("string"),
   latitude: DS.attr("number"),

@@ -1,5 +1,5 @@
 import Ember from 'ember';
 
 export default Ember.Component.extend({
-  classNames: ['ui','basic', 'errors', 'modal']
+  classNames: ['ui', 'errors', 'long', 'modal']
 });

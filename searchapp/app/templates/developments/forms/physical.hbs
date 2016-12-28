@@ -13,6 +13,13 @@
         </div>
       </td>
     </tr>
+      <tr>
+        <td colspan="2">
+          {{#liquid-if (gt model.tothu 0) class="nested-form"}}
+            {{partial "developments/forms/residential"}}
+          {{/liquid-if}}
+        </td>
+      </tr>
     <tr>
       <td><div class="ui form"><div class="required field input"><label>{{#ui-popup tagName="label" content="Nonresidential share of commercial use."}}Commercial Square Feet <i class="help circle icon"></i>{{/ui-popup}}</label></div></div></td>
       <td>
@@ -22,7 +29,15 @@
       </td>
     </tr>
     <tr>
-      <td>{{#ui-popup tagName="label" content="Project Site Area in Square Feet"}}Project Area (in Square Feet) <i class="help circle icon"></i>{{/ui-popup}}</td>
+      <td colspan="2">
+        {{#liquid-if (gt model.commsf 0) class="nested-form"}}
+          {{partial "developments/forms/commercial"}}
+        {{/liquid-if}}
+      </td>
+    </tr>
+    <tr>
+      <td>{{#ui-popup tagName="label" content="Project Site Area in Square Feet"}}Project Area (in Square Feet) <i class="help circle icon"></i>{{/ui-popup}}
+      </td>
       <td>
         <div class="ui right labeled input">
           {{input type="text" value=model.prjarea}}

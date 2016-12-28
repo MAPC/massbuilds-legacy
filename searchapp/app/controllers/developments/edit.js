@@ -53,7 +53,7 @@ export default Ember.Controller.extend({
         // this.transitionToRoute('developments', model);  
         window.location.replace(model.get("id") + '?proposal=success');
       },() => {
-        $('.ui.basic.errors.modal')
+        Ember.$('.ui.errors.modal')
           .modal('show')
         ;
       });

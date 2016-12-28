@@ -26,15 +26,5 @@
         Parcel ID: {{model.parcel_id}}
       {{/if}} --}}
     </div>
-
-
-    <div class="step">
-      <div class="ui top attached label">Step 3: Drag to position camera to desired angle</div>
-      <div style="width:100%">
-        {{street_view_latitude}}
-        {{street_view_longitude}}
-        {{street-view povChanged='povChanged' positionChanged='positionChanged' addressControl=false pov=this.pointOfView lat=model.street_view_latitude lng=model.street_view_longitude}}
-      </div>
-    </div>
   </div>
 {{/if}}
