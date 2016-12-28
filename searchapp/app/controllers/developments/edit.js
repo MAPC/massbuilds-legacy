@@ -60,6 +60,11 @@ export default Ember.Controller.extend({
     },
     update_selected(component, id, value) {
       this.set("organization", id);
+    },
+    updateCenter(e) {
+      let center = e.target.getCenter();
+      this.set('model.latitude', center.lat);
+      this.set('model.longitude', center.lng);
     }
   },
   searchCriteria: "",
@@ -69,6 +74,8 @@ export default Ember.Controller.extend({
   }.property('model.id'),
 
   // sets defaults in case undefined. defaults should be set on the model.
+  street_view_lat: Ember.computed.oneWay("model.latitude"),
+  street_view_lon: Ember.computed.oneWay("model.longitude"),
   pointOfView: function() {
     var model = this.get("model");
     var lat = this.get("latitude");
@@ -117,13 +124,5 @@ export default Ember.Controller.extend({
     var queryObject = { filter: {} };
     queryObject["search"] = this.get("searchCriteria");
     return this.store.query("organization", { "filter[search]": this.get("searchCriteria") });
-  }.property("this.searchCriteria"),
-
-  // private
-
-  resetRefinements: function() {
-    var model = this.get("model");
-    // model.set("street_view_latitude", model.get("latitude"));
-    // model.set("street_view_longitude", model.get("longitude"));
-  }.observes("this.model.location")
+  }.property("this.searchCriteria")
 });

@@ -175,3 +175,16 @@
 .leaflet-control-attribution {
   display: none!important;
 }
+
+.errors {
+  min-height: 100%;
+}
+
+.scrolling.undetached.dimmable.dimmed > .dimmer {
+  overflow: scroll;
+}
+
+.leaflet-container.edit {
+  height: 500px;
+  min-width:100%;
+}

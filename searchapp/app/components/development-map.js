@@ -41,8 +41,8 @@ export default Ember.Component.extend({
 
     this.map.on("dragend", () => {
       var center = this.map.getCenter();
-      model.set("refinedLat", center.lat);
-      model.set("refinedLng", center.lng);
+      model.set("latitude", center.lat);
+      model.set("longitude", center.lng);
       this.parcelID();
     });
 
