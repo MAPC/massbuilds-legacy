@@ -27,21 +27,10 @@
       {{/leaflet-map}}
     </div>
 
-
     <div class="step">
       <div class="ui top attached label">Step 3: Drag to position camera to desired angle</div>
       <div style="width:100%">
         {{street-view povChanged='povChanged' positionChanged='positionChanged' addressControl=false pov=this.pointOfView lat=street_view_lat lng=street_view_lon}}
-      </div>
-    </div>
-
-
-    <div class="step">
-      <div class="ui top attached label">Step 3: Drag to position camera to desired angle</div>
-      <div style="width:100%">
-        {{street_view_latitude}}
-        {{street_view_longitude}}
-        {{street-view povChanged='povChanged' positionChanged='positionChanged' addressControl=false pov=this.pointOfView lat=model.street_view_latitude lng=model.street_view_longitude}}
       </div>
     </div>
   </div>

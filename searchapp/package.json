@@ -53,7 +53,6 @@
     "leaflet": "^0.7.7",
     "liquid-fire": "0.23.1",
     "loader.js": "^4.0.0",
-    "mapbox-gl": "^0.20.1",
     "semantic-ui-ember": "1.0.0"
   },
   "dependencies": {
