@@ -20,11 +20,19 @@
   <div class="ui two steps">
     <div class="step">
       <div class="ui top attached label">Step 2: Drag map to center point onto appropriate parcel</div>
-      {{development-map model=model}}
+      {{!-- {{development-map model=model}} --}}
+      {{#leaflet-map class="leaflet-container edit" lat=model.latitude lng=model.longitude onMoveend=(action "updateCenter") zoom=16 as |layers|}}
+        <div class="circle-map"></div>
+        {{layers.tile url='//{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png'}}
+        {{layers.tile url="//cartocdn-ashbu.global.ssl.fastly.net/mapc-admin/api/v1/map/mapc-admin@09fc5254@b686bb40b826e69820bf04aa7dbdf30f:1475250012058'/{z}/{x}/{y}.png" }}
+      {{/leaflet-map}}
+    </div>
 
-{{!--       {{#if model.parcel_id}}
-        Parcel ID: {{model.parcel_id}}
-      {{/if}} --}}
+    <div class="step">
+      <div class="ui top attached label">Step 3: Drag to position camera to desired angle</div>
+      <div style="width:100%">
+        {{street-view povChanged='povChanged' positionChanged='positionChanged' addressControl=false pov=this.pointOfView lat=street_view_lat lng=street_view_lon}}
+      </div>
     </div>
   </div>
 {{/if}}
