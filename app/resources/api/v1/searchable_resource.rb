@@ -40,6 +40,11 @@ module API
         OpenStruct.new(geometry: {}, properties: { 'confidence' => 0 })
       end
 
+      def self.verify_key(key, context = nil)
+        key.delete!(',')
+        super(key, context)
+      end
+
       def self.wrap_with_resource(record)
         case record.class.name
         when 'Development'

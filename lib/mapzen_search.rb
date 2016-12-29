@@ -36,12 +36,12 @@ class MapzenSearch
 
   def base
     @base ||= %W(
-      http://search.mapzen.com/v1/autocomplete
+      http://search.mapzen.com/v1/search
       ?api_key=#{ENV.fetch('MAPZEN_API_KEY')}
       &focus.point.lat=42.357&focus.point.lon=-71.056
       &sources=openstreetmap
       &layers=address,microhood,neighbourhood,macrohood
-      "&text="
+      &text=
     ).join.freeze
   end
 
