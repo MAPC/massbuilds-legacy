@@ -29,7 +29,7 @@ module API
       end
 
       def self.confident_in_location?(location)
-        location.properties['confidence'].to_f > 0.75
+        location.properties['confidence'].to_f > 0.6
       end
 
       def self.no_place?(search_results)
@@ -38,6 +38,11 @@ module API
 
       def self.null
         OpenStruct.new(geometry: {}, properties: { 'confidence' => 0 })
+      end
+
+      def self.verify_key(key, context = nil)
+        key.delete!(',')
+        super(key, context)
       end
 
       def self.wrap_with_resource(record)
