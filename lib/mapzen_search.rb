@@ -27,7 +27,9 @@ class MapzenSearch
 
   def results
     # Array-ify nil caused by a URL error
-    Array(JSON.parse(response)['features']).map { |json| OpenStruct.new(json) }
+    parsed_response = Array(JSON.parse(response)['features'])
+    parsed_response.sort! { |result| result["properties"]["confidence"] }
+    parsed_response.map { |json| OpenStruct.new(json) }
   end
 
   def response
