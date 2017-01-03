@@ -2,7 +2,7 @@
   "scripts": {
     "postinstall": "./bin/heroku_install"
   },
-  "devDependencies": {
+  "dependencies": {
     "bower": "*"
   },
   "cacheDirectories": [
@@ -11,6 +11,7 @@
     "node_modules"
   ],
   "engines": {
-    "node": "0.12.7"
+    "node": "4.5.0",
+    "npm": "3.10.10"
   }
 }
