@@ -112,3 +112,5 @@ group :staging, :production do
   gem 'newrelic_rpm'
   gem 'scout_apm'
 end
+
+gem 'rails_12factor', group: [:staging, :production]
