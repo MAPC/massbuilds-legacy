@@ -9,5 +9,8 @@
     "searchapp/node_modules",
     "searchapp/bower_components",
     "node_modules"
-  ]
+  ],
+  "engines": {
+    "node": "0.12.7"
+  }
 }
