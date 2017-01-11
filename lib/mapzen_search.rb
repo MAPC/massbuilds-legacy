@@ -20,7 +20,7 @@ class MapzenSearch
   end
 
   def result
-    results.first
+    results.last
   end
 
   private
