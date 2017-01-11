@@ -23,16 +23,7 @@ guard -w app lib test config
 
 ### Installation
 
-First clone the repository. Then run the following:
-```
-bundle install
-cd searchapp
-npm install
-bower install
-cd ..
-```
-
-Then setup the database using the special instructions below. Finally you can start the app using `foreman start`. You should visit the app from your web browser by going to http://lvh.me:5000/. lvh.me points to localhost but allows the application to reference and resolve sub-domains when developing on localhost.
+First clone the repository. Then setup the database using the special instructions below. Finally you can start the app using `foreman start`. You should visit the app from your web browser by going to http://lvh.me:5000/. lvh.me points to localhost but allows the application to reference and resolve sub-domains when developing on localhost.
 
 Creating new developments requires obtaining an [MBTA API Key](http://realtime.mbta.com/portal) and setting MBTA_API_KEY to this key in your .env file.
 

@@ -1,25 +1,20 @@
+languages:
+  Ruby: true
+  JavaScript: true
+  Python: false
+  PHP: false
+
 engines:
   rubocop:
     enabled: true
-  brakeman:
-    enabled: true
   eslint:
     enabled: true
-  csslint:
-    enabled: true
-  duplication:
-    enabled: true
-    config:
-      languages:
-      - ruby
-        #mass_threshold: 30
-      - javascript
+
 ratings:
-  paths:
-  - app/**
-  - lib/**
-  - "**.rb"
+   paths:
+   - "app/**/*"
+   - "lib/**/*"
+   - "**.rb"
+
 exclude_paths:
-  - spec/**/*
-  - "**/vendor/**/*"
   - searchapp/**/*

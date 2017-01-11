@@ -6,25 +6,13 @@ namespace :database do
     end
   end
 
-  desc 'Change nil square footage values to 0'
-  task update_nil_sq_ft: :environment do
-    Development.where(fa_ret: nil).update_all(fa_ret: 0)
-    Development.where(fa_ofcmd: nil).update_all(fa_ofcmd: 0)
-    Development.where(fa_indmf: nil).update_all(fa_indmf: 0)
-    Development.where(fa_whs: nil).update_all(fa_whs: 0)
-    Development.where(fa_rnd: nil).update_all(fa_rnd: 0)
-    Development.where(fa_edinst: nil).update_all(fa_edinst: 0)
-    Development.where(fa_other: nil).update_all(fa_other: 0)
-    Development.where(fa_hotel: nil).update_all(fa_hotel: 0)
-  end
-
   desc 'Fix incorrect commercial square footage numbers'
   task fix_commercial_sq_ft: :environment do
     Development.where(
     'fa_ret + fa_ofcmd + fa_indmf + fa_whs +
     fa_rnd + fa_edinst + fa_other + fa_hotel != commsf'
     ).to_a.each do |development|
-      Rails.logger.info "Updating Development #{development.name}"
+      puts "Updating Development #{development.name}"
       development.fa_ret = development.fa_ret * 100
       development.fa_ofcmd = development.fa_ofcmd * 100
       development.fa_indmf = development.fa_indmf * 100

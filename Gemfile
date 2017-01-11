@@ -15,6 +15,7 @@ gem 'activerecord-postgis-adapter'
 gem 'rgeo'
 gem 'rgeo-geojson'
 gem 'pg_search'
+gem "administrate", "~> 0.3.0"
 # gem 'active_hash'
 # gem 'paperclip' # File attachments
 
@@ -57,7 +58,8 @@ gem 'high_voltage', '~> 3.0.0' # Static pages
 # Semantic UI
 gem 'therubyracer'
 gem 'less-rails-semantic_ui', '~> 2.1'
-gem 'autoprefixer-rails', '~> 5.2.1.2'
+gem 'autoprefixer-rails', '~> 6.0'
+gem "bourbon"
 
 # API
 gem 'jsonapi-resources' # JSON API standard
@@ -112,5 +114,3 @@ group :staging, :production do
   gem 'newrelic_rpm'
   gem 'scout_apm'
 end
-
-gem 'rails_12factor', group: [:staging, :production]

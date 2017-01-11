@@ -3,6 +3,31 @@ require 'constraint'
 
 Rails.application.routes.draw do
 
+  namespace :admin do
+    resources :developments
+resources :development_team_memberships
+resources :subscriptions
+resources :users
+resources :api_keys
+resources :broadcasts
+resources :claims
+resources :crosswalks
+resources :edits
+resources :field_edits
+resources :flags
+resources :memberships
+resources :places
+resources :organizations
+resources :place_profiles
+resources :programs
+resources :searches
+resources :verifications
+resources :municipalities
+resources :neighborhoods
+
+    root to: "developments#index"
+  end
+
   mount_ember_app :searchapp, to: 'developments/new',
     controller: 'developments',
     action:     'new',

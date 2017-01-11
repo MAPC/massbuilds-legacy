@@ -51,8 +51,8 @@ CREATE TABLE api_keys (
     id integer NOT NULL,
     user_id integer,
     token character varying NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -61,7 +61,7 @@ CREATE TABLE api_keys (
 --
 
 CREATE SEQUENCE api_keys_id_seq
-    START WITH 1
+    START WITH 11
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -84,11 +84,11 @@ CREATE TABLE broadcasts (
     subject character varying,
     body character varying,
     scope character varying,
-    scheduled_for timestamp without time zone,
+    scheduled_for timestamp(6) without time zone,
     state character varying,
     creator_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -121,8 +121,8 @@ CREATE TABLE claims (
     development_id integer,
     moderator_id integer,
     role character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     reason character varying,
     state character varying
 );
@@ -156,8 +156,8 @@ CREATE TABLE crosswalks (
     organization_id integer,
     development_id integer,
     internal_id character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -189,8 +189,8 @@ CREATE TABLE development_team_memberships (
     role character varying,
     development_id integer,
     organization_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -199,7 +199,7 @@ CREATE TABLE development_team_memberships (
 --
 
 CREATE SEQUENCE development_team_memberships_id_seq
-    START WITH 1
+    START WITH 142
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -220,8 +220,8 @@ ALTER SEQUENCE development_team_memberships_id_seq OWNED BY development_team_mem
 CREATE TABLE developments (
     id integer NOT NULL,
     creator_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     rdv boolean,
     asofright boolean,
     ovr55 boolean,
@@ -277,7 +277,7 @@ CREATE TABLE developments (
     parcel_id character varying(25),
     mixed_use boolean,
     nearest_transit character varying,
-    point geography(Point,4326),
+    point geography,
     walkscore character varying DEFAULT '{}'::character varying NOT NULL,
     programs character varying,
     forty_b boolean,
@@ -291,7 +291,7 @@ CREATE TABLE developments (
 --
 
 CREATE SEQUENCE developments_id_seq
-    START WITH 1
+    START WITH 32
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -346,11 +346,11 @@ CREATE TABLE edits (
     development_id integer,
     state character varying,
     fields json,
-    applied_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    applied_at timestamp(6) without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     ignore_conflicts boolean DEFAULT false,
-    moderated_at timestamp without time zone,
+    moderated_at timestamp(6) without time zone,
     applied boolean DEFAULT false NOT NULL,
     log_entry text
 );
@@ -361,7 +361,7 @@ CREATE TABLE edits (
 --
 
 CREATE SEQUENCE edits_id_seq
-    START WITH 1
+    START WITH 417
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -384,8 +384,8 @@ CREATE TABLE field_edits (
     edit_id integer,
     name character varying,
     change json,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -394,7 +394,7 @@ CREATE TABLE field_edits (
 --
 
 CREATE SEQUENCE field_edits_id_seq
-    START WITH 1
+    START WITH 3502
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -418,8 +418,8 @@ CREATE TABLE flags (
     development_id integer,
     reason text,
     state character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     resolver_id integer
 );
 
@@ -453,8 +453,8 @@ CREATE TABLE inbox_notices (
     body character varying,
     state character varying,
     level character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -486,8 +486,8 @@ CREATE TABLE memberships (
     user_id integer,
     organization_id integer,
     state character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     role character varying DEFAULT 'normal'::character varying NOT NULL
 );
 
@@ -497,7 +497,7 @@ CREATE TABLE memberships (
 --
 
 CREATE SEQUENCE memberships_id_seq
-    START WITH 1
+    START WITH 26
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -523,8 +523,8 @@ CREATE TABLE organizations (
     url_template character varying,
     location character varying,
     email character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     abbv character varying,
     short_name character varying,
     gravatar_email character varying,
@@ -541,7 +541,7 @@ CREATE TABLE organizations (
 --
 
 CREATE SEQUENCE organizations_id_seq
-    START WITH 1
+    START WITH 12
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -564,8 +564,8 @@ CREATE TABLE pg_search_documents (
     content text,
     searchable_id integer,
     searchable_type character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -574,7 +574,7 @@ CREATE TABLE pg_search_documents (
 --
 
 CREATE SEQUENCE pg_search_documents_id_seq
-    START WITH 1
+    START WITH 783
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -599,9 +599,9 @@ CREATE TABLE place_profiles (
     radius numeric,
     polygon json,
     response json,
-    expires_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    expires_at timestamp(6) without time zone,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -633,9 +633,9 @@ CREATE TABLE places (
     name character varying,
     type character varying,
     place_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
-    geom geography(Geometry,4326)
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
+    geom geography
 );
 
 
@@ -644,7 +644,7 @@ CREATE TABLE places (
 --
 
 CREATE SEQUENCE places_id_seq
-    START WITH 1
+    START WITH 401
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -669,8 +669,8 @@ CREATE TABLE programs (
     description character varying,
     url character varying,
     sort_order integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -679,7 +679,7 @@ CREATE TABLE programs (
 --
 
 CREATE SEQUENCE programs_id_seq
-    START WITH 1
+    START WITH 5
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -711,8 +711,8 @@ CREATE TABLE searches (
     query json DEFAULT '{}'::json NOT NULL,
     user_id integer,
     saved boolean,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     title character varying(140)
 );
 
@@ -722,7 +722,7 @@ CREATE TABLE searches (
 --
 
 CREATE SEQUENCE searches_id_seq
-    START WITH 1
+    START WITH 2314
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -745,8 +745,8 @@ CREATE TABLE subscriptions (
     user_id integer,
     subscribable_id integer,
     subscribable_type character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -755,7 +755,7 @@ CREATE TABLE subscriptions (
 --
 
 CREATE SEQUENCE subscriptions_id_seq
-    START WITH 1
+    START WITH 19
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -778,19 +778,19 @@ CREATE TABLE users (
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
+    reset_password_sent_at timestamp(6) without time zone,
+    remember_created_at timestamp(6) without time zone,
     sign_in_count integer DEFAULT 0 NOT NULL,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
+    current_sign_in_at timestamp(6) without time zone,
+    last_sign_in_at timestamp(6) without time zone,
     current_sign_in_ip inet,
     last_sign_in_ip inet,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL,
     first_name character varying,
     last_name character varying,
     hashed_email character varying,
-    last_checked_subscriptions timestamp without time zone DEFAULT now() NOT NULL,
+    last_checked_subscriptions timestamp(6) without time zone DEFAULT now() NOT NULL,
     mail_frequency character varying(8) DEFAULT 'weekly'::character varying
 );
 
@@ -800,7 +800,7 @@ CREATE TABLE users (
 --
 
 CREATE SEQUENCE users_id_seq
-    START WITH 1
+    START WITH 11
     INCREMENT BY 1
     NO MINVALUE
     NO MAXVALUE
@@ -824,8 +824,8 @@ CREATE TABLE verifications (
     verifier_id integer,
     reason text,
     state character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -1392,158 +1392,6 @@ CREATE INDEX index_verifications_on_verifier_id ON verifications USING btree (ve
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
-
-
---
--- Name: fk_rails_10c668431f; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY developments_programs
-    ADD CONSTRAINT fk_rails_10c668431f FOREIGN KEY (program_id) REFERENCES programs(id);
-
-
---
--- Name: fk_rails_32c28d0dc2; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY api_keys
-    ADD CONSTRAINT fk_rails_32c28d0dc2 FOREIGN KEY (user_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_4ba831b3b1; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY crosswalks
-    ADD CONSTRAINT fk_rails_4ba831b3b1 FOREIGN KEY (development_id) REFERENCES developments(id);
-
-
---
--- Name: fk_rails_64267aab58; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY memberships
-    ADD CONSTRAINT fk_rails_64267aab58 FOREIGN KEY (organization_id) REFERENCES organizations(id);
-
-
---
--- Name: fk_rails_6b0105280e; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY crosswalks
-    ADD CONSTRAINT fk_rails_6b0105280e FOREIGN KEY (organization_id) REFERENCES organizations(id);
-
-
---
--- Name: fk_rails_8a6232040f; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY development_team_memberships
-    ADD CONSTRAINT fk_rails_8a6232040f FOREIGN KEY (development_id) REFERENCES developments(id);
-
-
---
--- Name: fk_rails_8ce2d558c3; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY flags
-    ADD CONSTRAINT fk_rails_8ce2d558c3 FOREIGN KEY (development_id) REFERENCES developments(id);
-
-
---
--- Name: fk_rails_933bdff476; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY subscriptions
-    ADD CONSTRAINT fk_rails_933bdff476 FOREIGN KEY (user_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_99326fb65d; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY memberships
-    ADD CONSTRAINT fk_rails_99326fb65d FOREIGN KEY (user_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_9dafeeb28b; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY field_edits
-    ADD CONSTRAINT fk_rails_9dafeeb28b FOREIGN KEY (edit_id) REFERENCES edits(id);
-
-
---
--- Name: fk_rails_9dc9c035a3; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY organizations
-    ADD CONSTRAINT fk_rails_9dc9c035a3 FOREIGN KEY (place_id) REFERENCES places(id);
-
-
---
--- Name: fk_rails_ab0bf7bd2c; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY places
-    ADD CONSTRAINT fk_rails_ab0bf7bd2c FOREIGN KEY (place_id) REFERENCES places(id);
-
-
---
--- Name: fk_rails_b0da45c949; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY developments_programs
-    ADD CONSTRAINT fk_rails_b0da45c949 FOREIGN KEY (development_id) REFERENCES developments(id);
-
-
---
--- Name: fk_rails_b2bbf7151d; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY development_team_memberships
-    ADD CONSTRAINT fk_rails_b2bbf7151d FOREIGN KEY (organization_id) REFERENCES organizations(id);
-
-
---
--- Name: fk_rails_bbb862ca66; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY claims
-    ADD CONSTRAINT fk_rails_bbb862ca66 FOREIGN KEY (development_id) REFERENCES developments(id);
-
-
---
--- Name: fk_rails_d95949fd60; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY developments
-    ADD CONSTRAINT fk_rails_d95949fd60 FOREIGN KEY (place_id) REFERENCES places(id);
-
-
---
--- Name: fk_rails_e192b86393; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY searches
-    ADD CONSTRAINT fk_rails_e192b86393 FOREIGN KEY (user_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_f184078eb4; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY verifications
-    ADD CONSTRAINT fk_rails_f184078eb4 FOREIGN KEY (user_id) REFERENCES users(id);
-
-
---
--- Name: fk_rails_f2673df165; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY edits
-    ADD CONSTRAINT fk_rails_f2673df165 FOREIGN KEY (development_id) REFERENCES developments(id);
 
 
 --

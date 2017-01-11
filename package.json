@@ -2,8 +2,11 @@
   "scripts": {
     "postinstall": "./bin/heroku_install"
   },
-  "dependencies": {
-    "bower": "*"
+  "devDependencies": {
+    "bower": "*",
+    "ember-cli-sliding-menu": "1.0.1",
+    "ember-leaflet": "2.2.7",
+    "ember-leaflet-cartodb": "1.0.0"
   },
   "cacheDirectories": [
     "searchapp/node_modules",
@@ -11,7 +14,6 @@
     "node_modules"
   ],
   "engines": {
-    "node": "4.5.0",
-    "npm": "3.10.10"
+    "node": "0.12.7"
   }
 }
