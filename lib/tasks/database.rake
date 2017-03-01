@@ -38,4 +38,25 @@ namespace :database do
       development_to_fix.update_attribute(:fa_hotel, development_to_fix.fa_hotel * 100)
     end
   end
+
+  desc 'Update developments with fixes from Nick'
+  task update_developments: :environment do
+    csv_text = File.read(Rails.root.join('db', 'import', 'update_massbuilds_data_changes.csv'))
+    csv = CSV.parse(csv_text, :headers => true, :encoding => 'ISO-8859-1')
+    csv.each_with_index do |row, index|
+      development = Development.find(row['id'])
+      development.name = row['name']
+      development.address = row['address']
+      development.singfamhu = row['singfamhu'].try(:to_i)
+      development.commsf = row['commsf'].try(:to_i)
+      development.desc = row['_desc']
+      development.status = row['status']
+      development.year_compl = row['year_compl'].to_i
+      development.tothu = row['tothu'].try(:to_i)
+      development.hotelrms = row['hotelrms'].try(:to_i)
+      development.onsitepark = row['onsitepark'].try(:to_i)
+      development.cancelled = row['cancelled'] == 'TRUE' ? true : false
+      development.save(validate: false)
+    end
+  end
 end
