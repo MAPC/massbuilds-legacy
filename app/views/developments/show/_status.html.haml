@@ -2,19 +2,19 @@
 - if @development.completed?
   .ui.label.large.basic
     %i.icon.checkmark
-    Completed (2016)
+    Completed (#{@development.year_compl})
 - if @development.in_construction?
   .ui.label.large.basic
     %i.icon.configure
-    In Construction (est. 2016)
+    In Construction (est. #{@development.year_compl})
 - if @development.projected?
   .ui.label.large.basic
     %i.icon.find
-    Projected (for 2027)
+    Projected for #{@development.year_compl}
 - if @development.planning?
   .ui.label.large.basic
     %i.icon.calendar
-    Planning (est. 2016)
+    Planning (est. #{@development.year_compl})
 
 .ui.label.large.basic
   %i.green.money.icon
