@@ -1,27 +1,21 @@
 class NearestTransit
-
-  SUBWAY_KEY = 'parent_station_name'
-
   def initialize(lat: , lon: )
     @lat = lat
     @lon = lon
   end
 
   def get
-    stop_name
+    return 'None' if stops.blank?
+    subway_station || bus_stop
   end
 
   private
 
-  def stop_name
-    subway_station || bus_stop
-  end
-
   def subway_station
     # If the 'subway_station_name' attribute is present in the JSON, it means
     # it is a subway station.
-    if subway = stops.detect { |e| e[SUBWAY_KEY].present? }
-      subway[SUBWAY_KEY]
+    if subway = stops.detect { |e| e['parent_station_name'].present? }
+      subway['parent_station_name']
     end
   end
 
