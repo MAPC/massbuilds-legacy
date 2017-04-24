@@ -7,7 +7,6 @@ class Development
     included do
 
       validates :tothu,      presence: true
-      validates :commsf,     presence: true
       validates :year_compl, presence: true
 
       validates :creator,    presence: true
