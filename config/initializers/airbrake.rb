@@ -8,7 +8,7 @@
 # Configuration details:
 # https://github.com/airbrake/airbrake-ruby#configuration
 
-if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_PROJECT_KEY']
+# if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_PROJECT_KEY']
   Airbrake.configure do |c|
     # You must set both project_id & project_key. To find your project_id and
     # project_key navigate to your project's General Settings and copy the values
@@ -52,7 +52,7 @@ if ENV['AIRBRAKE_PROJECT_ID'] && ENV['AIRBRAKE_PROJECT_KEY']
     # https://github.com/airbrake/airbrake-ruby#blacklist_keys
     c.blacklist_keys = [/password/i, /key/i]
   end
-end
+# end
 # If Airbrake doesn't send any expected exceptions, we suggest to uncomment the
 # line below. It might simplify debugging of background Airbrake workers, which
 # can silently die.
