@@ -25,6 +25,7 @@ guard -w app lib test config
 
 First clone the repository. Then run the following:
 ```
+bundle update
 bundle install
 cd searchapp
 npm install
