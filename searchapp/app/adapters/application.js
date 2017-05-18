@@ -8,11 +8,11 @@ export default DS.JSONAPIAdapter.extend({
     if (token) {
       return {
         "Authorization": "Token " + token,
-        "Accept": "application/vnd.api+json; application/org.massbuilds.v1"
+        "Accept": "application/vnd.api+json"
       }
     } else {
       return {
-        "Accept": "application/vnd.api+json; application/org.massbuilds.v1"
+        "Accept": "application/vnd.api+json"
       }
     }
   }).volatile(),
