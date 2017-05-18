@@ -1,13 +1,2 @@
 !!! 5
-%html
-  %head
-    %title MassBuilds
-    - style_opts = { media: 'all' }
-    = stylesheet_link_tag 'application', style_opts
-    = javascript_include_tag 'application'
-    = csrf_meta_tags
-
-  %body
-    #flash= render 'shared/flash'
-    = render 'shared/header'
-    = yield
+= yield

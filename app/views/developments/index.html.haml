@@ -1,7 +1,11 @@
-= render_ember_app :searchapp do |head|
-  :javascript
-  
-    document.API_KEY = '#{current_user.try(:api_key)}'
-
+= render_ember_app :searchapp do |head, body|
   = head.append do
+    :javascript
+    
+      document.API_KEY = '#{current_user.try(:api_key)}'
+    = stylesheet_link_tag 'application'
+    = javascript_include_tag 'application'
     = csrf_meta_tags
+  = body.append do
+    #flash= render 'shared/flash'
+    = render 'shared/header'
