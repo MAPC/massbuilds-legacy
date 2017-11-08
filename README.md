@@ -5,7 +5,7 @@
 [![Test Coverage](https://codeclimate.com/github/MAPC/massbuilds/badges/coverage.svg)](https://codeclimate.com/github/MAPC/massbuilds/coverage)
 [![Inline docs](http://inch-ci.org/github/MAPC/massbuilds.png)](http://inch-ci.org/github/MAPC/massbuilds)
 
-MassBuilds is a crowdsourced collection of recent ongoing and completed commercial and residential developments in Massachusetts.
+MassBuilds is a crowdsourced collection of recent, ongoing, and completed commercial and residential developments in Massachusetts.
 
 We're hard at work developing a new release that gives planners, developers, and enthusiasts advanced tools to find and understand developments, as well as the context in which they are built.
 
