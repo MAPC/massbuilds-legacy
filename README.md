@@ -7,7 +7,7 @@
 
 MassBuilds is a crowdsourced collection of recent, ongoing, and completed commercial and residential developments in Massachusetts.
 
-We're hard at work developing a new release that gives planners, developers, and enthusiasts advanced tools to find and understand developments, as well as the context in which they are built.
+We are hard at work developing a new release that gives planners, developers, and enthusiasts advanced tools to find and understand developments, as well as the context in which they are built.
 
 MassBuilds is very important to the work we do at MAPC. High-quality data gathered from MassBuilds fuels our regional projections, which helps us understand the future of the Metro Boston region. Municipalities and other public agencies use MAPC's projections to set housing and economic development goals. The data you contribute here will contribute to a better Metro Boston region for everyone.
 
