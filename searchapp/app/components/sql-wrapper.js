@@ -22,7 +22,7 @@ export default Ember.Component.extend({
                           "status","cartodb_id","ST_GeomFromEWKT(point) AS the_geom", 
                           "ST_Transform(ST_GeomFromEWKT(point),3857) AS the_geom_webmercator"];
 
-    var sql = "SELECT " + baseSqlFields.toString() + " FROM developments ";
+    var sql = "SELECT " + baseSqlFields.toString() + " FROM developments_2 ";
     var wheres = this.get('wheres');
     if(this.get('yearFrom') && this.get('yearTo')) {
       wheres.push(" year_compl BETWEEN " + this.get('yearFrom') + " and " + this.get('yearTo'));
