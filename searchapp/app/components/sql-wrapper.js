@@ -4,6 +4,7 @@ import ENV from "../config/environment";
 export default Ember.Component.extend({
   wheres: [],
   sql_export: function() {
+    console.log('Hi Eric')
     let string = ENV.sqlFields.toString();
     let sql = "SELECT " + string + " FROM developments ";
     let wheres = this.get('wheres');
