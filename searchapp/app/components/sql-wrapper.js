@@ -4,9 +4,8 @@ import ENV from "../config/environment";
 export default Ember.Component.extend({
   wheres: [],
   sql_export: function() {
-    console.log('Hi Eric')
     let string = ENV.sqlFields.toString();
-    let sql = "SELECT " + string + " FROM developments ";
+    let sql = "SELECT " + string + " FROM developments_2 ";
     let wheres = this.get('wheres');
     if (wheres[0]) {
       sql += "WHERE";
@@ -20,7 +19,7 @@ export default Ember.Component.extend({
   sql: function() {
     this.wheres = [];
     let baseSqlFields = ["id", "name", "to_date(year_compl::varchar, \'yyyy\')",
-                          "status","cartodb_id","ST_GeomFromEWKT(point) AS the_geom", 
+                          "status","cartodb_id","ST_GeomFromEWKT(point) AS the_geom",
                           "ST_Transform(ST_GeomFromEWKT(point),3857) AS the_geom_webmercator"];
 
     var sql = "SELECT " + baseSqlFields.toString() + " FROM developments_2 ";
