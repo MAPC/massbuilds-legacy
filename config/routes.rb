@@ -53,7 +53,7 @@ Rails.application.routes.draw do
 
   resources :organizations, except: [:destroy] do
     post :join,  to: 'memberships#join',       on: :member
-    put  :leave, to: 'memberships#deactivate', on: :member
+    post  :leave, to: 'memberships#deactivate', on: :member
     get  :admin, to: 'memberships#admin',      on: :member
   end
 
